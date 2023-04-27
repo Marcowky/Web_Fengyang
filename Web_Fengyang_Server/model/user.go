@@ -14,8 +14,9 @@ type User struct {
 	// Fans        int    `gorm:"AUTO_INCREMENT"`
 }
 
-type UserInfo struct {
-	ID       uint   `json:"id"`
-	// Avatar   string `json:"avatar"`
-	UserName string `json:"userName"`
-}
+// 用于获取收藏的结构体，这里暂时不需要，故注释
+// type UserInfo struct {
+// 	ID       uint   `json:"id"`
+// 	// Avatar   string `json:"avatar"`
+// 	UserName string `json:"userName"`
+// }
