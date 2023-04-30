@@ -2,6 +2,7 @@ package common
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/jinzhu/gorm"
 )
@@ -18,7 +19,15 @@ func InitDB() *gorm.DB {
 	port := "3306"
 	database := "web_fengyang" // 需修改为自己存储的数据库
 	charset := "utf8"
-	args := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=%s&parseTime=true", user, password, host, port, database, charset)
+	loc := "Asia/Shanghai"
+	args := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=%s&parseTime=true&loc=%s",
+		user,
+		password,
+		host,
+		port,
+		database,
+		charset,
+		url.QueryEscape(loc))
 
 	// 连接数据库
 	db, err := gorm.Open(driverName, args)
