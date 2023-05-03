@@ -1,11 +1,4 @@
 <template>
-    <!-- <div class="background">
-        <img src="../assets/image/rectangle1.png" class="rectangle1" />
-        <img src="../assets/image/rectangle2.png" class="rectangle2" />
-        <img src="../assets/image/rectangle3.png" class="rectangle3" />
-        <img src="../assets/image/rectangle4.png" class="rectangle4" />
-        <img src="../assets/image/person.png" class="person" />
-    </div> -->
     <div @click="toRegister" class="button" style="position:absolute;left:0px;top:150px;width:100px;">
         <div style="position: absolute;right:22px;">注册</div>
     </div>
@@ -18,28 +11,7 @@
     <div @click="toArticleHome" class="button" style="position:absolute;left:900px;top:150px;width:100px;">
         <div style="position: absolute;right:22px;">文章中心</div>
     </div>
-    <!-- <div class="board">
-        <div>
-            <div @click="toRegister" class="button2">
-                <div style="position: absolute;right:22px;">注册</div>
-            </div>
-            <div class="button1">
-                <div style="position:absolute;left:22px;">登录</div>
-            </div>
-        </div>
-        <n-form ref="formRef" :rules="rules" :model="user">
-            <n-form-item path="phoneNumber" style="position:absolute;left:70px;top:150px;width:350px;">
-                <n-input v-model:value="user.phoneNumber" size="large" round placeholder="手机号" />
-            </n-form-item>
-            <n-form-item path="password" style="position:absolute;left:70px;top:230px;width:350px;">
-                <n-input v-model:value="user.password" size="large" round type="password" placeholder="密码" />
-            </n-form-item>
-        </n-form>
-        <n-checkbox v-model:checked="user.rember" label="记住密码" style="position:absolute;left:70px;top:330px;" />
-        <div @click="submit" class="button3">
-            <div style="left: auto;right: auto;text-align: center;">登录</div>
-        </div>
-    </div> -->
+
 </template>
 
 <script setup>

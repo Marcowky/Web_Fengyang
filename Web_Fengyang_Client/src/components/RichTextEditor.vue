@@ -36,7 +36,6 @@ editorConfig.MENU_CONF['uploadImage'] = {
 // 插入图片
 editorConfig.MENU_CONF['insertImage'] = {
   parseImageSrc: (src) => {
-    console.log(serverUrl, src)
     if (src.indexOf("http") != 0) {
       return `${serverUrl}${src}`
     }

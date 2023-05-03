@@ -23,10 +23,10 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 	userController := controller.NewUserController()
 	userRoutes := r.Group("/user")
 	{
-		userRoutes.POST("register", userController.Register)                    // 注册
-		userRoutes.POST("login", userController.Login)                          // 登录
+		userRoutes.POST("register", userController.Register)                        // 注册
+		userRoutes.POST("login", userController.Login)                              // 登录
 		userRoutes.GET("info", middleware.AuthMiddleware(), userController.GetInfo) // 获取当前用户信息
-		userRoutes.GET("briefInfo/:id", userController.GetBriefInfo)       // 获取用户简要信息
+		userRoutes.GET("briefInfo/:id", userController.GetBriefInfo)                // 获取用户简要信息
 	}
 
 	//文章操作
@@ -38,6 +38,9 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 		articleRoutes.DELETE(":id", middleware.AuthMiddleware(), articleController.Delete) // 删除文章
 		articleRoutes.GET(":id", articleController.Show)                                   // 查看文章
 		articleRoutes.POST("list", articleController.List)                                 // 显示文章列表
+		articleRoutes.GET("category", articleController.SearchCategory)                    // 查询分类
+		articleRoutes.GET("category/:id", articleController.SearchCategoryName)            // 查询分类名
+
 	}
 
 	return r

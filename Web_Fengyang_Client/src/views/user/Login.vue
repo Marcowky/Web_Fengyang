@@ -1,11 +1,4 @@
 <template>
-    <!-- <div class="background">
-        <img src="../assets/image/rectangle1.png" class="rectangle1" />
-        <img src="../assets/image/rectangle2.png" class="rectangle2" />
-        <img src="../assets/image/rectangle3.png" class="rectangle3" />
-        <img src="../assets/image/rectangle4.png" class="rectangle4" />
-        <img src="../assets/image/person.png" class="person" />
-    </div> -->
     <div class="board">
         <div>
             <div @click="toRegister" class="button2">
@@ -75,7 +68,7 @@ const login = async() => {
         phoneNumber: user.phoneNumber,
         password: user.password
     })
-    console.log(res)
+    
     if (res.data.code == 200) {
         userStore.token = res.data.data.token
         if (user.rember) {

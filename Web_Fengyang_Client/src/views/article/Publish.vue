@@ -41,6 +41,7 @@
         <div style="width: 400px; height: 450px; background: white;">
             <!-- 封面图片上传 -->
             <n-card title="封面" :bordered="false">
+                <!-- 没有封面图时 -->
                 <div v-if="!newHeadImage" style="width: 300px; height: 150px; margin: 0 auto;">
                     <n-upload multiple directory-dnd :max="1" @before-upload="beforeUpload" :custom-request="customRequest">
                         <n-upload-dragger>
@@ -55,6 +56,7 @@
                         </n-upload-dragger>
                     </n-upload>
                 </div>
+                <!-- 有封面图时 -->
                 <div v-else style="width: 230px; margin: 0 auto;">
                     <n-image height="150" :src=serverUrl+addArticle.headImage />
                     <n-button @click="deleteImage" circle style="position: absolute; left: 298px; top: 50px;"
@@ -122,11 +124,6 @@ const serverUrl = inject("serverUrl")
 const axios = inject("axios")
 const message = inject("message")
 
-// const login = ref(false)
-// const user = reactive({
-//     avatarUrl: "",
-//     id: 0
-// })
 const categoryOptions = ref([])// 分类列表选项
 const addArticle = reactive({// 待发布的文章对象
     id: 0,
@@ -138,25 +135,12 @@ const addArticle = reactive({// 待发布的文章对象
 
 
 onMounted(() => {
-    // loadAvatar()
     loadCategories()
 })
 
-// 加载头像
-// const loadAvatar = async () => {
-//     let res = await axios.get("/user")
-//     console.log(res)
-//     if (res.data.code == 200) {
-//         user.avatarUrl = serverUrl + res.data.data.avatar
-//         user.id = res.data.data.id
-//         login.value = true
-//     }
-// }
-
 // 加载文章种类
 const loadCategories = async () => {
-    let res = await axios.get("/category")
-    console.log(res)
+    let res = await axios.get("/article/category")
     categoryOptions.value = res.data.data.categories.map((item) => {
         return {
             label: item.name,
@@ -189,9 +173,7 @@ const customRequest = async ({ file }) => {
     const formData = new FormData()
     formData.append('file', file.file)
     let res = await axios.post("/image/upload", formData)
-    console.log(res)
     addArticle.headImage = res.data.data.filePath
-    console.log(addArticle.headImage)
     newHeadImage.value = true
 }
 const deleteImage = () => {
@@ -207,7 +189,6 @@ const submit = async () => {
         content: addArticle.content,
         head_image: addArticle.headImage
     })
-    console.log(res)
     if (res.data.code == 200) {
         message.success(res.data.msg)
         goback()

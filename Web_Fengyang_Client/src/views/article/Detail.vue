@@ -1,37 +1,26 @@
 <template>
-    <!-- <div style="position: fixed; top: 0; height: 50px; width: 100%; z-index: 999; "><TopBar></TopBar></div> -->
-
     <div class="tabs">
         <n-card>
+            <!-- title -->
             <n-h1>{{articleInfo.title}}</n-h1>
             <div style="height: 75px; background-color: #FCFAF7;">
+                <!-- 作者 -->
                 <text style="position: absolute; left: 40px; top: 100px; color: #808080;">作者：{{articleInfo.username}} </text>
-                <!-- <n-avatar @click="toOtherUser" round size="medium" :src=userUrl style="position: relative; left: 20px; top: 20px; cursor: pointer;"/> -->
+                <!-- 发布时间 -->
                 <text style="position: absolute; left: 40px; top: 125px; color: #808080;">发布时间：{{articleInfo.created_at}} </text>
-                <!-- <div style="position: relative; left: 70px; color: #808080;">
+                <!-- 分类信息 -->
+                <div style="position: absolute; right: 50px; top: 97px; color: #808080;">
                     文章分类：
                     <n-tag type="warning">{{categoryName}}</n-tag>
-                </div> -->
+                </div>
+                <!-- 若为作者，则可以更新或删除文章 -->
                 <n-button v-if="self" @click="toUpdate" ghost style="bottom: 45px; left: 805px;" color="#7B3DE0">修改</n-button>
                 <n-button v-if="self" @click="toDelete" ghost style="bottom: 45px; left: 815px;" color="#7B3DE0">删除</n-button>
             </div>
+            <!-- 分割线 -->
             <n-divider />
-            <!-- <n-button v-if=!collected text @click="newCollect" style="position: absolute; right: 40px; top: 25px; cursor: pointer;" round ghost color="#FFA876">
-                <template #icon>
-                    <n-icon>
-                        <star-outline />
-                    </n-icon>
-                </template>
-                收藏
-            </n-button>
-            <n-button v-else text @click="unCollect" style="position: absolute; right: 40px; top: 25px; cursor: pointer;" round ghost color="#FFA876">
-                <template #icon>
-                    <n-icon>
-                        <star />
-                    </n-icon>
-                </template>
-                已收藏
-            </n-button> -->
+
+            <!-- 文章内容 -->
             <div class="article-content">
                 <div v-html="articleInfo.content"></div>
             </div>
@@ -40,102 +29,55 @@
 </template>
 
 <script setup>
-import {ref,reactive,inject, onMounted} from 'vue'
-// import TopBar from '../components/TopBar.vue'
-// import { Star } from "@vicons/ionicons5"
-// import { StarOutline } from "@vicons/ionicons5"
+import {ref,inject, onMounted} from 'vue'
 
+// 导入路由
 import {useRouter, useRoute} from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
-const serverUrl = inject("serverUrl")
+// 网络请求
 const axios = inject("axios")
 const message = inject("message")
 const dialog = inject("dialog")
 
+// 定义变量
 const articleInfo = ref({})
 const categoryName = ref("")
 const user = ref({})
-const userUrl = ref("")
-const collected = ref(false)
-const index = ref(0)
 const self = ref(false)
 
+// 挂载页面时触发
 onMounted(() => {
     loadArticle()
 })
 
+// 加载文章
 const loadArticle = async() => {
-    let res1 = await axios.get("article/" + route.query.id)
-    console.log(res1)
-    if (res1.data.code == 200) {
-        articleInfo.value = res1.data.data.article 
-        console.log(articleInfo.value)
-
-        // let res2 = await axios.get("category/" + res1.data.data.article.category_id) 
-        // console.log(res2)
-        // if (res2.data.code == 200) {
-        //     categoryName.value = res2.data.data.categoryName
-        // }
-        // let res3 = await axios.get("user/briefInfo/" + res1.data.data.article.user_id)
-        let res2 = await axios.get("user/briefInfo/" + articleInfo.value.user_id)
-        console.log(res2)
-        articleInfo.value.username=res2.data.data.name
-        let res3 = await axios.get("user/info")
-        console.log(res3)
-        if (res3.data.code == 200) {
-            user.value = res3.data.data
-            // userUrl.value = serverUrl + user.value.avatar
+    // 获取文章信息
+    let resArticle = await axios.get("article/" + route.query.id)
+    if (resArticle.data.code == 200) {
+        articleInfo.value = resArticle.data.data.article 
+        // 获取分类徐徐
+        let resCategory = await axios.get("article/category/" + resArticle.data.data.article.category_id) 
+        if (resCategory.data.code == 200) {
+            categoryName.value = resCategory.data.data.categoryName
+        }
+        // 获取作者信息
+        let resWriter = await axios.get("user/briefInfo/" + articleInfo.value.user_id)
+        articleInfo.value.username=resWriter.data.data.name
+        // 获取用户信息，判断用户是否是作者
+        let resUser = await axios.get("user/info")
+        if (resUser.data.code == 200) {
+            user.value = resUser.data.data
             if (user.value.id == articleInfo.value.user_id) {
                 self.value = true
             }
         }    
-        // let res4 = await axios.get("collects/" + route.query.id) 
-        // console.log(res4)
-        // if (res4.data.code == 200) {
-        //     collected.value = res4.data.data.collected
-        //     index.value = res4.data.data.index
-        // }  
     }
 }
 
-// const newCollect = async() => {
-//     let res = await axios.put("collects/new/" + route.query.id)
-//     console.log(res)  
-//     if (res.data.code == 200) {
-//         message.warning("已收藏", {showIcon: false})  
-//         loadArticle()  
-//     }
-// }
-
-// const unCollect = async() => {
-//     let res = await axios.delete("collects/" + index.value)
-//     console.log(res)  
-//     if (res.data.code == 200) {
-//         message.warning("取消收藏", {showIcon: false})  
-//         loadArticle()  
-//     }
-// }
-
-// const toOtherUser = () => {
-//     if (user.value.id == user.value.loginId) {
-//         router.push({
-//             path: "/myself",
-//             query: {
-//                 id: user.value.id
-//             }
-//         })   
-//     } else {
-//         router.push({
-//             path: "/others",
-//             query: {
-//                 id: user.value.id
-//             }
-//         })
-//     }
-// }
-
+// 前往更新
 const toUpdate = () => {
     router.push({
         path: "/article/update",
@@ -145,6 +87,7 @@ const toUpdate = () => {
     })
 }
 
+// 删除文章
 const toDelete = async (blog) => {
     dialog.warning({
       title: '警告',
@@ -164,6 +107,7 @@ const toDelete = async (blog) => {
     })    
 }
 
+// 回到上级页面
 const goback= () => {
     router.go(-1)    
 }
