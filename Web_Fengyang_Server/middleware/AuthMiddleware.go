@@ -3,7 +3,6 @@ package middleware
 import (
 	"Web_Fengyang_Server/common"
 	"Web_Fengyang_Server/model"
-	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -17,20 +16,14 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		// token为空
 		if tokenString == "" {
-			c.JSON(http.StatusOK, gin.H{
-				"code": 401,
-				"msg":  "权限不足",
-			})
+			common.Fail(c, 401, nil, "权限不足")
 			c.Abort()
 			return
 		}
 
 		// 非法token
 		if tokenString == "" || len(tokenString) < 7 || !strings.HasPrefix(tokenString, "Bearer") {
-			c.JSON(http.StatusUnauthorized, gin.H{
-				"code": 401,
-				"msg":  "权限不足",
-			})
+			common.Fail(c, 401, nil, "权限不足")
 			c.Abort()
 			return
 		}
@@ -42,10 +35,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		// 非法token
 		if err != nil || !token.Valid {
-			c.JSON(http.StatusUnauthorized, gin.H{
-				"code": 401,
-				"msg":  "权限不足",
-			})
+			common.Fail(c, 401, nil, "权限不足")
 			c.Abort()
 			return
 		}

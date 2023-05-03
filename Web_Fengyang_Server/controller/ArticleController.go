@@ -3,7 +3,6 @@ package controller
 import (
 	"Web_Fengyang_Server/common"
 	"Web_Fengyang_Server/model"
-	"net/http"
 	"strconv"
 	"strings"
 
@@ -27,10 +26,7 @@ func (a ArticleController) Create(c *gin.Context) {
 	var articleRequest model.CreateArticleRequest
 	// 数据验证
 	if err := c.ShouldBindJSON(&articleRequest); err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code": 400,
-			"msg":  "数据错误",
-		})
+		common.Fail(c, 400, nil, "数据错误")
 		return
 	}
 	// 获取登录用户
@@ -44,28 +40,18 @@ func (a ArticleController) Create(c *gin.Context) {
 		HeadImage:  articleRequest.HeadImage,
 	}
 	if err := a.DB.Create(&article).Error; err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code": 400,
-			"msg":  "发布失败",
-		})
+		common.Fail(c, 400, nil, "发布失败")
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"code": 200,
-		"data": gin.H{"id": article.ID},
-		"msg":  "发布成功",
-	})
 
+	common.Success(c , gin.H{"id": article.ID}, "发布成功")
 }
 
 func (a ArticleController) Update(c *gin.Context) {
 	var articleRequest model.CreateArticleRequest
 	// 数据验证
 	if err := c.ShouldBindJSON(&articleRequest); err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code": 400,
-			"msg":  "数据错误",
-		})
+		common.Fail(c, 400, nil, "数据错误")
 		return
 	}
 	// 获取path中的id
@@ -73,34 +59,22 @@ func (a ArticleController) Update(c *gin.Context) {
 	// 查找文章
 	var article model.Article
 	if a.DB.Where("id = ?", articleId).First(&article).RecordNotFound() {
-		c.JSON(http.StatusOK, gin.H{
-			"code": 400,
-			"msg":  "文章不存在",
-		})
+		common.Fail(c, 400, nil, "文章不存在")
 		return
 	}
 	// 获取登录用户
 	user, _ := c.Get("user")
 	userId := user.(model.User).ID
 	if userId != article.UserId {
-		c.JSON(http.StatusOK, gin.H{
-			"code": 400,
-			"msg":  "登录用户不正确",
-		})
+		common.Fail(c, 400, nil, "登录用户不正确")
 		return
 	}
 	// 更新文章
 	if err := a.DB.Model(&article).Update(articleRequest).Error; err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code": 400,
-			"msg":  "修改失败",
-		})
+		common.Fail(c, 400, nil, "修改失败")
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"code": 200,
-		"msg":  "修改成功",
-	})
+	common.Success(c , nil, "修改成功")
 }
 
 func (a ArticleController) Delete(c *gin.Context) {
@@ -109,34 +83,23 @@ func (a ArticleController) Delete(c *gin.Context) {
 	// 查找文章
 	var article model.Article
 	if a.DB.Where("id = ?", articleId).First(&article).RecordNotFound() {
-		c.JSON(http.StatusOK, gin.H{
-			"code": 400,
-			"msg":  "文章不存在",
-		})
+		common.Fail(c, 400, nil, "文章不存在")
 		return
 	}
 	// 获取登录用户
 	user, _ := c.Get("user")
 	userId := user.(model.User).ID
 	if userId != article.UserId {
-		c.JSON(http.StatusOK, gin.H{
-			"code": 400,
-			"msg":  "登录用户不正确",
-		})
+		common.Fail(c, 400, nil, "登录用户不正确")
 		return
 	}
 	// 删除文章
 	if err := a.DB.Delete(&article).Error; err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code": 400,
-			"msg":  "删除失败",
-		})
+		common.Fail(c, 400, nil, "删除失败")
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"code": 200,
-		"msg":  "删除成功",
-	})
+
+	common.Success(c , nil, "删除成功")
 }
 
 func (a ArticleController) Show(c *gin.Context) {
@@ -145,18 +108,11 @@ func (a ArticleController) Show(c *gin.Context) {
 	// 查找文章
 	var article model.Article
 	if a.DB.Where("id = ?", articleId).First(&article).RecordNotFound() {
-		c.JSON(http.StatusOK, gin.H{
-			"code": 400,
-			"msg":  "文章不存在",
-		})
+		common.Fail(c, 400, nil, "文章不存在")
 		return
 	}
 	// 展示文章详情
-	c.JSON(http.StatusOK, gin.H{
-		"code": 200,
-		"data": gin.H{"article": article},
-		"msg":  "查找成功",
-	})
+	common.Success(c , gin.H{"article": article}, "查找成功")
 }
 
 func (a ArticleController) List(c *gin.Context) {
@@ -203,11 +159,7 @@ func (a ArticleController) List(c *gin.Context) {
 		a.DB.Model(model.Article{}).Where(querystr, args[0], args[1], args[2]).Count(&count)
 	}
 	// 展示文章列表
-	c.JSON(http.StatusOK, gin.H{
-		"code": 200,
-		"data": gin.H{"article": article, "count": count},
-		"msg":  "查找成功",
-	})
+	common.Success(c , gin.H{"article": article, "count": count}, "查找成功")
 }
 
 func NewArticleController() IArticleController {
