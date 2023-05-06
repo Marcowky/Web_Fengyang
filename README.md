@@ -147,12 +147,12 @@ npm run dev
 ## Client前端
 
 - `vue3`：`Vue3`是一个流行的前端 JavaScript 框架
-- `node`：
+- `node`：用于构建可扩展的网络应用程序
 - `vite`：用于快速地开发`Vue.js`单页应用`SPA`和库
-- `axios`：
-- `pinia`：
-- `sass`：
-- `vue-router`：
-- `naive-ui`：
-- `wangeditor`：
+- `axios`：由于在前端方便地进行HTTP请求
+- `pinia`：一个简单、轻量级的状态管理库
+- `sass`：一种CSS预处理器
+- `vue-router`：`Vue.js`官方的路由管理器
+- `naive-ui`：`Vue3`的桌面端UI组件库
+- `wangeditor`：一款基于`web`的富文本编辑器
 
