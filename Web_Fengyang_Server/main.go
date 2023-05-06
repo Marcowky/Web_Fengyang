@@ -20,7 +20,7 @@ func main() {
 	// 创建路由引擎
 	r := gin.Default()
 	// 配置静态文件路径
-	r.StaticFS("/images", http.Dir("./static/images"))
+	r.StaticFS("/articleImages", http.Dir("./static/images/articleImages"))
 	// 启动路由
 	routes.CollectRoutes(r)
 	// 启动服务

@@ -21,6 +21,6 @@
     "@vitejs/plugin-vue": "^4.1.0",
     "naive-ui": "^2.34.3",
     "vfonts": "^0.0.3",
-    "vite": "^4.3.2"
+    "vite": "^4.3.5"
   }
 }

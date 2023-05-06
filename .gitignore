@@ -1,4 +1,4 @@
-# 忽略 JPG 和 PNG 格式的图片
-*.png
-*.jpg
-*.jpeg
+# 忽略articleImages中的JPG和PNG格式的图片
+/Web_Fengyang_Server/static/images/articleImages/*.png
+/Web_Fengyang_Server/static/images/articleImages/*.jpg
+/Web_Fengyang_Server/static/images/articleImages/*.jpeg

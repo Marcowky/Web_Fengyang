@@ -24,7 +24,7 @@ func UploadImage(c *gin.Context) {
 	// 用上传时间作为文件名
 	name := "image_" + time.Now().Format("20060102150405")
 	newFilename := name + ext
-	out, err := os.Create("static/images/" + newFilename)
+	out, err := os.Create("static/images/articleImages" + newFilename)
 	if err != nil {
 		common.Fail(c, 500, nil, "创建错误")
 		return
@@ -36,7 +36,7 @@ func UploadImage(c *gin.Context) {
 		return
 	}
 
-	common.Success(c , gin.H{"filePath": "/images/" + newFilename}, "上传成功")
+	common.Success(c , gin.H{"filePath": "/articleImages/" + newFilename}, "上传成功")
 }
 
 // RichEditorUploadImage 上传富文本编辑器中的图像
@@ -48,8 +48,8 @@ func RichEditorUploadImage(c *gin.Context) {
 		ext := path.Ext(file.Filename)
 		name := "image_" + time.Now().Format("20060102150405")
 		newFilename := name + ext
-		dst := path.Join("./static/images", newFilename)
-		fileurl := "/images/" + newFilename
+		dst := path.Join("./static/images/articleImages", newFilename)
+		fileurl := "/articleImages/" + newFilename
 		url = append(url, fileurl)
 		err := c.SaveUploadedFile(file, dst)
 		if err != nil {
