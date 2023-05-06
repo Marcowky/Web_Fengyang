@@ -4,6 +4,7 @@ import (
 	"Web_Fengyang_Server/common"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"path"
 	"time"
@@ -53,10 +54,16 @@ func RichEditorUploadImage(c *gin.Context) {
 		err := c.SaveUploadedFile(file, dst)
 		if err != nil {
 			fmt.Println(err)
-			common.Fail(c, 500, nil, "上传失败")
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"errno":   1,
+				"message": "上传失败",
+			})
 		}
 	}
-
-	common.Success(c , gin.H{"url": url[0]}, "上传成功")
-
+	c.JSON(http.StatusOK, gin.H{
+		"errno": 0,
+		"data": gin.H{
+			"url": url[0],
+		},
+	})
 }
