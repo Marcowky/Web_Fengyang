@@ -1,0 +1,4 @@
+# 忽略 JPG 和 PNG 格式的图片
+*.png
+*.jpg
+*.jpeg
