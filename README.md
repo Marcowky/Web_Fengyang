@@ -87,3 +87,72 @@
   - 视频删除
 
 # Quick Start
+
+## 1. 下载代码
+
+
+```bash
+git clone [url]
+```
+
+## 2. 创建数据库
+   
+```bash
+# 进入mysql数据库
+mysql -u root -p
+# 输入密码
+...
+# 创建数据库
+CREATE DATABASE <your database name>
+```
+
+然后修改后端中的数据库配置`D:\codefile\Project\Web\Web_Fengyang\Web_Fengyang_Server\common\database.go`
+
+将数据库名称修改为你创建的数据库
+
+## 3. 安装vite
+
+```bash
+cd Web_Fengyang_Client # 这里为client的目录
+npm install vite
+```
+
+## 4. 启动项目
+
+启动后端
+
+```bash
+cd Web_Fengyang_SServer
+go run main.go
+```
+
+启动前端
+
+```bash
+cd Web_Fengyang_Client
+npm run dev
+```
+
+# 技术栈
+
+## Server后端
+
+- `Golang`语言
+- `Gin`框架：一个基于`golang`的简单`Web`微框架
+- `Gorm`库：`Go`语言编写的`ORM`(`Object-Relational Mapping`)库，用于简化数据库操作
+- `mysql`数据库
+- `jwt`包：用于生成和验证`token`
+- `uuid`包：用于生成唯一`id`
+
+## Client前端
+
+- `vue3`：`Vue3`是一个流行的前端 JavaScript 框架
+- `node`：
+- `vite`：用于快速地开发`Vue.js`单页应用`SPA`和库
+- `axios`：
+- `pinia`：
+- `sass`：
+- `vue-router`：
+- `naive-ui`：
+- `wangeditor`：
+
