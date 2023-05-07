@@ -52,9 +52,35 @@ Git 可以通过 git status 命令来查看当前文件的状态。当文件发�
 2. 新建分支
 3. 切换分支
 4. 编辑分支
-5. 单独提交分支/合并到主分支
+5. `COMMIT`分支
+6. 单独`push`提交分支/合并到主分支
+
+```bash
+# 1 clone主分支
+git clone [url]
+# 2 新建分支
+git branch new-branch-name
+# 3 切换分支
+git checkout new-branch-name
+# 4 在自己的分支修改
+...
+# 5 确认修改
+git add .
+git commit -m "commit-message"
+# 6A 拉取在线最新的主分支
+git checkout master
+git pull
+# 7A 合并到本地主分支
+git merge new-branch-name
+# 8A 处理冲突与合并
+...
+# 9A push主分支
+git push
+# 6B push子分支
+git push new-branch-name
+# 7B 在github上进行pull request
+...
+```
 
 ![image1](https://img-blog.csdnimg.cn/59b1d2f2ecf04dfe9a1da0a52fea51d3.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA6b6Z5rOJ5aSq6Zi_,size_20,color_FFFFFF,t_70,g_se,x_16)
 *图源网络
-
-dddP
