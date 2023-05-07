@@ -24,7 +24,7 @@ func UploadImage(c *gin.Context) {
 	// 用上传时间作为文件名
 	name := "image_" + time.Now().Format("20060102150405")
 	newFilename := name + ext
-	out, err := os.Create("static/images/articleImages" + newFilename)
+	out, err := os.Create("static/images/articleImages/" + newFilename)
 	if err != nil {
 		common.Fail(c, 500, nil, "创建错误")
 		return
