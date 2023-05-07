@@ -17,9 +17,10 @@ git status：查看当前仓库的状态。
 git log：查看提交历史。 按q可推出查看
 git branch：列出所有本地分支，当前分支前面会标有一个 * 号。
 git checkout [branch-name]：切换到指定分支。
+git fetch: 将远程分支的最新更新下载到本地，但并不会自动将这些更新合并到当前分支
 git merge [branch]：将指定分支合并到当前分支。
 git push：将本地代码推送到远程仓库。
-git pull：从远程仓库拉取最新代码到本地。
+git pull：从远程仓库拉取最新代码到本地。pull = fetch + merge
 git remote add [name] [url]：添加一个远程仓库。
 git diff：查看修改前后的差异。
 ```
@@ -84,3 +85,13 @@ git push new-branch-name
 
 ![image1](https://img-blog.csdnimg.cn/59b1d2f2ecf04dfe9a1da0a52fea51d3.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA6b6Z5rOJ5aSq6Zi_,size_20,color_FFFFFF,t_70,g_se,x_16)
 *图源网络
+
+##GIT版本控制常用操作
+
+```bash
+# 查看远程仓库的最新分支与当前分支的区别
+git fetch
+git diff <local-branch> origin/<remote-branch>
+# 查看分支之间的区别
+git diff <branch1> <branch2>
+```
