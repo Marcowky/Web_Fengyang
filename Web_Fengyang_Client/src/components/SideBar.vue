@@ -1,0 +1,43 @@
+<template>
+    <el-menu class="sidebar" :default-active="selected" @select="handleSelect">
+        <el-menu-item v-for="item in items" :key="item.index" :index="item.index">
+            <span>{{ item.label }}</span>
+        </el-menu-item>
+    </el-menu>
+</template>
+  
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+
+export default defineComponent({
+    name: 'SideBar',
+    props: {
+        items: {
+            type: Array as PropType<{ index: string; label: string }[]>,
+            required: true,
+        },
+        selected: {
+            type: String,
+            required: true,
+        },
+    },
+    emits: ['select'],
+    methods: {
+        handleSelect(index: string) {
+            this.$emit('select', index);
+        },
+    },
+});
+</script>
+  
+<style scoped>
+.sidebar {
+    position: fixed;
+    top: 30%;
+    width: 150px;
+    z-index: 999;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
+    border-radius: 0 10px 10px 0;
+}
+</style>
+
