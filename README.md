@@ -23,7 +23,7 @@ mysql -u root -p
 CREATE DATABASE <your database name>
 ```
 
-然后修改后端中的数据库配置`Web_Fengyang\Web_Fengyang_Server\common\database.go`
+然后修改后端中的数据库配置`Web_Fengyang\Web_Fengyang_Server\config\config.json`
 
 将数据库名称修改为你创建的数据库
 
