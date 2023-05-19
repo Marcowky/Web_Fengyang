@@ -1,8 +1,12 @@
 import { createApp } from "vue";
-import "./style.css";
 import App from "./App.vue";
+import ElementPlus from 'element-plus'// 导入ElementPlus
+import 'element-plus/dist/index.css'
+import "./style.css";
+
 import naive from "naive-ui"; // 引入ui框架
 import { createDiscreteApi } from "naive-ui"; // 引入createDiscreteApi
+
 import { createPinia } from "pinia"; // 引入pinia
 import { router } from "./routes/router"; // 引入路由
 import axios from "axios"; // 引入axios
@@ -20,6 +24,7 @@ app.provide("dialog", dialog)
 app.provide("serverUrl", axios.defaults.baseURL)
 
 app.use(naive); // 引入ui框架
+app.use(ElementPlus) // 使用Element UI
 app.use(createPinia()); // 引入pinia
 
 const userStore = UserStore()
