@@ -1,11 +1,12 @@
 <template>
     <!-- 顶部导航栏 -->
-    <TopBar :selected="selectedItemIndex" @select="handleSelect"/>
-    
+    <TopBar :selected="selectedItemIndex" @select="handleSelect" />
+
     <div class="tabs">
         <div style="margin:15px">
             <!-- title -->
             <h1>{{ articleInfo.title }}</h1>
+
             <div style="height: 60px;  background-color: #FCFAF7;">
                 <!-- 作者 -->
                 <text style="position: absolute; left: 40px; top: 90px; color: #808080;">作者：{{ articleInfo.username }}
@@ -19,14 +20,13 @@
                     <el-tag class="ml-2" type="success">categoryName</el-tag>
                 </div>
                 <!-- 若为作者，则可以更新或删除文章 -->
-                <el-button v-if="self" @click="toUpdate" ghost style="bottom: 45px; left: 805px;"
-                    color="#7B3DE0">修改</el-button>
-                <el-button v-if="self" @click="toDelete" ghost style="bottom: 45px; left: 815px;"
-                    color="#7B3DE0">删除</el-button>
+                <el-button v-if="self" @click="toUpdate" type="primary"
+                    style="position: absolute; top: 25px; right: 90px;">修改</el-button>
+                <el-button v-if="self" @click="toDelete" type="danger"
+                    style="position: absolute; top: 25px; right: 15px;">删除</el-button>
             </div>
             <!-- 分割线 -->
             <el-divider />
-
             <!-- 文章内容 -->
             <div class="article-content">
                 <div v-html="articleInfo.content"></div>
@@ -41,8 +41,6 @@ import { ref, inject, onMounted } from 'vue'
 
 // 导入顶部栏
 import TopBar from "../../components/TopBar.vue"
-
-import {BarRouteGoto} from '../../components/BarRouteFunc.js'
 
 // 导入路由
 import { useRouter, useRoute } from 'vue-router'
@@ -61,9 +59,9 @@ const user = ref({})
 const self = ref(false)
 
 // 导入导航栏路由函数
-import {BarRouteGoto} from '../../components/BarRouteFunc.js'
+import { BarRouteGoto } from '../../components/BarRouteFunc.js'
 // 导航栏和侧边栏已选选项
-const selectedItemIndex = ref("5-"+window.location.href.slice(-1));
+const selectedItemIndex = ref("5-" + window.location.href.slice(-1));
 // 侧边栏和导航栏的点击触发函数
 const handleSelect = (index) => {    // 这里可以触发路由跳转或其他操作
     BarRouteGoto(router, index)
@@ -102,9 +100,10 @@ const loadArticle = async () => {
 // 前往更新
 const toUpdate = () => {
     router.push({
-        path: "/article/update",
+        path: "/blog/update",
         query: {
-            id: articleInfo.value.id
+            id: articleInfo.value.id,
+            category: selectedItemIndex.value
         }
     })
 }
@@ -153,4 +152,5 @@ const goback = () => {
 
 .article-content img {
     max-width: 100% !important;
-}</style>
+}
+</style>

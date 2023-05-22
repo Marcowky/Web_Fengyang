@@ -1,6 +1,6 @@
 <template>
     <!-- 顶部导航栏 -->
-    <TopBar :selected="selectedItemIndex" @select="handleSelect"/>
+    <TopBar :selected="selectedItemIndex" @select="handleSelect" />
 
     <!-- 侧边栏 -->
     <SideBar :items="menuItems" :selected="selectedItemIndex" @select="handleSelect" />
@@ -45,15 +45,18 @@
         <!-- 页面切换 -->
         <el-pagination class="pageSlider" :small="small" :background="background" layout="prev, pager, next"
             :page-count="pageInfo.pageCount" @current-change="loadArticles" />
+
+
     </div>
-    <div class="space"></div>
+    <el-button class="publishButton" type="primary" :icon="Edit" size="large" circle @click="goPublish" />
 </template>
 
 <script setup>
 import { ref, reactive, inject, onMounted } from 'vue'
 // icons
 import {
-    Search
+    Search,
+    Edit
 } from '@element-plus/icons-vue'
 
 // 导入路由
@@ -80,7 +83,7 @@ const pageInfo = reactive({
 import TopBar from "../../components/TopBar.vue"
 import SideBar from "../../components/SideBar.vue"
 // 2.导入导航栏路由函数
-import {BarRouteGoto} from '../../components/BarRouteFunc.js'
+import { BarRouteGoto } from '../../components/BarRouteFunc.js'
 // 3.设置侧边栏目录项
 const menuItems = [
     { index: '5-1', label: '游记记录' },
@@ -91,7 +94,7 @@ const menuItems = [
     { index: '5-6', label: '吐槽投诉' },
 ];
 // 4.导航栏和侧边栏已选选项
-const selectedItemIndex = ref("5-"+window.location.href.slice(-1));
+const selectedItemIndex = ref("5-" + window.location.href.slice(-1));
 // 5.侧边栏和导航栏的点击触发函数
 const handleSelect = (index) => {    // 这里可以触发路由跳转或其他操作
     selectedItemIndex.value = index
@@ -116,6 +119,19 @@ const loadArticles = async (pageNum = 0) => {
     }
     pageInfo.count = res.data.data.count;
     pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
+}
+
+const goPublish = async () => {
+    try {
+        let resUser = await axios.get("user/info")
+        if (resUser.data.code == 200) {
+            router.push("/blog/publish")
+        }
+    } catch (err) {
+        if (err.response.status === 401) {
+            router.push("/user/login")
+        }
+    }
 }
 
 // 前往详情页
@@ -167,7 +183,11 @@ const toDetail = (article) => {
     justify-content: center;
 }
 
-.space {
-    height: 60px;
+.publishButton {
+    position: fixed;
+    right: 5%;
+    bottom: 5%;
+    font-size: 24px;
+    box-shadow: 2px 2px 6px #D3D4D8;
 }
 </style>
