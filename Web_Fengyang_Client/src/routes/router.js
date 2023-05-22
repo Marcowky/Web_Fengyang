@@ -24,6 +24,8 @@ let routes = [
 
     { path: "/blog", component: () => import("../views/blog/Home.vue") },                   // 论坛主页
     { path: "/blog/detail", component: () => import("../views/blog/Detail.vue") },          // 论坛文章详情
+    { path: "/blog/publish", component: () => import("../views/blog/Publish.vue") },  // 发布界面
+    { path: "/blog/update", component: () => import("../views/blog/Update.vue") },    // 文章更新
 
 ]
 

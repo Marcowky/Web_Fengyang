@@ -80,7 +80,7 @@ const login = async() => {
             localStorage.removeItem("password")
             localStorage.setItem("rember", user.rember? 1: 0)
         }        
-        router.push("/")
+        router.go(-1)
         message.success(res.data.msg)        
     } else {
         message.error(res.data.msg)

@@ -1,6 +1,6 @@
 <template>
     <!-- 顶部导航栏 -->
-    <TopBar :selected="selectedItemIndex" @select="handleSelect"/>
+    <TopBar :selected="selectedItemIndex" @select="handleSelect" />
 
     <!-- 侧边栏 -->
     <SideBar :items="menuItems" :selected="selectedItemIndex" @select="handleSelect" />
@@ -45,20 +45,19 @@
         <!-- 页面切换 -->
         <el-pagination class="pageSlider" :small="small" :background="background" layout="prev, pager, next"
             :page-count="pageInfo.pageCount" @current-change="loadArticles" />
+
+
     </div>
-    <div class="space"></div>
+    <el-button class="publishButton" type="primary" :icon="Edit" size="large" circle @click="goPublish" />
 </template>
 
 <script setup>
-import { ref, reactive, inject, onMounted, computed } from 'vue'
+import { ref, reactive, inject, onMounted } from 'vue'
 // icons
 import {
-    Search
+    Search,
+    Edit
 } from '@element-plus/icons-vue'
-
-// 导入侧边栏和顶部栏
-import TopBar from "../../components/TopBar.vue"
-import SideBar from "../../components/SideBar.vue"
 
 // 导入路由
 import { useRouter } from 'vue-router'
@@ -69,8 +68,6 @@ const serverUrl = inject("serverUrl")
 const axios = inject("axios")
 
 // 变量初始化
-// const selectedCategory = ref(0)
-// const categoryOptions = ref([])
 const articleList = ref([])
 const pageInfo = reactive({
     pageNum: 1,
@@ -81,27 +78,23 @@ const pageInfo = reactive({
     categoryId: window.location.href.slice(-1) // 设置文章类别为地址最后一位
 })
 
-
-
-// 设置侧边栏目录项
-const menuItems = [
-    { index: '5-1', label: '游记记录' },
-    { index: '5-2', label: '摄影投稿' },
-    { index: '5-3', label: '美食' },
-    { index: '5-4', label: '景点' },
-    { index: '5-5', label: '住宿' },
-    { index: '5-6', label: '吐槽投诉' },
-];
-
-// 导入导航栏路由函数
-import {BarRouteGoto} from '../../components/BarRouteFunc.js'
-// 导航栏和侧边栏已选选项
-const selectedItemIndex = ref("5-"+window.location.href.slice(-1));
-// 侧边栏和导航栏的点击触发函数
+// 页面中侧边栏与导航栏的设置
+// 1.导入侧边栏和顶部栏
+import TopBar from "../../components/TopBar.vue"
+import SideBar from "../../components/SideBar.vue"
+// 2.导入导航栏路由函数
+import { BarRouteGoto } from '../../components/BarRouteFunc.js'
+// 3.导入菜单选项配置文件
+import config from '../../config/config.json';
+// 4.设置侧边栏目录项
+const menuItems = config.menuItems.filter(item => item.index.startsWith("5-"));
+// 5.导航栏和侧边栏已选选项
+const selectedItemIndex = ref("5-" + window.location.href.slice(-1));
+// 6.侧边栏和导航栏的点击触发函数
 const handleSelect = (index) => {    // 这里可以触发路由跳转或其他操作
     selectedItemIndex.value = index
-    BarRouteGoto(router, index)
-    pageInfo.categoryId = index[2]
+    BarRouteGoto(router, index) // 设置路由跳转
+    pageInfo.categoryId = index[2] // 设置文章种类
     loadArticles(0)
 };
 
@@ -110,7 +103,7 @@ onMounted(() => {
     loadArticles()
 })
 
-// 加载文章列表
+// 按条件加载文章列表
 const loadArticles = async (pageNum = 0) => {
     if (pageNum != 0) {
         pageInfo.pageNum = pageNum;
@@ -121,6 +114,19 @@ const loadArticles = async (pageNum = 0) => {
     }
     pageInfo.count = res.data.data.count;
     pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
+}
+
+const goPublish = async () => {
+    try {
+        let resUser = await axios.get("user/info")
+        if (resUser.data.code == 200) {
+            router.push("/blog/publish")
+        }
+    } catch (err) {
+        if (err.response.status === 401) {
+            router.push("/user/login")
+        }
+    }
 }
 
 // 前往详情页
@@ -172,7 +178,11 @@ const toDetail = (article) => {
     justify-content: center;
 }
 
-.space {
-    height: 60px;
+.publishButton {
+    position: fixed;
+    right: 5%;
+    bottom: 5%;
+    font-size: 24px;
+    box-shadow: 2px 2px 6px #D3D4D8;
 }
 </style>

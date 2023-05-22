@@ -2,40 +2,33 @@
     <el-menu :default-active="selected" class="topbar" mode="horizontal" :ellipsis="false" @select="handleSelect">
         <el-menu-item index="0">四色丰阳</el-menu-item>
         <div class="弹性盒子" :style="{ flexGrow: 1 }" />
-        <el-menu-item index="1">首页</el-menu-item>
-        <el-sub-menu index="2">
-            <template #title>咨询</template>
-            <el-menu-item index="2-1">绿色</el-menu-item>
-            <el-menu-item index="2-2">黄色</el-menu-item>
-            <el-menu-item index="2-3">红色</el-menu-item>
-        </el-sub-menu>
-        <el-sub-menu index="3">
-            <template #title>景点</template>
-            <el-menu-item index="3-1">绿色</el-menu-item>
-            <el-menu-item index="3-2">黄色</el-menu-item>
-            <el-menu-item index="3-3">红色</el-menu-item>
-        </el-sub-menu>
-        <el-sub-menu index="4">
-            <template #title>消费</template>
-            <el-menu-item index="4-1">绿色</el-menu-item>
-            <el-menu-item index="4-2">黄色</el-menu-item>
-            <el-menu-item index="4-3">红色</el-menu-item>
-        </el-sub-menu>
-        <el-sub-menu index="5">
-            <template #title>论坛</template>
-            <el-menu-item index="5-1">游记记录</el-menu-item>
-            <el-menu-item index="5-2">摄影投稿</el-menu-item>
-            <el-menu-item index="5-3">美食</el-menu-item>
-            <el-menu-item index="5-4">景点</el-menu-item>
-            <el-menu-item index="5-5">住宿</el-menu-item>
-            <el-menu-item index="5-6">吐槽投诉</el-menu-item>
-        </el-sub-menu>
-        <el-menu-item index="6">住宿交通</el-menu-item>
+        <template v-for="item in menuItems">
+            <template v-if="!item.hasSub&&!item.index.includes('-')">
+                <el-menu-item :index="item.index">{{ item.label }}</el-menu-item>
+            </template>
+            <template v-if="item.hasSub">
+                <el-sub-menu :index="item.index">
+                    <template #title>{{ item.label }}</template>
+                    <template v-for="subItem in menuItems">
+                        <el-menu-item :index="subItem.index" v-if="subItem.index.startsWith(item.index + '-')">{{ subItem.label
+                        }}</el-menu-item>
+                    </template>
+                </el-sub-menu>
+            </template>
+        </template>
     </el-menu>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+// 导入菜单选项配置文件
+import config from '../config/config.json';
+
+interface MenuItem {
+  index: string;
+  label: string;
+  hasSub: boolean;
+}
 
 export default defineComponent({
     name: 'TopBar',
@@ -46,10 +39,15 @@ export default defineComponent({
         },
     },
     emits: ['select'],
-    methods:{
+    methods: {
         handleSelect(index: string) {
             this.$emit('select', index);
         },
+    },
+    data() {
+        return {
+            menuItems: config.menuItems as MenuItem[]
+        }
     }
 });
 </script>

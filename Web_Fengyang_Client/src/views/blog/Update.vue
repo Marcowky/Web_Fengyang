@@ -1,4 +1,5 @@
-<!-- <template>
+<template>
+    
     <div class="topbar">
         <!-- 返回按键 -->
         <n-button @click="goback" strong quaternary round style="position: absolute; left: 50px; top: 7px; font-size: 24px;" color="#7B3DE0">
