@@ -21,7 +21,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+// 导入菜单选项配置文件
+import config from '../config/config.json';
 
+interface MenuItem {
+  index: string;
+  label: string;
+  hasSub: boolean;
+}
 
 export default defineComponent({
     name: 'TopBar',
@@ -39,29 +46,7 @@ export default defineComponent({
     },
     data() {
         return {
-            menuItems: [
-                { index: '1', label: '游记记录', hasSub: false },
-                { index: '2', label: '咨询', hasSub: true },
-                { index: '2-1', label: '绿色', hasSub: false },
-                { index: '2-2', label: '黄色', hasSub: false },
-                { index: '2-3', label: '红色', hasSub: false },
-                { index: '3', label: '景点', hasSub: true },
-                { index: '3-1', label: '绿色', hasSub: false },
-                { index: '3-2', label: '黄色', hasSub: false },
-                { index: '3-3', label: '红色', hasSub: false },
-                { index: '4', label: '消费', hasSub: true },
-                { index: '4-1', label: '绿色', hasSub: false },
-                { index: '4-2', label: '黄色', hasSub: false },
-                { index: '4-3', label: '红色', hasSub: false },
-                { index: '5', label: '论坛', hasSub: true },
-                { index: '5-1', label: '游记记录', hasSub: false },
-                { index: '5-2', label: '摄影投稿', hasSub: false },
-                { index: '5-3', label: '美食', hasSub: false },
-                { index: '5-4', label: '景点', hasSub: false },
-                { index: '5-5', label: '住宿', hasSub: false },
-                { index: '5-6', label: '吐槽投诉', hasSub: false },
-                { index: '6', label: '住宿交通', hasSub: false }
-            ]
+            menuItems: config.menuItems as MenuItem[]
         }
     }
 });

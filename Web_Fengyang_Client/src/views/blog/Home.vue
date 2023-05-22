@@ -84,18 +84,13 @@ import TopBar from "../../components/TopBar.vue"
 import SideBar from "../../components/SideBar.vue"
 // 2.导入导航栏路由函数
 import { BarRouteGoto } from '../../components/BarRouteFunc.js'
-// 3.设置侧边栏目录项
-const menuItems = [
-    { index: '5-1', label: '游记记录' },
-    { index: '5-2', label: '摄影投稿' },
-    { index: '5-3', label: '美食' },
-    { index: '5-4', label: '景点' },
-    { index: '5-5', label: '住宿' },
-    { index: '5-6', label: '吐槽投诉' },
-];
-// 4.导航栏和侧边栏已选选项
+// 3.导入菜单选项配置文件
+import config from '../../config/config.json';
+// 4.设置侧边栏目录项
+const menuItems = config.menuItems.filter(item => item.index.startsWith("5-"));
+// 5.导航栏和侧边栏已选选项
 const selectedItemIndex = ref("5-" + window.location.href.slice(-1));
-// 5.侧边栏和导航栏的点击触发函数
+// 6.侧边栏和导航栏的点击触发函数
 const handleSelect = (index) => {    // 这里可以触发路由跳转或其他操作
     selectedItemIndex.value = index
     BarRouteGoto(router, index) // 设置路由跳转

@@ -55,7 +55,7 @@
                 </div>
                 <!-- 有封面图时 -->
                 <div v-else style="width: 230px; margin: 0 auto;">
-                    <n-image height="150" :src=serverUrl+addArticle.headImage />
+                    <n-image height="150" :src=serverUrl + addArticle.headImage />
                     <n-button @click="deleteImage" circle style="position: absolute; left: 298px; top: 50px;"
                         color="#383838">
                         <template #icon>
@@ -124,7 +124,7 @@ const message = inject("message")
 const categoryOptions = ref([])// 分类列表选项
 const addArticle = reactive({// 待发布的文章对象
     id: 0,
-    categoryId: 0,
+    categoryId: "未选择",
     title: "",
     content: "",
     headImage: "",
@@ -135,15 +135,17 @@ onMounted(() => {
     loadCategories()
 })
 
+
+import config from '../../config/config.json';
 // 加载文章种类
 const loadCategories = async () => {
-    let res = await axios.get("/article/category")
-    categoryOptions.value = res.data.data.categories.map((item) => {
+    categoryOptions.value = config.menuItems.filter(item => item.index.startsWith("5-")).map((item) => {
         return {
-            label: item.name,
-            value: item.id
+            label: item.label,
+            value: item.index[2]
         }
     })
+    console.log(categoryOptions)
 }
 
 // 控制发布文章时弹窗的显示与隐藏
