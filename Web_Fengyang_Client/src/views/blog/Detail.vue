@@ -1,6 +1,6 @@
 <template>
     <!-- 顶部导航栏 -->
-    <TopBar :selected="selectedItemIndex" @select="handleSelect" />
+    <TopBar />
 
     <div class="tabs">
         <div style="margin:15px">
@@ -57,15 +57,6 @@ const articleInfo = ref({})
 const categoryName = ref("")
 const user = ref({})
 const self = ref(false)
-
-// 导入导航栏路由函数
-import { BarRouteGoto } from '../../components/BarRouteFunc.js'
-// 导航栏和侧边栏已选选项
-const selectedItemIndex = ref("5-" + window.location.href.slice(-1));
-// 侧边栏和导航栏的点击触发函数
-const handleSelect = (index) => {    // 这里可以触发路由跳转或其他操作
-    BarRouteGoto(router, index)
-};
 
 // 挂载页面时触发
 onMounted(() => {

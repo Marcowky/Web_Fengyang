@@ -1,5 +1,5 @@
 <template>
-    <el-menu class="sidebar" :default-active="selected" @select="handleSelect">
+    <el-menu class="sidebar" router=true :default-active="this.$route.fullPath" @select="handleSelect">
         <el-menu-item v-for="item in items" :key="item.index" :index="item.index">
             <span>{{ item.label }}</span>
         </el-menu-item>
@@ -14,10 +14,6 @@ export default defineComponent({
     props: {
         items: {
             type: Array as PropType<{ index: string; label: string }[]>,
-            required: true,
-        },
-        selected: {
-            type: String,
             required: true,
         },
     },
