@@ -1,16 +1,20 @@
 <template>
     <!-- 顶部导航栏 -->
     <TopBar @select="handleSelect" />
-
-    <!-- 侧边栏 -->
-    <SideBar :items="menuItems" @select="handleSelect" />
-
+    <!-- 功能栏 -->
+    <div class="funcBar">
+        <!-- 侧边栏 -->
+        <SideBar class="sidebar" :items="menuItems" @select="handleSelect" />
+        <el-menu class="choiceBar" :default-active="activeIndex" @select="goPublish" text-color="#409EFF">
+            <el-menu-item style="color: #409EFF;" index="1">我要发布!</el-menu-item>
+        </el-menu>
+    </div>
     <!-- 搜索栏 -->
     <div class="searchBar">
         <el-input class="searchBox" v-model="pageInfo.keyword" placeholder="请输入关键字" />
         <el-button class="searchButton" :icon="Search" @click="loadArticles(0)" circle />
     </div>
-
+    <!-- 主容器 -->
     <div class="mainContent">
         <!-- 文章卡片 -->
         <div v-for="(article, index) in articleList" style="margin:15px">
@@ -45,18 +49,14 @@
         <!-- 页面切换 -->
         <el-pagination class="pageSlider" :small="small" :background="background" layout="prev, pager, next"
             :page-count="pageInfo.pageCount" @current-change="loadArticles" />
-
-
     </div>
-    <el-button class="publishButton" type="primary" :icon="Edit" size="large" circle @click="goPublish" />
 </template>
 
 <script setup>
 import { ref, reactive, inject, onMounted } from 'vue'
 // icons
 import {
-    Search,
-    Edit
+    Search
 } from '@element-plus/icons-vue'
 
 // 导入路由
@@ -77,6 +77,7 @@ const pageInfo = reactive({
     keyword: "",
     categoryId: window.location.href.slice(-1) // 设置文章类别为地址最后一位
 })
+const activeIndex = ref('0')
 
 // 页面中侧边栏与导航栏的设置
 // 1.导入侧边栏和顶部栏
@@ -171,11 +172,22 @@ const toDetail = (article) => {
     justify-content: center;
 }
 
-.publishButton {
+
+.choiceBar {
+    width: 150px;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
+    border-radius: 0 10px 10px 0;
+    margin-top: 10%;
+}
+
+.sidebar {
+    position: relative;
+    top: 0%;
+}
+
+.funcBar {
     position: fixed;
-    right: 5%;
-    bottom: 5%;
-    font-size: 24px;
-    box-shadow: 2px 2px 6px #D3D4D8;
+    top: 25%;
+    z-index: 999;
 }
 </style>

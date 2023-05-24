@@ -1,7 +1,7 @@
 <template>
     <!-- 顶部导航栏 -->
     <TopBar />
-
+    <!-- 富文本编辑器 -->
     <div class="tabs">
         <div style="margin:15px">
             <div class="article-content">
@@ -9,62 +9,48 @@
             </div>
         </div>
     </div>
-
-    <el-button class="publishButton" type="primary" :icon="Edit" size="large" circle @click="showModalModal" />
-
-    <!-- 发布文章时弹出的模态框 -->
-    <el-dialog v-model="showModal">
-        <!-- 封面图片上传 -->
-        <n-card title="封面" :bordered="false">
-            <!-- 没有封面图时 -->
-            <div v-if="!newHeadImage" style="width: 300px; height: 150px; margin: 0 auto;">
-                <n-upload multiple directory-dnd :max="1" @before-upload="beforeUpload" :custom-request="customRequest">
-                    <n-upload-dragger>
-                        <div style="margin-bottom: 12px">
-                            <n-icon size="48" :depth="3">
-                                <archive-icon />
-                            </n-icon>
-                        </div>
-                        <n-text style="font-size: 16px">
-                            点击或者拖动图片到此处
-                        </n-text>
-                    </n-upload-dragger>
-                </n-upload>
-            </div>
-            <!-- 有封面图时 -->
-            <div v-else style="width: 230px; margin: 0 auto;">
-                <n-image height="150" :src=serverUrl + addArticle.headImage />
-                <n-button @click="deleteImage" circle style="position: absolute; left: 298px; top: 50px;" color="#383838">
-                    <template #icon>
-                        <n-icon>
-                            <close />
+    <!-- 功能栏 -->
+    <el-menu :default-active="activeIndex" class="choiceBar" @select="handleSelect">
+        <el-menu-item style="color: #409EFF;" index="1">发布</el-menu-item>
+        <el-menu-item style="color: #F56C6C;" index="2">取消</el-menu-item>
+    </el-menu>
+    <!-- 上传文章弹框 -->
+    <el-dialog v-model="showModal" title="上传文章" width="25%" center>
+        <!-- 无封面时 -->
+        <div v-if="!newHeadImage" style="width: 80%; margin: auto;">
+            <n-upload multiple directory-dnd :max="1" @before-upload="beforeUpload" :custom-request="customRequest">
+                <n-upload-dragger>
+                    <div style="margin-bottom: 12px">
+                        <n-icon size="48" :depth="3">
+                            <archive-icon />
                         </n-icon>
-                    </template>
-                </n-button>
-            </div>
-        </n-card>
-        <!-- 分类选择 -->
-        <el-form-item title="分类">
-            <div style="width:300px; margin: 0 auto;">
-                <el-select v-model:value="addArticle.categoryId" :options="categoryOptions" placeholder="请选择分类" />
-            </div>
-        </el-form-item>
-        <n-card title="分类" :bordered="false">
-            <div style="width:300px; margin: 0 auto;">
-                <n-select v-model:value="addArticle.categoryId" :options="categoryOptions" placeholder="请选择分类" />
-            </div>
-        </n-card>
-        <!-- 取消按钮 -->
-        <div style="position: absolute; right: 100px; bottom: 30px;">
-            <n-button type="default" @click="closeSubmitModal">
-                取消
-            </n-button>
+                    </div>
+                    <n-text style="font-size: 16px">
+                        点击或者拖动图片到此处
+                    </n-text>
+                </n-upload-dragger>
+            </n-upload>
         </div>
-        <!-- 确认按钮 -->
-        <div style="position: absolute; right: 30px; bottom: 30px;">
-            <n-button type="primary" @click="submit">
-                确认
-            </n-button>
+        <!-- 有封面时 -->
+        <div v-else style="width: 80%; margin: auto;">
+            <el-image :src="serverUrl + addArticle.headImage"></el-image>
+            <el-button class="delete-button" size="large" @click="deleteImage" type="danger" :icon="Delete" circle />
+        </div>
+        <!-- 杂项 -->
+        <div class="other-box">
+            <!-- 分类选择 -->
+            <el-select style="margin-top: 10px; width: 80%;" v-model="addArticle.categoryId" class="m-2" placeholder="请选择分类"
+                size="large">
+                <el-option v-for="item in categoryOptions" :key="item.value" :label="item.label"
+                    :value="item.value"></el-option>
+            </el-select>
+            <!-- 标题输入 -->
+            <el-input style="margin-top: 15px; width: 80%;" v-model="addArticle.title" placeholder="请输入标题" size="large" />
+            <!-- 按钮 -->
+            <div style="margin-top: 17px;">
+                <el-button style="margin-right: 20px;" type="danger" @click="closeSubmitModal">取消</el-button>
+                <el-button type="primary" @click="submit">确认</el-button>
+            </div>
         </div>
     </el-dialog>
 </template>
@@ -83,13 +69,9 @@ import RichTextEditor from '../../components/RichTextEditor.vue'
 
 // 导入一些icons
 import { ArchiveOutline as ArchiveIcon } from "@vicons/ionicons5"
-import { Send } from "@vicons/ionicons5"
-import { ReturnUpBack } from "@vicons/ionicons5"
-import { Close } from "@vicons/ionicons5"
 // icons
 import {
-    Search,
-    Edit
+    Delete,
 } from '@element-plus/icons-vue'
 
 // 导入路由
@@ -119,6 +101,7 @@ const addArticle = reactive({// 待发布的文章对象
     headImage: "",
 })
 
+const value = ref('')
 
 onMounted(() => {
     loadCategories()
@@ -160,6 +143,7 @@ const newHeadImage = ref(false)
 const customRequest = async ({ file }) => {
     const formData = new FormData()
     formData.append('file', file.file)
+    console.log(formData)
     let res = await axios.post("/image/upload", formData)
     addArticle.headImage = res.data.data.filePath
     newHeadImage.value = true
@@ -171,6 +155,7 @@ const deleteImage = () => {
 
 // 上传文章函数
 const submit = async () => {
+    console.log(value)
     let res = await axios.post("/article", {
         category_id: parseInt(addArticle.categoryId.slice(-1)),
         title: addArticle.title,
@@ -191,17 +176,22 @@ const submit = async () => {
 const goback = () => {
     router.go(-1)
 }
+
+const handleSelect = (index) => {
+    switch (index) {
+        case "1":
+            showModalModal()
+            break;
+        case "2":
+            goback()
+            break;
+        default:
+            break;
+    }
+}
 </script>
 
 <style lang="scss" scoped>
-.topbar {
-    position: sticky;
-    top: 0;
-    height: 50px;
-    background: white;
-    box-shadow: 0px 1px 5px #D3D4D8;
-}
-
 .tabs {
     position: absolute;
     top: 100px;
@@ -216,11 +206,27 @@ const goback = () => {
     z-index: 99;
 }
 
-.publishButton {
-    position: fixed;
-    right: 5%;
-    bottom: 5%;
-    font-size: 24px;
+.other-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.delete-button {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
     box-shadow: 2px 2px 6px #D3D4D8;
+}
+
+.choiceBar {
+    position: fixed;
+    top: 25%;
+    z-index: 999;
+    width: 150px;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
+    border-radius: 0 10px 10px 0;
 }
 </style>

@@ -39,14 +39,13 @@
         <!-- 杂项 -->
         <div class="other-box">
             <!-- 分类选择 -->
-            <el-select style="margin-top: 10px; width: 80%;" v-model="updateArticle.categoryId" class="m-2"
-                placeholder="请选择分类" size="large">
+            <el-select style="margin-top: 10px; width: 80%;" v-model="updateArticle.categoryId" class="m-2" placeholder="请选择分类"
+                size="large">
                 <el-option v-for="item in categoryOptions" :key="item.value" :label="item.label"
                     :value="item.value"></el-option>
             </el-select>
             <!-- 标题输入 -->
-            <el-input style="margin-top: 15px; width: 80%;" v-model="updateArticle.title" placeholder="请输入标题"
-                size="large" />
+            <el-input style="margin-top: 15px; width: 80%;" v-model="updateArticle.title" placeholder="请输入标题" size="large" />
             <!-- 按钮 -->
             <div style="margin-top: 17px;">
                 <el-button style="margin-right: 20px;" type="danger" @click="closeSubmitModal">取消</el-button>
@@ -54,14 +53,65 @@
             </div>
         </div>
     </el-dialog>
+    <!-- 发布弹窗 -->
+    <n-modal v-model:show="showModal">
+        <div style="width: 400px; height: 450px; background: white;">
+            <n-card title="封面" :bordered="false">
+                <!-- 若无封面 -->
+                <div v-if="!newHeadImage" style="width: 300px; height: 150px; margin: 0 auto;">
+                    <n-upload multiple directory-dnd :max="1" @before-upload="beforeUpload" :custom-request="customRequest">
+                        <n-upload-dragger>
+                            <div style="margin-bottom: 12px">
+                                <n-icon size="48" :depth="3">
+                                    <archive-icon />
+                                </n-icon>
+                            </div>
+                            <n-text style="font-size: 16px">
+                                点击或者拖动图片到此处
+                            </n-text>
+                        </n-upload-dragger>
+                    </n-upload>
+                </div>
+                <!-- 若有封面 -->
+                <div v-else style="width: 230px; margin: 0 auto;">
+                    <n-image height="150" :src=serverUrl + updateArticle.headImage />
+                    <n-button @click="deleteImage" circle style="position: absolute; left: 298px; top: 50px;"
+                        color="#383838">
+                        <template #icon>
+                            <n-icon>
+                                <close />
+                            </n-icon>
+                        </template>
+                    </n-button>
+                </div>
+            </n-card>
+            <!-- 分类选项 -->
+            <n-card title="分类" :bordered="false">
+                <div style="width:300px; margin: 0 auto;">
+                    <n-select v-model:value="updateArticle.categoryId" :options="categoryOptions" placeholder="请选择分类" />
+                </div>
+            </n-card>
+            <!-- 取消和确认发布按钮 -->
+            <div style="position: absolute; right: 100px; bottom: 30px;">
+                <n-button type="default" @click="closeSubmitModal">
+                    取消
+                </n-button>
+            </div>
+            <div style="position: absolute; right: 30px; bottom: 30px;">
+                <n-button type="primary" @click="submit">
+                    确认
+                </n-button>
+            </div>
+        </div>
+    </n-modal>
 </template>
 
 <script setup>
 // icons
 import { ArchiveOutline as ArchiveIcon } from "@vicons/ionicons5"
-import {
-    Delete,
-} from '@element-plus/icons-vue'
+import { Send } from "@vicons/ionicons5"
+import { ReturnUpBack } from "@vicons/ionicons5"
+import { Close } from "@vicons/ionicons5"
 
 import { ref, reactive, inject, onMounted } from 'vue'
 // 富文本编辑器
@@ -91,7 +141,7 @@ const updateArticle = reactive({
     headImage: "",
 })
 const showModal = ref(false)
-const newHeadImage = ref(true)
+const newHeadImage = ref(false)
 
 // 挂载页面时触发
 onMounted(() => {
@@ -99,16 +149,15 @@ onMounted(() => {
     loadArticle()
 })
 
-import config from '../../config/config.json';
-// 加载文章种类
+// 加载分类
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.index.startsWith("/blog?category=")).map((item) => {
+    let res = await axios.get("/article/category")
+    categoryOptions.value = res.data.data.categories.map((item) => {
         return {
-            label: item.label,
-            value: item.index.slice(-3)
+            label: item.name,
+            value: item.id
         }
     })
-    console.log(categoryOptions)
 }
 
 // 加载文章
@@ -116,16 +165,13 @@ const loadArticle = async () => {
     let res = await axios.get("/article/" + route.query.id)
 
     if (res.data.code == 200) {
-        updateArticle.categoryId = res.data.data.article.category_id,
+        updateArticle.categoryId = res.data.data.article.categoryId,
             updateArticle.title = res.data.data.article.title,
             updateArticle.content = res.data.data.article.content,
-            updateArticle.headImage = res.data.data.article.head_image,
+            updateArticle.headImage = res.data.data.article.headImage,
             newHeadImage.value = updateArticle.headImage ? true : false
         loadOk.value = true
     }
-    console.log(updateArticle)
-    console.log(res)
-
 }
 
 // 显示发布弹窗
@@ -220,22 +266,6 @@ const handleSelect = (index) => {
     background: white;
     box-shadow: 0px 1px 3px #D3D4D8;
     border-radius: 5px;
-}
-
-
-.other-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-}
-
-.delete-button {
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-    box-shadow: 2px 2px 6px #D3D4D8;
 }
 
 .choiceBar {

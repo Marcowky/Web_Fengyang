@@ -1,6 +1,12 @@
 <template>
     <!-- 顶部导航栏 -->
     <TopBar />
+    <!-- 功能栏 -->
+    <el-menu :default-active="activeIndex" class="choiceBar" @select="handleSelect">
+        <el-menu-item style="color: #409EFF;" v-if="self" index="2">修改</el-menu-item>
+        <el-menu-item style="color: #F56C6C;" v-if="self" index="3">删除</el-menu-item>
+        <el-menu-item index="1">返回</el-menu-item>
+    </el-menu>
 
     <div class="tabs">
         <div style="margin:15px">
@@ -9,21 +15,16 @@
 
             <div style="height: 60px;  background-color: #FCFAF7;">
                 <!-- 作者 -->
-                <text style="position: absolute; left: 40px; top: 90px; color: #808080;">作者：{{ articleInfo.username }}
+                <text style="position: absolute; left: 10px; top: 5px; color: #808080;">作者：{{ articleInfo.username }}
                 </text>
                 <!-- 发布时间 -->
-                <text style="position: absolute; left: 40px; top: 115px; color: #808080;">发布时间：{{ articleInfo.created_at }}
+                <text style="position: absolute; left: 10px; top: 30px; color: #808080;">发布时间：{{ articleInfo.created_at }}
                 </text>
                 <!-- 分类信息 -->
-                <div style="position: absolute; right: 50px; top: 95px; color: #808080;">
+                <div style="position: absolute; right: 50px; top: 15px; color: #808080;">
                     文章分类：
                     <el-tag class="ml-2" type="success">categoryName</el-tag>
                 </div>
-                <!-- 若为作者，则可以更新或删除文章 -->
-                <el-button v-if="self" @click="toUpdate" type="primary"
-                    style="position: absolute; top: 25px; right: 90px;">修改</el-button>
-                <el-button v-if="self" @click="toDelete" type="danger"
-                    style="position: absolute; top: 25px; right: 15px;">删除</el-button>
             </div>
             <!-- 分割线 -->
             <el-divider />
@@ -57,6 +58,7 @@ const articleInfo = ref({})
 const categoryName = ref("")
 const user = ref({})
 const self = ref(false)
+const activeIndex = ref('0')
 
 // 挂载页面时触发
 onMounted(() => {
@@ -94,7 +96,6 @@ const toUpdate = () => {
         path: "/blog/update",
         query: {
             id: articleInfo.value.id,
-            category: selectedItemIndex.value
         }
     })
 }
@@ -124,6 +125,23 @@ const goback = () => {
     router.go(-1)
 }
 
+const handleSelect = (index) => {
+    
+    switch (index) {
+        case "1":
+            goback()
+            break;
+        case "2":
+            toUpdate()
+            break;
+        case "3":
+            toDelete()
+            break;
+        default:
+            break;
+    }
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -143,5 +161,14 @@ const goback = () => {
 
 .article-content img {
     max-width: 100% !important;
+}
+
+.choiceBar {
+    position: fixed;
+    top: 25%;
+    z-index: 999;
+    width: 150px;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
+    border-radius: 0 10px 10px 0;
 }
 </style>
