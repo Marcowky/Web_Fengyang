@@ -1,9 +1,9 @@
 <template>
     <!-- 顶部导航栏 -->
-    <TopBar :selected="selectedItemIndex" @select="handleSelect" />
+    <TopBar @select="handleSelect" />
 
     <!-- 侧边栏 -->
-    <SideBar :items="menuItems" :selected="selectedItemIndex" @select="handleSelect" />
+    <SideBar :items="menuItems" @select="handleSelect" />
 
     <!-- 搜索栏 -->
     <div class="searchBar">
@@ -82,20 +82,14 @@ const pageInfo = reactive({
 // 1.导入侧边栏和顶部栏
 import TopBar from "../../components/TopBar.vue"
 import SideBar from "../../components/SideBar.vue"
-// 2.导入导航栏路由函数
-import { BarRouteGoto } from '../../components/BarRouteFunc.js'
-// 3.导入菜单选项配置文件
+// 2.导入菜单选项配置文件
 import config from '../../config/config.json';
-// 4.设置侧边栏目录项
-const menuItems = config.menuItems.filter(item => item.index.startsWith("5-"));
-// 5.导航栏和侧边栏已选选项
-const selectedItemIndex = ref("5-" + window.location.href.slice(-1));
-// 6.侧边栏和导航栏的点击触发函数
-const handleSelect = (index) => {    // 这里可以触发路由跳转或其他操作
-    selectedItemIndex.value = index
-    BarRouteGoto(router, index) // 设置路由跳转
-    pageInfo.categoryId = index[2] // 设置文章种类
-    loadArticles(0)
+// 3.设置侧边栏目录项
+const menuItems = config.menuItems.filter(item => item.index.startsWith("/blog?category=5-"));
+// 4.侧边栏和导航栏的点击触发函数
+const handleSelect = (index) => {
+    pageInfo.categoryId = index.charAt(index.length - 1) // 设置文章种类
+    loadArticles(0) // 加载文章
 };
 
 // 挂载页面时触发
@@ -135,7 +129,6 @@ const toDetail = (article) => {
         path: "/blog/detail",
         query: {
             id: article.id,
-            category: selectedItemIndex.value
         }
     })
 }
