@@ -51,7 +51,7 @@ const route = useRoute()
 // 网络请求
 const axios = inject("axios")
 import { ElMessage } from 'element-plus'
-const dialog = inject("dialog")
+import { ElMessageBox } from 'element-plus'
 
 // 定义变量
 const articleInfo = ref({})
@@ -102,12 +102,17 @@ const toUpdate = () => {
 
 // 删除文章
 const toDelete = async (blog) => {
-    dialog.warning({
-        title: '警告',
-        content: '是否要删除',
-        positiveText: '确定',
-        negativeText: '取消',
-        onPositiveClick: async () => {
+
+    ElMessageBox.confirm(
+        '是否要删除?',
+        '警告',
+        {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+        }
+    )
+        .then(async () => {
             let res = await axios.delete("article/" + articleInfo.value.id)
             if (res.data.code == 200) {
                 ElMessage({
@@ -122,9 +127,8 @@ const toDelete = async (blog) => {
                     offset: 80
                 })
             }
-        },
-        onNegativeClick: () => { }
-    })
+        })
+        .catch()
 }
 
 // 回到上级页面
