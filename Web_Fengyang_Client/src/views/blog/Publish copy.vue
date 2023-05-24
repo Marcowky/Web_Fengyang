@@ -1,72 +1,91 @@
 <template>
     <!-- 顶部导航栏 -->
-    <TopBar />
-
-    <div class="tabs">
-        <div style="margin:15px">
-            <div class="article-content">
-                <rich-text-editor v-model:modelValue="addArticle.content"></rich-text-editor>
-            </div>
+    <div class="topbar">
+        <n-button @click="goback" strong quaternary round style="position: absolute; left: 50px; top: 7px; font-size: 24px;"
+            color="#7B3DE0">
+            <n-icon>
+                <return-up-back />
+            </n-icon>
+        </n-button>
+        <!-- 标题 -->
+        <text style="position:absolute; left: 200px; line-height: 50px; color: #383838">标题</text>
+        <!-- 输入框 -->
+        <n-input v-model:value="addArticle.title" round placeholder="请输入标题"
+            style="position:absolute; left: 265px; top: 8px; width: 1000px; background-color: #F3F0F9;" />
+        <!-- 用户头像 -->
+        <!-- 发布文章按钮 -->
+        <div style="position: absolute; right: 50px; top: 8px">
+            <n-button round color="#7B3DE0" @click="showModalModal">
+                <template #icon>
+                    <n-icon>
+                        <send />
+                    </n-icon>
+                </template>
+                发布
+            </n-button>
         </div>
     </div>
 
-    <el-button class="publishButton" type="primary" :icon="Edit" size="large" circle @click="showModalModal" />
+    <!-- 富文本编辑器主体内容区域 -->
+    <div class="tabs">
+        <n-card>
+            <rich-text-editor v-model:modelValue="addArticle.content"></rich-text-editor>
+        </n-card>
+    </div>
 
     <!-- 发布文章时弹出的模态框 -->
-    <el-dialog v-model="showModal">
-        <!-- 封面图片上传 -->
-        <n-card title="封面" :bordered="false">
-            <!-- 没有封面图时 -->
-            <div v-if="!newHeadImage" style="width: 300px; height: 150px; margin: 0 auto;">
-                <n-upload multiple directory-dnd :max="1" @before-upload="beforeUpload" :custom-request="customRequest">
-                    <n-upload-dragger>
-                        <div style="margin-bottom: 12px">
-                            <n-icon size="48" :depth="3">
-                                <archive-icon />
+    <n-modal v-model:show="showModal">
+        <div style="width: 400px; height: 450px; background: white;">
+            <!-- 封面图片上传 -->
+            <n-card title="封面" :bordered="false">
+                <!-- 没有封面图时 -->
+                <div v-if="!newHeadImage" style="width: 300px; height: 150px; margin: 0 auto;">
+                    <n-upload multiple directory-dnd :max="1" @before-upload="beforeUpload" :custom-request="customRequest">
+                        <n-upload-dragger>
+                            <div style="margin-bottom: 12px">
+                                <n-icon size="48" :depth="3">
+                                    <archive-icon />
+                                </n-icon>
+                            </div>
+                            <n-text style="font-size: 16px">
+                                点击或者拖动图片到此处
+                            </n-text>
+                        </n-upload-dragger>
+                    </n-upload>
+                </div>
+                <!-- 有封面图时 -->
+                <div v-else style="width: 230px; margin: 0 auto;">
+                    <n-image height="150" :src=serverUrl+addArticle.headImage />
+                    <n-button @click="deleteImage" circle style="position: absolute; left: 298px; top: 50px;"
+                        color="#383838">
+                        <template #icon>
+                            <n-icon>
+                                <close />
                             </n-icon>
-                        </div>
-                        <n-text style="font-size: 16px">
-                            点击或者拖动图片到此处
-                        </n-text>
-                    </n-upload-dragger>
-                </n-upload>
-            </div>
-            <!-- 有封面图时 -->
-            <div v-else style="width: 230px; margin: 0 auto;">
-                <n-image height="150" :src=serverUrl + addArticle.headImage />
-                <n-button @click="deleteImage" circle style="position: absolute; left: 298px; top: 50px;" color="#383838">
-                    <template #icon>
-                        <n-icon>
-                            <close />
-                        </n-icon>
-                    </template>
+                        </template>
+                    </n-button>
+                </div>
+            </n-card>
+            <!-- 分类选择 -->
+            <n-card title="分类" :bordered="false">
+                <div style="width:300px; margin: 0 auto;">
+                    <n-select v-model:value="addArticle.categoryId" :options="categoryOptions" placeholder="请选择分类" />
+                </div>
+            </n-card>
+            <!-- 取消按钮 -->
+            <div style="position: absolute; right: 100px; bottom: 30px;">
+                <n-button type="default" @click="closeSubmitModal">
+                    取消
                 </n-button>
             </div>
-        </n-card>
-        <!-- 分类选择 -->
-        <el-form-item title="分类">
-            <div style="width:300px; margin: 0 auto;">
-                <el-select v-model:value="addArticle.categoryId" :options="categoryOptions" placeholder="请选择分类" />
+            <!-- 确认按钮 -->
+            <div style="position: absolute; right: 30px; bottom: 30px;">
+                <n-button type="primary" @click="submit">
+                    确认
+                </n-button>
             </div>
-        </el-form-item>
-        <n-card title="分类" :bordered="false">
-            <div style="width:300px; margin: 0 auto;">
-                <n-select v-model:value="addArticle.categoryId" :options="categoryOptions" placeholder="请选择分类" />
-            </div>
-        </n-card>
-        <!-- 取消按钮 -->
-        <div style="position: absolute; right: 100px; bottom: 30px;">
-            <n-button type="default" @click="closeSubmitModal">
-                取消
-            </n-button>
         </div>
-        <!-- 确认按钮 -->
-        <div style="position: absolute; right: 30px; bottom: 30px;">
-            <n-button type="primary" @click="submit">
-                确认
-            </n-button>
-        </div>
-    </el-dialog>
+    </n-modal>
 </template>
 
 <script setup>
@@ -86,19 +105,11 @@ import { ArchiveOutline as ArchiveIcon } from "@vicons/ionicons5"
 import { Send } from "@vicons/ionicons5"
 import { ReturnUpBack } from "@vicons/ionicons5"
 import { Close } from "@vicons/ionicons5"
-// icons
-import {
-    Search,
-    Edit
-} from '@element-plus/icons-vue'
 
 // 导入路由
 import { useRouter } from 'vue-router'
 const router = useRouter()
 // const route = useRoute()
-
-// 导入顶部栏
-import TopBar from "../../components/TopBar.vue"
 
 
 // 这也是在Vue.js 3中使用的代码，它使用了inject函数来获取从祖先组件中通过provide提供的三个依赖项。
@@ -204,23 +215,14 @@ const goback = () => {
 
 .tabs {
     position: absolute;
-    top: 100px;
+    top: 75px;
     left: 0;
     right: 0;
     margin: auto;
     width: 1000px;
     height: auto;
     background: white;
-    box-shadow: 2px 2px 6px #D3D4D8;
-    border-radius: 10px;
-    z-index: 99;
-}
-
-.publishButton {
-    position: fixed;
-    right: 5%;
-    bottom: 5%;
-    font-size: 24px;
-    box-shadow: 2px 2px 6px #D3D4D8;
+    box-shadow: 0px 1px 3px #D3D4D8;
+    border-radius: 5px;
 }
 </style>
