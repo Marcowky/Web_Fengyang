@@ -1,6 +1,7 @@
 <template>
-    <br><br><br>
+  <br><br><br>
   <!--footer-->
+  <div class="space"></div>
   <footer class="footer">
     <div class="footer-bottom">
       <div class="footer-container">
@@ -8,7 +9,7 @@
           <!--景区概况-->
           <ul class="css-ul">
             <li>
-            <a class="css-main_title" href="/HomePage" >景区概况</a>
+              <a class="css-main_title" href="/HomePage">景区概况</a>
             </li>
             <li>
               <a href="/HomePage">四色丰阳</a>
@@ -24,7 +25,7 @@
           <!--景区资讯-->
           <ul class="css-ul">
             <li>
-            <a class="css-main_title" href="/InfoPage" >景区资讯</a>
+              <a class="css-main_title" href="/InfoPage">景区资讯</a>
             </li>
             <li>
               <a href="/InfoPage">景区活动</a>
@@ -40,7 +41,7 @@
           <!--景区景点-->
           <ul class="css-ul">
             <li>
-            <a class="css-main_title" href="#" >景区景点</a>
+              <a class="css-main_title" href="#">景区景点</a>
             </li>
             <li>
               <a href="/InfoPage">热门景点</a>
@@ -56,7 +57,7 @@
           <!--景区消费-->
           <ul class="css-ul">
             <li>
-            <a class="css-main_title" href="#" >景区消费</a>
+              <a class="css-main_title" href="#">景区消费</a>
             </li>
             <li>
               <a href="/ConsumptionPage">酒店民宿</a>
@@ -72,7 +73,7 @@
           <!--投诉建议-->
           <ul class="css-ul">
             <li>
-            <a class="css-main_title" href="#" >投诉建议</a>
+              <a class="css-main_title" href="#">投诉建议</a>
             </li>
             <li>
               <a href="/ForumPage">景区论坛</a>
@@ -87,46 +88,55 @@
 
 <style scoped>
 /* footer的css */
-.footer{
-  position: relative;
-  
+.footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
 }
 
-.footer-bottom{
-  background:#353432;
+.space {
+  height: 220px;
+}
+
+.footer-bottom {
+  background: #353432;
   width: 100%;
   padding: 0px;
 }
 
-.footer-container{
+.footer-container {
   position: static;
   /* padding: 10px 90px; */
   /* margin:10 auto; */
-  
+
 }
 
-.footer-nav{
+.footer-nav {
   display: flex;
   flex-wrap: wrap;
   padding: 40px 0px;
 }
 
-.css-ul{
+.css-ul {
   margin-left: 0px;
 }
 
-.css-main_title{
+.css-main_title {
   display: inline-block;
   padding: 10px 0;
   font-size: 16px;
   color: #ffffff;
-  border-bottom: 1px solid #A0A0A0;   /* 景区概况底下那条横线 */
+  border-bottom: 1px solid #A0A0A0;
+  /* 景区概况底下那条横线 */
 }
 
-ul, li{
- 
-  list-style: none;   /* 去掉列表前面的小圈圈 */
-  justify-content:space-evenly;   /* 设置flex中间距一样 */
+ul,
+li {
+
+  list-style: none;
+  /* 去掉列表前面的小圈圈 */
+  justify-content: space-evenly;
+  /* 设置flex中间距一样 */
 
 }
 
@@ -137,7 +147,7 @@ ul, li{
   color: #aaaaaa;
 } */
 
-a{    
+a {
   text-decoration: none;
   display: block;
   font-size: 13px;
@@ -146,9 +156,8 @@ a{
 }
 
 /* 选择鼠标移到a标签链接上的样式： */
-@media (hover: hover) {   
+@media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
   }
-}
-</style>
+}</style>

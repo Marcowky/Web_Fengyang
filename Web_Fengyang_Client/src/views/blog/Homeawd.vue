@@ -1,56 +1,8 @@
 <template>
-    <!-- 顶部导航栏 -->
-    <TopBar @select="handleSelect" />
-    <!-- 功能栏 -->
-    <div class="funcBar">
-        <!-- 侧边栏 -->
-        <SideBar class="sidebar" :items="menuItems" @select="handleSelect" />
-        <el-menu class="choiceBar" :default-active="activeIndex" @select="goPublish" text-color="#409EFF">
-            <el-menu-item style="color: #409EFF;" index="1">我要发布!</el-menu-item>
-        </el-menu>
-    </div>
-    <!-- 搜索栏 -->
-    <div class="searchBar">
-        <el-input class="searchBox" v-model="pageInfo.keyword" placeholder="请输入关键字" />
-        <el-button class="searchButton" :icon="Search" @click="loadArticles(0)" circle />
-    </div>
     <div class="box"><!-- 主容器 -->
         <div class="mainContent">
-            <!-- 文章卡片 -->
-            <div v-for="(article, index) in articleList" style="margin:15px">
-                <!-- 若有封面图 -->
-                <el-card class="articleCard" v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
-                    <el-image style="width: 200px; float: left" :src="serverUrl + article.head_image" :fit="fit" />
-                    <template #header>
-                        <div>
-                            <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
-                        </div>
-                    </template>
-                    <div style="position: relative; left: 50px; width: 690px;">
-                        <p>{{ article.content + "..." }}</p>
-                        <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
-                        </div>
-                    </div>
-                </el-card>
-                <!-- 若无封面图 -->
-                <el-card class="articleCard" v-else @click="toDetail(article)" hoverable shadow="hover">
-                    <template #header>
-                        <div>
-                            <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
-                        </div>
-                    </template>
-                    <div style="height: 75px; ">
-                        <p>{{ article.content + "..." }}</p>
-                        <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
-                        </div>
-                    </div>
-                </el-card>
-            </div>
-            <!-- 页面切换 -->
-            <el-pagination class="pageSlider" :small="small" :background="background" layout="prev, pager, next"
-                :page-count="pageInfo.pageCount" @current-change="loadArticles" />
         </div>
-        <FooterBar />
+        <div class="footer"></div>
     </div>
 </template>
 
@@ -159,19 +111,9 @@ const toDetail = (article) => {
 }
 
 .mainContent {
-    position: relative;
-    top: 100px;
-    margin: auto;
-    margin-bottom: 100px;
-    width: 1000px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    box-shadow: 2px 2px 6px #D3D4D8;
-    border-radius: 10px;
-    z-index: 99;
+    background-color: blue;
+    z-index: 9999;
+    height: 100px;
 }
 
 
@@ -210,4 +152,12 @@ const toDetail = (article) => {
     min-height: 100%;
 }
 
+.footer {
+    position: relative;
+    background-color: yellow;
+    bottom: 0px;
+    height: 100px;
+    z-index: 1000;
+    width: 100%;
+}
 </style>
