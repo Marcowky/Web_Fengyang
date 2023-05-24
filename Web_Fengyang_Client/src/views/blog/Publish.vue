@@ -90,7 +90,7 @@ import TopBar from "../../components/TopBar.vue"
 // 通过使用inject和provide，我们可以轻松地实现依赖注入，同时避免了深度嵌套的属性访问和传递。
 const serverUrl = inject("serverUrl")
 const axios = inject("axios")
-const message = inject("message")
+import { ElMessage } from 'element-plus'
 
 const categoryOptions = ref([])// 分类列表选项
 const addArticle = reactive({// 待发布的文章对象
@@ -132,7 +132,11 @@ const closeSubmitModal = () => {
 // 判断图片的格式是否符合要求
 const beforeUpload = async (data) => {
     if (data.file.file?.type !== "image/png") {
-        message.error("只能上传png格式的图片")
+        ElMessage({
+            message: "只能上传png格式的图片",
+            type: 'error',
+            offset: 80
+        })
         return false;
     }
     return true;
@@ -165,10 +169,18 @@ const submit = async () => {
     console.log(addArticle)
     console.log(res)
     if (res.data.code == 200) {
-        message.success(res.data.msg)
+        ElMessage({
+            message: res.data.msg,
+            type: 'success',
+            offset: 80
+        })
         goback()
     } else {
-        message.error(res.data.msg)
+        ElMessage({
+            message: res.data.msg,
+            type: 'error',
+            offset: 80
+        })
     }
 }
 

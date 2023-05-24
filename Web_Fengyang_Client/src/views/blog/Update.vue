@@ -1,6 +1,7 @@
 <template>
     <!-- 顶部导航栏 -->
     <TopBar />
+
     <!-- 富文本编辑器 -->
     <div class="tabs">
         <div style="margin:15px">
@@ -9,11 +10,13 @@
             </div>
         </div>
     </div>
+
     <!-- 功能栏 -->
     <el-menu :default-active="activeIndex" class="choiceBar" @select="handleSelect">
         <el-menu-item style="color: #409EFF;" index="1">确认</el-menu-item>
         <el-menu-item style="color: #F56C6C;" index="2">取消</el-menu-item>
     </el-menu>
+
     <!-- 上传文章弹框 -->
     <el-dialog v-model="showModal" title="修改文章" width="25%" center>
         <!-- 无封面时 -->
@@ -36,6 +39,7 @@
             <el-image :src="serverUrl + updateArticle.headImage"></el-image>
             <el-button class="delete-button" size="large" @click="deleteImage" type="danger" :icon="Delete" circle />
         </div>
+
         <!-- 杂项 -->
         <div class="other-box">
             <!-- 分类选择 -->
@@ -53,6 +57,7 @@
                 <el-button type="primary" @click="submit">确认</el-button>
             </div>
         </div>
+
     </el-dialog>
 </template>
 
@@ -75,13 +80,9 @@ import TopBar from "../../components/TopBar.vue"
 // 网络请求
 const serverUrl = inject("serverUrl")
 const axios = inject("axios")
-const message = inject("message")
+import { ElMessage } from 'element-plus'
 // 变量初始化
 const loadOk = ref(false)
-const user = reactive({
-    avatarUrl: "",
-    id: 0
-})
 const categoryOptions = ref([])
 const updateArticle = reactive({
     id: 0,
@@ -142,7 +143,11 @@ const closeSubmitModal = () => {
 // 图像判断
 const beforeUpload = async (data) => {
     if (data.file.file?.type !== "image/png") {
-        message.error("只能上传png格式的图片")
+        ElMessage({
+            message: "只能上传png格式的图片",
+            type: 'error',
+            offset: 80
+        })
         return false;
     }
     return true;
@@ -167,17 +172,25 @@ const deleteImage = () => {
 // 提交文章
 const submit = async () => {
     let res = await axios.put("/article/" + route.query.id, {
-        category_id: updateArticle.categoryId,
+        category_id: parseInt(updateArticle.categoryId.slice(-1)),
         title: updateArticle.title,
         content: updateArticle.content,
         head_image: updateArticle.headImage
     })
 
     if (res.data.code == 200) {
-        message.success(res.data.msg)
+        ElMessage({
+            message: res.data.msg,
+            type: 'success',
+            offset: 80
+        })
         goback()
     } else {
-        message.error(res.data.msg)
+        ElMessage({
+            message: res.data.msg,
+            type: 'error',
+            offset: 80
+        })
     }
 }
 
@@ -201,14 +214,6 @@ const handleSelect = (index) => {
 </script>
 
 <style lang="scss" scoped>
-.topbar {
-    position: sticky;
-    top: 0;
-    height: 50px;
-    background: white;
-    box-shadow: 0px 1px 5px #D3D4D8;
-}
-
 .tabs {
     position: absolute;
     top: 75px;

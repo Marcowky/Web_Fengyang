@@ -50,7 +50,7 @@ const route = useRoute()
 
 // 网络请求
 const axios = inject("axios")
-const message = inject("message")
+import { ElMessage } from 'element-plus'
 const dialog = inject("dialog")
 
 // 定义变量
@@ -110,10 +110,17 @@ const toDelete = async (blog) => {
         onPositiveClick: async () => {
             let res = await axios.delete("article/" + articleInfo.value.id)
             if (res.data.code == 200) {
-                message.info(res.data.msg)
+                ElMessage({
+                    message: res.data.msg,
+                    offset: 80
+                })
                 goback()
             } else {
-                message.error(res.data.msg)
+                ElMessage({
+                    message: res.data.msg,
+                    type: 'error',
+                    offset: 80
+                })
             }
         },
         onNegativeClick: () => { }
@@ -126,7 +133,7 @@ const goback = () => {
 }
 
 const handleSelect = (index) => {
-    
+
     switch (index) {
         case "1":
             goback()
