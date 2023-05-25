@@ -1,23 +1,17 @@
 <template>
-    <div>
     <!-- 顶部导航栏 -->
     <TopBar @select="handleSelect" />
-    
-    <div style="position: absolute; top: 100px; left: 0; height: 500px; width: 100%; z-index: 1;">
-        <Chart>
-        </Chart>
-    </div>
-    
-    <div style="position: absolute; top: 500px; left: 120px; height: 20px; width: 80%; z-index: 1;">
-        <SmallBar>
-        </SmallBar>
-    </div>
 
-    <div style="position: absolute; top: 1000px; left: 120px; height: 20px; width: 80%; z-index: 1;">
-        <FooterBar>
-        </FooterBar>
-    </div>
-    
+    <div class="box">
+        <div style="position: relative; margin-top:100px;width: 100%; z-index: 1;">
+            <Chart />
+        </div>
+
+        <div style="position: relative; margin: auto; width: 80%; z-index: 1;">
+            <SmallBar />
+        </div>
+
+        <FooterBar />
     </div>
 </template>
 
@@ -33,3 +27,10 @@ const handleSelect = (index) => {    // 这里可以定义导航栏点击函数
 
 };
 </script>
+
+<style lang="scss" scoped>
+.box {
+    position: relative;
+    min-height: 100%;
+}
+</style>
