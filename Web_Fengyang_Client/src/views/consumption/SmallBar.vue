@@ -179,6 +179,10 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   border-radius: 15px;
 }
 
+.card:hover{
+  transform: scale(1.05);
+}
+
 .image {
   width: 280px;
   height: 180px;

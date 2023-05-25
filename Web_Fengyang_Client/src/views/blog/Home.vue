@@ -1,6 +1,4 @@
 <template>
-    <!-- 顶部导航栏 -->
-    <TopBar @select="handleSelect" />
     <!-- 功能栏 -->
     <div class="funcBar">
         <!-- 侧边栏 -->
@@ -50,7 +48,6 @@
             <el-pagination class="pageSlider" :small="small" :background="background" layout="prev, pager, next"
                 :page-count="pageInfo.pageCount" @current-change="loadArticles" />
         </div>
-        <FooterBar />
     </div>
 </template>
 
@@ -61,8 +58,6 @@ import {
     Search
 } from '@element-plus/icons-vue'
 
-// 导入底部栏
-import FooterBar from "../../components/FooterBar.vue"
 
 // 导入路由
 import { useRouter } from 'vue-router'
@@ -85,8 +80,7 @@ const pageInfo = reactive({
 const activeIndex = ref('0')
 
 // 页面中侧边栏与导航栏的设置
-// 1.导入侧边栏和顶部栏
-import TopBar from "../../components/TopBar.vue"
+// 1.导入侧边栏
 import SideBar from "../../components/SideBar.vue"
 // 2.导入菜单选项配置文件
 import config from '../../config/config.json';
