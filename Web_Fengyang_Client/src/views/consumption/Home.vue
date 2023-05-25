@@ -13,7 +13,7 @@
         </SmallBar>
     </div>
 
-    <div style="position: absolute; top: 1000px; left: 100px; height: 20px; width: 80%; z-index: 1;">
+    <div style="position: absolute; top: 1000px; left: 0; height: 20px; width: 100%; z-index: 1;">
         <FooterBar>
         </FooterBar>
     </div>
