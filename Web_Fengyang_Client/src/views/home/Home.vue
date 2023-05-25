@@ -61,13 +61,13 @@ export default {
       console.log(key, keyPath);
     },
   },
-  mounted() {
-    // 改变网页背景颜色
-    document.querySelector('body').setAttribute('style', 'background-color:#d9e0dc');
-  },
-  beforeDestroy() {
-    document.querySelector('body').removeAttribute('style')
-  },
+  // mounted() {
+  //   // 改变网页背景颜色
+  //   document.querySelector('body').setAttribute('style', 'background-color:#d9e0dc');
+  // },
+  // beforeDestroy() {
+  //   document.querySelector('body').removeAttribute('style')
+  // },
 };
 
 
