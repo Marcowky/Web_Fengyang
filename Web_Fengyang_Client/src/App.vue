@@ -1,22 +1,15 @@
 <template>
-  <router-view ></router-view>
-    <!-- 顶部导航栏 -->
-    <TopBar @select="handleSelect" />
+  <TopBar @select="handleSelect" />
 
-    <div class="box">
-      
+  <div class="mainBox">
+    <router-view/>
+    <FooterBar/>
+  </div>
 
-      <div style="position: fixed; top: 450px; right: 20px; z-index: 1;">
-          <RightBar>
-          </RightBar>
-      </div>
-
-      <FooterBar />
-    </div>
+  <RightBar style="position: fixed; top: 450px; right: 20px; z-index: 1;"/>
 </template>
 
 <script setup>
-// 导入顶部栏、底部栏、右边栏
 import TopBar from "./components/TopBar.vue"
 import FooterBar from "./components/FooterBar.vue"
 import RightBar from "./components/RightBar.vue"
@@ -24,6 +17,9 @@ import RightBar from "./components/RightBar.vue"
 </script>
 
 <style scoped>
-
+.mainBox {
+  position: relative;
+  min-height: 100%;
+}
 </style>
 

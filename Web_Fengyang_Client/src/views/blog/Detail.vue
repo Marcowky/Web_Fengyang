@@ -1,6 +1,4 @@
 <template>
-    <!-- 顶部导航栏 -->
-    <TopBar />
     <!-- 功能栏 -->
     <el-menu :default-active="activeIndex" class="choiceBar" @select="handleSelect">
         <el-menu-item style="color: #409EFF;" v-if="self" index="2">修改</el-menu-item>

@@ -1,14 +1,11 @@
 <template>
-    <!-- 顶部导航栏 -->
-    <TopBar />
     <!-- 富文本编辑器 -->
-    <div class="tabs">
+    <div class="content">
         <div style="margin:15px">
-            <div class="article-content">
-                <rich-text-editor v-model:modelValue="addArticle.content"></rich-text-editor>
-            </div>
+            <rich-text-editor v-model:modelValue="addArticle.content"></rich-text-editor>
         </div>
     </div>
+    
     <!-- 功能栏 -->
     <el-menu :default-active="activeIndex" class="choiceBar" @select="handleSelect">
         <el-menu-item style="color: #409EFF;" index="1">发布</el-menu-item>
@@ -204,14 +201,16 @@ const handleSelect = (index) => {
 </script>
 
 <style lang="scss" scoped>
-.tabs {
-    position: absolute;
+.content {
+    position: relative;
     top: 100px;
-    left: 0;
-    right: 0;
     margin: auto;
+    margin-bottom: 100px;
     width: 1000px;
-    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background: white;
     box-shadow: 2px 2px 6px #D3D4D8;
     border-radius: 10px;

@@ -12,42 +12,40 @@
         <el-input class="searchBox" v-model="pageInfo.keyword" placeholder="请输入关键字" />
         <el-button class="searchButton" :icon="Search" @click="loadArticles(0)" circle />
     </div>
-    <div class="box"><!-- 主容器 -->
-        <div class="mainContent">
-            <!-- 文章卡片 -->
-            <div v-for="(article, index) in articleList" style="margin:15px">
-                <!-- 若有封面图 -->
-                <el-card class="articleCard" v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
-                    <el-image style="width: 200px; float: left" :src="serverUrl + article.head_image" :fit="fit" />
-                    <template #header>
-                        <div>
-                            <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
-                        </div>
-                    </template>
-                    <div style="position: relative; left: 50px; width: 690px;">
-                        <p>{{ article.content + "..." }}</p>
-                        <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
-                        </div>
+    <div class="content">
+        <!-- 文章卡片 -->
+        <div v-for="(article, index) in articleList" style="margin:15px">
+            <!-- 若有封面图 -->
+            <el-card class="articleCard" v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
+                <el-image style="width: 200px; float: left" :src="serverUrl + article.head_image" :fit="fit" />
+                <template #header>
+                    <div>
+                        <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
                     </div>
-                </el-card>
-                <!-- 若无封面图 -->
-                <el-card class="articleCard" v-else @click="toDetail(article)" hoverable shadow="hover">
-                    <template #header>
-                        <div>
-                            <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
-                        </div>
-                    </template>
-                    <div style="height: 75px; ">
-                        <p>{{ article.content + "..." }}</p>
-                        <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
-                        </div>
+                </template>
+                <div style="position: relative; left: 50px; width: 690px;">
+                    <p>{{ article.content + "..." }}</p>
+                    <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
                     </div>
-                </el-card>
-            </div>
-            <!-- 页面切换 -->
-            <el-pagination class="pageSlider" :small="small" :background="background" layout="prev, pager, next"
-                :page-count="pageInfo.pageCount" @current-change="loadArticles" />
+                </div>
+            </el-card>
+            <!-- 若无封面图 -->
+            <el-card class="articleCard" v-else @click="toDetail(article)" hoverable shadow="hover">
+                <template #header>
+                    <div>
+                        <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
+                    </div>
+                </template>
+                <div style="height: 75px; ">
+                    <p>{{ article.content + "..." }}</p>
+                    <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
+                    </div>
+                </div>
+            </el-card>
         </div>
+        <!-- 页面切换 -->
+        <el-pagination class="pageSlider" :small="small" :background="background" layout="prev, pager, next"
+            :page-count="pageInfo.pageCount" @current-change="loadArticles" />
     </div>
 </template>
 
@@ -149,10 +147,10 @@ const toDetail = (article) => {
 }
 
 .searchBox {
-    flex:1;
+    flex: 1;
 }
 
-.mainContent {
+.content {
     position: relative;
     top: 100px;
     margin: auto;
@@ -203,5 +201,4 @@ const toDetail = (article) => {
     position: relative;
     min-height: 100%;
 }
-
 </style>
