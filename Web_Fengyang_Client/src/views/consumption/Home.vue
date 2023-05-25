@@ -18,6 +18,11 @@
         </FooterBar>
     </div>
     
+    <div style="position: fixed; top: 450px; right: 20px; z-index: 1;">
+        <RightBar>
+        </RightBar>
+    </div>
+
     </div>
 </template>
 
@@ -25,6 +30,7 @@
 // 导入顶部栏
 import TopBar from "../../components/TopBar.vue"
 import FooterBar from "../../components/FooterBar.vue"
+import RightBar from "../../components/RightBar.vue"
 import Chart from './Chart.vue'
 import SmallBar from './SmallBar.vue'
 

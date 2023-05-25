@@ -6,6 +6,7 @@ import 'element-plus/dist/index.css'
 import "./style.css";
 // import './assets/main.css'
 import './assets/base.css'
+import './assets/iconfont/iconfont.css'
 
 import naive from "naive-ui"; // 引入ui框架
 import { createDiscreteApi } from "naive-ui"; // 引入createDiscreteApi
