@@ -53,6 +53,7 @@ export default defineComponent({
 .topbar {
     position: fixed;
     top: 0px;
+    height: 60px;
     width: 100%;
     z-index: 999;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.26);

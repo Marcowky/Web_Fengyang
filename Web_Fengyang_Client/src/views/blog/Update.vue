@@ -1,13 +1,8 @@
 <template>
-    <!-- 顶部导航栏 -->
-    <TopBar />
-
     <!-- 富文本编辑器 -->
-    <div class="tabs">
+    <div class="content">
         <div style="margin:15px">
-            <div class="article-content">
-                <rich-text-editor v-if="loadOk" v-model:modelValue="updateArticle.content"></rich-text-editor>
-            </div>
+            <rich-text-editor v-if="loadOk" v-model:modelValue="updateArticle.content"></rich-text-editor>
         </div>
     </div>
 
@@ -75,8 +70,7 @@ import RichTextEditor from '../../components/RichTextEditor.vue'
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
-// 导入顶部栏
-import TopBar from "../../components/TopBar.vue"
+
 // 网络请求
 const serverUrl = inject("serverUrl")
 const axios = inject("axios")
@@ -214,17 +208,18 @@ const handleSelect = (index) => {
 </script>
 
 <style lang="scss" scoped>
-.tabs {
-    position: absolute;
-    top: 75px;
-    left: 0;
-    right: 0;
+.content {
+    position: relative;
     margin: auto;
     width: 1000px;
-    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background: white;
-    box-shadow: 0px 1px 3px #D3D4D8;
-    border-radius: 5px;
+    box-shadow: 2px 2px 6px #D3D4D8;
+    border-radius: 10px;
+    z-index: 99;
 }
 
 
