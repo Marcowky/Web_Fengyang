@@ -6,10 +6,12 @@
         <el-menu-item index="1">返回</el-menu-item>
     </el-menu>
 
-    <div class="tabs">
+    <div class="content">
         <div style="margin:15px">
             <!-- title -->
-            <h1>{{ articleInfo.title }}</h1>
+            <!-- <h1>{{ articleInfo.title }}</h1> -->
+            <div style="height: 5px;"></div>
+            <text style="font-size: 30px;">{{ articleInfo.title }}</text>
 
             <div style="height: 60px;  background-color: #FCFAF7;">
                 <!-- 作者 -->
@@ -27,9 +29,8 @@
             <!-- 分割线 -->
             <el-divider />
             <!-- 文章内容 -->
-            <div class="article-content">
-                <div v-html="articleInfo.content"></div>
-            </div>
+            <div class="article-content" v-html="articleInfo.content"></div>
+            <div style="height: 20px;"></div>
         </div>
 
     </div>
@@ -154,11 +155,8 @@ const handleSelect = (index) => {
 </script>
 
 <style lang="scss" scoped>
-.tabs {
-    position: absolute;
-    top: 100px;
-    left: 0;
-    right: 0;
+.content {
+    position: relative;
     margin: auto;
     width: 1000px;
     height: auto;
@@ -166,10 +164,6 @@ const handleSelect = (index) => {
     box-shadow: 2px 2px 6px #D3D4D8;
     border-radius: 10px;
     z-index: 99;
-}
-
-.article-content img {
-    max-width: 100% !important;
 }
 
 .choiceBar {

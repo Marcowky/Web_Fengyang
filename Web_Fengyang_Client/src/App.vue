@@ -2,11 +2,11 @@
   <TopBar @select="handleSelect" />
 
   <div class="mainBox">
-    <router-view/>
-    <FooterBar/>
+    <router-view />
+    <FooterBar />
   </div>
 
-  <RightBar style="position: fixed; top: 450px; right: 20px; z-index: 1;"/>
+  <RightBar style="position: fixed; top: 450px; right: 20px; z-index: 1;" />
 </template>
 
 <script setup>
@@ -20,6 +20,7 @@ import RightBar from "./components/RightBar.vue"
 .mainBox {
   position: relative;
   min-height: 100%;
+  margin-top: 100px;
 }
 </style>
 

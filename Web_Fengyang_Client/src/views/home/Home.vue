@@ -1,37 +1,31 @@
 <template>
+  <!--轮播图-->
+  <Chart style=" position: relative; left: 0;  width: 100%; " />
+  <br><br><br>
 
-  <div class="box">
-    <!--轮播图-->
-    <div style="position: relative; margin-top:100px;width: 100%; z-index: 1;">
-        <Chart />
-    </div>
-    <br><br><br>
+  <!--概况-->
+  <div class="general-title">
+    <h3>—景 区 概 况—</h3>
+  </div><br>
 
-    <!--概况-->
-    <div class="general-title">
-      <h3>—景 区 概 况—</h3>
-    </div><br>
-    
-    <img class="IMG1" src="../../assets/spring.jpg" alt="">
-    <div class="TXT1">
-      <span>{{ spring_mes }}</span>
-    </div>
+  <img class="IMG1" src="../../assets/spring.jpg" alt="">
+  <div class="TXT1">
+    <span>{{ spring_mes }}</span>
+  </div>
 
-    <img class="IMG2" src="../../assets/summer.jpg" alt="">
-    <div class="TXT2">
-      <span>{{ summer_mes }}</span>
-    </div>
+  <img class="IMG2" src="../../assets/summer.jpg" alt="">
+  <div class="TXT2">
+    <span>{{ summer_mes }}</span>
+  </div>
 
-    <img class="IMG1" src="../../assets/autumn.jpg" alt="">
-    <div class="TXT1">
-      <span>{{ autumn_mes }}</span>
-    </div>
+  <img class="IMG1" src="../../assets/autumn.jpg" alt="">
+  <div class="TXT1">
+    <span>{{ autumn_mes }}</span>
+  </div>
 
-    <img class="IMG2" src="../../assets/winter.jpg" alt="">
-    <div class="TXT2">
-      <span>{{ winter_mes }}</span>
-    </div>
-
+  <img class="IMG2" src="../../assets/winter.jpg" alt="">
+  <div class="TXT2">
+    <span>{{ winter_mes }}</span>
   </div>
 </template>
 
@@ -135,8 +129,4 @@ export default {
   top: 110px;
 }
 
-.box {
-    position: relative;
-    min-height: 100%;
-}
 </style>

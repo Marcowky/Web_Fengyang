@@ -11,6 +11,7 @@
         <el-menu-item style="color: #409EFF;" index="1">发布</el-menu-item>
         <el-menu-item style="color: #F56C6C;" index="2">取消</el-menu-item>
     </el-menu>
+
     <!-- 上传文章弹框 -->
     <el-dialog v-model="showModal" title="上传文章" width="25%" center>
         <!-- 无封面时 -->
@@ -74,10 +75,7 @@ import {
 // 导入路由
 import { useRouter } from 'vue-router'
 const router = useRouter()
-// const route = useRoute()
 
-// 导入顶部栏
-import TopBar from "../../components/TopBar.vue"
 
 
 // 这也是在Vue.js 3中使用的代码，它使用了inject函数来获取从祖先组件中通过provide提供的三个依赖项。
@@ -203,9 +201,7 @@ const handleSelect = (index) => {
 <style lang="scss" scoped>
 .content {
     position: relative;
-    top: 100px;
     margin: auto;
-    margin-bottom: 100px;
     width: 1000px;
     display: flex;
     flex-direction: column;

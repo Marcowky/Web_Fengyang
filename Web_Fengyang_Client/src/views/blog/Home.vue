@@ -152,9 +152,7 @@ const toDetail = (article) => {
 
 .content {
     position: relative;
-    top: 100px;
     margin: auto;
-    margin-bottom: 100px;
     width: 1000px;
     display: flex;
     flex-direction: column;
@@ -166,8 +164,6 @@ const toDetail = (article) => {
     z-index: 99;
 }
 
-
-
 .articleCard {
     cursor: pointer;
     width: 950px;
@@ -177,7 +173,6 @@ const toDetail = (article) => {
     display: flex;
     justify-content: center;
 }
-
 
 .choiceBar {
     width: 150px;
@@ -197,8 +192,4 @@ const toDetail = (article) => {
     z-index: 999;
 }
 
-.box {
-    position: relative;
-    min-height: 100%;
-}
 </style>
