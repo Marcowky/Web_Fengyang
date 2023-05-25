@@ -8,12 +8,12 @@
         </Chart>
     </div>
     
-    <div style="position: absolute; top: 500px; left: 120px; height: 20px; width: 80%; z-index: 1;">
+    <div style="position: absolute; top: 500px; left: 100px; height: 20px; width: 80%; z-index: 1;">
         <SmallBar>
         </SmallBar>
     </div>
 
-    <div style="position: absolute; top: 1000px; left: 120px; height: 20px; width: 80%; z-index: 1;">
+    <div style="position: absolute; top: 1000px; left: 100px; height: 20px; width: 80%; z-index: 1;">
         <FooterBar>
         </FooterBar>
     </div>

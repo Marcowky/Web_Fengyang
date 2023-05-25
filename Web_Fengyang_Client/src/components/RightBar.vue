@@ -40,7 +40,7 @@
   
   </script>
   
-  <style>
+  <style scoped>
 
   .hover-image-container {
     position: relative;
@@ -50,7 +50,7 @@
     display: none;
     position: absolute;
     right: 100px;
-    top: -40px;
+    top: 0px;
     width: 100px;
     height: 100px;
   }
