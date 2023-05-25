@@ -1,0 +1,19 @@
+{
+  "news_items": [
+    {
+      "value": "1",
+      "content": "第一条消息",
+      "res": "./src/assets/pic1.jpg"
+    },
+    {
+      "value": "1",
+      "content": "第一条消息",
+      "res": "./src/assets/pic1.jpg"
+    },
+    {
+      "value": "1",
+      "content": "第一条消息",
+      "res": "./src/assets/pic1.jpg"
+    }
+  ]
+}
