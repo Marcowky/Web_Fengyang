@@ -155,7 +155,7 @@ const toDetail = (article) => {
 }
 
 .searchBox {
-    width: 500px;
+    flex:1;
 }
 
 .mainContent {

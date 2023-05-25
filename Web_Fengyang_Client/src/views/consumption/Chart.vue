@@ -1,5 +1,5 @@
 <template>
-    <el-carousel :interval="4000" type="card" height="350px">
+    <el-carousel :interval="3000" type="card" height="350px">
       <el-carousel-item v-for="item in 6" :key="item">
         <img :src="`../src/assets/pic${item}.jpg`" :alt="'Slide ' + item" />
       </el-carousel-item>

@@ -29,6 +29,7 @@ import config from '../config/config.json';
 interface MenuItem {
     index: string;
     label: string;
+    mainMenu: boolean;
     hasSub: boolean;
 }
 

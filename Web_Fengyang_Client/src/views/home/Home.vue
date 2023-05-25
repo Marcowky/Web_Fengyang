@@ -2,16 +2,18 @@
   <!-- 顶部导航栏 -->
   <TopBar @select="handleSelect" />
 
-
-  <!--轮播图-->
-
   <div class="box">
+    <!--轮播图-->
+    <div style="position: relative; margin-top:100px;width: 100%; z-index: 1;">
+        <Chart />
+    </div>
     <br><br><br>
 
+    <!--概况-->
     <div class="general-title">
       <h3>—景 区 概 况—</h3>
     </div><br>
-
+    
     <img class="IMG1" src="../../assets/spring.jpg" alt="">
     <div class="TXT1">
       <span>{{ spring_mes }}</span>
@@ -32,21 +34,24 @@
       <span>{{ winter_mes }}</span>
     </div>
 
-    <FooterBar />
+
+        <FooterBar />
+
   </div>
 </template>
 
 <script>
 // 页面中侧边栏与导航栏的设置
-// 1.导入侧边栏和顶部栏、页脚
+// 导入顶部栏、轮播图、页脚
 import TopBar from "../../components/TopBar.vue"
+import Chart from "../consumption/Chart.vue"
 import FooterBar from "../../components/FooterBar.vue"
-
 
 export default {
   components: {
     TopBar,
-    FooterBar
+    FooterBar,
+    Chart
   },
   data() {
     return {
@@ -88,6 +93,7 @@ export default {
   float: left;
   /*这句一定要有*/
   display: inline;
+  margin-left: 100px;
   margin-right: 20px;
 }
 
@@ -100,6 +106,7 @@ export default {
   line-height: 45px;
   /* 行间距 */
   color: black;
+  margin-right: 100px;
 }
 
 .TXT1 span {
@@ -113,6 +120,7 @@ export default {
   /*这句一定要有*/
   display: inline;
   margin-left: 20px;
+  margin-right: 100px;
 }
 
 .TXT2 {
@@ -123,6 +131,7 @@ export default {
   /* 字间距 */
   line-height: 45px;
   color: black;
+  margin-left: 100px;
 }
 
 .TXT2 span {

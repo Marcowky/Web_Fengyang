@@ -3,7 +3,7 @@
     <TopBar @select="handleSelect" />
 
     <div class="box">
-        <div style="position: relative; margin-top:100px;width: 100%; z-index: 1;">
+        <div style="position: relative; margin-top:100px; width: 100%; z-index: 1;">
             <Chart />
         </div>
 
@@ -11,7 +11,8 @@
             <SmallBar />
         </div>
 
-        <FooterBar />
+            <FooterBar />
+
     </div>
 </template>
 

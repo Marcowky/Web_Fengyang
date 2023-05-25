@@ -1,90 +1,43 @@
 <template>
-  <br><br><br>
+
   <!--footer-->
   <div class="space"></div>
   <footer class="footer">
     <div class="footer-bottom">
       <div class="footer-container">
         <ul class="footer-nav">
-          <!--景区概况-->
-          <ul class="css-ul">
-            <li>
-              <a class="css-main_title" href="/HomePage">景区概况</a>
-            </li>
-            <li>
-              <a href="/HomePage">四色丰阳</a>
-            </li>
-            <li>
-              <a href="/HomePage">民族风俗</a>
-            </li>
-            <li>
-              <a href="/HomePage">历史人文</a>
-            </li>
-          </ul>
-
-          <!--景区资讯-->
-          <ul class="css-ul">
-            <li>
-              <a class="css-main_title" href="/InfoPage">景区资讯</a>
-            </li>
-            <li>
-              <a href="/InfoPage">景区活动</a>
-            </li>
-            <li>
-              <a href="/InfoPage">景区公告</a>
-            </li>
-            <li>
-              <a href="/InfoPage">志愿活动</a>
-            </li>
-          </ul>
-
-          <!--景区景点-->
-          <ul class="css-ul">
-            <li>
-              <a class="css-main_title" href="#">景区景点</a>
-            </li>
-            <li>
-              <a href="/InfoPage">热门景点</a>
-            </li>
-            <li>
-              <a href="/InfoPage">游玩攻略</a>
-            </li>
-            <li>
-              <a href="/InfoPage">路线规划</a>
-            </li>
-          </ul>
-
-          <!--景区消费-->
-          <ul class="css-ul">
-            <li>
-              <a class="css-main_title" href="#">景区消费</a>
-            </li>
-            <li>
-              <a href="/ConsumptionPage">酒店民宿</a>
-            </li>
-            <li>
-              <a href="/ConsumptionPage">娱乐项目</a>
-            </li>
-            <li>
-              <a href="/ConsumptionPage">美食特产</a>
-            </li>
-          </ul>
-
-          <!--投诉建议-->
-          <ul class="css-ul">
-            <li>
-              <a class="css-main_title" href="#">投诉建议</a>
-            </li>
-            <li>
-              <a href="/ForumPage">景区论坛</a>
-            </li>
-          </ul>
-
+          <template v-for="item in menuItems">
+              <ul class="css-ul" v-if="item.mainMenu && !item.index.includes('-')">
+                  <li>
+                    <a class="css-main_title" :href="item.index">{{ item.label }}</a>
+                  </li>
+                
+                  <template v-for="subItem in menuItems">
+                    <li v-if="!subItem.mainMenu && subItem.index.startsWith(item.index + '?')">
+                      <a :href="subItem.index">{{ subItem.label }}</a>
+                    </li>
+                  </template> 
+              </ul>
+          </template>
         </ul>
       </div>
     </div>
   </footer>
 </template>
+
+<script lang="ts" setup>
+import { ref } from "vue";
+// 导入菜单选项配置文件
+import config from '../config/config.json';
+
+interface MenuItem {
+    index: string;
+    label: string;
+    mainMenu: boolean;
+    hasSub: boolean;  
+};
+const menuItems = ref(config.menuItems as MenuItem[]);
+</script>
 
 <style scoped>
 /* footer的css */
@@ -92,16 +45,17 @@
   position: absolute;
   width: 100%;
   bottom: 0px;
+
 }
 
 .space {
-  height: 220px;
+  height: 300px;
 }
 
 .footer-bottom {
   background: #353432;
   width: 100%;
-  padding: 0px;
+  margin-top: 50px;
 }
 
 .footer-container {
