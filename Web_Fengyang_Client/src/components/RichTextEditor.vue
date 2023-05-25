@@ -23,7 +23,7 @@ const mode = ref("default")
 // 内容HTML
 const valueHtml = ref("")
 //菜单栏配置
-const toolbarConfig = { excludeKeys: ['group-video'] };
+const toolbarConfig = { excludeKeys: ['group-video','fullScreen'] };
 // 编辑器配置
 const editorConfig = { placeholder: '请输入内容...', MENU_CONF: {} };
 // 上传图片

@@ -29,7 +29,7 @@ export default defineComponent({
 <style scoped>
 .sidebar {
     position: fixed;
-    top: 30%;
+    top: 25%;
     width: 150px;
     z-index: 999;
     box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);

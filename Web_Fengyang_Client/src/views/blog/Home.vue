@@ -1,63 +1,68 @@
 <template>
     <!-- 顶部导航栏 -->
     <TopBar @select="handleSelect" />
-
-    <!-- 侧边栏 -->
-    <SideBar :items="menuItems" @select="handleSelect" />
-
+    <!-- 功能栏 -->
+    <div class="funcBar">
+        <!-- 侧边栏 -->
+        <SideBar class="sidebar" :items="menuItems" @select="handleSelect" />
+        <el-menu class="choiceBar" :default-active="activeIndex" @select="goPublish" text-color="#409EFF">
+            <el-menu-item style="color: #409EFF;" index="1">我要发布!</el-menu-item>
+        </el-menu>
+    </div>
     <!-- 搜索栏 -->
     <div class="searchBar">
         <el-input class="searchBox" v-model="pageInfo.keyword" placeholder="请输入关键字" />
         <el-button class="searchButton" :icon="Search" @click="loadArticles(0)" circle />
     </div>
-
-    <div class="mainContent">
-        <!-- 文章卡片 -->
-        <div v-for="(article, index) in articleList" style="margin:15px">
-            <!-- 若有封面图 -->
-            <el-card v-if="article.head_image" @click="toDetail(article)" style="cursor: pointer;" hoverable shadow="hover">
-                <el-image style="width: 200px; float: left" :src="serverUrl + article.head_image" :fit="fit" />
-                <template #header>
-                    <div>
-                        <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
+    <div class="box"><!-- 主容器 -->
+        <div class="mainContent">
+            <!-- 文章卡片 -->
+            <div v-for="(article, index) in articleList" style="margin:15px">
+                <!-- 若有封面图 -->
+                <el-card class="articleCard" v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
+                    <el-image style="width: 200px; float: left" :src="serverUrl + article.head_image" :fit="fit" />
+                    <template #header>
+                        <div>
+                            <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
+                        </div>
+                    </template>
+                    <div style="position: relative; left: 50px; width: 690px;">
+                        <p>{{ article.content + "..." }}</p>
+                        <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
+                        </div>
                     </div>
-                </template>
-                <div style="position: absolute; left: 240px; width: 690px;">
-                    <p>{{ article.content + "..." }}</p>
-                    <div style="position: absolute; margin-top: 10px;">发布时间：{{ article.created_at }}
+                </el-card>
+                <!-- 若无封面图 -->
+                <el-card class="articleCard" v-else @click="toDetail(article)" hoverable shadow="hover">
+                    <template #header>
+                        <div>
+                            <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
+                        </div>
+                    </template>
+                    <div style="height: 75px; ">
+                        <p>{{ article.content + "..." }}</p>
+                        <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
+                        </div>
                     </div>
-                </div>
-            </el-card>
-            <!-- 若无封面图 -->
-            <el-card v-else @click="toDetail(article)" style="cursor: pointer;" hoverable shadow="hover">
-                <template #header>
-                    <div>
-                        <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
-                    </div>
-                </template>
-                <div style="height: 80px; ">
-                    <p>{{ article.content + "..." }}</p>
-                    <div style="position: absolute; margin-top: 10px;">发布时间：{{ article.created_at }}
-                    </div>
-                </div>
-            </el-card>
+                </el-card>
+            </div>
+            <!-- 页面切换 -->
+            <el-pagination class="pageSlider" :small="small" :background="background" layout="prev, pager, next"
+                :page-count="pageInfo.pageCount" @current-change="loadArticles" />
         </div>
-        <!-- 页面切换 -->
-        <el-pagination class="pageSlider" :small="small" :background="background" layout="prev, pager, next"
-            :page-count="pageInfo.pageCount" @current-change="loadArticles" />
-
-
+        <FooterBar />
     </div>
-    <el-button class="publishButton" type="primary" :icon="Edit" size="large" circle @click="goPublish" />
 </template>
 
 <script setup>
 import { ref, reactive, inject, onMounted } from 'vue'
 // icons
 import {
-    Search,
-    Edit
+    Search
 } from '@element-plus/icons-vue'
+
+// 导入底部栏
+import FooterBar from "../../components/FooterBar.vue"
 
 // 导入路由
 import { useRouter } from 'vue-router'
@@ -77,6 +82,7 @@ const pageInfo = reactive({
     keyword: "",
     categoryId: window.location.href.slice(-1) // 设置文章类别为地址最后一位
 })
+const activeIndex = ref('0')
 
 // 页面中侧边栏与导航栏的设置
 // 1.导入侧边栏和顶部栏
@@ -153,17 +159,26 @@ const toDetail = (article) => {
 }
 
 .mainContent {
-    position: absolute;
+    position: relative;
     top: 100px;
-    left: 0;
-    right: 0;
     margin: auto;
+    margin-bottom: 100px;
     width: 1000px;
-    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background: white;
     box-shadow: 2px 2px 6px #D3D4D8;
     border-radius: 10px;
     z-index: 99;
+}
+
+
+
+.articleCard {
+    cursor: pointer;
+    width: 950px;
 }
 
 .pageSlider {
@@ -171,11 +186,28 @@ const toDetail = (article) => {
     justify-content: center;
 }
 
-.publishButton {
-    position: fixed;
-    right: 5%;
-    bottom: 5%;
-    font-size: 24px;
-    box-shadow: 2px 2px 6px #D3D4D8;
+
+.choiceBar {
+    width: 150px;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
+    border-radius: 0 10px 10px 0;
+    margin-top: 10%;
 }
+
+.sidebar {
+    position: relative;
+    top: 0%;
+}
+
+.funcBar {
+    position: fixed;
+    top: 25%;
+    z-index: 999;
+}
+
+.box {
+    position: relative;
+    min-height: 100%;
+}
+
 </style>
