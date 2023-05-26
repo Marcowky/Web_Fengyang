@@ -1,5 +1,5 @@
 <template>
-    <el-menu class="sidebar" router=true :default-active="this.$route.fullPath" @select="handleSelect">
+    <el-menu class="sidebar" router :default-active="this.$route.fullPath" >
         <el-menu-item v-for="item in items" :key="item.index" :index="item.index">
             <span>{{ item.label }}</span>
         </el-menu-item>
@@ -16,13 +16,7 @@ export default defineComponent({
             type: Array as PropType<{ index: string; label: string }[]>,
             required: true,
         },
-    },
-    emits: ['select'],
-    methods: {
-        handleSelect(index: string) {
-            this.$emit('select', index);
-        },
-    },
+    }
 });
 </script>
   

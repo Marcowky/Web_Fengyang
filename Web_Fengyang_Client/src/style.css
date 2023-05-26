@@ -2,8 +2,10 @@ html,
 body,
 #app {
   background-color: #FCFAF7;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
+}
+
+#app {
+  position: relative;
+  min-height: 100vh;
+  margin-top: 100px;
 }

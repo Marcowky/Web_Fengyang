@@ -40,13 +40,7 @@ interface MenuItem {
 
 const link = "http://localhost:5173/#"
 const menuItems = ref(config.menuItems as MenuItem[]);
-// 挂载页面时触发
-onMounted(() => {
-  showRoute()
-})
-const showRoute = () => {
-  console.log(menuItems)
-}
+
 </script>
 
 <style scoped>
