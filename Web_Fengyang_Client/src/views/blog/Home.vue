@@ -23,7 +23,8 @@
                     </div>
                 </template>
                 <div style="position: absolute; left: 240px; width: 690px;">
-                    <p>{{ article.content + "..." }}</p>
+                  <div v-html=article.content></div>
+<!--                  <p>{{ article.content + "..." }}</p>-->
                     <div style="position: absolute; margin-top: 10px;">发布时间：{{ article.created_at }}
                     </div>
                 </div>
@@ -36,7 +37,8 @@
                     </div>
                 </template>
                 <div style="height: 80px; ">
-                    <p>{{ article.content + "..." }}</p>
+                  <div v-html=article.content></div>
+<!--                    <p>{{ article.content + "..." }}</p>-->
                     <div style="position: absolute; margin-top: 10px;">发布时间：{{ article.created_at }}
                     </div>
                 </div>
@@ -52,6 +54,7 @@
 </template>
 
 <script setup>
+
 import { ref, reactive, inject, onMounted } from 'vue'
 // icons
 import {
