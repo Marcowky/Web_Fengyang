@@ -2,7 +2,7 @@
     <!-- 功能栏 -->
     <div class="funcBar">
         <!-- 侧边栏 -->
-        <SideBar class="sidebar" :items="menuItems" @select="handleSelect" />
+        <SideBar class="sidebar" :items="menuItems" />
         <el-menu class="choiceBar" :default-active="activeIndex" @select="goPublish" text-color="#409EFF">
             <el-menu-item style="color: #409EFF;" index="1">我要发布!</el-menu-item>
         </el-menu>
@@ -17,7 +17,7 @@
         <div v-for="(article, index) in articleList" style="margin:15px">
             <!-- 若有封面图 -->
             <el-card class="articleCard" v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
-                <el-image style="width: 200px; float: left" :src="serverUrl + article.head_image" :fit="fit" />
+                <el-image style="width: 200px; float: left" :src="serverUrl + article.head_image" />
                 <template #header>
                     <div>
                         <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
@@ -44,22 +44,22 @@
             </el-card>
         </div>
         <!-- 页面切换 -->
-        <el-pagination class="pageSlider" :small="small" :background="background" layout="prev, pager, next"
-            :page-count="pageInfo.pageCount" @current-change="loadArticles" />
+        <el-pagination class="pageSlider" small layout="prev, pager, next" :page-count="pageInfo.pageCount"
+            @current-change="loadArticles" />
     </div>
 </template>
 
 <script setup>
-import { ref, reactive, inject, onMounted } from 'vue'
+import { ref, reactive, inject, onMounted, watch } from 'vue'
 // icons
 import {
     Search
 } from '@element-plus/icons-vue'
 
-
 // 导入路由
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
+const route = useRoute()
 
 // 网络请求
 const serverUrl = inject("serverUrl")
@@ -84,11 +84,14 @@ import SideBar from "../../components/SideBar.vue"
 import config from '../../config/config.json';
 // 3.设置侧边栏目录项
 const menuItems = config.menuItems.filter(item => item.index.startsWith("/blog?category=5-"));
-// 4.侧边栏和导航栏的点击触发函数
-const handleSelect = (index) => {
-    pageInfo.categoryId = index.charAt(index.length - 1) // 设置文章种类
-    loadArticles(0) // 加载文章
-};
+// 4.设置路由跳转监听
+watch(
+    () => route.fullPath,
+    (newValue, oldValue) => {
+        pageInfo.categoryId = newValue.charAt(newValue.length - 1) // 设置文章种类
+        loadArticles(0) // 加载文章
+    }
+)
 
 // 挂载页面时触发
 onMounted(() => {
@@ -191,5 +194,4 @@ const toDetail = (article) => {
     top: 25%;
     z-index: 999;
 }
-
 </style>

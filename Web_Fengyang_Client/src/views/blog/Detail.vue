@@ -39,9 +39,6 @@
 <script setup>
 import { ref, inject, onMounted } from 'vue'
 
-// 导入顶部栏
-import TopBar from "../../components/TopBar.vue"
-
 // 导入路由
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
