@@ -9,12 +9,13 @@
           <template v-for="item in menuItems">
               <ul class="css-ul" v-if="item.mainMenu && !item.index.includes('-')">
                   <li>
-                    <a class="css-main_title" :href="item.index">{{ item.label }}</a>
+                    <text class="css-main_title" >{{ item.label }}</text>
                   </li>
                 
                   <template v-for="subItem in menuItems">
                     <li v-if="!subItem.mainMenu && subItem.index.startsWith(item.index + '?')">
-                      <a :href="subItem.index">{{ subItem.label }}</a>
+                      <el-link :href="link+subItem.index">{{ subItem.label }}</el-link>
+                      <!-- <el-link type="primary">primary</el-link> -->
                     </li>
                   </template> 
               </ul>
@@ -26,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 // 导入菜单选项配置文件
 import config from '../config/config.json';
 
@@ -36,7 +37,16 @@ interface MenuItem {
     mainMenu: boolean;
     hasSub: boolean;  
 };
+
+const link = "http://localhost:5173/#"
 const menuItems = ref(config.menuItems as MenuItem[]);
+// 挂载页面时触发
+onMounted(() => {
+  showRoute()
+})
+const showRoute = () => {
+  console.log(menuItems)
+}
 </script>
 
 <style scoped>
