@@ -142,7 +142,7 @@ const newHeadImage = ref(false)
 const customRequest = async ({ file }) => {
     const formData = new FormData()
     formData.append('file', file.file)
-    console.log(formData)
+    // console.log(formData)
     let res = await axios.post("/image/upload", formData)
     addArticle.headImage = res.data.data.filePath
     newHeadImage.value = true
@@ -167,18 +167,18 @@ function filterText(text) {
         .then(function (response) {
           // console.log(text);
           // response.data.filteredText为形式为{"code": 200, "message": "", "data": "<p>***的，**</p>", "use_time": 2.0265579223632812e-05}
-          console.log(response.data.filteredText);
+        //   console.log(response.data.filteredText);
           resolve(response.data.filteredText);
         })
         .catch(function (error) {
-          console.log(error);
+        //   console.log(error);
           reject(error);
         });
   });
 }
 
 const submit = async () => {
-  console.log(value)
+//   console.log(value)
   // 调用filterText函数，并将addArticle对象的content属性值作为参数传递给该函数
   filterText(addArticle.content)
       .then(filteredText => {
@@ -195,8 +195,8 @@ const submit = async () => {
         });
       })
       .then(res => {
-        console.log(addArticle)
-        console.log(res)
+        // console.log(addArticle)
+        // console.log(res)
         if (res.data.code == 200) {
           ElMessage({
             message: res.data.msg,
@@ -213,7 +213,7 @@ const submit = async () => {
         }
       })
       .catch(error => {
-        console.log(error);
+        // console.log(error);
       });
 }
 

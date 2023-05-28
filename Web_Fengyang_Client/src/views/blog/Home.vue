@@ -19,14 +19,14 @@
         <div v-for="(article, index) in articleList" style="margin:15px">
             <!-- 若有封面图 -->
             <el-card class="articleCard" v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
-                <el-image style="width: 200px; float: left" :src="serverUrl + article.head_image" />
+                <el-image style="width: 250px; float: left; margin-bottom: 20px" :src="serverUrl + article.head_image" />
                 <template #header>
                     <div>
                         <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
                     </div>
                 </template>
-                <div style="position: relative; left: 50px; width: 690px;">
-                  <div v-html="article.content"></div>
+                <div style="position: relative; left: 20px; width: 890px;">
+                    <p>{{ article.content + "..." }}</p>
                     <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     </div>
                 </template>
                 <div style="height: 75px; ">
-                  <div v-html="article.content"></div>
+                    <p>{{ article.content + "..." }}</p>
                     <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
                     </div>
                 </div>
