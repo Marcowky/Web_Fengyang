@@ -7,7 +7,7 @@
     </div>
 
     <!-- 功能栏 -->
-    <el-menu :default-active="activeIndex" class="choiceBar" @select="handleSelect">
+    <el-menu class="choiceBar" @select="handleSelect">
         <el-menu-item style="color: #409EFF;" index="1">确认</el-menu-item>
         <el-menu-item style="color: #F56C6C;" index="2">取消</el-menu-item>
     </el-menu>
@@ -80,7 +80,7 @@ const loadOk = ref(false)
 const categoryOptions = ref([])
 const updateArticle = reactive({
     id: 0,
-    categoryId: 0,
+    categoryId: "未选择",
     title: "",
     content: "",
     headImage: "",
@@ -103,7 +103,7 @@ const loadCategories = async () => {
             value: item.index.slice(-3)
         }
     })
-    console.log(categoryOptions)
+    // console.log(categoryOptions)
 }
 
 // 加载文章
@@ -111,15 +111,14 @@ const loadArticle = async () => {
     let res = await axios.get("/article/" + route.query.id)
 
     if (res.data.code == 200) {
-        updateArticle.categoryId = res.data.data.article.category_id,
+        let label = categoryOptions.value.find((item) => item.value.endsWith(res.data.data.article.category_id)).label
+        updateArticle.categoryId = label,
             updateArticle.title = res.data.data.article.title,
             updateArticle.content = res.data.data.article.content,
             updateArticle.headImage = res.data.data.article.head_image,
             newHeadImage.value = updateArticle.headImage ? true : false
         loadOk.value = true
     }
-    console.log(updateArticle)
-    console.log(res)
 
 }
 

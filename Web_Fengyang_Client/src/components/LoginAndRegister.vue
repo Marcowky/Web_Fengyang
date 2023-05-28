@@ -29,7 +29,7 @@
             </el-form>
 
             <!-- 登录时显示记住密码复选框 -->
-            <el-checkbox v-if="dialogType == '登录'" v-model="user.remember">记住密码</el-checkbox>
+            <el-checkbox v-if="dialogType == '登录'" v-model="user.rember">记住密码</el-checkbox>
 
             <!-- 提交按钮 -->
             <el-button @click="submitForm(formRef)" class="button3" type="primary"

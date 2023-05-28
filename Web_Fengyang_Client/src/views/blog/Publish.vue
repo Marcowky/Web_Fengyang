@@ -7,7 +7,7 @@
     </div>
     
     <!-- 功能栏 -->
-    <el-menu :default-active="activeIndex" class="choiceBar" @select="handleSelect">
+    <el-menu class="choiceBar" @select="handleSelect">
         <el-menu-item style="color: #409EFF;" index="1">发布</el-menu-item>
         <el-menu-item style="color: #F56C6C;" index="2">取消</el-menu-item>
     </el-menu>
@@ -112,7 +112,7 @@ const loadCategories = async () => {
             value: item.index.slice(-3)
         }
     })
-    console.log(categoryOptions)
+    // console.log(categoryOptions)
 }
 
 // 控制发布文章时弹窗的显示与隐藏
