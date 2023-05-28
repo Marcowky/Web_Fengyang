@@ -23,7 +23,7 @@
                 <!-- 分类信息 -->
                 <div style="position: absolute; right: 50px; top: 15px; color: #808080;">
                     文章分类：
-                    <el-tag class="ml-2" type="success">categoryName</el-tag>
+                    <el-tag class="ml-2" type="success">{{categoryName}}</el-tag>
                 </div>
             </div>
             <!-- 分割线 -->
@@ -59,7 +59,20 @@ const activeIndex = ref('0')
 // 挂载页面时触发
 onMounted(() => {
     loadArticle()
+    loadCategories()
 })
+
+import config from '../../config/config.json';
+// 加载文章种类
+const categoryOptions = ref([])
+const loadCategories = async () => {
+    categoryOptions.value = config.menuItems.filter(item => item.index.startsWith("/blog?category=")).map((item) => {
+        return {
+            label: item.label,
+            value: item.index.slice(-3)
+        }
+    })
+}
 
 // 加载文章
 const loadArticle = async () => {
@@ -67,11 +80,9 @@ const loadArticle = async () => {
     let resArticle = await axios.get("article/" + route.query.id)
     if (resArticle.data.code == 200) {
         articleInfo.value = resArticle.data.data.article
-        // 获取分类徐徐
-        let resCategory = await axios.get("article/category/" + resArticle.data.data.article.category_id)
-        if (resCategory.data.code == 200) {
-            categoryName.value = resCategory.data.data.categoryName
-        }
+        // 获取分类
+        let label = categoryOptions.value.find((item) => item.value.endsWith(resArticle.data.data.article.category_id)).label
+            categoryName.value = label
         // 获取作者信息
         let resWriter = await axios.get("user/briefInfo/" + articleInfo.value.user_id)
         articleInfo.value.username = resWriter.data.data.name
