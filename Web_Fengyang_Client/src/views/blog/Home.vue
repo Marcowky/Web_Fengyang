@@ -1,4 +1,6 @@
 <template>
+    <!-- 登录注册弹框 -->
+    <LoginDialog ref="loginDialogRef"/>
     <!-- 功能栏 -->
     <div class="funcBar">
         <!-- 侧边栏 -->
@@ -111,6 +113,10 @@ const loadArticles = async (pageNum = 0) => {
     pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
 }
 
+// 导入登录注册弹框
+import LoginDialog from '../../components/LoginAndRegister.vue'
+const loginDialogRef = ref(null)
+
 const goPublish = async () => {
     try {
         let resUser = await axios.get("user/info")
@@ -119,7 +125,8 @@ const goPublish = async () => {
         }
     } catch (err) {
         if (err.response.status === 401) {
-            router.push("/user/login")
+            // 显示登录注册弹框
+            loginDialogRef.value.showDialog()
         }
     }
 }
@@ -146,7 +153,7 @@ const toDetail = (article) => {
     align-items: center;
     justify-content: center;
     gap: 5px;
-    z-index: 9999;
+    z-index: 999;
 }
 
 .searchBox {
