@@ -26,7 +26,7 @@
                     </div>
                 </template>
                 <div style="position: relative; left: 50px; width: 690px;">
-                    <p>{{ article.content + "..." }}</p>
+                  <div v-html="article.content"></div>
                     <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     </div>
                 </template>
                 <div style="height: 75px; ">
-                    <p>{{ article.content + "..." }}</p>
+                  <div v-html="article.content"></div>
                     <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
                     </div>
                 </div>
