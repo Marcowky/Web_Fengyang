@@ -16,18 +16,18 @@
     <el-dialog v-model="showModal" title="上传文章" width="25%" center>
         <!-- 无封面时 -->
         <div v-if="!newHeadImage" style="width: 80%; margin: auto;">
-            <n-upload multiple directory-dnd :max="1" @before-upload="beforeUpload" :custom-request="customRequest">
-                <n-upload-dragger>
-                    <div style="margin-bottom: 12px">
-                        <n-icon size="48" :depth="3">
-                            <archive-icon />
-                        </n-icon>
+            <el-upload drag :before-upload="beforeUpload" :http-request="customRequest"
+                multiple>
+                <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                <div class="el-upload__text">
+                    拖动文件 或 <em>点击上传</em>
+                </div>
+                <template #tip>
+                    <div class="el-upload__tip">
+                        仅支持png/jpg/jpeg格式的图片
                     </div>
-                    <n-text style="font-size: 16px">
-                        点击或者拖动图片到此处
-                    </n-text>
-                </n-upload-dragger>
-            </n-upload>
+                </template>
+            </el-upload>
         </div>
         <!-- 有封面时 -->
         <div v-else style="width: 80%; margin: auto;">
@@ -67,6 +67,7 @@ import RichTextEditor from '../../components/RichTextEditor.vue'
 
 // 导入一些icons
 import { ArchiveOutline as ArchiveIcon } from "@vicons/ionicons5"
+import { UploadFilled } from '@element-plus/icons-vue'
 // icons
 import {
     Delete,
@@ -125,8 +126,9 @@ const closeSubmitModal = () => {
 }
 
 // 判断图片的格式是否符合要求
-const beforeUpload = async (data) => {
-    if (data.file.file?.type !== "image/png" && data.file.file?.type !== "image/jpg" && data.file.file?.type !== "image/jpeg") {
+const beforeUpload = async (file) => {
+    const allowedTypes = ['image/jpeg', 'image/png', "image/jpeg"]; // 允许的文件类型
+    if (!allowedTypes.includes(file.type)) {
         ElMessage({
             message: "只能上传png/jpg/jpeg格式的图片",
             type: 'error',
@@ -139,7 +141,7 @@ const beforeUpload = async (data) => {
 
 // 控制文章头图
 const newHeadImage = ref(false)
-const customRequest = async ({ file }) => {
+const customRequest = async (file) => {
     const formData = new FormData()
     formData.append('file', file.file)
     // console.log(formData)
