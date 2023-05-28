@@ -19,7 +19,7 @@
         <div v-for="(article, index) in articleList" style="margin:15px">
             <!-- 若有封面图 -->
             <el-card class="articleCard" v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
-                <el-image style="width: 250px; float: left; margin-bottom: 20px" :src="serverUrl + article.head_image" />
+                <el-image style="height: 110px; float: left; margin-bottom: 20px" :src="serverUrl + article.head_image" />
                 <template #header>
                     <div>
                         <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
