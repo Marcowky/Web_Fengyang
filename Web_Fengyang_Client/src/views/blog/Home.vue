@@ -1,6 +1,6 @@
 <template>
     <!-- 登录注册弹框 -->
-    <LoginDialog ref="loginDialogRef" />
+    <LoginDialog ref="loginDialogRef"  />
     <!-- 功能栏 -->
     <div class="funcBar">
         <!-- 侧边栏 -->
@@ -10,16 +10,19 @@
         </el-menu>
     </div>
     <!-- 搜索栏 -->
-    <el-popover placement="bottom" title="搜索文章" :width="200" trigger="click">
-        <template #reference>
-            <el-button class="searchButton" @click="loadArticles(0)" text bg size="large">
-                <el-icon style="position: relative; top: -2px;" :size="20">
-                    <Search />
-                </el-icon>
-            </el-button>
-        </template>
-        <el-input class="searchBox" v-model="pageInfo.keyword" placeholder="请输入关键字" />
-    </el-popover>
+    <div class="searchButton">
+        <el-popover placement="bottom" title="搜索文章" :width="200" trigger="click">
+            <template #reference>
+                <el-button @click="loadArticles(0)" text bg size="large">
+                    <el-icon style="position: relative; top: -2px;" :size="20">
+                        <Search />
+                    </el-icon>
+                </el-button>
+            </template>
+            <el-input class="searchBox" v-model="pageInfo.keyword" placeholder="请输入关键字" />
+        </el-popover>
+    </div>
+
     <!-- 文章列表 -->
     <div class="content">
         <!-- 文章卡片 -->
@@ -151,22 +154,13 @@ const toDetail = (article) => {
 </script>
 
 <style lang="scss" scoped>
-.searchBar {
-    position: fixed;
-    top: 13px;
-    left: 35%;
-    transform: translate(-50%, 0%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    z-index: 999;
-}
 
 .searchButton {
+    position: fixed;
     display: block;
-    margin: 0 auto;
-    top: -90px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 10px;
     z-index: 999;
 }
 
