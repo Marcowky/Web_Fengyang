@@ -29,7 +29,7 @@
             <!-- 分割线 -->
             <el-divider />
             <!-- 文章内容 -->
-            <div class="article-content" v-html="articleInfo.content"></div>
+            <div :class="$style.article" class="article-content" v-html="articleInfo.content"></div>
             <div style="height: 20px;"></div>
         </div>
 
@@ -181,5 +181,11 @@ const handleSelect = (index) => {
     width: 150px;
     box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
     border-radius: 0 10px 10px 0;
+}
+</style>
+
+<style module>
+.article img{
+  max-width: 100%;
 }
 </style>
