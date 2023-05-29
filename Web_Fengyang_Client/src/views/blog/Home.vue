@@ -1,6 +1,6 @@
 <template>
     <!-- 登录注册弹框 -->
-    <LoginDialog ref="loginDialogRef"/>
+    <LoginDialog ref="loginDialogRef" />
     <!-- 功能栏 -->
     <div class="funcBar">
         <!-- 侧边栏 -->
@@ -10,10 +10,20 @@
         </el-menu>
     </div>
     <!-- 搜索栏 -->
-    <div class="searchBar">
-        <el-input class="searchBox" v-model="pageInfo.keyword" placeholder="请输入关键字" />
-        <el-button class="searchButton" :icon="Search" @click="loadArticles(0)" circle />
+    <div class="searchButton">
+        <el-popover placement="bottom" title="搜索文章" :width="200" trigger="click">
+            <template #reference>
+                <el-button @click="loadArticles(0)" text bg size="large">
+                    <el-icon style="position: relative; top: -2px;" :size="20">
+                        <Search />
+                    </el-icon>
+                </el-button>
+            </template>
+            <el-input class="searchBox" v-model="pageInfo.keyword" placeholder="请输入关键字" />
+        </el-popover>
     </div>
+
+    <!-- 文章列表 -->
     <div class="content">
         <!-- 文章卡片 -->
         <div v-for="(article, index) in articleList" style="margin:15px">
@@ -156,8 +166,13 @@ const toDetail = (article) => {
     z-index: 999;
 }
 
-.searchBox {
-    flex: 1;
+.searchButton {
+    position: fixed;
+    display: block;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 10px;
+    z-index: 999;
 }
 
 .content {
