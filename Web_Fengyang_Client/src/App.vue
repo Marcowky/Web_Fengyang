@@ -1,22 +1,22 @@
 <template>
   <router-view ></router-view>
-    <!-- ¶¥²¿µ¼º½À¸ -->
-    <TopBar @select="handleSelect" />
+  <!-- é¡¶éƒ¨å¯¼èˆªæ  -->
+  <TopBar @select="handleSelect" />
 
-    <div class="box">
-      
+  <div class="box">
+    
 
-      <div style="position: fixed; top: 450px; right: 20px; z-index: 1;">
-          <RightBar>
-          </RightBar>
-      </div>
-
-      <FooterBar />
+    <div style="position: fixed; top: 450px; right: 20px; z-index: 1;">
+        <RightBar>
+        </RightBar>
     </div>
+
+    <FooterBar />
+  </div>
 </template>
 
 <script setup>
-// µ¼Èë¶¥²¿À¸¡¢µ×²¿À¸¡¢ÓÒ±ßÀ¸
+// å¯¼å…¥é¡¶éƒ¨æ ã€åº•éƒ¨æ ã€å³è¾¹æ 
 import TopBar from "./components/TopBar.vue"
 import FooterBar from "./components/FooterBar.vue"
 import RightBar from "./components/RightBar.vue"
