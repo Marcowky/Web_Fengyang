@@ -38,9 +38,9 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 	articleRoutes := r.Group("/article")
 	{
 		articleRoutes.POST("", middleware.AuthMiddleware(), articleController.Create)      // 发布文章
-		articleRoutes.PUT(":id", middleware.AuthMiddleware(), articleController.Update)    // 修改文章
-		articleRoutes.DELETE(":id", middleware.AuthMiddleware(), articleController.Delete) // 删除文章
-		articleRoutes.GET(":id", articleController.Show)                                   // 查看文章
+		articleRoutes.PUT("update", middleware.AuthMiddleware(), articleController.Update)    // 修改文章
+		articleRoutes.DELETE("delete", middleware.AuthMiddleware(), articleController.Delete) // 删除文章
+		articleRoutes.GET("detail", articleController.Show)                                   // 查看文章
 		articleRoutes.GET("list", articleController.List)                                  // 显示文章列表
 		// articleRoutes.GET("category", articleController.SearchCategory)                    // 查询分类
 		// articleRoutes.GET("category/:id", articleController.SearchCategoryName)            // 查询分类名
