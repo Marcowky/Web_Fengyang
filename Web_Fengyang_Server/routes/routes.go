@@ -27,7 +27,7 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 		userRoutes.POST("register", userController.Register)                        // 注册
 		userRoutes.POST("login", userController.Login)                              // 登录
 		userRoutes.GET("info", middleware.AuthMiddleware(), userController.GetInfo) // 获取当前用户信息
-		userRoutes.GET("briefInfo/:id", userController.GetBriefInfo)                // 获取用户简要信息
+		userRoutes.GET("briefInfo/:id", userController.GetBriefInfo)                // 获取文章作者简要信息
 	}
 
 	//文章操作

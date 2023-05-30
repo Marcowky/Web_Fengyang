@@ -66,10 +66,11 @@ func (a UserController) Login(c *gin.Context) {
 	c.Bind(&requestUser)
 	phoneNumber := requestUser.PhoneNumber
 	password := requestUser.Password
+	userType := requestUser.UserType
 
 	// 数据验证
 	var user model.User
-	db.Where("phone_number =?", phoneNumber).First(&user)
+	db.Table(userType).Where("phone_number =?", phoneNumber).First(&user)
 	if user.ID == 0 {
 		common.Fail(c, 422, nil, "用户不存在")
 		return
@@ -98,7 +99,7 @@ func (a UserController) GetInfo(c *gin.Context) {
 	user, _ := c.Get("user")
 
 	// 返回用户信息
-	common.Success(c, gin.H{"id": user.(model.User).ID, "username": user.(model.User).UserName}, "登录获取信息成功")
+	common.Success(c, gin.H{"id": user.(model.User).ID, "userName": user.(model.User).UserName, "userType": user.(model.User).UserType}, "登录获取信息成功")
 }
 
 // GetBriefInfo 获取简要信息
@@ -110,13 +111,16 @@ func (a UserController) GetBriefInfo(c *gin.Context) {
 	// user, _ := c.Get("user")
 	//var self bool
 	var curUser model.User
-	db.Where("id =?", userId).First(&curUser)
+	db.Table("client").Where("id =?", userId).First(&curUser)
 	if curUser.ID == 0 {
-		common.Fail(c, 400, nil, "用户不存在")
-		return
+		db.Table("admin").Where("id =?", userId).First(&curUser)
+		if curUser.ID == 0 {
+			common.Fail(c, 400, nil, "用户不存在")
+			return
+		}
 	}
 	// 返回用户简要信息
-	common.Success(c, gin.H{"id": curUser.ID, "name": curUser.UserName}, "查找成功")
+	common.Success(c, gin.H{"id": curUser.ID, "userName": curUser.UserName, "userType": curUser.UserType}, "查找成功")
 }
 
 func NewUserController() IUserController {
