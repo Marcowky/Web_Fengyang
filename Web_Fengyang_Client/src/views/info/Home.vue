@@ -3,43 +3,34 @@
   <el-container>
     <el-card style="border-radius: 20px;margin-left: 120px;margin-right: 120px;margin-top: 60px">
       <el-row :gutter="5" style="margin-left: 40px;margin-right: 40px">
-        <el-col :span="9" :offset="2" ><div class="grid-content ep-bg-purple" />
-          <el-container>
-            <el-header>
+        <el-col :span="9" :offset="3" ><div class="grid-content ep-bg-purple" />
               <h style="color:#f4932d; font-size: 26px;font-weight: 700;margin-bottom: 20px">
                 最新资讯
               </h>
-            </el-header>
-            <el-main>
-              <el-carousel indicator-position="none" type="card" arrow="never" height="400px" direction="vertical" :autoplay="false" ref="carousel">
-                <el-carousel-item v-for="v in newslist" :key="v.value" style="width: 350px;height: 330px">
-                  <img v-bind:src= "v.res" alt="">
-                  <div style="font-size: 15px;font-weight: 500">
-                    {{v.content}}
-                    <router-link :to="{path: '/info/page'}"
-                                 tag="button">>></router-link>
-                  </div>
+          <el-card style="height: 500px;position: relative;border-radius: 10px">
+              <el-carousel indicator-position="none" type="card" arrow="never" direction="vertical" :autoplay="false" ref="carousel" class="carousel">
+                <el-carousel-item v-for="v in newslist" :key="v.value" style="width: 100%;height: inherit">
+                    <img v-bind:src="v.res" alt="" />
+                    <div class="summary">
+                      {{v.content}}
+                    </div>
                 </el-carousel-item>
-
               </el-carousel>
-            </el-main>
-            <div  style="position:absolute; top: 10px; left: 400px; height: 20px; width: 10px; z-index: 1">
-              <h1 @click="arrowClick('left')">↑</h1>
+            <div style="position: absolute;color: coral;right:40px;bottom:120px;z-index: 2">
+              <h1 @click="arrowClick('left')" style="margin-bottom: 20px">↑</h1>
               <h2 @click="arrowClick('right')">↓</h2>
             </div>
-          </el-container>
+          </el-card>
         </el-col>
 
-        <el-col :span="9" :offset="4"><div class="grid-content ep-bg-purple" />
-          <el-row>
-            <h style="color:#e67d6b; font-size: 20px;font-weight: 500;margin-bottom: 20px">
+        <el-col :span="9" :offset="1"><div class="grid-content ep-bg-purple" />
+            <h style="color:#f4932d; font-size: 26px;font-weight: 700;margin-bottom: 20px">
               温馨提醒
             </h>
-          </el-row>
-          <el-card style="width:300px">
+          <el-card style="height: 500px;border-radius: 10px">
             <el-scrollbar height="200px">
               <el-row v-for="v in warninlist" :key="v.value">
-                <div style="line-height: 30px">
+                <div class="list">
                   {{v.content}}
                   <router-link :to="{path: '/info/page'}"
                                tag="button">>></router-link>
@@ -50,67 +41,72 @@
 
         </el-col>
       </el-row>
+      <el-row style="margin-top:10px; margin-left: 40px;margin-right: 80px">
+        <el-divider>
+          <span style="font-size: 20px">凤阳欢迎你！</span>
+        </el-divider>
+      </el-row>
+
       <el-row :gutter="20" style="margin-left: 30px;margin-right: 30px">
-        <el-col :span="9" :offset="2"><div class="grid-content ep-bg-purple" />
-          <el-row>
+        <el-col :span="9" :offset="3"><div class="grid-content ep-bg-purple" />
             <h style="color:#f4932d; font-size: 26px;font-weight: 700;margin-bottom: 20px">
               旅游攻略
             </h>
-          </el-row>
-          <el-row>
-            <el-card class="modeCard">
-              <img
-                  src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                  style="margin-left:10px;width: 90%;height: 90%"
-              />
-              <div style="margin-left: 10px">
-                <span>攻略1</span>
-              </div>
-            </el-card>
-            <el-card class="modeCard">
-              <img
-                  src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                  style="margin-left:10px;width: 90%;height: 90%"
-              />
-              <div style="margin-left: 10px">
-                <span>攻略2</span>
-              </div>
-            </el-card>
-          </el-row>
-          <el-row>
-            <el-card class="modeCard">
-              <img
-                  src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                  style="margin-left:10px;width: 90%;height: 90%"
-              />
-              <div style="margin-left: 10px">
-                <span>攻略3</span>
-              </div>
-            </el-card>
-            <el-card class="modeCard">
-              <img
-                  src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                  style="margin-left:10px;width: 90%;height: 90%"
-              />
-              <div style="margin-left: 10px">
-                <span>攻略4</span>
-              </div>
-            </el-card>
-          </el-row>
+          <el-card style="height: 500px;border-radius: 10px">
+            <el-row>
+              <el-card class="modeCard">
+                <div style="margin-left: 10px">
+                <img
+                    src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                    style="width: 100%;height: inherit"
+                />
+                  <span>攻略1</span>
+                </div>
+              </el-card>
+              <el-card class="modeCard">
+                <div style="margin-left: 10px">
+                  <img
+                      src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                      style="width: 100%;height: inherit"
+                  />
+                  <span>攻略1</span>
+                </div>
+              </el-card>
+            </el-row>
+            <el-row>
+              <el-card class="modeCard">
+                <div style="margin-left: 10px">
+                  <img
+                      src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                      style="width: 100%;height: inherit"
+                  />
+                  <span>攻略1</span>
+                </div>
+              </el-card>
+              <el-card class="modeCard">
+                <div style="margin-left: 10px">
+                  <img
+                      src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                      style="width: 100%;height: inherit"
+                  />
+                  <span>攻略1</span>
+                </div>
+              </el-card>
+            </el-row>
+          </el-card>
+
 
         </el-col>
-        <el-col :span="9" :offset="4"><div class="grid-content ep-bg-purple" />
-          <el-row>
-            <h style="color:#f4932d; font-size: 20px;font-weight: 500;margin-bottom: 20px">
+        <el-col :span="9" :offset="1"><div class="grid-content ep-bg-purple" />
+            <h style="color:#f4932d; font-size: 26px;font-weight: 700;margin-bottom: 20px">
               重大时事
             </h>
-          </el-row>
-          <el-row>
+          <el-card style="height: 500px;border-radius: 10px">
             <img
                 src="../../assets/pic1.jpg"
                 style="width: 500px;height: 300px;margin-right: 10px"
             />
-          </el-row>
+          </el-card>
 
         </el-col>
       </el-row>
@@ -147,39 +143,63 @@ const arrowClick = (val) => {
 
 <style lang="scss" scoped>
 img{
-  height: 200px;
+  height: 250px;
   width: 100%
 }
-h1{
-  font-size: 30px;
-  color: coral;
-  margin-top: 200px;
-}
-h2{
-  font-size: 30px;
-  color: coral;
-  margin-top: 60px;
-}
+
 .grid-content {
   border-radius: 20px;
   width: 800px;
 }
-.modeCard{
-  width:220px;
-  height: 220px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-}
-.modeCard:hover{ //鼠标悬停时激活
-transform: scale(1.05); //放大倍数
-}
+.carousel{
+  height: 400px;
+  width: 500px;
+  margin-left: 20px;
 
+}
 .el-carousel__item:nth-child(2n) {
   background-color: rgba(255, 255, 255, 0.7);
 }
 .el-carousel__item:nth-child(2n + 1) {
   background-color: rgba(255, 255, 255, 0.7);
 
+}
+.summary{
+  width: 500px;
+  line-height: 40px;
+  margin-left: 10px;
+  font-size: 18px;
+  font-weight: 500;
+  color: aliceblue;
+  background-color: rgba(1, 1, 2, 0.42);
+  overflow: hidden; // 文字超长隐藏
+  text-overflow:ellipsis; // 显示...
+  white-space: nowrap; // 单行显示
+  position:absolute;
+  z-index:2;
+  bottom: 50px;
+}
+.list{
+  width: 100%;
+  margin-left: 30px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 550;
+}
+.list:hover{
+  transform: scale(1.05);
+  background-color: rgba(246,3,12,0.2);
+}
+
+
+.modeCard{
+  width:220px;
+  height: 220px;
+  margin-left: 25px;
+  margin-bottom: 8px;
+}
+.modeCard:hover{ //鼠标悬停时激活
+transform: scale(1.05); //放大倍数
 }
 
 </style>
