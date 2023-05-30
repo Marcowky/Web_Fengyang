@@ -20,7 +20,6 @@ type IUserController interface {
 	GetBriefInfo(c *gin.Context)
 }
 
-
 // 注册
 func (a UserController) Register(c *gin.Context) {
 	// 连接当前数据库
@@ -32,10 +31,11 @@ func (a UserController) Register(c *gin.Context) {
 	userName := requestUser.UserName
 	phoneNumber := requestUser.PhoneNumber
 	password := requestUser.Password
+	userType := requestUser.UserType
 
 	// 验证数据
 	var user model.User
-	db.Where("phone_number=?", phoneNumber).First(&user)
+	db.Table(userType).Where("phone_number=?", phoneNumber).First(&user)
 	if user.ID != 0 { // 若已存在电话号码，则返回422，且返回提示信息
 		common.Fail(c, 422, nil, "电话号码已注册")
 		return
@@ -49,11 +49,12 @@ func (a UserController) Register(c *gin.Context) {
 		UserName:    userName,
 		PhoneNumber: phoneNumber,
 		Password:    string(hashedPassword),
+		UserType:    userType,
 	}
-	db.Create(&newUser)
+	db.Table(userType).Create(&newUser)
 
 	// 返回成功响应
-	common.Success(c , nil, "注册成功")
+	common.Success(c, nil, "注册成功")
 }
 
 // Login 登录
@@ -88,7 +89,7 @@ func (a UserController) Login(c *gin.Context) {
 	}
 
 	// 返回结果
-	common.Success(c , gin.H{"token": token}, "登录成功")
+	common.Success(c, gin.H{"token": token}, "登录成功")
 }
 
 // GetInfo 登录后获取信息，用于测试中间件
@@ -97,7 +98,7 @@ func (a UserController) GetInfo(c *gin.Context) {
 	user, _ := c.Get("user")
 
 	// 返回用户信息
-	common.Success(c , gin.H{"id": user.(model.User).ID, "username": user.(model.User).UserName}, "登录获取信息成功")
+	common.Success(c, gin.H{"id": user.(model.User).ID, "username": user.(model.User).UserName}, "登录获取信息成功")
 }
 
 // GetBriefInfo 获取简要信息
@@ -115,11 +116,13 @@ func (a UserController) GetBriefInfo(c *gin.Context) {
 		return
 	}
 	// 返回用户简要信息
-	common.Success(c , gin.H{"id": curUser.ID, "name": curUser.UserName}, "查找成功")
+	common.Success(c, gin.H{"id": curUser.ID, "name": curUser.UserName}, "查找成功")
 }
 
 func NewUserController() IUserController {
 	db := common.GetDB()
-	db.AutoMigrate(model.User{})
-	return UserController{DB:db}
+	// db.AutoMigrate(model.User{})
+	db.Table("client").AutoMigrate(model.User{})
+	db.Table("admin").AutoMigrate(model.User{})
+	return UserController{DB: db}
 }
