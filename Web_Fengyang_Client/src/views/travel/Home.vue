@@ -2,31 +2,54 @@
   <!-- 顶部导航栏 -->
   <TopBar @select="handleSelect" />
   <div class="wrap_1">
-    <!-- 显示框 -->
-<!--    <div id="info_window_container">-->
-<!--      <div>信息展示：</div>-->
-<!--      <div>-->
-<!--        <span>地址：</span>-->
-<!--        <span>{{placeAddress}}</span>-->
-<!--      </div>-->
-<!--      <div>-->
-<!--        <span>坐标：</span>-->
-<!--        <span>{{placeLocation}}</span>-->
-<!--      </div>-->
-<!--    </div>-->
-
     <!-- 搜索框 -->
     <div id="search_container">
       <el-input v-model="search_input_content" id="search_input" placeholder="请输入你要查找的关键词" type="text"></el-input>
-      <el-button type="primary" id="searchBtn" @click="send_search">search</el-button>
+      <el-button type="primary" id="searchBtn" @click="send_search">地点查询</el-button>
+      <el-button type="primary" id="compute_driving_Btn" @click="compute_driving">路径计算</el-button>
 <!--      <el-button type="primary" plain round @click="send()">点击返回丰阳镇中心</el-button>-->
     </div>
   </div>
 
   <!-- 地图框 -->
-  <div id="map_wrap"><div id="container"></div></div>
+  <div id="map_wrap">
+    <div id="container" class="custom_style"></div>
+    <div id="panel" class="custom_style"></div>
+  </div>
 
   <!-- 酒店展示 -->
+  <div id="hotel_wrap">
+    <el-row>
+      <el-col v-for="item in hotels" :key="item.id" :span="7" :offset="item.id > 0 ? 1:0">
+        <el-card class="custom_style" shadow="always"  :body-style="{ padding: '0px' }" >
+          <img src="../../assets/hotel.png" class="hotel_image"/>
+          <div class="detail_hotel">
+              <h1 class="hotel_title">
+                <span class="hotel_name">{{ item.name }}</span>
+                <span class="hotel_price">{{ item.price }}元/晚起</span>
+              </h1>
+
+            <div class="hotel_profile">
+              <p>地址: {{ item.placeAddress }}</p>
+              <p>电话: {{ item.telephone }}</p>
+            </div>
+
+            <div class="hotel_icon" >
+              <div class="show_detail">
+                <el-icon :size="20" color="#900" @mouseover="show_icon_detail($event)" @mouseleave="hide_icon_detail($event)" @click="click_show_detail(item.website)"><Document /></el-icon>
+                <span class="icon_detail">显示详情</span>
+              </div>
+              <div class="hotel_location">
+                <el-icon :size="20" color="#900" @mouseover="show_icon_detail($event)" @mouseleave="hide_icon_detail($event)" @click="click_hotel_location(item.center)"><Position /></el-icon>
+                <span class="icon_detail">地图导航</span>
+              </div>
+            </div>
+
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script setup>
@@ -35,8 +58,8 @@ import { onMounted,ref,watch } from 'vue';
 import TopBar from "../../components/TopBar.vue"
 // 地图加载
 import AMapLoader from '@amap/amap-jsapi-loader'
-
-
+// element-ui 的图标引入
+import { Position, Document } from '@element-plus/icons-vue'
 // 安全秘钥
 window._AMapSecurityConfig = {
   securityJsCode: '3626fd4fb9d0809a04788c6df4d45953'
@@ -44,14 +67,62 @@ window._AMapSecurityConfig = {
 //***********变量***********
 // map地图变量
 let map = ref(null);
-
 // search_content是要输入查询的内容
 let search_input_content= ref('');
 // search_content是要查询的内容
 let search_content=ref('');
 // 输入查询结果
 let placeSearch =ref(null);
+// 驾车查询
+let driving =ref(null);
+// 起始点和终点
+let start_point =ref(null);
+let end_point =ref(null);
 
+var path = [];
+
+const hotels =[
+  {
+    id: 1,
+    name: '酒店1',
+    image: '../../assets/hotel.png',
+    price: 100,
+    website:"www.baidu.com",
+    center: [112.2896, 25.048],
+    placeAddress: '北京路22号',
+    telephone: 123456
+  },
+  {
+    id: 2,
+    name: '酒店2',
+    image: '../../assets/hotel.png',
+    price: 120,
+    website:"www.baidu.com",
+    center: [112.286, 25.0408],
+    placeAddress: '北京路89号',
+    telephone: 123456
+  },
+  {
+    id: 3,
+    name: '酒店3',
+    image: '../../assets/hotel.png',
+    price: 90,
+    website:"www.baidu.com",
+    center: [112.283, 25.0438],
+    placeAddress: '北京路72号',
+    telephone: 123456
+  },
+  {
+    id: 4,
+    name: '酒店3',
+    image: '../../assets/hotel.png',
+    price: 160,
+    website:"www.baidu.com",
+    center: [112.28196, 25.008],
+    placeAddress: '北京路72号',
+    telephone: 123488
+  },
+]
 
 
 //***********函数***********
@@ -70,12 +141,63 @@ const select = (event) => {
   console.log("here");
 };
 
+const compute_driving= () => {
+  var p1 = start_point.getPosition();
+  var p2 = end_point.getPosition();
+  driving.search(p1, p2);
+  // feedBack('区域搜索', 'error')
+}
+const show_icon_detail= (event)  => {
+  // 通过 event.target 获取触发事件的元素，即被鼠标悬停的元素
+  const container = event.target.parentNode.parentNode;
+  const detail = container.querySelector('.icon_detail');
+  if(detail)
+  {
+    detail.setAttribute("id","show");
+  }
+}
+const hide_icon_detail = (event) => {
+  const container = event.target.parentNode;
+  const detail = container.querySelector('.icon_detail');
+  if(detail)
+  {
+    detail.removeAttribute("id");
+  }
+};
+const click_show_detail= (website) => {
+  let fullUrl = website;
+  // 检查传递的 website 参数是否以http://或 https://开头。如果不是，我们将前缀设置为 http://，然后将其与 website 参数拼接成完整的 URL。
+  if (!/^https?:\/\//i.test(website)) {
+    fullUrl = 'http://' + website;
+  }
+  window.open(fullUrl, '_blank');
+};
+const click_hotel_location= (location) =>{
+  console.log(location);
+  // console.log(location[0]);
+  map.setCenter([location[0], location[1]]);
+  // 第一个参数设置为 0，表示将页面滚动到顶部。第二个参数设置为 0，表示在垂直方向上滚动到顶部位置
+  // window.scrollTo(0, 0);
+  const currentPosition = window.pageYOffset; // 当前滚动位置
+  const step = Math.floor(-currentPosition / 20); // 每一步滚动的距离
+  const scroll = () => {
+    if (window.pageYOffset <= 0) {
+      // 已经滚动到顶部
+      return;
+    }
+    window.scrollBy(0, step);
+    // 使用 requestAnimationFrame 递归调用滚动函数，实现平滑滚动效果
+    requestAnimationFrame(scroll);
+  };
+  // 调用滚动函数
+  scroll();
+};
 //地图初始化函数
 const initMap = () => {
   AMapLoader.load({
     key: 'e0eb946f632c6473f40386d512e056d6', // 申请好的Web端开发者Key，首次调用 load 时必填
     version: '2.0', // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-    plugins: ['AMap.ToolBar', 'AMap.Scale', 'AMap.HawkEye', 'AMap.MapType', 'AMap.Geolocation', 'AMap.AutoComplete', 'AMap.PlaceSearch'] // 需要使用的插件列表，如比例尺'AMap.Scale'等
+    plugins: ['AMap.ToolBar', 'AMap.Scale', 'AMap.HawkEye', 'AMap.MapType', 'AMap.Geolocation', 'AMap.AutoComplete', 'AMap.PlaceSearch', 'AMap.Driving', 'AMap.DragRoute', 'AMap.Weather'] // 需要使用的插件列表，如比例尺'AMap.Scale'等
   }).then((AMap) => {
     map = new AMap.Map('container', {
       viewMode: '3D', // 是否为3D地图模式
@@ -111,12 +233,43 @@ const initMap = () => {
       city: '清远'
     })
 
+    //添加自定义的点标记
+    start_point = new AMap.Marker({
+      position: new AMap.LngLat(112.283196, 25.043408),
+      draggable: true,
+      title: 'defineMarkerPlace'
+    })
+    map.add(start_point)
+
+    //添加自定义的点标记
+    end_point = new AMap.Marker({
+      position: new AMap.LngLat(112.279502, 25.046681),
+      // offset: new AMap.Pixel(-10, -10),
+      draggable: true,
+      title: 'definePlace',
+      zoom: 13
+    })
+    map.add(end_point)
+
+    driving = new AMap.Driving({
+      map: map,
+      panel: "panel",
+      hideMarkers: true
+    });
+    compute_driving();
+
+    var weather = new AMap.Weather();
+    weather.getForecast('杭州市', function(err, data)
+    {
+      console.log(err, data);
+    });
   })
 }
 
 onMounted(() => {
   initMap();
 });
+
 
 watch(search_content, (newValue) => {
       if (newValue != null) {
@@ -131,8 +284,15 @@ watch(search_content, (newValue) => {
 
 
 <style lang="less">
+.custom_style{
+  border-radius: 20px;
+  :hover .hotel_image{
+    transform: scale(1.05);
+  }
+}
+
   .wrap_1{
-    margin-top: 60px; /* 调整顶部间距，使输入框和按钮位于导航栏下方 */
+    margin-top: 80px; /* 调整顶部间距，使输入框和按钮位于导航栏下方 */
     display: flex;
     //align-items: center;
     justify-content: center; /* 将子元素水平居中 */
@@ -143,6 +303,7 @@ watch(search_content, (newValue) => {
 
     // 搜索容器
     #search_container{
+      position: absolute;
       display: flex;
       #search_input{
         height: 40px;
@@ -152,21 +313,126 @@ watch(search_content, (newValue) => {
         height: 40px;
         width: 100px;
       }
+      #compute_driving_Btn{
+        height: 40px;
+        width: 100px;
+      }
     }
   }
-  #container {
-    padding: 0px;
-    margin: 0px;
-    width: 100%;
-    height: 100%;
-  }
+
   #map_wrap {
     z-index: 10;
+    //absolute是相对于最近的父元素来定位
     position: absolute;
-    top: 50%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
+    // 使用translate函数将元素在水平和垂直方向上分别向左和向上移动自身宽度和高度的一半，以使其完全居中显示。
     height: 60%;
     width: 60%;
+    #container {
+      padding: 0px;
+      margin: 0px;
+      width: 100%;
+      height: 100%;
+    }
+    #panel {
+      position: fixed;
+      background-color: white;
+      max-height: 90%;
+      overflow-y: auto;
+      top: 10px;
+      left: 10px;
+      width: 280px;
+    }
+    #panel .amap-call {
+      background-color: #009cf9;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+    }
+    #panel .amap-lib-driving {
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      overflow: hidden;
+    }
   }
+
+  #hotel_wrap {
+    position: absolute;
+    top: 78%;
+    left: 15%;
+    right: 15%;
+    .hotel_image{
+      max-width: 100%;
+      max-height: 100%;
+      transition: transform 0.4s;
+      /* 样式变化时设置动画时间为0.5秒 */
+    }
+    .detail_hotel{
+      margin: 0px;
+      padding: 0px 10px 10px;
+      .hotel_title{
+        margin: 0px;
+        text-align: center;
+        .hotel_name{
+          max-width: 100%;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          padding-right: 10px;
+          font-size: 28px;
+          font-family: 宋体;
+          font-weight: bold;
+          letter-spacing: -1px;
+          color: rgb(200 , 100, 89);
+        }
+        .hotel_price{
+            padding-left: 5px;
+            padding-right: 5px;
+            width: auto;
+            font-size: 18px;
+            font-family: 微软雅黑;
+            line-height: 16px;
+            background: rgb(153, 0, 0);
+            color: rgb(255, 255, 255);
+          }
+      }
+      .hotel_profile{
+        font-family: 微软雅黑;
+        margin-left: 10px;
+        font-size: 16px;
+        color: #796358;
+      }
+      .hotel_icon{
+        margin-left: 10px;
+        display: flex;
+        //justify-content: space-between;   //将元素平均分布在容器内，并在它们之间留出空间
+        .show_detail{
+          display: flex;
+          font-family: 微软雅黑;
+          color: #796358;
+        }
+        .hotel_location
+        {
+          margin-left: 20px;
+          display: flex;
+          font-family: 微软雅黑;
+          color: #796358;
+        }
+        .icon_detail{
+          display: none;
+          //opacity: 0;
+          //height: 0;
+          transition: transform 0.4s;
+        }
+        .hotel_location :hover .icon_detail{
+          display: block;
+        }
+        #show {
+          display: block;
+          height: 10px;
+        }
+      }
+    }
+  }
+
 </style>
