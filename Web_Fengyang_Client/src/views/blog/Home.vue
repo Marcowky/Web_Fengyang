@@ -1,6 +1,6 @@
 <template>
     <!-- 登录注册弹框 -->
-    <LoginDialog ref="loginDialogRef"  />
+    <LoginDialog ref="loginDialogRef" />
     <!-- 功能栏 -->
     <div class="funcBar">
         <!-- 侧边栏 -->
@@ -29,29 +29,19 @@
         <div v-for="(article, index) in articleList" style="margin:15px">
             <!-- 若有封面图 -->
             <el-card class="articleCard" v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
-                <el-image style="height: 110px; float: left; margin-bottom: 20px" :src="serverUrl + article.head_image" />
-                <template #header>
-                    <div>
-                        <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
-                    </div>
-                </template>
-                <div style="position: relative; left: 20px; width: 890px;">
+                <el-image style="height: 150px; float: right; margin-bottom: 20px; margin-left: 15px;" :src="serverUrl + article.head_image" />
+                <div style="position: relative; height: 150px;">
+                    <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
                     <div v-html="article.content"></div>
-                    <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
-                    </div>
+                    <div style=" position: absolute; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
                 </div>
             </el-card>
             <!-- 若无封面图 -->
             <el-card class="articleCard" v-else @click="toDetail(article)" hoverable shadow="hover">
-                <template #header>
-                    <div>
-                        <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
-                    </div>
-                </template>
-                <div style="height: 75px; ">
+                <div style="position: relative; height: 120px;">
+                    <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
                     <div v-html="article.content"></div>
-                    <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
-                    </div>
+                    <div style=" position: absolute; right: 0px; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
                 </div>
             </el-card>
         </div>
@@ -60,6 +50,9 @@
             @current-change="loadArticles" />
     </div>
 </template>
+
+
+
 
 <script setup>
 import { ref, reactive, inject, onMounted, watch } from 'vue'
@@ -154,7 +147,6 @@ const toDetail = (article) => {
 </script>
 
 <style lang="scss" scoped>
-
 .searchButton {
     position: fixed;
     display: block;
