@@ -41,7 +41,7 @@
                 <div style="position: relative; height: 120px;">
                     <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
                     <div v-html="article.content"></div>
-                    <div style=" position: absolute; right: 0px; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
+                    <div style=" position: absolute; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
                 </div>
             </el-card>
         </div>
