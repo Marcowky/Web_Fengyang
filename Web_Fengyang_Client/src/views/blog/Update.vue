@@ -1,18 +1,13 @@
 <template>
-    <!-- 顶部导航栏 -->
-    <TopBar />
-
     <!-- 富文本编辑器 -->
-    <div class="tabs">
+    <div class="content">
         <div style="margin:15px">
-            <div class="article-content">
-                <rich-text-editor v-if="loadOk" v-model:modelValue="updateArticle.content"></rich-text-editor>
-            </div>
+            <rich-text-editor v-if="loadOk" v-model:modelValue="updateArticle.content"></rich-text-editor>
         </div>
     </div>
 
     <!-- 功能栏 -->
-    <el-menu :default-active="activeIndex" class="choiceBar" @select="handleSelect">
+    <el-menu class="choiceBar" @select="handleSelect">
         <el-menu-item style="color: #409EFF;" index="1">确认</el-menu-item>
         <el-menu-item style="color: #F56C6C;" index="2">取消</el-menu-item>
     </el-menu>
@@ -75,8 +70,7 @@ import RichTextEditor from '../../components/RichTextEditor.vue'
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
-// 导入顶部栏
-import TopBar from "../../components/TopBar.vue"
+
 // 网络请求
 const serverUrl = inject("serverUrl")
 const axios = inject("axios")
@@ -86,7 +80,7 @@ const loadOk = ref(false)
 const categoryOptions = ref([])
 const updateArticle = reactive({
     id: 0,
-    categoryId: 0,
+    categoryId: "未选择",
     title: "",
     content: "",
     headImage: "",
@@ -109,7 +103,7 @@ const loadCategories = async () => {
             value: item.index.slice(-3)
         }
     })
-    console.log(categoryOptions)
+    // console.log(categoryOptions)
 }
 
 // 加载文章
@@ -117,15 +111,14 @@ const loadArticle = async () => {
     let res = await axios.get("/article/" + route.query.id)
 
     if (res.data.code == 200) {
-        updateArticle.categoryId = res.data.data.article.category_id,
+        let label = categoryOptions.value.find((item) => item.value.endsWith(res.data.data.article.category_id)).label
+        updateArticle.categoryId = label,
             updateArticle.title = res.data.data.article.title,
             updateArticle.content = res.data.data.article.content,
             updateArticle.headImage = res.data.data.article.head_image,
             newHeadImage.value = updateArticle.headImage ? true : false
         loadOk.value = true
     }
-    console.log(updateArticle)
-    console.log(res)
 
 }
 
@@ -214,17 +207,18 @@ const handleSelect = (index) => {
 </script>
 
 <style lang="scss" scoped>
-.tabs {
-    position: absolute;
-    top: 75px;
-    left: 0;
-    right: 0;
+.content {
+    position: relative;
     margin: auto;
     width: 1000px;
-    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background: white;
-    box-shadow: 0px 1px 3px #D3D4D8;
-    border-radius: 5px;
+    box-shadow: 2px 2px 6px #D3D4D8;
+    border-radius: 10px;
+    z-index: 99;
 }
 
 
