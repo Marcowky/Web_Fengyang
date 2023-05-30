@@ -2,112 +2,134 @@
     "menuItems": [
         {
             "index": "/",
-            "label": "主页",
+            "label": "首页",
+            "mainMenu": true,
+            "hasSub": true
+        },
+        {
+            "index": "/?category=1-1",
+            "label": "四色丰阳",
+            "mainMenu": false,
+            "hasSub": false
+        },
+        {
+            "index": "/?category=1-2",
+            "label": "民族风俗",
+            "mainMenu": false,
+            "hasSub": false
+        },
+        {
+            "index": "/?category=1-3",
+            "label": "历史人文",
+            "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/info",
-            "label": "咨询",
+            "label": "景区资讯",
+            "mainMenu": true,
             "hasSub": true
         },
         {
             "index": "/info?category=2-1",
-            "label": "绿色",
+            "label": "景区活动",
+            "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/info?category=2-2",
-            "label": "黄色",
+            "label": "景区公告",
+            "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/info?category=2-3",
-            "label": "红色",
+            "label": "志愿活动",
+            "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/attraction",
-            "label": "景点",
+            "label": "景区景点",
+            "mainMenu": true,
             "hasSub": true
         },
         {
             "index": "/attraction?category=3-1",
-            "label": "绿色",
+            "label": "热门景点",
+            "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/attraction?category=3-2",
-            "label": "黄色",
+            "label": "游玩攻略",
+            "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/attraction?category=3-3",
-            "label": "红色",
+            "label": "路线规划",
+            "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/attraction?category=3-4",
-            "label": "字色",
+            "label": "未完待续",
+            "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/consumption",
-            "label": "消费",
+            "label": "景区消费",
+            "mainMenu": true,
             "hasSub": true
         },
         {
             "index": "/consumption?category=4-1",
-            "label": "绿色",
+            "label": "酒店民宿",
+            "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/consumption?category=4-2",
             "label": "黄色",
+            "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/consumption?category=4-3",
             "label": "红色",
+            "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/blog",
-            "label": "论坛",
+            "label": "景区论坛",
+            "mainMenu": true,
             "hasSub": true
         },
         {
             "index": "/blog?category=5-1",
             "label": "游记记录",
+            "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/blog?category=5-2",
             "label": "摄影投稿",
+            "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/blog?category=5-3",
             "label": "美食",
-            "hasSub": false
-        },
-        {
-            "index": "/blog?category=5-4",
-            "label": "景点",
-            "hasSub": false
-        },
-        {
-            "index": "/blog?category=5-5",
-            "label": "住宿",
-            "hasSub": false
-        },
-        {
-            "index": "/blog?category=5-6",
-            "label": "吐槽投诉",
+            "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/travel",
             "label": "住宿交通",
+            "mainMenu": true,
             "hasSub": false
         }
     ]

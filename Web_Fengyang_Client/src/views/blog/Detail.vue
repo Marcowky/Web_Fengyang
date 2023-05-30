@@ -1,36 +1,36 @@
 <template>
-    <!-- 顶部导航栏 -->
-    <TopBar />
+    <!-- 功能栏 -->
+    <el-menu :default-active="activeIndex" class="choiceBar" @select="handleSelect">
+        <el-menu-item style="color: #409EFF;" v-if="self" index="2">修改</el-menu-item>
+        <el-menu-item style="color: #F56C6C;" v-if="self" index="3">删除</el-menu-item>
+        <el-menu-item index="1">返回</el-menu-item>
+    </el-menu>
 
-    <div class="tabs">
+    <div class="content">
         <div style="margin:15px">
             <!-- title -->
-            <h1>{{ articleInfo.title }}</h1>
+            <!-- <h1>{{ articleInfo.title }}</h1> -->
+            <div style="height: 5px;"></div>
+            <text style="font-size: 30px;">{{ articleInfo.title }}</text>
 
             <div style="height: 60px;  background-color: #FCFAF7;">
                 <!-- 作者 -->
-                <text style="position: absolute; left: 40px; top: 90px; color: #808080;">作者：{{ articleInfo.username }}
+                <text style="position: absolute; left: 10px; top: 5px; color: #808080;">作者：{{ articleInfo.username }}
                 </text>
                 <!-- 发布时间 -->
-                <text style="position: absolute; left: 40px; top: 115px; color: #808080;">发布时间：{{ articleInfo.created_at }}
+                <text style="position: absolute; left: 10px; top: 30px; color: #808080;">发布时间：{{ articleInfo.created_at }}
                 </text>
                 <!-- 分类信息 -->
-                <div style="position: absolute; right: 50px; top: 95px; color: #808080;">
+                <div style="position: absolute; right: 50px; top: 15px; color: #808080;">
                     文章分类：
-                    <el-tag class="ml-2" type="success">categoryName</el-tag>
+                    <el-tag class="ml-2" type="success">{{categoryName}}</el-tag>
                 </div>
-                <!-- 若为作者，则可以更新或删除文章 -->
-                <el-button v-if="self" @click="toUpdate" type="primary"
-                    style="position: absolute; top: 25px; right: 90px;">修改</el-button>
-                <el-button v-if="self" @click="toDelete" type="danger"
-                    style="position: absolute; top: 25px; right: 15px;">删除</el-button>
             </div>
             <!-- 分割线 -->
             <el-divider />
             <!-- 文章内容 -->
-            <div class="article-content">
-                <div v-html="articleInfo.content"></div>
-            </div>
+            <div :class="$style.article" class="article-content" v-html="articleInfo.content"></div>
+            <div style="height: 20px;"></div>
         </div>
 
     </div>
@@ -39,9 +39,6 @@
 <script setup>
 import { ref, inject, onMounted } from 'vue'
 
-// 导入顶部栏
-import TopBar from "../../components/TopBar.vue"
-
 // 导入路由
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
@@ -49,19 +46,33 @@ const route = useRoute()
 
 // 网络请求
 const axios = inject("axios")
-const message = inject("message")
-const dialog = inject("dialog")
+import { ElMessage } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 
 // 定义变量
 const articleInfo = ref({})
 const categoryName = ref("")
 const user = ref({})
 const self = ref(false)
+const activeIndex = ref('0')
 
 // 挂载页面时触发
 onMounted(() => {
     loadArticle()
+    loadCategories()
 })
+
+import config from '../../config/config.json';
+// 加载文章种类
+const categoryOptions = ref([])
+const loadCategories = async () => {
+    categoryOptions.value = config.menuItems.filter(item => item.index.startsWith("/blog?category=")).map((item) => {
+        return {
+            label: item.label,
+            value: item.index.slice(-3)
+        }
+    })
+}
 
 // 加载文章
 const loadArticle = async () => {
@@ -69,11 +80,9 @@ const loadArticle = async () => {
     let resArticle = await axios.get("article/" + route.query.id)
     if (resArticle.data.code == 200) {
         articleInfo.value = resArticle.data.data.article
-        // 获取分类徐徐
-        let resCategory = await axios.get("article/category/" + resArticle.data.data.article.category_id)
-        if (resCategory.data.code == 200) {
-            categoryName.value = resCategory.data.data.categoryName
-        }
+        // 获取分类
+        let label = categoryOptions.value.find((item) => item.value.endsWith(resArticle.data.data.article.category_id)).label
+            categoryName.value = label
         // 获取作者信息
         let resWriter = await axios.get("user/briefInfo/" + articleInfo.value.user_id)
         articleInfo.value.username = resWriter.data.data.name
@@ -94,29 +103,39 @@ const toUpdate = () => {
         path: "/blog/update",
         query: {
             id: articleInfo.value.id,
-            category: selectedItemIndex.value
         }
     })
 }
 
 // 删除文章
 const toDelete = async (blog) => {
-    dialog.warning({
-        title: '警告',
-        content: '是否要删除',
-        positiveText: '确定',
-        negativeText: '取消',
-        onPositiveClick: async () => {
+
+    ElMessageBox.confirm(
+        '是否要删除?',
+        '警告',
+        {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+        }
+    )
+        .then(async () => {
             let res = await axios.delete("article/" + articleInfo.value.id)
             if (res.data.code == 200) {
-                message.info(res.data.msg)
+                ElMessage({
+                    message: res.data.msg,
+                    offset: 80
+                })
                 goback()
             } else {
-                message.error(res.data.msg)
+                ElMessage({
+                    message: res.data.msg,
+                    type: 'error',
+                    offset: 80
+                })
             }
-        },
-        onNegativeClick: () => { }
-    })
+        })
+        .catch()
 }
 
 // 回到上级页面
@@ -124,14 +143,28 @@ const goback = () => {
     router.go(-1)
 }
 
+const handleSelect = (index) => {
+
+    switch (index) {
+        case "1":
+            goback()
+            break;
+        case "2":
+            toUpdate()
+            break;
+        case "3":
+            toDelete()
+            break;
+        default:
+            break;
+    }
+}
+
 </script>
 
 <style lang="scss" scoped>
-.tabs {
-    position: absolute;
-    top: 100px;
-    left: 0;
-    right: 0;
+.content {
+    position: relative;
     margin: auto;
     width: 1000px;
     height: auto;
@@ -141,7 +174,18 @@ const goback = () => {
     z-index: 99;
 }
 
-.article-content img {
-    max-width: 100% !important;
+.choiceBar {
+    position: fixed;
+    top: 25%;
+    z-index: 999;
+    width: 150px;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
+    border-radius: 0 10px 10px 0;
+}
+</style>
+
+<style module>
+.article img{
+  max-width: 100%;
 }
 </style>

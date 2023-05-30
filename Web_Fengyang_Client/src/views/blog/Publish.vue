@@ -1,91 +1,56 @@
 <template>
-    <!-- 顶部导航栏 -->
-    <div class="topbar">
-        <n-button @click="goback" strong quaternary round style="position: absolute; left: 50px; top: 7px; font-size: 24px;"
-            color="#7B3DE0">
-            <n-icon>
-                <return-up-back />
-            </n-icon>
-        </n-button>
-        <!-- 标题 -->
-        <text style="position:absolute; left: 200px; line-height: 50px; color: #383838">标题</text>
-        <!-- 输入框 -->
-        <n-input v-model:value="addArticle.title" round placeholder="请输入标题"
-            style="position:absolute; left: 265px; top: 8px; width: 1000px; background-color: #F3F0F9;" />
-        <!-- 用户头像 -->
-        <!-- 发布文章按钮 -->
-        <div style="position: absolute; right: 50px; top: 8px">
-            <n-button round color="#7B3DE0" @click="showModalModal">
-                <template #icon>
-                    <n-icon>
-                        <send />
-                    </n-icon>
-                </template>
-                发布
-            </n-button>
-        </div>
-    </div>
-
-    <!-- 富文本编辑器主体内容区域 -->
-    <div class="tabs">
-        <n-card>
+    <!-- 富文本编辑器 -->
+    <div class="content">
+        <div style="margin:15px">
             <rich-text-editor v-model:modelValue="addArticle.content"></rich-text-editor>
-        </n-card>
+        </div>
     </div>
 
-    <!-- 发布文章时弹出的模态框 -->
-    <n-modal v-model:show="showModal">
-        <div style="width: 400px; height: 450px; background: white;">
-            <!-- 封面图片上传 -->
-            <n-card title="封面" :bordered="false">
-                <!-- 没有封面图时 -->
-                <div v-if="!newHeadImage" style="width: 300px; height: 150px; margin: 0 auto;">
-                    <n-upload multiple directory-dnd :max="1" @before-upload="beforeUpload" :custom-request="customRequest">
-                        <n-upload-dragger>
-                            <div style="margin-bottom: 12px">
-                                <n-icon size="48" :depth="3">
-                                    <archive-icon />
-                                </n-icon>
-                            </div>
-                            <n-text style="font-size: 16px">
-                                点击或者拖动图片到此处
-                            </n-text>
-                        </n-upload-dragger>
-                    </n-upload>
+    <!-- 功能栏 -->
+    <el-menu class="choiceBar" @select="handleSelect">
+        <el-menu-item style="color: #409EFF;" index="1">发布</el-menu-item>
+        <el-menu-item style="color: #F56C6C;" index="2">取消</el-menu-item>
+    </el-menu>
+
+    <!-- 上传文章弹框 -->
+    <el-dialog v-model="showModal" title="上传文章" width="25%" center>
+        <!-- 无封面时 -->
+        <div v-if="!newHeadImage" style="width: 80%; margin: auto;">
+            <el-upload drag :before-upload="beforeUpload" :http-request="customRequest"
+                multiple>
+                <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                <div class="el-upload__text">
+                    拖动文件 或 <em>点击上传</em>
                 </div>
-                <!-- 有封面图时 -->
-                <div v-else style="width: 230px; margin: 0 auto;">
-                    <n-image height="150" :src=serverUrl + addArticle.headImage />
-                    <n-button @click="deleteImage" circle style="position: absolute; left: 298px; top: 50px;"
-                        color="#383838">
-                        <template #icon>
-                            <n-icon>
-                                <close />
-                            </n-icon>
-                        </template>
-                    </n-button>
-                </div>
-            </n-card>
+                <template #tip>
+                    <div class="el-upload__tip">
+                        仅支持png/jpg/jpeg格式的图片
+                    </div>
+                </template>
+            </el-upload>
+        </div>
+        <!-- 有封面时 -->
+        <div v-else style="width: 80%; margin: auto;">
+            <el-image :src="serverUrl + addArticle.headImage"></el-image>
+            <el-button class="delete-button" size="large" @click="deleteImage" type="danger" :icon="Delete" circle />
+        </div>
+        <!-- 杂项 -->
+        <div class="other-box">
             <!-- 分类选择 -->
-            <n-card title="分类" :bordered="false">
-                <div style="width:300px; margin: 0 auto;">
-                    <n-select v-model:value="addArticle.categoryId" :options="categoryOptions" placeholder="请选择分类" />
-                </div>
-            </n-card>
-            <!-- 取消按钮 -->
-            <div style="position: absolute; right: 100px; bottom: 30px;">
-                <n-button type="default" @click="closeSubmitModal">
-                    取消
-                </n-button>
-            </div>
-            <!-- 确认按钮 -->
-            <div style="position: absolute; right: 30px; bottom: 30px;">
-                <n-button type="primary" @click="submit">
-                    确认
-                </n-button>
+            <el-select style="margin-top: 10px; width: 80%;" v-model="addArticle.categoryId" class="m-2" placeholder="请选择分类"
+                size="large">
+                <el-option v-for="item in categoryOptions" :key="item.value" :label="item.label"
+                    :value="item.value"></el-option>
+            </el-select>
+            <!-- 标题输入 -->
+            <el-input style="margin-top: 15px; width: 80%;" v-model="addArticle.title" placeholder="请输入标题" size="large" />
+            <!-- 按钮 -->
+            <div style="margin-top: 17px;">
+                <el-button style="margin-right: 20px;" type="danger" @click="closeSubmitModal">取消</el-button>
+                <el-button type="primary" @click="submit">确认</el-button>
             </div>
         </div>
-    </n-modal>
+    </el-dialog>
 </template>
 
 <script setup>
@@ -102,14 +67,16 @@ import RichTextEditor from '../../components/RichTextEditor.vue'
 
 // 导入一些icons
 import { ArchiveOutline as ArchiveIcon } from "@vicons/ionicons5"
-import { Send } from "@vicons/ionicons5"
-import { ReturnUpBack } from "@vicons/ionicons5"
-import { Close } from "@vicons/ionicons5"
+import { UploadFilled } from '@element-plus/icons-vue'
+// icons
+import {
+    Delete,
+} from '@element-plus/icons-vue'
 
 // 导入路由
 import { useRouter } from 'vue-router'
 const router = useRouter()
-// const route = useRoute()
+
 
 
 // 这也是在Vue.js 3中使用的代码，它使用了inject函数来获取从祖先组件中通过provide提供的三个依赖项。
@@ -119,7 +86,7 @@ const router = useRouter()
 // 通过使用inject和provide，我们可以轻松地实现依赖注入，同时避免了深度嵌套的属性访问和传递。
 const serverUrl = inject("serverUrl")
 const axios = inject("axios")
-const message = inject("message")
+import { ElMessage } from 'element-plus'
 
 const categoryOptions = ref([])// 分类列表选项
 const addArticle = reactive({// 待发布的文章对象
@@ -130,6 +97,7 @@ const addArticle = reactive({// 待发布的文章对象
     headImage: "",
 })
 
+const value = ref('')
 
 onMounted(() => {
     loadCategories()
@@ -139,13 +107,13 @@ onMounted(() => {
 import config from '../../config/config.json';
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.index.startsWith("5-")).map((item) => {
+    categoryOptions.value = config.menuItems.filter(item => item.index.startsWith("/blog?category=")).map((item) => {
         return {
             label: item.label,
-            value: item.index[2]
+            value: item.index.slice(-3)
         }
     })
-    console.log(categoryOptions)
+    // console.log(categoryOptions)
 }
 
 // 控制发布文章时弹窗的显示与隐藏
@@ -158,9 +126,14 @@ const closeSubmitModal = () => {
 }
 
 // 判断图片的格式是否符合要求
-const beforeUpload = async (data) => {
-    if (data.file.file?.type !== "image/png") {
-        message.error("只能上传png格式的图片")
+const beforeUpload = async (file) => {
+    const allowedTypes = ['image/jpeg', 'image/png', "image/jpeg"]; // 允许的文件类型
+    if (!allowedTypes.includes(file.type)) {
+        ElMessage({
+            message: "只能上传png/jpg/jpeg格式的图片",
+            type: 'error',
+            offset: 80
+        })
         return false;
     }
     return true;
@@ -168,9 +141,10 @@ const beforeUpload = async (data) => {
 
 // 控制文章头图
 const newHeadImage = ref(false)
-const customRequest = async ({ file }) => {
+const customRequest = async (file) => {
     const formData = new FormData()
     formData.append('file', file.file)
+    // console.log(formData)
     let res = await axios.post("/image/upload", formData)
     addArticle.headImage = res.data.data.filePath
     newHeadImage.value = true
@@ -180,47 +154,127 @@ const deleteImage = () => {
     newHeadImage.value = false
 }
 
-// 上传文章函数
-const submit = async () => {
-    let res = await axios.post("/article", {
-        category_id: addArticle.categoryId,
-        title: addArticle.title,
-        content: addArticle.content,
-        head_image: addArticle.headImage
-    })
-    if (res.data.code == 200) {
-        message.success(res.data.msg)
-        goback()
-    } else {
-        message.error(res.data.msg)
-    }
+function filterText(text) {
+    return new Promise((resolve, reject) => {
+        axios({
+            method: 'post',
+            url: '/article/filter',
+            data: {
+                article_text: text
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                // console.log(text);
+                // response.data.filteredText为形式为{"code": 200, "message": "", "data": "<p>***的，**</p>", "use_time": 2.0265579223632812e-05}
+                //   console.log(response.data.filteredText);
+                resolve(response.data.filteredText);
+            })
+            .catch(function (error) {
+                //   console.log(error);
+                reject(error);
+            });
+    });
 }
+
+const submit = async () => {
+    //   console.log(value)
+    // 调用filterText函数，并将addArticle对象的content属性值作为参数传递给该函数
+    filterText(addArticle.content)
+        .then(filteredText => {
+            // 获得filteredText的"data"即处理后的字段
+            const filteredText_data = JSON.parse(filteredText).data;
+            // 将原来的addArticle.content替换为filterText函数返回的过滤后的文本
+            addArticle.content = filteredText_data;
+
+            return axios.post("/article", {
+                category_id: parseInt(addArticle.categoryId.slice(-1)),
+                title: addArticle.title,
+                content: addArticle.content,
+                head_image: addArticle.headImage
+            });
+        })
+        .then(res => {
+            // console.log(addArticle)
+            // console.log(res)
+            if (res.data.code == 200) {
+                ElMessage({
+                    message: res.data.msg,
+                    type: 'success',
+                    offset: 80
+                })
+                goback()
+            } else {
+                ElMessage({
+                    message: res.data.msg,
+                    type: 'error',
+                    offset: 80
+                })
+            }
+        })
+        .catch(error => {
+            // console.log(error);
+        });
+}
+
 
 // 返回上级页面
 const goback = () => {
     router.go(-1)
 }
+
+const handleSelect = (index) => {
+    switch (index) {
+        case "1":
+            showModalModal()
+            break;
+        case "2":
+            goback()
+            break;
+        default:
+            break;
+    }
+}
 </script>
 
 <style lang="scss" scoped>
-.topbar {
-    position: sticky;
-    top: 0;
-    height: 50px;
-    background: white;
-    box-shadow: 0px 1px 5px #D3D4D8;
-}
-
-.tabs {
-    position: absolute;
-    top: 75px;
-    left: 0;
-    right: 0;
+.content {
+    position: relative;
     margin: auto;
     width: 1000px;
-    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background: white;
-    box-shadow: 0px 1px 3px #D3D4D8;
-    border-radius: 5px;
+    box-shadow: 2px 2px 6px #D3D4D8;
+    border-radius: 10px;
+    z-index: 99;
+}
+
+.other-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.delete-button {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    box-shadow: 2px 2px 6px #D3D4D8;
+}
+
+.choiceBar {
+    position: fixed;
+    top: 25%;
+    z-index: 999;
+    width: 150px;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
+    border-radius: 0 10px 10px 0;
 }
 </style>

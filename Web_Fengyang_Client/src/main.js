@@ -2,7 +2,11 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import ElementPlus from 'element-plus'// 导入ElementPlus
 import 'element-plus/dist/index.css'
+// 导入css文件
 import "./style.css";
+// import './assets/main.css'
+import './assets/base.css'
+import './assets/iconfont/iconfont.css'
 
 import naive from "naive-ui"; // 引入ui框架
 import { createDiscreteApi } from "naive-ui"; // 引入createDiscreteApi

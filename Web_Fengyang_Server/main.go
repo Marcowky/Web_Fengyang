@@ -23,6 +23,7 @@ func main() {
 	r.StaticFS("/articleImages", http.Dir("./static/images/articleImages"))
 	// 启动路由
 	routes.CollectRoutes(r)
+
 	// 启动服务
 	panic(r.Run(":8080"))
 }

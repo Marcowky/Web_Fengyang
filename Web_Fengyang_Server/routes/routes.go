@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"Web_Fengyang_Server/common"
 	"Web_Fengyang_Server/controller"
 	"Web_Fengyang_Server/middleware"
 
@@ -40,7 +41,8 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 		articleRoutes.POST("list", articleController.List)                                 // 显示文章列表
 		articleRoutes.GET("category", articleController.SearchCategory)                    // 查询分类
 		articleRoutes.GET("category/:id", articleController.SearchCategoryName)            // 查询分类名
-
+		// 文本检测api
+		articleRoutes.POST("filter", common.HandleFilterText)
 	}
 
 	return r

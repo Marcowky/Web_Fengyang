@@ -12,7 +12,7 @@ let routes = [
     { path: "/video", component: () => import("../views/video/Detail.vue") },               // 视频
 
 
-    { path: "", component: () => import("../views/home/Home.vue") },                        // 主页
+    { path: "/", component: () => import("../views/home/Home.vue") },                        // 主页
 
     { path: "/info", component: () => import("../views/info/Home.vue") },                        // 咨询
 

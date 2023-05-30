@@ -1,6 +1,4 @@
 <template>
-  <!-- 顶部导航栏 -->
-  <TopBar @select="handleSelect" />
   <div class="wrap_1">
     <!-- 搜索框 -->
     <div id="search_container">
@@ -11,51 +9,53 @@
     </div>
   </div>
 
+  <div class="wrap_2">
   <!-- 地图框 -->
-  <div id="map_wrap">
-    <div id="container" class="custom_style"></div>
-    <div id="panel" class="custom_style"></div>
+    <div id="map_wrap">
+      <div id="container" class="custom_style"></div>
+      <div id="panel" class="custom_style"></div>
+    </div>
   </div>
 
-  <!-- 酒店展示 -->
-  <div id="hotel_wrap">
-    <el-row>
-      <el-col v-for="item in hotels" :key="item.id" :span="7" :offset="item.id > 0 ? 1:0">
-        <el-card class="custom_style" shadow="always"  :body-style="{ padding: '0px' }" >
-          <img src="../../assets/hotel.png" class="hotel_image"/>
-          <div class="detail_hotel">
-              <h1 class="hotel_title">
-                <span class="hotel_name">{{ item.name }}</span>
-                <span class="hotel_price">{{ item.price }}元/晚起</span>
-              </h1>
+  <div class="wrap_3">
+    <!-- 酒店展示 -->
+    <div id="hotel_wrap">
+      <el-row>
+        <el-col v-for="item in hotels" :key="item.id" :span="7" :offset="item.id > 0 ? 1:0">
+          <el-card class="custom_style" shadow="always"  :body-style="{ padding: '0px' }" >
+            <img src="../../assets/hotel.png" class="hotel_image"/>
+            <div class="detail_hotel">
+                <h1 class="hotel_title">
+                  <span class="hotel_name">{{ item.name }}</span>
+                  <span class="hotel_price">{{ item.price }}元/晚起</span>
+                </h1>
 
-            <div class="hotel_profile">
-              <p>地址: {{ item.placeAddress }}</p>
-              <p>电话: {{ item.telephone }}</p>
-            </div>
-
-            <div class="hotel_icon" >
-              <div class="show_detail">
-                <el-icon :size="20" color="#900" @mouseover="show_icon_detail($event)" @mouseleave="hide_icon_detail($event)" @click="click_show_detail(item.website)"><Document /></el-icon>
-                <span class="icon_detail">显示详情</span>
+              <div class="hotel_profile">
+                <p>地址: {{ item.placeAddress }}</p>
+                <p>电话: {{ item.telephone }}</p>
               </div>
-              <div class="hotel_location">
-                <el-icon :size="20" color="#900" @mouseover="show_icon_detail($event)" @mouseleave="hide_icon_detail($event)" @click="click_hotel_location(item.center)"><Position /></el-icon>
-                <span class="icon_detail">地图导航</span>
-              </div>
-            </div>
 
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+              <div class="hotel_icon" >
+                <div class="show_detail">
+                  <el-icon :size="20" color="#900" @mouseover="show_icon_detail($event)" @mouseleave="hide_icon_detail($event)" @click="click_show_detail(item.website)"><Document /></el-icon>
+                  <span class="icon_detail">显示详情</span>
+                </div>
+                <div class="hotel_location">
+                  <el-icon :size="20" color="#900" @mouseover="show_icon_detail($event)" @mouseleave="hide_icon_detail($event)" @click="click_hotel_location(item.center)"><Position /></el-icon>
+                  <span class="icon_detail">地图导航</span>
+                </div>
+              </div>
+
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { onMounted,ref,watch } from 'vue';
-// 导入顶部栏
-import TopBar from "../../components/TopBar.vue"
 // 地图加载
 import AMapLoader from '@amap/amap-jsapi-loader'
 // element-ui 的图标引入
@@ -63,7 +63,7 @@ import { Position, Document } from '@element-plus/icons-vue'
 // 安全秘钥
 window._AMapSecurityConfig = {
   securityJsCode: '3626fd4fb9d0809a04788c6df4d45953'
-}
+};
 //***********变量***********
 // map地图变量
 let map = ref(null);
@@ -78,9 +78,7 @@ let driving =ref(null);
 // 起始点和终点
 let start_point =ref(null);
 let end_point =ref(null);
-
 var path = [];
-
 const hotels =[
   {
     id: 1,
@@ -132,7 +130,7 @@ const handleSelect = (index) => {    // 这里可以定义导航栏点击函数
 // button的点击查询
 const send_search= () => {
   search_content.value=search_input_content.value
-}
+};
 // 根据搜索得到查询结果
 const select = (event) => {
   // 在函数内部使用event参数来处理搜索事件
@@ -141,29 +139,30 @@ const select = (event) => {
   console.log("here");
 };
 
-const compute_driving= () => {
+const compute_driving = () => {
   var p1 = start_point.getPosition();
   var p2 = end_point.getPosition();
   driving.search(p1, p2);
   // feedBack('区域搜索', 'error')
-}
-const show_icon_detail= (event)  => {
+};
+
+const show_icon_detail = (event)  => {
   // 通过 event.target 获取触发事件的元素，即被鼠标悬停的元素
   const container = event.target.parentNode.parentNode;
   const detail = container.querySelector('.icon_detail');
-  if(detail)
-  {
-    detail.setAttribute("id","show");
+  if ( detail ) {
+    detail.setAttribute("id", "show");
   }
-}
+};
+
 const hide_icon_detail = (event) => {
   const container = event.target.parentNode;
   const detail = container.querySelector('.icon_detail');
-  if(detail)
-  {
+  if ( detail ) {
     detail.removeAttribute("id");
   }
 };
+
 const click_show_detail= (website) => {
   let fullUrl = website;
   // 检查传递的 website 参数是否以http://或 https://开头。如果不是，我们将前缀设置为 http://，然后将其与 website 参数拼接成完整的 URL。
@@ -172,6 +171,7 @@ const click_show_detail= (website) => {
   }
   window.open(fullUrl, '_blank');
 };
+
 const click_hotel_location= (location) =>{
   console.log(location);
   // console.log(location[0]);
@@ -192,6 +192,7 @@ const click_hotel_location= (location) =>{
   // 调用滚动函数
   scroll();
 };
+
 //地图初始化函数
 const initMap = () => {
   AMapLoader.load({
@@ -284,23 +285,24 @@ watch(search_content, (newValue) => {
 
 
 <style lang="less">
-.custom_style{
-  border-radius: 20px;
-  :hover .hotel_image{
-    transform: scale(1.05);
+  .custom_style{
+    border-radius: 20px;
+    :hover .hotel_image{
+      transform: scale(1.05);
+    }
   }
-}
+
 
   .wrap_1{
-    margin-top: 80px; /* 调整顶部间距，使输入框和按钮位于导航栏下方 */
+    //margin-top: 80px; /* 调整顶部间距，使输入框和按钮位于导航栏下方 */
+    height: 40px;
     display: flex;
-    //align-items: center;
+    align-items: center;  //子元素垂直居中
     justify-content: center; /* 将子元素水平居中 */
     // > * 是一个 CSS 选择器，用于选择该元素的直接子元素。
     > * {
       margin-right: 10px; /* 添加右侧间距 */
     }
-
     // 搜索容器
     #search_container{
       position: absolute;
@@ -320,72 +322,76 @@ watch(search_content, (newValue) => {
     }
   }
 
-  #map_wrap {
-    z-index: 10;
+  .wrap_2{
+    height: 800px;
+    width: auto;
+    #map_wrap {
+      z-index: 10;
     //absolute是相对于最近的父元素来定位
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     // 使用translate函数将元素在水平和垂直方向上分别向左和向上移动自身宽度和高度的一半，以使其完全居中显示。
-    height: 60%;
-    width: 60%;
-    #container {
-      padding: 0px;
-      margin: 0px;
-      width: 100%;
-      height: 100%;
-    }
-    #panel {
-      position: fixed;
-      background-color: white;
-      max-height: 90%;
-      overflow-y: auto;
-      top: 10px;
-      left: 10px;
-      width: 280px;
-    }
-    #panel .amap-call {
-      background-color: #009cf9;
-      border-top-left-radius: 4px;
-      border-top-right-radius: 4px;
-    }
-    #panel .amap-lib-driving {
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
-      overflow: hidden;
+      height: 80%;
+      width: 70%;
+      #container {
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+        height: 100%;
+      }
+      #panel {
+        position: fixed;
+        background-color: white;
+        max-height: 90%;
+        overflow-y: auto;
+        top: 10px;
+        left: 10px;
+        width: 280px;
+      }
+      #panel .amap-call {
+        background-color: #009cf9;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+      }
+      #panel .amap-lib-driving {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        overflow: hidden;
+      }
     }
   }
-
-  #hotel_wrap {
-    position: absolute;
-    top: 78%;
-    left: 15%;
-    right: 15%;
-    .hotel_image{
-      max-width: 100%;
-      max-height: 100%;
-      transition: transform 0.4s;
-      /* 样式变化时设置动画时间为0.5秒 */
-    }
-    .detail_hotel{
-      margin: 0px;
-      padding: 0px 10px 10px;
-      .hotel_title{
+  .wrap_3{
+    height: auto;
+    width: auto;
+    #hotel_wrap {
+      margin-left: 15%;
+      margin-right: 15%;
+      .hotel_image{
+        max-width: 100%;
+        max-height: 100%;
+        transition: transform 0.4s;
+        /* 样式变化时设置动画时间为0.5秒 */
+      }
+      .detail_hotel{
         margin: 0px;
-        text-align: center;
-        .hotel_name{
-          max-width: 100%;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          padding-right: 10px;
-          font-size: 28px;
-          font-family: 宋体;
-          font-weight: bold;
-          letter-spacing: -1px;
-          color: rgb(200 , 100, 89);
-        }
-        .hotel_price{
+        padding: 0px 10px 10px;
+        .hotel_title{
+          margin: 0px;
+          text-align: center;
+          .hotel_name{
+            max-width: 100%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            padding-right: 10px;
+            font-size: 28px;
+            font-family: 宋体;
+            font-weight: bold;
+            letter-spacing: -1px;
+            color: rgb(200 , 100, 89);
+          }
+          .hotel_price{
             padding-left: 5px;
             padding-right: 5px;
             width: auto;
@@ -395,44 +401,47 @@ watch(search_content, (newValue) => {
             background: rgb(153, 0, 0);
             color: rgb(255, 255, 255);
           }
-      }
-      .hotel_profile{
-        font-family: 微软雅黑;
-        margin-left: 10px;
-        font-size: 16px;
-        color: #796358;
-      }
-      .hotel_icon{
-        margin-left: 10px;
-        display: flex;
+        }
+        .hotel_profile{
+          font-family: 微软雅黑;
+          margin-left: 10px;
+          font-size: 16px;
+          color: #796358;
+        }
+        .hotel_icon{
+          margin-left: 10px;
+          display: flex;
         //justify-content: space-between;   //将元素平均分布在容器内，并在它们之间留出空间
-        .show_detail{
-          display: flex;
-          font-family: 微软雅黑;
-          color: #796358;
-        }
-        .hotel_location
-        {
-          margin-left: 20px;
-          display: flex;
-          font-family: 微软雅黑;
-          color: #796358;
-        }
-        .icon_detail{
-          display: none;
+          .show_detail{
+            display: flex;
+            font-family: 微软雅黑;
+            color: #796358;
+          }
+          .hotel_location
+          {
+            margin-left: 20px;
+            display: flex;
+            font-family: 微软雅黑;
+            color: #796358;
+          }
+          .icon_detail{
+            display: none;
           //opacity: 0;
           //height: 0;
-          transition: transform 0.4s;
-        }
-        .hotel_location :hover .icon_detail{
-          display: block;
-        }
-        #show {
-          display: block;
-          height: 10px;
+            transition: transform 0.4s;
+          }
+          .hotel_location :hover .icon_detail{
+            display: block;
+          }
+          #show {
+            display: block;
+            height: 10px;
+          }
         }
       }
     }
   }
+
+
 
 </style>
