@@ -169,7 +169,7 @@ func (a UserController) List(c *gin.Context) {
 	userType := c.Query("userType")
 	var user []model.User
 	// 构建查询条件
-	query := a.DB.Table(userType).Where("user_name LIKE ? OR phone_number LIKE ?", "%"+keyword+"%", "%"+keyword+"%")
+	query := a.DB.Table(userType).Where("user_name LIKE ? OR phone_number LIKE ? OR id = ?", "%"+keyword+"%", "%"+keyword+"%", keyword)
 
 	// 执行查询
 	if err := query.Find(&user).Error; err != nil {
