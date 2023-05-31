@@ -135,7 +135,7 @@ const initMap = () => {
     weather.getForecast('连州市', function(err, data)
     {
       weatherData.value=data.forecasts;
-      console.log(weatherData.value);
+      // console.log(weatherData.value);
       // console.log(weatherData.value[0]);
     });
   })

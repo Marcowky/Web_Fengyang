@@ -3,7 +3,7 @@
         <el-menu-item style="position: absolute; left: 0px;" index="0">四色丰阳</el-menu-item>
         <div class="弹性盒子" :style="{ flexGrow: 1 }" />
         <template v-for="item in menuItems">
-            <template v-if="!item.hasSub && !item.index.includes('-')">
+            <template v-if="!item.hasSub && !item.index.includes('?')">
                 <el-menu-item :index="item.index">{{ item.label }}</el-menu-item>
             </template>
             <template v-if="item.hasSub">

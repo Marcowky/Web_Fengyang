@@ -18,7 +18,6 @@ const router = useRouter();
 const showComponent = ref(true);
 
 router.beforeEach((to) => {
-    console.log(to.path)
     if (to.path === '/admin') {
         showComponent.value = false;
     } else {
