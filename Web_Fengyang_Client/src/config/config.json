@@ -14,13 +14,13 @@
         },
         {
             "index": "/?category=1-2",
-            "label": "民族风俗",
+            "label": "食宿阅论",
             "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/?category=1-3",
-            "label": "历史人文",
+            "label": "热门景点",
             "mainMenu": false,
             "hasSub": false
         },
@@ -103,6 +103,12 @@
             "hasSub": false
         },
         {
+            "index": "/travel",
+            "label": "住宿交通",
+            "mainMenu": true,
+            "hasSub": false
+        },
+        {
             "index": "/blog",
             "label": "景区论坛",
             "mainMenu": true,
@@ -125,12 +131,7 @@
             "label": "美食",
             "mainMenu": false,
             "hasSub": false
-        },
-        {
-            "index": "/travel",
-            "label": "住宿交通",
-            "mainMenu": true,
-            "hasSub": false
         }
+        
     ]
 }
