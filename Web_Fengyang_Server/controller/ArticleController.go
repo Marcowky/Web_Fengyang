@@ -20,8 +20,8 @@ type IArticleController interface {
 	Delete(c *gin.Context)
 	Show(c *gin.Context)
 	List(c *gin.Context)
-	SearchCategory(c *gin.Context)
-	SearchCategoryName(c *gin.Context)
+	// SearchCategory(c *gin.Context)
+	// SearchCategoryName(c *gin.Context)
 }
 
 func (a ArticleController) Create(c *gin.Context) {
@@ -49,8 +49,9 @@ func (a ArticleController) Create(c *gin.Context) {
 		Title:      articleRequest.Title,
 		Content:    articleRequest.Content,
 		HeadImage:  articleRequest.HeadImage,
+		ArticleType: articleRequest.ArticleType,
 	}
-	if err := a.DB.Create(&article).Error; err != nil {
+	if err := a.DB.Table(article.ArticleType).Create(&article).Error; err != nil {
 		common.Fail(c, 400, nil, "发布失败")
 		return
 	}
@@ -59,6 +60,7 @@ func (a ArticleController) Create(c *gin.Context) {
 }
 
 func (a ArticleController) Update(c *gin.Context) {
+	
 	var articleRequest model.CreateArticleRequest
 	// 数据验证
 	if err := c.ShouldBindJSON(&articleRequest); err != nil {
@@ -66,10 +68,11 @@ func (a ArticleController) Update(c *gin.Context) {
 		return
 	}
 	// 获取path中的id
-	articleId := c.Params.ByName("id")
+	articleType := c.Query("articleType")
+	articleId := c.Query("id")
 	// 查找文章
 	var article model.Article
-	if a.DB.Where("id = ?", articleId).First(&article).RecordNotFound() {
+	if a.DB.Table(articleType).Where("id = ?", articleId).First(&article).RecordNotFound() {
 		common.Fail(c, 400, nil, "文章不存在")
 		return
 	}
@@ -81,7 +84,7 @@ func (a ArticleController) Update(c *gin.Context) {
 		return
 	}
 	// 更新文章
-	if err := a.DB.Model(&article).Update(articleRequest).Error; err != nil {
+	if err := a.DB.Table(articleType).Model(&article).Update(articleRequest).Error; err != nil {
 		common.Fail(c, 400, nil, "修改失败")
 		return
 	}
@@ -90,10 +93,11 @@ func (a ArticleController) Update(c *gin.Context) {
 
 func (a ArticleController) Delete(c *gin.Context) {
 	// 获取path中的id
-	articleId := c.Params.ByName("id")
+	articleType := c.Query("articleType")
+	articleId := c.Query("id")
 	// 查找文章
 	var article model.Article
-	if a.DB.Where("id = ?", articleId).First(&article).RecordNotFound() {
+	if a.DB.Table(articleType).Where("id = ?", articleId).First(&article).RecordNotFound() {
 		common.Fail(c, 400, nil, "文章不存在")
 		return
 	}
@@ -105,7 +109,7 @@ func (a ArticleController) Delete(c *gin.Context) {
 		return
 	}
 	// 删除文章
-	if err := a.DB.Delete(&article).Error; err != nil {
+	if err := a.DB.Table(articleType).Delete(&article).Error; err != nil {
 		common.Fail(c, 400, nil, "删除失败")
 		return
 	}
@@ -115,10 +119,11 @@ func (a ArticleController) Delete(c *gin.Context) {
 
 func (a ArticleController) Show(c *gin.Context) {
 	// 获取path中的id
-	articleId := c.Params.ByName("id")
+	articleType := c.Query("articleType")
+	articleId := c.Query("id")
 	// 查找文章
 	var article model.Article
-	if a.DB.Where("id = ?", articleId).First(&article).RecordNotFound() {
+	if a.DB.Table(articleType).Where("id = ?", articleId).First(&article).RecordNotFound() {
 		common.Fail(c, 400, nil, "文章不存在")
 		return
 	}
@@ -128,6 +133,7 @@ func (a ArticleController) Show(c *gin.Context) {
 
 func (a ArticleController) List(c *gin.Context) {
 	// 获取关键词、分类、分页参数
+	articleType := c.Query("articleType")
 	keyword := c.DefaultQuery("keyword", "")
 	categoryId := c.DefaultQuery("categoryId", "0")
 	pageNum, _ := strconv.Atoi(c.DefaultQuery("pageNum", "1"))
@@ -157,16 +163,16 @@ func (a ArticleController) List(c *gin.Context) {
 	// 查询文章
 	switch len(args) {
 	case 0:
-		a.DB.Table("articles").Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
 		a.DB.Model(model.Article{}).Count(&count)
 	case 1:
-		a.DB.Table("articles").Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
 		a.DB.Model(model.Article{}).Where(querystr, args[0]).Count(&count)
 	case 2:
-		a.DB.Table("articles").Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0], args[1]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0], args[1]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
 		a.DB.Model(model.Article{}).Where(querystr, args[0], args[1]).Count(&count)
 	case 3:
-		a.DB.Table("articles").Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0], args[1], args[2]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0], args[1], args[2]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
 		a.DB.Model(model.Article{}).Where(querystr, args[0], args[1], args[2]).Count(&count)
 	}
 	// 展示文章列表
@@ -175,48 +181,52 @@ func (a ArticleController) List(c *gin.Context) {
 
 func NewArticleController() IArticleController {
 	db := common.GetDB()
-	db.AutoMigrate(model.Article{})
+	db.Table("infoArticle").AutoMigrate(model.Article{})
+	db.Table("attractionArticle").AutoMigrate(model.Article{})
+	db.Table("consumptionArticle").AutoMigrate(model.Article{})
+	db.Table("blogArticle").AutoMigrate(model.Article{})
+	db.Table("hotelArticle").AutoMigrate(model.Article{})
 	return ArticleController{DB: db}
 }
 
-// SearchCategory 查询分类
-func (a ArticleController) SearchCategory(c *gin.Context) {
-	db := common.GetDB()
-	var categories []model.Category
-	if err := db.Find(&categories).Error; err != nil {
-		common.Fail(c, 400, nil, "查找失败")
-		return
-	}
-	common.Success(c, gin.H{"categories": categories}, "查找成功")
-}
+// // SearchCategory 查询分类
+// func (a ArticleController) SearchCategory(c *gin.Context) {
+// 	db := common.GetDB()
+// 	var categories []model.Category
+// 	if err := db.Find(&categories).Error; err != nil {
+// 		common.Fail(c, 400, nil, "查找失败")
+// 		return
+// 	}
+// 	common.Success(c, gin.H{"categories": categories}, "查找成功")
+// }
 
-// SearchCategoryName 查询分类名
-func (a ArticleController) SearchCategoryName(c *gin.Context) {
-	db := common.GetDB()
-	var category model.Category
-	// 获取path中的分类id
-	categoryId := c.Params.ByName("id")
-	if err := db.Where("id = ?", categoryId).First(&category).Error; err != nil {
-		common.Fail(c, 400, nil, "分类不存在")
-		return
-	}
-	common.Success(c, gin.H{"categoryName": category.CategoryName}, "查找成功")
-}
+// // SearchCategoryName 查询分类名
+// func (a ArticleController) SearchCategoryName(c *gin.Context) {
+// 	db := common.GetDB()
+// 	var category model.Category
+// 	// 获取path中的分类id
+// 	categoryId := c.Params.ByName("id")
+// 	if err := db.Where("id = ?", categoryId).First(&category).Error; err != nil {
+// 		common.Fail(c, 400, nil, "分类不存在")
+// 		return
+// 	}
+// 	common.Success(c, gin.H{"categoryName": category.CategoryName}, "查找成功")
+// }
 
 // 初始化文章类别
-func InitCategory() {
-	db := common.GetDB()
-	db.AutoMigrate(model.Category{})
-	var category model.Category
-	if err := db.Where("id = ?", 0).First(&category).Error; err == nil {
-		return
-	}
-	categoryArray := []string{"ALL", "category1", "category2", "category3", "category4"}
-	for i := 0; i < len(categoryArray); i++ {
-		newCategory := model.Category{
-			ID:           &i,
-			CategoryName: categoryArray[i],
-		}
-		db.Create(&newCategory)
-	}
-}
+// func InitCategory() {
+// 	db := common.GetDB()
+// 	db.AutoMigrate(model.Category{})
+// 	var category model.Category
+// 	if err := db.Where("id = ?", 0).First(&category).Error; err == nil {
+// 		return
+// 	}
+// 	categoryArray := []string{"ALL", "category1", "category2", "category3", "category4"}
+// 	for i := 0; i < len(categoryArray); i++ {
+// 		newCategory := model.Category{
+// 			ID:           &i,
+// 			CategoryName: categoryArray[i],
+// 		}
+// 		db.Create(&newCategory)
+// 	}
+// }
