@@ -19,7 +19,7 @@
                     </el-icon>
                 </el-button>
             </template>
-            <el-input class="searchBox" v-model="pageInfo.keyword" placeholder="请输入关键字" />
+            <el-input v-model="pageInfo.keyword" placeholder="请输入关键字" />
         </el-popover>
     </div>
 
@@ -41,7 +41,7 @@
                 <div style="position: relative; height: 120px;">
                     <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
                     <div v-html="article.content"></div>
-                    <div style=" position: absolute; right: 0px; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
+                    <div style=" position: absolute; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
                 </div>
             </el-card>
         </div>
@@ -108,9 +108,10 @@ const loadArticles = async (pageNum = 0) => {
     if (pageNum != 0) {
         pageInfo.pageNum = pageNum;
     }
-    let res = await axios.post(`/article/list?keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${pageInfo.categoryId}`)
+    let res = await axios.get(`/article/list?articleType=blogArticle&keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${pageInfo.categoryId}`)
     if (res.data.code == 200) {
         articleList.value = res.data.data.article
+        console.log(articleList)
     }
     pageInfo.count = res.data.data.count;
     pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
@@ -149,9 +150,7 @@ const toDetail = (article) => {
 <style lang="scss" scoped>
 .searchButton {
     position: fixed;
-    display: block;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 2%;
     top: 10px;
     z-index: 999;
 }

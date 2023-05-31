@@ -16,8 +16,7 @@
     <el-dialog v-model="showModal" title="上传文章" width="25%" center>
         <!-- 无封面时 -->
         <div v-if="!newHeadImage" style="width: 80%; margin: auto;">
-            <el-upload drag :before-upload="beforeUpload" :http-request="customRequest"
-                multiple>
+            <el-upload drag :before-upload="beforeUpload" :http-request="customRequest" multiple>
                 <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                 <div class="el-upload__text">
                     拖动文件 或 <em>点击上传</em>
@@ -91,7 +90,7 @@ import { ElMessage } from 'element-plus'
 const categoryOptions = ref([])// 分类列表选项
 const addArticle = reactive({// 待发布的文章对象
     id: 0,
-    categoryId: "未选择",
+    categoryId: "",
     title: "",
     content: "",
     headImage: "",
@@ -154,69 +153,49 @@ const deleteImage = () => {
     newHeadImage.value = false
 }
 
-function filterText(text) {
-    return new Promise((resolve, reject) => {
-        axios({
-            method: 'post',
-            url: '/article/filter',
-            data: {
-                article_text: text
-            },
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(function (response) {
-                // console.log(text);
-                // response.data.filteredText为形式为{"code": 200, "message": "", "data": "<p>***的，**</p>", "use_time": 2.0265579223632812e-05}
-                //   console.log(response.data.filteredText);
-                resolve(response.data.filteredText);
-            })
-            .catch(function (error) {
-                //   console.log(error);
-                reject(error);
-            });
-    });
-}
-
+// 上传文章
 const submit = async () => {
-    //   console.log(value)
-    // 调用filterText函数，并将addArticle对象的content属性值作为参数传递给该函数
-    filterText(addArticle.content)
-        .then(filteredText => {
-            // 获得filteredText的"data"即处理后的字段
-            const filteredText_data = JSON.parse(filteredText).data;
-            // 将原来的addArticle.content替换为filterText函数返回的过滤后的文本
-            addArticle.content = filteredText_data;
+    if (addArticle.categoryId == "") {
+        ElMessage({
+            message: "请选择分类",
+            type: 'error',
+            offset: 80
+        })
+        return
+    }
+    if (addArticle.title == "") {
+        ElMessage({
+            message: "请输入标题",
+            type: 'error',
+            offset: 80
+        })
+        return
+    }
+    // console.log(value)
+    let res = await axios.post("/article/create", {
+        category_id: parseInt(addArticle.categoryId.slice(-1)),
+        title: addArticle.title,
+        content: addArticle.content,
+        head_image: addArticle.headImage,
+        article_type: "blogArticle"
+    })
+    // console.log(addArticle)
+    // console.log(res)
+    if (res.data.code == 200) {
+        ElMessage({
+            message: res.data.msg,
+            type: 'success',
+            offset: 80
+        })
+        goback()
+    } else {
+        ElMessage({
+            message: res.data.msg,
+            type: 'error',
+            offset: 80
+        })
+    }
 
-            return axios.post("/article", {
-                category_id: parseInt(addArticle.categoryId.slice(-1)),
-                title: addArticle.title,
-                content: addArticle.content,
-                head_image: addArticle.headImage
-            });
-        })
-        .then(res => {
-            // console.log(addArticle)
-            // console.log(res)
-            if (res.data.code == 200) {
-                ElMessage({
-                    message: res.data.msg,
-                    type: 'success',
-                    offset: 80
-                })
-                goback()
-            } else {
-                ElMessage({
-                    message: res.data.msg,
-                    type: 'error',
-                    offset: 80
-                })
-            }
-        })
-        .catch(error => {
-            // console.log(error);
-        });
 }
 
 

@@ -135,7 +135,8 @@ const submitForm = async (formEl) => {
 const login = async () => {
     let res = await axios.post("/user/login", {
         phoneNumber: user.phoneNumber,
-        password: user.password
+        password: user.password,
+        userType: "client"
     })
 
     if (res.data.code == 200) {
@@ -169,7 +170,8 @@ const register = async () => {
     let res = await axios.post("/user/register", {
         userName: user.userName,
         phoneNumber: user.phoneNumber,
-        password: user.password
+        password: user.password,
+        userType: "client"
     })
 
     if (res.data.code == 200) {

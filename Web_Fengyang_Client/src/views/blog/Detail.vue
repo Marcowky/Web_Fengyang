@@ -77,7 +77,7 @@ const loadCategories = async () => {
 // 加载文章
 const loadArticle = async () => {
     // 获取文章信息
-    let resArticle = await axios.get("article/" + route.query.id)
+    let resArticle = await axios.get(`article/detail?articleType=blogArticle&id=${route.query.id}`)
     if (resArticle.data.code == 200) {
         articleInfo.value = resArticle.data.data.article
         // 获取分类
@@ -85,7 +85,7 @@ const loadArticle = async () => {
             categoryName.value = label
         // 获取作者信息
         let resWriter = await axios.get("user/briefInfo/" + articleInfo.value.user_id)
-        articleInfo.value.username = resWriter.data.data.name
+        articleInfo.value.username = resWriter.data.data.userName
         // 获取用户信息，判断用户是否是作者
         let resUser = await axios.get("user/info")
         if (resUser.data.code == 200) {
@@ -120,7 +120,7 @@ const toDelete = async (blog) => {
         }
     )
         .then(async () => {
-            let res = await axios.delete("article/" + articleInfo.value.id)
+            let res = await axios.delete(`article/delete?articleType=blogArticle&id=${articleInfo.value.id}`)
             if (res.data.code == 200) {
                 ElMessage({
                     message: res.data.msg,
