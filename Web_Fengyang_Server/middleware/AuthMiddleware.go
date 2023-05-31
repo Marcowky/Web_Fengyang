@@ -23,7 +23,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		// 非法token
 		if tokenString == "" || len(tokenString) < 7 || !strings.HasPrefix(tokenString, "Bearer") {
-			common.Fail(c, 401, nil, "权限不足")
+			common.Fail(c, 401, nil, "非法权限")
 			c.Abort()
 			return
 		}
@@ -35,16 +35,17 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		// 非法token
 		if err != nil || !token.Valid {
-			common.Fail(c, 401, nil, "权限不足")
+			common.Fail(c, 401, nil, "非法权限")
 			c.Abort()
 			return
 		}
 
 		// token正常，获取claims中的userId
 		userId := claims.UserId
+		userType := claims.UserType
 		DB := common.GetDB()
 		var user model.User
-		DB.Where("id =?", userId).First(&user)
+		DB.Table(userType).Where("id =?", userId).First(&user)
 
 		// 将用户信息写入上下文便于读取
 		c.Set("user", user)

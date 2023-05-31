@@ -182,6 +182,7 @@ function filterText(text) {
 const submit = async () => {
     //   console.log(value)
     // 调用filterText函数，并将addArticle对象的content属性值作为参数传递给该函数
+    console.log(addArticle)
     filterText(addArticle.content)
         .then(filteredText => {
             // 获得filteredText的"data"即处理后的字段
@@ -193,7 +194,8 @@ const submit = async () => {
                 category_id: parseInt(addArticle.categoryId.slice(-1)),
                 title: addArticle.title,
                 content: addArticle.content,
-                head_image: addArticle.headImage
+                head_image: addArticle.headImage,
+                article_type: "blogArticle"
             });
         })
         .then(res => {
