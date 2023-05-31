@@ -39,7 +39,7 @@
         <div class="other-box">
             <!-- 分类选择 -->
             <el-select style="margin-top: 10px; width: 80%;" v-model="updateArticle.categoryId" class="m-2"
-                placeholder="请选择分类" size="large">
+                :placeholder="updateArticle.oldCategory" size="large">
                 <el-option v-for="item in categoryOptions" :key="item.value" :label="item.label"
                     :value="item.value"></el-option>
             </el-select>
@@ -80,10 +80,12 @@ const loadOk = ref(false)
 const categoryOptions = ref([])
 const updateArticle = reactive({
     id: 0,
-    categoryId: "未选择",
+    categoryId: "",
     title: "",
     content: "",
     headImage: "",
+    oldCategory: "",
+    oldCategoryId: ""
 })
 const showModal = ref(false)
 const newHeadImage = ref(true)
@@ -112,11 +114,12 @@ const loadArticle = async () => {
 
     if (res.data.code == 200) {
         let label = categoryOptions.value.find((item) => item.value.endsWith(res.data.data.article.category_id)).label
-        updateArticle.categoryId = label,
-            updateArticle.title = res.data.data.article.title,
-            updateArticle.content = res.data.data.article.content,
-            updateArticle.headImage = res.data.data.article.head_image,
-            newHeadImage.value = updateArticle.headImage ? true : false
+        updateArticle.oldCategoryId = res.data.data.article.category_id
+        updateArticle.oldCategory = label
+        updateArticle.title = res.data.data.article.title
+        updateArticle.content = res.data.data.article.content
+        updateArticle.headImage = res.data.data.article.head_image
+        newHeadImage.value = updateArticle.headImage ? true : false
         loadOk.value = true
     }
 
@@ -164,6 +167,17 @@ const deleteImage = () => {
 
 // 提交文章
 const submit = async () => {
+    if(updateArticle.title==""){
+        ElMessage({
+            message: "请输入标题",
+            type: 'error',
+            offset: 80
+        })
+        return
+    }
+    if(updateArticle.categoryId == ""){
+        updateArticle.categoryId = updateArticle.oldCategoryId.toString()
+    }
     console.log(updateArticle)
     let res = await axios.put(`article/update?articleType=blogArticle&id=${route.query.id}`, {
         category_id: parseInt(updateArticle.categoryId.slice(-1)),
