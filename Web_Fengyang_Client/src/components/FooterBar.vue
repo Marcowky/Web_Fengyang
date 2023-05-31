@@ -5,16 +5,7 @@
   <footer class="footer">
     <div class="footer-bottom">
       <div class="footer-container">
-
         <div class="weather_wrap">
-<!--          <div v-for="(item,index) in weatherData" :key="index">-->
-<!--            <p>{{index}}</p>-->
-<!--            <p>Date: {{ item.date }}</p>-->
-<!--            <p>Week: {{ item.week }}</p>-->
-<!--            <p>Day Weather: {{ item.dayWeather }}</p>-->
-<!--            <p>Night Weather: {{ item.nightWeather }}</p>-->
-<!--            <p>Day Temperature: {{ item.dayTemp }}</p>-->
-<!--          </div>-->
           <el-row>
             <el-col v-for="(item,index) in weatherData" :key="index" :span="6" >
               <div class="day_weather_wrap">
@@ -37,6 +28,7 @@
           </el-row>
 
         </div>
+        <el-divider class="divider_style"/>
         <ul class="footer-nav">
           <template v-for="item in menuItems">
               <ul class="css-ul" v-if="item.mainMenu && !item.index.includes('-')">
@@ -165,43 +157,44 @@ onMounted(() => {
 }
 .weather_wrap{
   top :20px;
-  height: 60px;
-  //background-color: #353432;
-  //font-color: white;
+  height: 80px;
   display: flex;
   justify-content: center;
   .day_weather_wrap{
     display: flex;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 130px;
+    padding-right: 50px;
     .weather_icon{
       top:10px;
       align-items: center;
     }
     .weather_detail{
-    color: white;
+      color: white;
       left: 4px;
   }
   }
 
 }
 .space {
-  height: 350px;
+  height: 450px;
 }
 
 .footer-bottom {
   background: #353432;
   width: 100%;
-  margin-top: 50px;
+  margin-top: 100px;
 }
 
 .footer-container {
   position: static;
-  /* padding: 10px 90px; */
-  /* margin:10 auto; */
-
+  padding: 10px 90px;
+  //margin: 10px auto;
 }
-
+.divider_style{
+  left: 11%;
+  width: 79%;
+  top:20px;
+}
 .footer-nav {
   display: flex;
   flex-wrap: wrap;
@@ -223,7 +216,6 @@ onMounted(() => {
 
 ul,
 li {
-
   list-style: none;
   /* 去掉列表前面的小圈圈 */
   justify-content: space-evenly;

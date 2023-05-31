@@ -1,27 +1,29 @@
 <template>
-  <div class="wrap_1">
-    <!-- 搜索框 -->
-    <div id="search_container">
-      <el-input v-model="search_input_content" id="search_input" placeholder="请输入你要查找的关键词" type="text"></el-input>
-      <el-button type="primary" id="searchBtn" @click="send_search">地点查询</el-button>
-      <el-button type="primary" id="compute_driving_Btn" @click="compute_driving">路径计算</el-button>
-<!--      <el-button type="primary" plain round @click="send()">点击返回丰阳镇中心</el-button>-->
+  <div class="wrap">
+    <div class="wrap_1">
+      <!-- 搜索框 -->
+      <div id="search_container">
+        <el-input v-model="search_input_content" id="search_input" placeholder="请输入你要查找的关键词" type="text"></el-input>
+        <el-button type="primary" id="searchBtn" @click="send_search">地点查询</el-button>
+        <el-button type="primary" id="compute_driving_Btn" @click="compute_driving">路径计算</el-button>
+  <!--      <el-button type="primary" plain round @click="send()">点击返回丰阳镇中心</el-button>-->
+      </div>
+    </div>
+
+    <div class="wrap_2">
+    <!-- 地图框 -->
+      <div id="map_wrap">
+        <div id="container" class="custom_style"></div>
+        <div id="panel" class="custom_style"></div>
+      </div>
     </div>
   </div>
-
-  <div class="wrap_2">
-  <!-- 地图框 -->
-    <div id="map_wrap">
-      <div id="container" class="custom_style"></div>
-      <div id="panel" class="custom_style"></div>
-    </div>
-  </div>
-
   <div class="wrap_3">
     <!-- 酒店展示 -->
+    <div id="hotel_wrap_title">-----酒店预订------</div>
     <div id="hotel_wrap">
       <el-row>
-        <el-col v-for="item in hotels" :key="item.id" :span="7" :offset="item.id > 0 ? 1:0">
+        <el-col v-for="(item,index) in hotels" :key="index" :span="6" :offset="index%3 ==0 ? 2:1">
           <el-card class="custom_style" shadow="always"  :body-style="{ padding: '0px' }" >
             <img src="../../assets/hotel.png" class="hotel_image"/>
             <div class="detail_hotel">
@@ -273,13 +275,13 @@ onMounted(() => {
 
 
 watch(search_content, (newValue) => {
-      if (newValue != null) {
-        console.log(newValue);
-        placeSearch.search(newValue);
-        // drawBounds(newValue);
-        // map.value.setZoom(16, true, 1);
-      }
+    if (newValue != null) {
+      console.log(newValue);
+      placeSearch.search(newValue);
+      // drawBounds(newValue);
+      // map.value.setZoom(16, true, 1);
     }
+  }
 );
 </script>
 
@@ -291,83 +293,101 @@ watch(search_content, (newValue) => {
       transform: scale(1.05);
     }
   }
-
-
-  .wrap_1{
+  .wrap{
+    border-radius: 20px;
+    padding-top: 20px;
+    background-color: #eee6e3;
+    margin-left: 10%;
+    margin-right: 10%;
+    .wrap_1{
     //margin-top: 80px; /* 调整顶部间距，使输入框和按钮位于导航栏下方 */
-    height: 40px;
-    display: flex;
-    align-items: center;  //子元素垂直居中
-    justify-content: center; /* 将子元素水平居中 */
-    // > * 是一个 CSS 选择器，用于选择该元素的直接子元素。
-    > * {
-      margin-right: 10px; /* 添加右侧间距 */
-    }
-    // 搜索容器
-    #search_container{
-      position: absolute;
+      height: 50px;
       display: flex;
-      #search_input{
-        height: 40px;
-        width: 300px;
+      align-items: center;  //子元素垂直居中
+      justify-content: center; /* 将子元素水平居中 */
+    // > * 是一个 CSS 选择器，用于选择该元素的直接子元素。
+      > * {
+        margin-right: 10px; /* 添加右侧间距 */
       }
-      #searchBtn {
-        height: 40px;
-        width: 100px;
+    // 搜索容器
+      #search_container{
+        position: absolute;
+        display: flex;
+        #search_input{
+          height: 50px;
+          width: 300px;
+        }
+        #searchBtn {
+          height: 50px;
+          width: 100px;
+        }
+        #compute_driving_Btn{
+          height: 50px;
+          width: 100px;
+        }
       }
-      #compute_driving_Btn{
-        height: 40px;
-        width: 100px;
+    }
+
+    .wrap_2{
+      height: 800px;
+      width: auto;
+      margin-left: 5%;
+      margin-right: 5%;
+      #map_wrap {
+        z-index: 10;
+      //absolute是相对于最近的父元素来定位
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      // 使用translate函数将元素在水平和垂直方向上分别向左和向上移动自身宽度和高度的一半，以使其完全居中显示。
+        height: 90%;
+        width: 100%;
+        #container {
+          padding: 0px;
+          margin: 0px;
+          width: 100%;
+          height: 100%;
+        }
+        #panel {
+          position: fixed;
+          background-color: white;
+          max-height: 90%;
+          overflow-y: auto;
+          top: 10px;
+          left: 10px;
+          width: 280px;
+        }
+        #panel .amap-call {
+          background-color: #009cf9;
+          border-top-left-radius: 4px;
+          border-top-right-radius: 4px;
+        }
+        #panel .amap-lib-driving {
+          border-bottom-left-radius: 4px;
+          border-bottom-right-radius: 4px;
+          overflow: hidden;
+        }
       }
     }
   }
 
-  .wrap_2{
-    height: 800px;
-    width: auto;
-    #map_wrap {
-      z-index: 10;
-    //absolute是相对于最近的父元素来定位
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    // 使用translate函数将元素在水平和垂直方向上分别向左和向上移动自身宽度和高度的一半，以使其完全居中显示。
-      height: 80%;
-      width: 70%;
-      #container {
-        padding: 0px;
-        margin: 0px;
-        width: 100%;
-        height: 100%;
-      }
-      #panel {
-        position: fixed;
-        background-color: white;
-        max-height: 90%;
-        overflow-y: auto;
-        top: 10px;
-        left: 10px;
-        width: 280px;
-      }
-      #panel .amap-call {
-        background-color: #009cf9;
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-      }
-      #panel .amap-lib-driving {
-        border-bottom-left-radius: 4px;
-        border-bottom-right-radius: 4px;
-        overflow: hidden;
-      }
-    }
-  }
   .wrap_3{
+    border-radius: 20px;
     height: auto;
     width: auto;
+    background-color: #e9e9e0;
+    margin-top: 10px ;
+    margin-bottom: 20px;
+    margin-left: 10%;
+    margin-right: 10%;
+    #hotel_wrap_title{
+      text-align: center;
+      font-family: 宋体;
+      color: rgb(153, 0, 0);
+      font-size: 50px;
+    }
     #hotel_wrap {
-      margin-left: 15%;
-      margin-right: 15%;
       .hotel_image{
         max-width: 100%;
         max-height: 100%;
