@@ -32,17 +32,11 @@
 <script>
 // 页面中侧边栏与导航栏的设置
 // 导入顶部栏、轮播图、页脚、右侧悬浮栏
-import TopBar from "../../components/TopBar.vue"
 import Chart from "../consumption/Chart.vue"
-import FooterBar from "../../components/FooterBar.vue"
-import RightBar from "../../components/RightBar.vue";
 
 export default {
-  components: {
-    TopBar,
-    FooterBar,
+  components: {   
     Chart,
-    RightBar,
   },
   data() {
     return {
