@@ -1,6 +1,8 @@
 package common
 
 import (
+	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -40,6 +42,7 @@ func TextCheck(text string) (string, error) {
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	res, err := http.DefaultClient.Do(req)
+	//println(res)
 	defer res.Body.Close()
 	//body, err := ioutil.ReadAll(res.Body)
 	body, err := io.ReadAll(res.Body)
@@ -48,5 +51,17 @@ func TextCheck(text string) (string, error) {
 		//println("TextCheck error")
 	}
 	//println("TextCheck" + string(body))
-	return string(body), nil
+
+	var result map[string]interface{}
+	errjs := json.Unmarshal(body, &result)
+
+	if errjs != nil {
+		panic(errjs)
+	}
+
+	// 获取"data"字段的值
+	dataValue := result["data"].(string)
+
+	fmt.Println(dataValue)
+	return dataValue, nil
 }
