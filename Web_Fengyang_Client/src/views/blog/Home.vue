@@ -19,7 +19,7 @@
                     </el-icon>
                 </el-button>
             </template>
-            <el-input class="searchBox" v-model="pageInfo.keyword" placeholder="请输入关键字" />
+            <el-input v-model="pageInfo.keyword" placeholder="请输入关键字" />
         </el-popover>
     </div>
 
@@ -150,9 +150,7 @@ const toDetail = (article) => {
 <style lang="scss" scoped>
 .searchButton {
     position: fixed;
-    display: block;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 2%;
     top: 10px;
     z-index: 999;
 }
