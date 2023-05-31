@@ -14,13 +14,13 @@
         },
         {
             "index": "/?category=1-2",
-            "label": "食",
+            "label": "食宿阅论",
             "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/?category=1-3",
-            "label": "历史人文",
+            "label": "热门景点",
             "mainMenu": false,
             "hasSub": false
         },

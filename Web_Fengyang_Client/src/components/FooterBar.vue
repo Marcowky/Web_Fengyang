@@ -48,12 +48,11 @@ const menuItems = ref(config.menuItems as MenuItem[]);
 .footer {
   position: absolute;
   width: 100%;
-  bottom: 0px;
-
+  bottom: 0;
 }
 
 .space {
-  height: 300px;
+  height: 500px;
 }
 
 .footer-bottom {
