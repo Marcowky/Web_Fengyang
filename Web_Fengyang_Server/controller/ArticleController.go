@@ -20,6 +20,7 @@ type IArticleController interface {
 	Delete(c *gin.Context)
 	Show(c *gin.Context)
 	List(c *gin.Context)
+	
 	// SearchCategory(c *gin.Context)
 	// SearchCategoryName(c *gin.Context)
 }
@@ -127,6 +128,7 @@ func (a ArticleController) List(c *gin.Context) {
 	articleType := c.Query("articleType")
 	keyword := c.DefaultQuery("keyword", "")
 	categoryId := c.DefaultQuery("categoryId", "0")
+	order := c.DefaultQuery("order", "created_at desc")
 	pageNum, _ := strconv.Atoi(c.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(c.DefaultQuery("pageSize", "5"))
 	var query []string
@@ -154,17 +156,17 @@ func (a ArticleController) List(c *gin.Context) {
 	// 查询文章
 	switch len(args) {
 	case 0:
-		a.DB.Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
-		a.DB.Model(model.Article{}).Count(&count)
+		a.DB.Order(order).Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Table(articleType).Model(model.Article{}).Count(&count)
 	case 1:
-		a.DB.Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
-		a.DB.Model(model.Article{}).Where(querystr, args[0]).Count(&count)
+		a.DB.Order(order).Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Table(articleType).Model(model.Article{}).Where(querystr, args[0]).Count(&count)
 	case 2:
-		a.DB.Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0], args[1]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
-		a.DB.Model(model.Article{}).Where(querystr, args[0], args[1]).Count(&count)
+		a.DB.Order(order).Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0], args[1]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Table(articleType).Model(model.Article{}).Where(querystr, args[0], args[1]).Count(&count)
 	case 3:
-		a.DB.Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0], args[1], args[2]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
-		a.DB.Model(model.Article{}).Where(querystr, args[0], args[1], args[2]).Count(&count)
+		a.DB.Order(order).Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0], args[1], args[2]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Table(articleType).Model(model.Article{}).Where(querystr, args[0], args[1], args[2]).Count(&count)
 	}
 	// 展示文章列表
 	common.Success(c, gin.H{"article": article, "count": count}, "查找成功")

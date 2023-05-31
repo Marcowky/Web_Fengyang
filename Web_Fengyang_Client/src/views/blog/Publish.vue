@@ -16,8 +16,7 @@
     <el-dialog v-model="showModal" title="上传文章" width="25%" center>
         <!-- 无封面时 -->
         <div v-if="!newHeadImage" style="width: 80%; margin: auto;">
-            <el-upload drag :before-upload="beforeUpload" :http-request="customRequest"
-                multiple>
+            <el-upload drag :before-upload="beforeUpload" :http-request="customRequest" multiple>
                 <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                 <div class="el-upload__text">
                     拖动文件 或 <em>点击上传</em>
@@ -91,7 +90,7 @@ import { ElMessage } from 'element-plus'
 const categoryOptions = ref([])// 分类列表选项
 const addArticle = reactive({// 待发布的文章对象
     id: 0,
-    categoryId: "未选择",
+    categoryId: "",
     title: "",
     content: "",
     headImage: "",
@@ -180,6 +179,22 @@ function filterText(text) {
 }
 
 const submit = async () => {
+    if (addArticle.categoryId == "") {
+        ElMessage({
+            message: "请选择分类",
+            type: 'error',
+            offset: 80
+        })
+        return
+    }
+    if(addArticle.title==""){
+        ElMessage({
+            message: "请输入标题",
+            type: 'error',
+            offset: 80
+        })
+        return
+    }
     //   console.log(value)
     // 调用filterText函数，并将addArticle对象的content属性值作为参数传递给该函数
     console.log(addArticle)
