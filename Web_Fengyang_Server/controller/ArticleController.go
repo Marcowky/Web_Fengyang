@@ -31,6 +31,15 @@ func (a ArticleController) Create(c *gin.Context) {
 		common.Fail(c, 400, nil, "数据错误")
 		return
 	}
+	// 检测文章标题
+	var errT error
+	articleRequest.Title, errT = common.TextCheck(articleRequest.Title)
+
+	if errT != nil {
+		common.Fail(c, 400, nil, "发布失败")
+		return
+	}
+
 	// 获取登录用户
 	user, _ := c.Get("user")
 	// 创建文章
