@@ -19,7 +19,7 @@
                     </el-icon>
                 </el-button>
             </template>
-            <el-input v-model="pageInfo.keyword" placeholder="请输入关键字" />
+            <el-input v-model="pageInfo.keyword" placeholder="请输入关键字" clearable/>
         </el-popover>
     </div>
 
