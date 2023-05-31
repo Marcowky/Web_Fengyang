@@ -2,7 +2,6 @@ package main
 
 import (
 	"Web_Fengyang_Server/common"
-	"Web_Fengyang_Server/controller"
 	"Web_Fengyang_Server/routes"
 	"net/http"
 
@@ -14,7 +13,7 @@ func main() {
 	// 获取初始化的数据库
 	db := common.InitDB()
 	// 初始化文章分类
-	controller.InitCategory()
+	// controller.InitCategory()
 	// 延迟关闭数据库
 	defer db.Close()
 	// 创建路由引擎

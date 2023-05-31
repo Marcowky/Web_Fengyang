@@ -12,6 +12,7 @@ var jwtKey = []byte("a_secret_key")
 
 type Claims struct {
 	UserId uint
+	UserType string
 	jwt.StandardClaims
 }
 
@@ -21,6 +22,7 @@ func ReleaseToken(user model.User) (string, error) { //创建token
 	claims := &Claims{
 		// 自定义字段
 		UserId: user.ID,
+		UserType: user.UserType,
 		// 标准字段
 		StandardClaims: jwt.StandardClaims{
 			// 过期时间

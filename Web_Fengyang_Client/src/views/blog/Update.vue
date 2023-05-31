@@ -108,7 +108,7 @@ const loadCategories = async () => {
 
 // 加载文章
 const loadArticle = async () => {
-    let res = await axios.get("/article/" + route.query.id)
+    let res = await axios.get(`article/detail?articleType=blogArticle&id=${route.query.id}`)
 
     if (res.data.code == 200) {
         let label = categoryOptions.value.find((item) => item.value.endsWith(res.data.data.article.category_id)).label
@@ -164,11 +164,13 @@ const deleteImage = () => {
 
 // 提交文章
 const submit = async () => {
-    let res = await axios.put("/article/" + route.query.id, {
+    console.log(updateArticle)
+    let res = await axios.put(`article/update?articleType=blogArticle&id=${route.query.id}`, {
         category_id: parseInt(updateArticle.categoryId.slice(-1)),
         title: updateArticle.title,
         content: updateArticle.content,
-        head_image: updateArticle.headImage
+        head_image: updateArticle.headImage,
+        article_type: "blogArticle"
     })
 
     if (res.data.code == 200) {
