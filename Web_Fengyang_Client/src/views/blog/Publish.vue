@@ -190,7 +190,7 @@ const submit = async () => {
             // 将原来的addArticle.content替换为filterText函数返回的过滤后的文本
             addArticle.content = filteredText_data;
 
-            return axios.post("/article", {
+            return axios.post("/article/create", {
                 category_id: parseInt(addArticle.categoryId.slice(-1)),
                 title: addArticle.title,
                 content: addArticle.content,
