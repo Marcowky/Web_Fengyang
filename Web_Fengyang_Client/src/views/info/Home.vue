@@ -116,9 +116,6 @@
 </template>
 
 <script setup>
-// 导入顶部栏
-import TopBar from "../../components/TopBar.vue"
-import FooterBar from "../../components/FooterBar.vue";
 import {ref} from "vue";
 import news from '../../config/news.json';
 import warning from '../../config/warning.json'
@@ -126,11 +123,6 @@ import warning from '../../config/warning.json'
 let carousel = ref(null)
 let newslist = news.news_items
 let warninlist =warning.warning_items
-
-// 侧边栏和导航栏的点击触发函// 数
-const handleSelect = (index) => {    // 这里可以定义导航栏点击函数
-
-};
 
 const arrowClick = (val) => {
   if(val === 'right') {
@@ -203,3 +195,4 @@ transform: scale(1.05); //放大倍数
 }
 
 </style>
+

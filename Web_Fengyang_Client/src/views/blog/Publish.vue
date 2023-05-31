@@ -5,28 +5,29 @@
             <rich-text-editor v-model:modelValue="addArticle.content"></rich-text-editor>
         </div>
     </div>
-    
+
     <!-- 功能栏 -->
-    <el-menu :default-active="activeIndex" class="choiceBar" @select="handleSelect">
+    <el-menu class="choiceBar" @select="handleSelect">
         <el-menu-item style="color: #409EFF;" index="1">发布</el-menu-item>
         <el-menu-item style="color: #F56C6C;" index="2">取消</el-menu-item>
     </el-menu>
+
     <!-- 上传文章弹框 -->
     <el-dialog v-model="showModal" title="上传文章" width="25%" center>
         <!-- 无封面时 -->
         <div v-if="!newHeadImage" style="width: 80%; margin: auto;">
-            <n-upload multiple directory-dnd :max="1" @before-upload="beforeUpload" :custom-request="customRequest">
-                <n-upload-dragger>
-                    <div style="margin-bottom: 12px">
-                        <n-icon size="48" :depth="3">
-                            <archive-icon />
-                        </n-icon>
+            <el-upload drag :before-upload="beforeUpload" :http-request="customRequest"
+                multiple>
+                <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                <div class="el-upload__text">
+                    拖动文件 或 <em>点击上传</em>
+                </div>
+                <template #tip>
+                    <div class="el-upload__tip">
+                        仅支持png/jpg/jpeg格式的图片
                     </div>
-                    <n-text style="font-size: 16px">
-                        点击或者拖动图片到此处
-                    </n-text>
-                </n-upload-dragger>
-            </n-upload>
+                </template>
+            </el-upload>
         </div>
         <!-- 有封面时 -->
         <div v-else style="width: 80%; margin: auto;">
@@ -66,6 +67,7 @@ import RichTextEditor from '../../components/RichTextEditor.vue'
 
 // 导入一些icons
 import { ArchiveOutline as ArchiveIcon } from "@vicons/ionicons5"
+import { UploadFilled } from '@element-plus/icons-vue'
 // icons
 import {
     Delete,
@@ -74,10 +76,7 @@ import {
 // 导入路由
 import { useRouter } from 'vue-router'
 const router = useRouter()
-// const route = useRoute()
 
-// 导入顶部栏
-import TopBar from "../../components/TopBar.vue"
 
 
 // 这也是在Vue.js 3中使用的代码，它使用了inject函数来获取从祖先组件中通过provide提供的三个依赖项。
@@ -114,7 +113,7 @@ const loadCategories = async () => {
             value: item.index.slice(-3)
         }
     })
-    console.log(categoryOptions)
+    // console.log(categoryOptions)
 }
 
 // 控制发布文章时弹窗的显示与隐藏
@@ -127,10 +126,11 @@ const closeSubmitModal = () => {
 }
 
 // 判断图片的格式是否符合要求
-const beforeUpload = async (data) => {
-    if (data.file.file?.type !== "image/png") {
+const beforeUpload = async (file) => {
+    const allowedTypes = ['image/jpeg', 'image/png', "image/jpeg"]; // 允许的文件类型
+    if (!allowedTypes.includes(file.type)) {
         ElMessage({
-            message: "只能上传png格式的图片",
+            message: "只能上传png/jpg/jpeg格式的图片",
             type: 'error',
             offset: 80
         })
@@ -141,10 +141,10 @@ const beforeUpload = async (data) => {
 
 // 控制文章头图
 const newHeadImage = ref(false)
-const customRequest = async ({ file }) => {
+const customRequest = async (file) => {
     const formData = new FormData()
     formData.append('file', file.file)
-    console.log(formData)
+    // console.log(formData)
     let res = await axios.post("/image/upload", formData)
     addArticle.headImage = res.data.data.filePath
     newHeadImage.value = true
@@ -154,32 +154,71 @@ const deleteImage = () => {
     newHeadImage.value = false
 }
 
-// 上传文章函数
-const submit = async () => {
-    console.log(value)
-    let res = await axios.post("/article", {
-        category_id: parseInt(addArticle.categoryId.slice(-1)),
-        title: addArticle.title,
-        content: addArticle.content,
-        head_image: addArticle.headImage
-    })
-    console.log(addArticle)
-    console.log(res)
-    if (res.data.code == 200) {
-        ElMessage({
-            message: res.data.msg,
-            type: 'success',
-            offset: 80
+function filterText(text) {
+    return new Promise((resolve, reject) => {
+        axios({
+            method: 'post',
+            url: '/article/filter',
+            data: {
+                article_text: text
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
-        goback()
-    } else {
-        ElMessage({
-            message: res.data.msg,
-            type: 'error',
-            offset: 80
-        })
-    }
+            .then(function (response) {
+                // console.log(text);
+                // response.data.filteredText为形式为{"code": 200, "message": "", "data": "<p>***的，**</p>", "use_time": 2.0265579223632812e-05}
+                //   console.log(response.data.filteredText);
+                resolve(response.data.filteredText);
+            })
+            .catch(function (error) {
+                //   console.log(error);
+                reject(error);
+            });
+    });
 }
+
+const submit = async () => {
+    //   console.log(value)
+    // 调用filterText函数，并将addArticle对象的content属性值作为参数传递给该函数
+    filterText(addArticle.content)
+        .then(filteredText => {
+            // 获得filteredText的"data"即处理后的字段
+            const filteredText_data = JSON.parse(filteredText).data;
+            // 将原来的addArticle.content替换为filterText函数返回的过滤后的文本
+            addArticle.content = filteredText_data;
+
+            return axios.post("/article", {
+                category_id: parseInt(addArticle.categoryId.slice(-1)),
+                title: addArticle.title,
+                content: addArticle.content,
+                head_image: addArticle.headImage
+            });
+        })
+        .then(res => {
+            // console.log(addArticle)
+            // console.log(res)
+            if (res.data.code == 200) {
+                ElMessage({
+                    message: res.data.msg,
+                    type: 'success',
+                    offset: 80
+                })
+                goback()
+            } else {
+                ElMessage({
+                    message: res.data.msg,
+                    type: 'error',
+                    offset: 80
+                })
+            }
+        })
+        .catch(error => {
+            // console.log(error);
+        });
+}
+
 
 // 返回上级页面
 const goback = () => {
@@ -203,9 +242,7 @@ const handleSelect = (index) => {
 <style lang="scss" scoped>
 .content {
     position: relative;
-    top: 100px;
     margin: auto;
-    margin-bottom: 100px;
     width: 1000px;
     display: flex;
     flex-direction: column;

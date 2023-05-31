@@ -1,65 +1,70 @@
 <template>
+    <!-- 登录注册弹框 -->
+    <LoginDialog ref="loginDialogRef" />
     <!-- 功能栏 -->
     <div class="funcBar">
         <!-- 侧边栏 -->
-        <SideBar class="sidebar" :items="menuItems" @select="handleSelect" />
+        <SideBar class="sidebar" :items="menuItems" />
         <el-menu class="choiceBar" :default-active="activeIndex" @select="goPublish" text-color="#409EFF">
             <el-menu-item style="color: #409EFF;" index="1">我要发布!</el-menu-item>
         </el-menu>
     </div>
     <!-- 搜索栏 -->
-    <div class="searchBar">
-        <el-input class="searchBox" v-model="pageInfo.keyword" placeholder="请输入关键字" />
-        <el-button class="searchButton" :icon="Search" @click="loadArticles(0)" circle />
+    <div class="searchButton">
+        <el-popover placement="bottom" title="搜索文章" :width="200" trigger="click">
+            <template #reference>
+                <el-button @click="loadArticles(0)" text bg size="large">
+                    <el-icon style="position: relative; top: -2px;" :size="20">
+                        <Search />
+                    </el-icon>
+                </el-button>
+            </template>
+            <el-input class="searchBox" v-model="pageInfo.keyword" placeholder="请输入关键字" />
+        </el-popover>
     </div>
+
+    <!-- 文章列表 -->
     <div class="content">
         <!-- 文章卡片 -->
         <div v-for="(article, index) in articleList" style="margin:15px">
             <!-- 若有封面图 -->
             <el-card class="articleCard" v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
-                <el-image style="width: 200px; float: left" :src="serverUrl + article.head_image" :fit="fit" />
-                <template #header>
-                    <div>
-                        <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
-                    </div>
-                </template>
-                <div style="position: relative; left: 50px; width: 690px;">
-                    <p>{{ article.content + "..." }}</p>
-                    <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
-                    </div>
+                <el-image style="height: 150px; float: right; margin-bottom: 20px; margin-left: 15px;" :src="serverUrl + article.head_image" />
+                <div style="position: relative; height: 150px;">
+                    <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
+                    <div v-html="article.content"></div>
+                    <div style=" position: absolute; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
                 </div>
             </el-card>
             <!-- 若无封面图 -->
             <el-card class="articleCard" v-else @click="toDetail(article)" hoverable shadow="hover">
-                <template #header>
-                    <div>
-                        <text style="font-weight:bold; font-size: 20px;">{{ article.title }}</text>
-                    </div>
-                </template>
-                <div style="height: 75px; ">
-                    <p>{{ article.content + "..." }}</p>
-                    <div style=" margin-top: 10px;">发布时间：{{ article.created_at }}
-                    </div>
+                <div style="position: relative; height: 120px;">
+                    <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
+                    <div v-html="article.content"></div>
+                    <div style=" position: absolute; right: 0px; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
                 </div>
             </el-card>
         </div>
         <!-- 页面切换 -->
-        <el-pagination class="pageSlider" :small="small" :background="background" layout="prev, pager, next"
-            :page-count="pageInfo.pageCount" @current-change="loadArticles" />
+        <el-pagination class="pageSlider" small layout="prev, pager, next" :page-count="pageInfo.pageCount"
+            @current-change="loadArticles" />
     </div>
 </template>
 
+
+
+
 <script setup>
-import { ref, reactive, inject, onMounted } from 'vue'
+import { ref, reactive, inject, onMounted, watch } from 'vue'
 // icons
 import {
     Search
 } from '@element-plus/icons-vue'
 
-
 // 导入路由
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
+const route = useRoute()
 
 // 网络请求
 const serverUrl = inject("serverUrl")
@@ -84,11 +89,14 @@ import SideBar from "../../components/SideBar.vue"
 import config from '../../config/config.json';
 // 3.设置侧边栏目录项
 const menuItems = config.menuItems.filter(item => item.index.startsWith("/blog?category=5-"));
-// 4.侧边栏和导航栏的点击触发函数
-const handleSelect = (index) => {
-    pageInfo.categoryId = index.charAt(index.length - 1) // 设置文章种类
-    loadArticles(0) // 加载文章
-};
+// 4.设置路由跳转监听
+watch(
+    () => route.fullPath,
+    (newValue, oldValue) => {
+        pageInfo.categoryId = newValue.charAt(newValue.length - 1) // 设置文章种类
+        loadArticles(0) // 加载文章
+    }
+)
 
 // 挂载页面时触发
 onMounted(() => {
@@ -108,6 +116,10 @@ const loadArticles = async (pageNum = 0) => {
     pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
 }
 
+// 导入登录注册弹框
+import LoginDialog from '../../components/LoginAndRegister.vue'
+const loginDialogRef = ref(null)
+
 const goPublish = async () => {
     try {
         let resUser = await axios.get("user/info")
@@ -116,7 +128,8 @@ const goPublish = async () => {
         }
     } catch (err) {
         if (err.response.status === 401) {
-            router.push("/user/login")
+            // 显示登录注册弹框
+            loginDialogRef.value.showDialog()
         }
     }
 }
@@ -134,27 +147,18 @@ const toDetail = (article) => {
 </script>
 
 <style lang="scss" scoped>
-.searchBar {
+.searchButton {
     position: fixed;
-    top: 13px;
-    left: 35%;
-    transform: translate(-50%, 0%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    z-index: 9999;
-}
-
-.searchBox {
-    flex: 1;
+    display: block;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 10px;
+    z-index: 999;
 }
 
 .content {
     position: relative;
-    top: 100px;
     margin: auto;
-    margin-bottom: 100px;
     width: 1000px;
     display: flex;
     flex-direction: column;
@@ -166,8 +170,6 @@ const toDetail = (article) => {
     z-index: 99;
 }
 
-
-
 .articleCard {
     cursor: pointer;
     width: 950px;
@@ -177,7 +179,6 @@ const toDetail = (article) => {
     display: flex;
     justify-content: center;
 }
-
 
 .choiceBar {
     width: 150px;
@@ -195,10 +196,5 @@ const toDetail = (article) => {
     position: fixed;
     top: 25%;
     z-index: 999;
-}
-
-.box {
-    position: relative;
-    min-height: 100%;
 }
 </style>
