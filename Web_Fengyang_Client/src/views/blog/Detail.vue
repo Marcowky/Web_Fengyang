@@ -23,13 +23,13 @@
                 <!-- 分类信息 -->
                 <div style="position: absolute; right: 50px; top: 15px; color: #808080;">
                     文章分类：
-                    <el-tag class="ml-2" type="success">categoryName</el-tag>
+                    <el-tag class="ml-2" type="success">{{categoryName}}</el-tag>
                 </div>
             </div>
             <!-- 分割线 -->
             <el-divider />
             <!-- 文章内容 -->
-            <div class="article-content" v-html="articleInfo.content"></div>
+            <div :class="$style.article" class="article-content" v-html="articleInfo.content"></div>
             <div style="height: 20px;"></div>
         </div>
 
@@ -38,9 +38,6 @@
 
 <script setup>
 import { ref, inject, onMounted } from 'vue'
-
-// 导入顶部栏
-import TopBar from "../../components/TopBar.vue"
 
 // 导入路由
 import { useRouter, useRoute } from 'vue-router'
@@ -62,22 +59,33 @@ const activeIndex = ref('0')
 // 挂载页面时触发
 onMounted(() => {
     loadArticle()
+    loadCategories()
 })
+
+import config from '../../config/config.json';
+// 加载文章种类
+const categoryOptions = ref([])
+const loadCategories = async () => {
+    categoryOptions.value = config.menuItems.filter(item => item.index.startsWith("/blog?category=")).map((item) => {
+        return {
+            label: item.label,
+            value: item.index.slice(-3)
+        }
+    })
+}
 
 // 加载文章
 const loadArticle = async () => {
     // 获取文章信息
-    let resArticle = await axios.get("article/" + route.query.id)
+    let resArticle = await axios.get(`article/detail?articleType=blogArticle&id=${route.query.id}`)
     if (resArticle.data.code == 200) {
         articleInfo.value = resArticle.data.data.article
-        // 获取分类徐徐
-        let resCategory = await axios.get("article/category/" + resArticle.data.data.article.category_id)
-        if (resCategory.data.code == 200) {
-            categoryName.value = resCategory.data.data.categoryName
-        }
+        // 获取分类
+        let label = categoryOptions.value.find((item) => item.value.endsWith(resArticle.data.data.article.category_id)).label
+            categoryName.value = label
         // 获取作者信息
         let resWriter = await axios.get("user/briefInfo/" + articleInfo.value.user_id)
-        articleInfo.value.username = resWriter.data.data.name
+        articleInfo.value.username = resWriter.data.data.userName
         // 获取用户信息，判断用户是否是作者
         let resUser = await axios.get("user/info")
         if (resUser.data.code == 200) {
@@ -112,7 +120,7 @@ const toDelete = async (blog) => {
         }
     )
         .then(async () => {
-            let res = await axios.delete("article/" + articleInfo.value.id)
+            let res = await axios.delete(`article/delete?articleType=blogArticle&id=${articleInfo.value.id}`)
             if (res.data.code == 200) {
                 ElMessage({
                     message: res.data.msg,
@@ -173,5 +181,11 @@ const handleSelect = (index) => {
     width: 150px;
     box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
     border-radius: 0 10px 10px 0;
+}
+</style>
+
+<style module>
+.article img{
+  max-width: 100%;
 }
 </style>

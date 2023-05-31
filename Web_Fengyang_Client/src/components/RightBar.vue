@@ -60,6 +60,10 @@
   }
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {
+    position: fixed; 
+    top: 450px; 
+    right: 20px; 
+    z-index: 999;
     width: 120px;
     background-color: rgba(255, 255, 255, 0.5);
     min-height: 200px;
