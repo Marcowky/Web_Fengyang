@@ -1,4 +1,6 @@
 <template>
+  <!-- 登录注册弹框 -->
+  <LoginDialog ref="loginDialogRef" />
   <div class="admin">
     <div class="sidebar">
       <div class="logo">
@@ -66,24 +68,27 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { reactive } from 'vue'
+import { ref,onMounted } from 'vue'
 
-export default {
-  setup() {
-    const state = reactive({
-      adminName: 'admin',
-    })
 
-    const logout = () => {
-      // TODO: 实现退出登录的逻辑
-    }
 
-    return {
-      adminName: state.adminName,
-      logout
-    }
-  }
+// 导入登录注册弹框
+import LoginDialog from '../../components/LoginAndRegister.vue'
+const loginDialogRef = ref(null)
+
+// 挂载页面时触发
+onMounted(() => {
+  loginDialogRef.value.showDialog()
+})
+
+const state = reactive({
+  adminName: 'admin',
+})
+
+const logout = () => {
+  // TODO: 实现退出登录的逻辑
 }
 </script>
 
