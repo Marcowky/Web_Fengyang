@@ -27,6 +27,8 @@ let routes = [
     { path: "/blog/publish", component: () => import("../views/blog/Publish.vue") },  // 发布界面
     { path: "/blog/update", component: () => import("../views/blog/Update.vue") },    // 文章更新
 
+    { path: "/admin", component: () => import("../views/admin/Home.vue") },    // admin
+
 ]
 
 const router = createRouter({
