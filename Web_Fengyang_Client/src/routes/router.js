@@ -14,7 +14,8 @@ let routes = [
 
     { path: "/", component: () => import("../views/home/Home.vue") },                        // 主页
 
-    { path: "/info", component: () => import("../views/info/Home.vue") },                        // 咨询
+    { path: "/info", component: () => import("../views/info/Home.vue") }, // 咨询
+    { path: "/info/page", component: () => import("../views/info/News.vue") },
 
     { path: "/attraction", component: () => import("../views/attraction/Home.vue") },         // 景点
 
