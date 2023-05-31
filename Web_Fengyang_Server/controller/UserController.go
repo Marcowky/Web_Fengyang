@@ -191,14 +191,14 @@ func (a UserController) GetMyInfo(c *gin.Context) {
 
 // GetBriefInfo 通过id获取简要信息
 func (a UserController) GetBriefInfo(c *gin.Context) {
-
+	userType := c.Query("userType")
 	// 获取path中的userId
-	userId := c.Params.ByName("id")
+	userId := c.Query("id")
 	// 判断用户身份
 	// user, _ := c.Get("user")
 	//var self bool
 	var curUser model.User
-	a.DB.Table("client").Where("id =?", userId).First(&curUser)
+	a.DB.Table(userType).Where("id =?", userId).First(&curUser)
 	if curUser.ID == 0 {
 		a.DB.Table("admin").Where("id =?", userId).First(&curUser)
 		if curUser.ID == 0 {
