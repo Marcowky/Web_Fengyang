@@ -3,39 +3,229 @@
   <Chart style=" position: relative; left: 0;  width: 100%; " />
   <br><br><br>
 
-  <!--概况-->
-  <div class="general-title">
-    <h3>—景 区 概 况—</h3>
-  </div><br>
-
-  <img class="IMG1" src="../../assets/spring.jpg" alt="">
-  <div class="TXT1">
-    <span>{{ spring_mes }}</span>
+  <!--四色丰阳-->
+  <div class="title-1">
+    <p>—四 色 丰 阳—</p>
+  </div>
+  <div class="container-1">
+    <ul>
+      <li class="list-1">
+        <a>
+          <img class="pic-1" src="../../assets/HomePage/index-pic-1.jpg" alt="index-pic-1">
+        </a>
+      </li>
+      <li class="list-2">
+        <h3>红色丰阳</h3>
+        <div class="fengyang_txt">
+          <p>{{ red_fengyang }}</p>
+        </div>
+      </li>
+      <li class="list-3">
+        <h3>绿色丰阳</h3>
+        <div class="fengyang_txt">
+          <p>{{ green_fengyang }}</p>
+        </div>
+      </li>
+      <li class="list-4">
+        <a>
+          <img class="pic-4" src="../../assets/HomePage/index-pic-4.jpg" alt="index-pic-4">
+        </a>
+      </li>
+      <li class="list-5">
+        <a>
+          <img class="pic-5" src="../../assets/HomePage/index-pic-5.jpg" alt="index-pic-5">
+        </a>
+      </li>
+      <li class="list-6">
+        <h3>金色丰阳</h3>
+        <div class="fengyang_txt">
+          <p>{{ gold_fengyang }}</p>
+        </div>
+      </li>
+      <li class="list-7">
+        <h3>灰色丰阳</h3>
+        <div class="fengyang_txt">
+          <p>{{ gray_fengyang }}</p>
+        </div>
+      </li>
+      <li class="list-8">
+        <a>
+          <img class="pic-8" src="../../assets/HomePage/index-pic-8.jpg" alt="index-pic-8">
+        </a>
+      </li>
+    </ul>
   </div>
 
-  <img class="IMG2" src="../../assets/summer.jpg" alt="">
-  <div class="TXT2">
-    <span>{{ summer_mes }}</span>
+  <!--食宿阅论-->
+  <div class="title-1">
+    <p>—食 宿 阅 论—</p>
+  </div>
+  <div class="container-2">
+    <ul>
+      <li class="block2-li">
+        <el-link href="http://localhost:5173/#/consumption">
+          <div class="imgBox">
+            <img src="../../assets/HomePage/index-pic-9.jpg" alt="index-pic-9">
+            <div class="text">
+                 <h3>食在丰阳</h3>
+            </div>
+          </div>
+        </el-link>
+      </li>
+      <li class="block2-li">
+        <el-link href="http://localhost:5173/#/travel">
+          <div class="imgBox">
+            <img src="../../assets/HomePage/index-pic-10.jpg" alt="index-pic-10">
+            <div class="text">
+                <h3>宿在丰阳</h3>
+            </div>
+          </div>
+        </el-link>
+      </li>
+      <li class="block2-li">
+        <el-link href="http://localhost:5173/#/info">
+          <div class="imgBox">
+            <img src="../../assets/HomePage/index-pic-11.jpg" alt="index-pic-11">
+            <div class="text">
+                <h3>阅在丰阳</h3>
+            </div>
+          </div>
+        </el-link>
+      </li>
+      <li class="block2-li">
+        <el-link href="http://localhost:5173/#/blog">
+          <div class="imgBox">
+            <img src="../../assets/HomePage/index-pic-12.jpg" alt="index-pic-12">
+            <div class="text">
+                <h3>论在丰阳</h3>
+            </div>
+          </div>
+        </el-link>
+      </li>
+    </ul>
   </div>
 
-  <img class="IMG1" src="../../assets/autumn.jpg" alt="">
-  <div class="TXT1">
-    <span>{{ autumn_mes }}</span>
+  <!--热门景点-->
+  <div class="title-1">
+    <p>—热 门 景 点—</p>
+  </div>
+  <div class="container-3">
+    <ul>
+      <li class="block2-li">
+        <el-link href="http://localhost:5173/#/consumption">
+          <div class="imgBox-2">
+            <img class="block3-img" width=448px src="../../assets/HomePage/index-pic-13.jpg" alt="index-pic-13">
+            <div class="bg-h2">
+              <h2>{{ row1_title1 }}</h2>
+            </div>
+          </div>
+        </el-link>
+
+        <el-link href="http://localhost:5173/#/consumption">
+          <div class="imgBox-2">
+            <img class="block3-img" width=448px src="../../assets/HomePage/index-pic-14.jpg" alt="index-pic-14">
+            <div class="bg-h2">
+              <h2>{{ row1_title2 }}</h2>
+            </div>
+          </div>
+        </el-link>
+
+        <el-link href="http://localhost:5173/#/consumption">
+          <div class="imgBox-2">
+            <img class="block3-img" width=448px src="../../assets/HomePage/index-pic-15.jpg" alt="index-pic-15">
+            <div class="bg-h2">
+              <h2>{{ row1_title3 }}</h2>
+            </div>
+          </div>
+        </el-link>
+      </li> 
+    </ul>
+</div>
+
+<div class="container-4">
+    <ul>
+      <li class="block2-li">
+        <el-link href="http://localhost:5173/#/consumption">
+          <div class="imgBox-3">
+            <img class="block3-img-2" width=448px src="../../assets/HomePage/index-pic-16.jpg" alt="index-pic-9">
+              <div class="txtbox">
+                <div class="bgtxt">
+                  <p class="txt-title">{{ txt_title_1 }}</p>
+                </div>
+                <div class="bgtxt-content">
+                  <p class="txt-content">{{ txt_content_1 }}</p>
+                </div>
+              </div>
+          </div>
+        </el-link>
+
+        <el-link href="http://localhost:5173/#/consumption">
+          <div class="imgBox-3">
+            <img class="block3-img-2" width=448px src="../../assets/HomePage/index-pic-17.jpg" alt="index-pic-9">
+              <div class="txtbox">
+                <div class="bgtxt">
+                  <p class="txt-title">{{ txt_title_2 }}</p>
+                </div>
+                <div class="bgtxt-content">
+                  <p class="txt-content">{{ txt_content_2 }}</p>
+                </div>
+              </div>
+          </div>
+        </el-link>
+
+        <el-link href="http://localhost:5173/#/consumption">
+          <div class="imgBox-3">
+            <img class="block3-img-2" width=448px src="../../assets/HomePage/index-pic-18.jpg" alt="index-pic-9">
+              <div class="txtbox">
+                <div class="bgtxt">
+                  <p class="txt-title">{{ txt_title_3 }}</p>
+                </div>
+                <div class="bgtxt-content">
+                  <p class="txt-content">{{ txt_content_3 }}</p>
+                </div>
+              </div>
+          </div>
+        </el-link>
+
+        <el-link href="http://localhost:5173/#/consumption">
+          <div class="imgBox-3">
+            <img class="block3-img-2" width=448px src="../../assets/HomePage/index-pic-19.jpg" alt="index-pic-9">
+              <div class="txtbox">
+                <div class="bgtxt">
+                  <p class="txt-title">{{ txt_title_4 }}</p>
+                </div>
+                <div class="bgtxt-content">
+                  <p class="txt-content">{{ txt_content_4 }}</p>
+                </div>
+              </div>
+          </div>
+        </el-link>
+
+        <el-link href="http://localhost:5173/#/consumption">
+          <div class="imgBox-3">
+            <img class="block3-img-2" width=448px src="../../assets/HomePage/index-pic-20.jpg" alt="index-pic-9">
+              <div class="txtbox">
+                <div class="bgtxt">
+                  <p class="txt-title">{{ txt_title_5 }}</p>
+                </div>
+                <div class="bgtxt-content">
+                  <p class="txt-content">{{ txt_content_5 }}</p>
+                </div>
+              </div>
+          </div>
+        </el-link>
+      </li>
+    </ul>
   </div>
 
-  <img class="IMG2" src="../../assets/winter.jpg" alt="">
-  <div class="TXT2">
-    <span>{{ winter_mes }}</span>
-  </div>
 </template>
-
+const link = "http://localhost:5173/#/consumption"
 <script>
-// 页面中侧边栏与导航栏的设置
-// 导入顶部栏、轮播图、页脚、右侧悬浮栏
+// 首页必须自己导入
 import TopBar from "../../components/TopBar.vue"
 import Chart from "../consumption/Chart.vue"
 import FooterBar from "../../components/FooterBar.vue"
-import RightBar from "../../components/RightBar.vue";
+import RightBar from "../../components/RightBar.vue"
 
 export default {
   components: {
@@ -46,10 +236,23 @@ export default {
   },
   data() {
     return {
-      spring_mes: "四季在一年中交替出现，一年四季的变化是连绵不断的过程。其也是阴阳转换，此消彼长、量变产生质变的过程。在这个渐变的过程中，立春、立夏、立秋、立冬，并称“四立”，都是季节的开启。春季排四季之首，新的轮回从此开启。春，代表着温暖、生长。春季，阴阳之气开始转变，万物随阳气上升而萌牙生长，春季是万物生长、春耕播种的季节，所谓“一年之计在于春”。",
-      summer_mes: "夏季万物至此皆盛，是农作物进入旺季生长的一个季节。温度升高，天气炎热，狂风暴雨频发，万物盛长。夏季是风暴最多的季节，常伴随着大风、暴雨。北半球夏季，大陆受热气压上升形成低气压，海洋恒温温度相对较低形成高气压，根据环流，夏季吹的是东南风。夏季北半球各地的白昼时间全年最长。",
-      autumn_mes: "秋季是收获季节，意味着万物开始从繁茂成长趋向萧索成熟。秋季的前两个节气立秋、处暑，还是酷热天气，因太阳所带来的热力未减弱，所谓“热在三伏”，三伏天出现在小暑与处暑之间，是一年中气温最高且又潮湿、闷热的日子。造成三伏天湿度高原因是，三伏天吹东南风，而东南方是太平洋和印度洋，空气潮湿，风的潮湿造成了三伏天湿度大；到了深秋之后则相反，吹西北风，而西北方是干燥的内陆，干燥的西北风造成深秋之后气候干燥。",
-      winter_mes: "冬季，阴阳转变，万物由收到藏，植物生气闭蓄。进入立冬后意味着秋季少雨干燥气候渐过去，转为阴雨寒冻的冬季气候特征。北半球的太阳高度小，白昼时间短。所谓“热在三伏”，冷在三九”，冬至为“一九天”，冬至之前还不算很冷，冬至过后强冷空气南下频繁，并越过了南岭，气温骤降，天气寒冷。冬季真正寒冷，是在冬至后。",
+      red_fengyang: "丰阳古镇位于连州市西北部，距离现今有一千多年的历史，一幢古庙、二条古街、三间祠堂、四座门楼，这里包揽了丰阳古村的全部内涵",
+      green_fengyang: "古镇里的一山一水、一草一木同时也铸造了一道道迷人的风景线，穿梭其中，屋舍俨然，古朴且惬意，美景不断，恬静闲适的气息迎面而至",
+      gold_fengyang: "这里山水依偎，低调安谧，闲适悠然，丰阳镇里还有一条始建于明朝成化年间的秀美清雅的畔水古村，村内现存明、清时期的历史传统建筑，多达47000平方米",
+      gray_fengyang: "在村内至今还遗存着丰富的宋代人文景观和完好的明、清建筑，每每走过斑驳的石板古街、重檐飞翘的古宅都能感受浓浓的古村落气息",
+      row1_title1: "移石瀑",
+      row1_title2: "木香宫",
+      row1_title3: "碧湖桥",
+      txt_title_1: "象鼻山",
+      txt_content_1: "依船靠岸，走上台阶，你会看到一座雄伟的会馆，她设计精巧独特，雕琢玲珑剔透，或飞檐翘角，或回廊游转，或卧龙啸空，或奇兽驰骋，可以说是点雨楼台荟萃的建筑艺术大观。万寿宫内则是我国著名画家黄永玉老先生艺术画展，艺术馆内展示了一代画坛鬼才黄永玉不同时期的创作作品，和为家乡创作的《销魂的九夏芙蓉三湘烟水》、《沱江雨岸》、《故乡荷塘》、《永不回来的风景》四副艺术真迹均在馆内展出。在这里你可感受全才鬼才、博学而不群、倔强、睿智风趣、笔耕不戳、重情重义、讲原则的黄永玉.....",
+      txt_title_2: "沱江泛舟",
+      txt_content_2: "沱江河是凤凰古城的母亲河，她依着城墙缓缓流淌，世世代代哺育着古城儿女。坐上乌篷船，听着舩公的号子，看着两岸已有百年历史的土家吊脚楼，别有一番韵味。顺水而下，穿过虹桥一幅江南水乡的画卷展现于眼前：万寿宫、万名塔、夺翠楼.....一种远离尘世的感觉悠然而生。沱江的南岸是古城墙，用紫红沙石砌成，典雅不失雄伟。城墙有东、北两座城楼，久经沧桑，依然壮观。沱江河水清澈，城墙边的河道很浅，水流悠游缓和，可以看到柔波里招摇水草，可以撑一支长篙漫溯。沿沱江边而建的吊脚楼群在东门虹桥和北门跳岩附近，细脚伶仃的立在沱江里，像一幅永不回来的风景。",
+      txt_title_3: "东门城楼",
+      txt_content_3: "东门城楼位于城东，紧靠沱江，原名“升恒门”，为凤凰古城四大城门之一。东门城楼始建于清康熙五十四年（1715年），城门下部由紫红砂岩砌成，上部城楼则用古砖砌筑。登上城楼，抚摸着凹凸不平的城墙，时间仿佛就会在这一刻定格，恍惚中，依稀看到它如同像那有着湘西人刚毅的面庞的血性男儿一样，守护着沱江两岸，守护着这一弯流水。",
+      txt_title_4: "神凤文化景区",
+      txt_content_4: "一座青山抱古城，一湾沱水绕城过”。 横亘古城的南华山被誉为凤凰的父亲山，碧水逶迤的沱江是凤凰的母亲河。南华山国家森林公园位于凤凰古城南部，临沱江之畔，呈月牙形环抱凤凰古城，神凤文化景区就位于南华山国家森林公园境内，景区入口毗邻虹桥，依山傍水，俯瞰整个凤凰古城。",
+      txt_title_5: "虹桥风雨楼",
+      txt_content_5: "虹桥又名“卧虹桥”或“风雨桥”，位于凤凰古城东门外迴龙阁沱江河之上。始建于明洪武年间，明嘉靖三十五年（公元1556年）、清康熙九年（1670年）、五十四年（1715年）进行加固维修；民国三年（1914年）湘西镇守使田应诏首倡集资重加修葺，更名为“虹桥”。该桥南北走向，桥型为半圆拱联拱石桥，两墩三孔，为红砂石砌筑。1955年修建成公路，2000年修复为虹桥风雨楼，具有极高的观赏价值和文物保护价值。2011年被确立为湖南省第九批省级文物保护单位。",
     }
   },
   methods: {
@@ -65,68 +268,328 @@ export default {
   //   document.querySelector('body').removeAttribute('style')
   // },
 };
-
-
 </script>
 
 <style scoped>
-.general-title {
+.title-1 {
+  width: 100%;
+  font-size: 80px;
+  font-family: STXingkai;
+  font-weight: 100px;
+  color: #474141;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.container-1 {
+  position: relative;
+  width: 100%;
+  height: 1440px;
+  margin-bottom: 100px;
+  padding-top: 0;
+}
+
+.container-1 .list-1 {
+  top: 0;
+}
+
+.container-1 .list-1 .pic-1{
+  width: 672px;
+  height: 360px;
+}
+
+.container-1 .list-2 {
+  position: absolute;
+  top: 0;
+  right: 40px;
+  height: 360px;
+  width: 672px;
+  background: url(../../assets/HomePage/index-pic-2.jpg);
+}
+
+.container-1 .list-3 {
+  position: absolute;
+  top: 360px;
+  left: 40px;
+  height: 360px;
+  width: 672px;
+  background: url(../../assets/HomePage/index-pic-3.jpg) ;
+}
+
+.container-1 .list-4 {
+  position: absolute;
+  top: 360px;
+  right: 40px;
+}
+
+.container-1 .list-4 .pic-4{
+  top: 0;
+  width: 672px;
+  height: 360px;
+  left: 0px;
+}
+.container-1 .list-5 {
+  position: absolute;
+  top: 720px;
+}
+
+.container-1 .list-5 .pic-5{
+  width: 672px;
+  height: 360px;
+}
+
+.container-1 .list-6 {
+  position: absolute;
+  top: 720px;
+  right: 40px;
+  height: 360px;
+  width: 672px;
+  background: url(../../assets/HomePage/index-pic-2.jpg) ;
+}
+
+.container-1 .list-7 {
+  position: absolute;
+  top: 1080px;
+  left: 40px;
+  height: 360px;
+  width: 672px;
+  background: url(../../assets/HomePage/index-pic-3.jpg) ;
+}
+
+.container-1 .list-8 {
+  position: absolute;
+  top: 1080px;
+  right: 40px;
+}
+
+.container-1 .list-8 .pic-8{
+  width: 672px;
+  height: 360px;
+}
+
+.li, h3 {
+  color: #000;
+  font-size: 30px;
   font-family: 宋体;
-  color: black;
-  font-size: 45px;
-  font-weight: bolder;
+  font-weight: 550;
+  margin-top: 100px;
+  margin-left: 285px;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.fengyang_txt {
+  width: 672px;
+  height: 200px;
+  font-size: 16px;
+  font-family: 宋体;
+  color: #000;
+  padding-top: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  display: flex;
   text-align: center;
+  word-break: keep-all;
+  line-height: 25px;
 }
 
-.IMG1 {
-  width: 300px;
-  height: 448px;
+.container-2 {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  margin-bottom: 100px;
+  overflow:hidden
+}
+.container-2 .block2-li {
   float: left;
-  /*这句一定要有*/
-  display: inline;
-  margin-left: 100px;
-  margin-right: 20px;
 }
 
-.TXT1 {
-  height: 448px;
-  text-indent: 2em;
-  /* 首行缩进 */
-  letter-spacing: 1px;
-  /* 字间距 */
-  line-height: 45px;
-  /* 行间距 */
-  color: black;
-  margin-right: 100px;
+.imgBox {
+  position: relative;
+  width: 333px;
+  overflow: hidden;
+  height: 500px;
+}
+img {
+  width: 333px;
+  height: 500px;
+  transition: all .5s;
 }
 
-.TXT1 span {
+.imgBox .text {
+  position: absolute;
+  width: 333px;
+  height: 500px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  -webkit-transition: all 0.35s ease-in-out;  
+  -moz-transition: all 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out;
+}
+.imgBox .text h3 {
+  color: rgb(243, 243, 240);
+  font-size: 40px;
+  font-family: 宋体;
+  width: 333px;
+  margin-left: 0px;
+  margin-top: 210px;
+}
+
+.imgBox:hover .text {
+  opacity: 1;   
+}
+
+.imgBox:hover img{
+  transform: scale(1.1);
+}
+
+.container-3 {
+  position: relative;
+  width: 100%;
+  height: 450px;
+}
+
+.container-3 .imgBox-2 {
+  width: 410x;
+  height: 410px;
+  border-radius: 50%;
+  margin-right: 40px;
+  overflow: hidden;
+}
+
+.container-3 .imgBox-2 .block3-img {
+  width: 410px;
+  height: 410px;
+  border-radius: 50%;
+}
+
+.bg-h2 {
+  position: absolute;
+  top: 155px;
+  width: 410px;
+  height: 110px;
+  opacity: 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+.bg-h2
+h2{
+  font-family: 宋体;
+  line-height: 110px;
+  font-weight: 600;
+  position: absolute;
+  font-size: 40px;
+
+  color: #f5f5f5;
+}
+
+.imgBox-2:hover img{
+  transform: scale(1.1);
+}
+
+.imgBox-2:hover .bg-h2 {
+  opacity: 1;
+}
+
+.container-4 {
+  position: relative;
+  width: 100%;
+  height: 230px;
+}
+
+.container-4 .imgBox-3 {
+  width: 261px;
+  height: 230px;
+  margin-right: 10px;
+}
+
+.container-4 .imgBox-3 .block3-img-2 {
+  width: 261px;
+  height: 230px;
+  margin-right: 10px;
+}
+
+
+.container-4 .txtbox {
+  position: absolute;
+  /* bottom: -180px; */
+  top: 0;
+  width: 261px;
+  height: 230px;
+  transition: all .5s ease-in-out;
+  /* z-index: 3; */
+  /* -webkit-transition: all 0.35s ease-in-out;  
+  -moz-transition: all 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out; */
+}
+
+.container-4 .txtbox .bgtxt {
+  position: absolute;
+  /* top: 0; */
+  bottom: 0;
+  left: 0;
+  width: 261px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  opacity: 1;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.container-4 .txtbox .bgtxt .txt-title {
+  font-family: 宋体;
+  font-weight: 600;
+  font-size: 23px;
+  color: #f5f5f5;
+  line-height: 50px;
+}
+
+.container-4 .txtbox .bgtxt-content {
+  position: absolute;
+  top: 230px;
+  width: 261px;
+  height: 180px;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  transition: all 0.35s ease-in-out;
+}
+
+.txt-content {
   top: 100px;
+  font-family: 宋体;
+  font-size: 16px;
+  color: #f5f5f5;
+  text-indent: 13%;
 }
 
-.IMG2 {
-  width: 300px;
-  height: 448px;
-  float: right;
-  /*这句一定要有*/
-  display: inline;
-  margin-left: 20px;
-  margin-right: 100px;
+.imgBox-3:hover .bgtxt-content {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  opacity: 1;
 }
-
-.TXT2 {
-  height: 448px;
-  text-indent: 2em;
-  /* 首行缩进 */
-  letter-spacing: 1px;
-  /* 字间距 */
-  line-height: 45px;
-  color: black;
-  margin-left: 100px;
-}
-
-.TXT2 span {
-  top: 110px;
-}
-
 </style>

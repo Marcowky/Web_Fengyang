@@ -152,8 +152,7 @@ onMounted(() => {
 .footer {
   position: absolute;
   width: 100%;
-  bottom: 0px;
-
+  bottom: 0;
 }
 .weather_wrap{
   top :20px;
@@ -176,7 +175,9 @@ onMounted(() => {
 
 }
 .space {
-  height: 450px;
+
+  height: 500px;
+
 }
 
 .footer-bottom {
