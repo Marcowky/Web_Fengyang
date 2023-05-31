@@ -108,7 +108,7 @@ const loadArticles = async (pageNum = 0) => {
     if (pageNum != 0) {
         pageInfo.pageNum = pageNum;
     }
-    let res = await axios.get(`/article/list?articleType=blogArticle&?keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${pageInfo.categoryId}`)
+    let res = await axios.get(`/article/list?articleType=blogArticle&keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${pageInfo.categoryId}`)
     if (res.data.code == 200) {
         articleList.value = res.data.data.article
         console.log(articleList)
