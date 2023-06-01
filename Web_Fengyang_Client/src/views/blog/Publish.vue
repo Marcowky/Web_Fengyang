@@ -148,9 +148,21 @@ const customRequest = async (file) => {
     addArticle.headImage = res.data.data.filePath
     newHeadImage.value = true
 }
-const deleteImage = () => {
+// const deleteImage = () => {
+//     addArticle.headImage = ""
+//     newHeadImage.value = false
+// }
+
+const deleteImage = async () => {
+  try {
+    console.log(addArticle.headImage)
+    const response = await axios.post("/image/delete", { filePath: addArticle.headImage })
+    console.log(response.data)
     addArticle.headImage = ""
     newHeadImage.value = false
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 // 上传文章

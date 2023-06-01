@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"path/filepath"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -36,7 +37,29 @@ func UploadImage(c *gin.Context) {
 		return
 	}
 
-	common.Success(c , gin.H{"filePath": "/articleImages/" + newFilename}, "上传成功")
+	common.Success(c, gin.H{"filePath": "/articleImages/" + newFilename}, "上传成功")
+}
+
+type DeleteImageRequest struct {
+	FilePath string `json:"filePath"`
+}
+
+// 删除blog头图函数
+func DeleteImage(c *gin.Context) {
+	var req DeleteImageRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// 处理请求体解析错误
+		// ...
+		return
+	}
+	imagePath := filepath.Join("static/images", req.FilePath)
+	println("imagePath:" + imagePath)
+	err := os.Remove(imagePath)
+	if err != nil {
+		common.Fail(c, 500, nil, "删除错误")
+		return
+	}
+	common.Success(c, nil, "删除成功")
 }
 
 // RichEditorUploadImage 上传富文本编辑器中的图像
