@@ -3,14 +3,14 @@
         <el-menu-item style="position: absolute; left: 0px;" index="0">四色丰阳</el-menu-item>
         <div class="弹性盒子" :style="{ flexGrow: 1 }" />
         <template v-for="item in menuItems">
-            <template v-if="item.mainMenu == 'noSub'">
+            <template v-if="item.mainMenu === 'noSub'">
                 <el-menu-item :index="item.index">{{ item.label }}</el-menu-item>
             </template>
-            <template v-if="item.mainMenu == 'hasSub'">
+            <template v-if="item.mainMenu === 'hasSub'">
                 <el-sub-menu :index="item.index">
                     <template #title>{{ item.label }}</template>
                     <template v-for="subItem in menuItems">
-                        <el-menu-item :index="item.index+'?category='+subItem.index" v-if="subItem.mainMenu==item.index">{{
+                        <el-menu-item :index="item.index+'?category='+subItem.index" v-if="subItem.mainMenu===item.index">{{
                             subItem.label
                         }}</el-menu-item>
                     </template>

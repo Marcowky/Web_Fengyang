@@ -18,20 +18,6 @@
       "font_class": "weixin",
       "unicode": "e653",
       "unicode_decimal": 58963
-    },
-    {
-      "icon_id": "21151553",
-      "name": "箭头镂空-上",
-      "font_class": "jiantouloukong-shang",
-      "unicode": "e612",
-      "unicode_decimal": 58898
-    },
-    {
-      "icon_id": "21151556",
-      "name": "箭头镂空-下",
-      "font_class": "jiantouloukong-xia",
-      "unicode": "e613",
-      "unicode_decimal": 58899
     }
   ]
 }
