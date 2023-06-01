@@ -1,26 +1,34 @@
 <template>
   <!-- 登录注册弹框 -->
   <LoginDialog ref="loginDialogRef" />
+  <!-- 顶部栏 -->
   <el-menu class="topbar" router :default-active="this.$route.fullPath" mode="horizontal" :ellipsis="false">
     <el-menu-item style="position: absolute; left: 0px;" index="0">四色丰阳后台</el-menu-item>
     <div class="弹性盒子" :style="{ flexGrow: 1 }" />
   </el-menu>
-  <el-menu class="sidebar" :default-active="this.$route.fullPath" unique-opened="true">
-    <el-menu-item>用户管理</el-menu-item>
-    
-    <el-sub-menu>
+  <!-- 侧边栏 -->
+  <el-menu class="sidebar" router :default-active="this.$route.fullPath" unique-opened=true>
+
+    <el-sub-menu index="/admin/user">
+      <template #title>用户管理</template>
+      <el-menu-item index="/admin/user?category=client">客户</el-menu-item>
+      <el-menu-item index="/admin/user?category=admin">管理员</el-menu-item>
+    </el-sub-menu>
+
+    <el-sub-menu index="/admin/article">
       <template #title>文章修改</template>
-      
       <template v-for="item in menuItems">
-        <template v-if="!item.index.includes('?')">
-          <el-menu-item :index="item.index">{{ item.label }}</el-menu-item>
+        <template v-if="item.index.includes('/')">
+          <el-menu-item :index="'/admin/article?category=' + item.index.substring(1)">{{ item.label }}</el-menu-item>
         </template>
       </template>
     </el-sub-menu>
-    <el-menu-item>图片更换</el-menu-item>
+
+    <el-menu-item index="/admin/image">图片更换</el-menu-item>
+
   </el-menu>
-  <router-link to="/admin/article">颜色</router-link>
-  <router-view/>
+  <!-- 内容 -->
+  <router-view />
 </template>
 
 <script setup>
@@ -33,10 +41,10 @@ const loginDialogRef = ref(null)
 // 挂载页面时触发
 onMounted(() => {
   loginDialogRef.value.showDialog()
-  loginDialogRef.value.userType="admin"
+  loginDialogRef.value.userType = "admin"
 })
-import config from '../../config/config.json'
 
+import config from '../../config/config.json'
 const menuItems = config.menuItems;
 
 </script>
