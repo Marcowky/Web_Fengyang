@@ -31,14 +31,14 @@
         <el-divider class="divider_style"/>
         <ul class="footer-nav">
           <template v-for="item in menuItems">
-              <ul class="css-ul" v-if="item.mainMenu && !item.index.includes('-')">
+              <ul class="css-ul" v-if="!item.mainMenu.includes('/')">
                   <li>
                     <text class="css-main_title" >{{ item.label }}</text>
                   </li>
                 
                   <template v-for="subItem in menuItems">
-                    <li v-if="!subItem.mainMenu && subItem.index.startsWith(item.index + '?')">
-                      <el-link :href="link+subItem.index">{{ subItem.label }}</el-link>
+                    <li v-if="subItem.mainMenu==item.index">
+                      <el-link :href="link+item.index+'?category='+subItem.index">{{ subItem.label }}</el-link>
                       <!-- <el-link type="primary">primary</el-link> -->
                     </li>
                   </template> 
@@ -67,9 +67,8 @@ window._AMapSecurityConfig = {
 interface MenuItem {
     index: string;
     label: string;
-    mainMenu: boolean;
-    hasSub: boolean;  
-};
+    mainMenu: string;
+}
 
 const link = "http://localhost:5173/#";
 const menuItems = ref(config.menuItems as MenuItem[]);

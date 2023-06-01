@@ -3,134 +3,112 @@
         {
             "index": "/",
             "label": "首页",
-            "mainMenu": true,
-            "hasSub": true
+            "mainMenu": "hasSub"
         },
         {
-            "index": "/?category=1",
+            "index": "1",
             "label": "四色丰阳",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/"
         },
         {
-            "index": "/?category=2",
+            "index": "2",
             "label": "食宿阅论",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/"
         },
         {
-            "index": "/?category=3",
+            "index": "3",
             "label": "热门景点",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/"
         },
         {
             "index": "/info",
             "label": "景区资讯",
-            "mainMenu": true,
-            "hasSub": true
+            "mainMenu": "hasSub"
         },
         {
-            "index": "/info?category=1",
+            "index": "1",
             "label": "景区活动",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/info"
         },
         {
-            "index": "/info?category=2",
+            "index": "2",
             "label": "景区公告",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/info"
         },
         {
-            "index": "/info?category=3",
+            "index": "3",
             "label": "志愿活动",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/info"
         },
         {
             "index": "/attraction",
             "label": "景区景点",
-            "mainMenu": true,
-            "hasSub": true
+            "mainMenu": "hasSub"
         },
         {
-            "index": "/attraction?category=1",
+            "index": "1",
             "label": "热门景点",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/attraction"
         },
         {
-            "index": "/attraction?category=2",
+            "index": "2",
             "label": "游玩攻略",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/attraction"
         },
         {
-            "index": "/attraction?category=3",
+            "index": "3",
             "label": "路线规划",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/attraction"
         },
         {
-            "index": "/attraction?category=4",
+            "index": "4",
             "label": "未完待续",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/attraction"
         },
         {
             "index": "/consumption",
             "label": "景区消费",
-            "mainMenu": true,
-            "hasSub": true
+            "mainMenu": "hasSub"
         },
         {
-            "index": "/consumption?category=1",
+            "index": "1",
             "label": "酒店民宿",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/consumption"
         },
         {
-            "index": "/consumption?category=2",
+            "index": "2",
             "label": "黄色",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/consumption"
         },
         {
-            "index": "/consumption?category=3",
+            "index": "3",
             "label": "红色",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/consumption"
         },
         {
             "index": "/travel",
             "label": "住宿交通",
-            "mainMenu": true,
-            "hasSub": false
+            "mainMenu": "noSub"
         },
         {
             "index": "/blog",
             "label": "景区论坛",
-            "mainMenu": true,
-            "hasSub": true
+            "mainMenu": "hasSub"
         },
         {
-            "index": "/blog?category=1",
+            "index": "1",
             "label": "游记记录",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/blog"
         },
         {
-            "index": "/blog?category=2",
+            "index": "2",
             "label": "摄影投稿",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/blog"
         },
         {
-            "index": "/blog?category=3",
+            "index": "3",
             "label": "美食",
-            "mainMenu": false,
-            "hasSub": false
+            "mainMenu": "/blog"
         }
         
     ]
