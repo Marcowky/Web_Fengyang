@@ -18,7 +18,7 @@ const router = useRouter();
 const showComponent = ref(true);
 
 router.beforeEach((to) => {
-    if (to.path === '/admin') {
+    if (to.path.startsWith('/admin')) {
         showComponent.value = false;
     } else {
         showComponent.value = true;

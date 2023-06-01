@@ -4,6 +4,7 @@
             <span>{{ item.label }}</span>
         </el-menu-item>
     </el-menu>
+    
 </template>
   
 <script lang="ts">

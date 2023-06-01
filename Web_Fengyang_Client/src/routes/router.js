@@ -29,6 +29,7 @@ let routes = [
     { path: "/blog/update", component: () => import("../views/blog/Update.vue") },    // 文章更新
 
     { path: "/admin", component: () => import("../views/admin/Home.vue") },    // admin
+    { path: "/admin/article", component: () => import("../views/admin/ArticleAdmin.vue") },    // admin
 
 ]
 
