@@ -1,9 +1,8 @@
 <template>
   <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-    <el-tab-pane label="特产" name="first"></el-tab-pane>
-    <el-tab-pane label="美食" name="second"></el-tab-pane>
-    <el-tab-pane label="住宿" name="third"></el-tab-pane>
-    <el-tab-pane label="娱乐" name="fourth"></el-tab-pane>
+    <el-tab-pane label="特色产品" name="first"></el-tab-pane>
+    <el-tab-pane label="美食推荐" name="second"></el-tab-pane>
+    <el-tab-pane label="团队跟游" name="third"></el-tab-pane>
   </el-tabs>
 
       <template v-if="showFirst">

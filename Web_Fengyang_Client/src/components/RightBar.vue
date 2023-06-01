@@ -14,18 +14,33 @@
       </el-menu-item>
       
       <el-menu-item index="2">
-        <el-icon class="iconfont icon-weixin"></el-icon>
-        <template #title>公众号</template>
+        <template #title>
+          <div class="hover-image-container el-menu-item">
+            <el-icon class="iconfont icon-weixin"></el-icon>
+            <span>公众号</span>
+            <img src="../assets/pic1.jpg" class="hover-image"/>
+          </div>
+        </template>
       </el-menu-item>
       
       <el-menu-item index="3">
-        <el-icon><service /></el-icon>
-        <template #title>景区热线</template>
+        <template #title>
+          <div class="hover-image-container el-menu-item">
+            <el-icon><service /></el-icon>
+            <span>景区热线</span>
+            <img src="../assets/pic1.jpg" class="hover-image"/>
+          </div>
+        </template>
       </el-menu-item>
       
       <el-menu-item index="4">
-        <el-icon><ChatDotSquare /></el-icon>
-        <template #title>投诉举报</template>
+        <template #title>
+          <div class="hover-image-container el-menu-item">
+            <el-icon><ChatDotSquare /></el-icon>
+            <span>投诉举报</span>
+            <img src="../assets/pic1.jpg" class="hover-image"/>
+          </div>
+        </template>
       </el-menu-item>
     </el-menu>
   </template>
@@ -50,7 +65,7 @@
     display: none;
     position: absolute;
     right: 100px;
-    top: 0px;
+    top: -25px;
     width: 100px;
     height: 100px;
   }

@@ -86,19 +86,19 @@
         },
         {
             "index": "/consumption?category=4-1",
-            "label": "酒店民宿",
+            "label": "特色产品",
             "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/consumption?category=4-2",
-            "label": "黄色",
+            "label": "美食推荐",
             "mainMenu": false,
             "hasSub": false
         },
         {
             "index": "/consumption?category=4-3",
-            "label": "红色",
+            "label": "团队跟游",
             "mainMenu": false,
             "hasSub": false
         },
