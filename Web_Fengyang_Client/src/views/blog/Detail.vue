@@ -84,7 +84,7 @@ const loadArticle = async () => {
         let label = categoryOptions.value.find((item) => item.value.endsWith(resArticle.data.data.article.category_id)).label
             categoryName.value = label
         // 获取作者信息
-        let resWriter = await axios.get("user/briefInfo/" + articleInfo.value.user_id)
+        let resWriter = await axios.get(`user/briefInfo?userType=client&id=${articleInfo.value.user_id}`)
         articleInfo.value.username = resWriter.data.data.userName
         // 获取用户信息，判断用户是否是作者
         let resUser = await axios.get("user/info")

@@ -19,7 +19,7 @@
                     </el-icon>
                 </el-button>
             </template>
-            <el-input class="searchBox" v-model="pageInfo.keyword" placeholder="请输入关键字" />
+            <el-input v-model="pageInfo.keyword" placeholder="请输入关键字" clearable />
         </el-popover>
     </div>
 
@@ -29,7 +29,8 @@
         <div v-for="(article, index) in articleList" style="margin:15px">
             <!-- 若有封面图 -->
             <el-card class="articleCard" v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
-                <el-image style="height: 150px; float: right; margin-bottom: 20px; margin-left: 15px;" :src="serverUrl + article.head_image" />
+                <el-image style="height: 150px; float: right; margin-bottom: 20px; margin-left: 15px;"
+                    :src="serverUrl + article.head_image" />
                 <div style="position: relative; height: 150px;">
                     <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
                     <div v-html="article.content"></div>
@@ -55,14 +56,14 @@
 
 
 <script setup>
-import { ref, reactive, inject, onMounted, watch } from 'vue'
+import { ref, reactive, inject, onMounted } from 'vue'
 // icons
 import {
     Search
 } from '@element-plus/icons-vue'
 
 // 导入路由
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
@@ -88,15 +89,18 @@ import SideBar from "../../components/SideBar.vue"
 // 2.导入菜单选项配置文件
 import config from '../../config/config.json';
 // 3.设置侧边栏目录项
-const menuItems = config.menuItems.filter(item => item.index.startsWith("/blog?category=5-"));
-// 4.设置路由跳转监听
-watch(
-    () => route.fullPath,
-    (newValue, oldValue) => {
-        pageInfo.categoryId = newValue.charAt(newValue.length - 1) // 设置文章种类
+const menuItems = config.menuItems.filter(item => item.index.startsWith("/blog?category="));
+// 4.设置路由守卫
+onBeforeRouteUpdate((to, from) => {
+    const fromCategory = from.query.category;
+    const toCategory = to.query.category;
+
+    if (fromCategory !== toCategory) {
+        pageInfo.categoryId = to.query.category // 设置文章种类
         loadArticles(0) // 加载文章
     }
-)
+});
+
 
 // 挂载页面时触发
 onMounted(() => {
@@ -111,7 +115,7 @@ const loadArticles = async (pageNum = 0) => {
     let res = await axios.get(`/article/list?articleType=blogArticle&keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${pageInfo.categoryId}`)
     if (res.data.code == 200) {
         articleList.value = res.data.data.article
-        console.log(articleList)
+        // console.log(articleList)
     }
     pageInfo.count = res.data.data.count;
     pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
@@ -150,9 +154,7 @@ const toDetail = (article) => {
 <style lang="scss" scoped>
 .searchButton {
     position: fixed;
-    display: block;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 2%;
     top: 10px;
     z-index: 999;
 }

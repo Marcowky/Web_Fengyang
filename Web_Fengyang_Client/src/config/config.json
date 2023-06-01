@@ -7,20 +7,20 @@
             "hasSub": true
         },
         {
-            "index": "/?category=1-1",
+            "index": "/?category=1",
             "label": "四色丰阳",
             "mainMenu": false,
             "hasSub": false
         },
         {
-            "index": "/?category=1-2",
-            "label": "民族风俗",
+            "index": "/?category=2",
+            "label": "食宿阅论",
             "mainMenu": false,
             "hasSub": false
         },
         {
-            "index": "/?category=1-3",
-            "label": "历史人文",
+            "index": "/?category=3",
+            "label": "热门景点",
             "mainMenu": false,
             "hasSub": false
         },
@@ -31,19 +31,19 @@
             "hasSub": true
         },
         {
-            "index": "/info?category=2-1",
+            "index": "/info?category=1",
             "label": "景区活动",
             "mainMenu": false,
             "hasSub": false
         },
         {
-            "index": "/info?category=2-2",
+            "index": "/info?category=2",
             "label": "景区公告",
             "mainMenu": false,
             "hasSub": false
         },
         {
-            "index": "/info?category=2-3",
+            "index": "/info?category=3",
             "label": "志愿活动",
             "mainMenu": false,
             "hasSub": false
@@ -55,25 +55,25 @@
             "hasSub": true
         },
         {
-            "index": "/attraction?category=3-1",
+            "index": "/attraction?category=1",
             "label": "热门景点",
             "mainMenu": false,
             "hasSub": false
         },
         {
-            "index": "/attraction?category=3-2",
+            "index": "/attraction?category=2",
             "label": "游玩攻略",
             "mainMenu": false,
             "hasSub": false
         },
         {
-            "index": "/attraction?category=3-3",
+            "index": "/attraction?category=3",
             "label": "路线规划",
             "mainMenu": false,
             "hasSub": false
         },
         {
-            "index": "/attraction?category=3-4",
+            "index": "/attraction?category=4",
             "label": "未完待续",
             "mainMenu": false,
             "hasSub": false
@@ -85,21 +85,27 @@
             "hasSub": true
         },
         {
-            "index": "/consumption?category=4-1",
+            "index": "/consumption?category=1",
             "label": "特色产品",
             "mainMenu": false,
             "hasSub": false
         },
         {
-            "index": "/consumption?category=4-2",
+            "index": "/consumption?category=2",
             "label": "美食推荐",
             "mainMenu": false,
             "hasSub": false
         },
         {
-            "index": "/consumption?category=4-3",
+            "index": "/consumption?category=3",
             "label": "团队跟游",
             "mainMenu": false,
+            "hasSub": false
+        },
+        {
+            "index": "/travel",
+            "label": "住宿交通",
+            "mainMenu": true,
             "hasSub": false
         },
         {
@@ -109,28 +115,23 @@
             "hasSub": true
         },
         {
-            "index": "/blog?category=5-1",
+            "index": "/blog?category=1",
             "label": "游记记录",
             "mainMenu": false,
             "hasSub": false
         },
         {
-            "index": "/blog?category=5-2",
+            "index": "/blog?category=2",
             "label": "摄影投稿",
             "mainMenu": false,
             "hasSub": false
         },
         {
-            "index": "/blog?category=5-3",
+            "index": "/blog?category=3",
             "label": "美食",
             "mainMenu": false,
             "hasSub": false
-        },
-        {
-            "index": "/travel",
-            "label": "住宿交通",
-            "mainMenu": true,
-            "hasSub": false
         }
+        
     ]
 }

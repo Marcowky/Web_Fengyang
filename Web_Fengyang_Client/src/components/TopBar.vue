@@ -1,9 +1,9 @@
 <template>
     <el-menu class="topbar" router :default-active="this.$route.fullPath" mode="horizontal" :ellipsis="false">
-        <el-menu-item index="0">四色丰阳</el-menu-item>
+        <el-menu-item style="position: absolute; left: 0px;" index="0">四色丰阳</el-menu-item>
         <div class="弹性盒子" :style="{ flexGrow: 1 }" />
         <template v-for="item in menuItems">
-            <template v-if="!item.hasSub && !item.index.includes('-')">
+            <template v-if="!item.hasSub && !item.index.includes('?')">
                 <el-menu-item :index="item.index">{{ item.label }}</el-menu-item>
             </template>
             <template v-if="item.hasSub">
@@ -17,6 +17,7 @@
                 </el-sub-menu>
             </template>
         </template>
+        <div class="弹性盒子" :style="{ flexGrow: 1 }" />
     </el-menu>
 </template>
 
