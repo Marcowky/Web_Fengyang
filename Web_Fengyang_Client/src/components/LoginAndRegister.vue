@@ -62,6 +62,9 @@ const user = reactive({
     repeatPassword: ""
 })
 
+const userType = ref("client")
+
+
 // 验证两次输入的密码是否相同
 function validatePasswordSame(rule, value) {
     return value == user.password;
@@ -136,7 +139,7 @@ const login = async () => {
     let res = await axios.post("/user/login", {
         phoneNumber: user.phoneNumber,
         password: user.password,
-        userType: "client"
+        userType: userType.value
     })
 
     if (res.data.code == 200) {
@@ -171,7 +174,7 @@ const register = async () => {
         userName: user.userName,
         phoneNumber: user.phoneNumber,
         password: user.password,
-        userType: "client"
+        userType: userType.value
     })
 
     if (res.data.code == 200) {
@@ -192,7 +195,8 @@ const register = async () => {
 
 // 暴露方法给组件外部调用
 defineExpose({
-    showDialog
+    showDialog,
+    userType
 })
 </script>
   

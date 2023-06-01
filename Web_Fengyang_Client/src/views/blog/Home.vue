@@ -89,7 +89,7 @@ import SideBar from "../../components/SideBar.vue"
 // 2.导入菜单选项配置文件
 import config from '../../config/config.json';
 // 3.设置侧边栏目录项
-const menuItems = config.menuItems.filter(item => item.index.startsWith("/blog?category="));
+const menuItems = config.menuItems.filter(item => item.mainMenu=="/blog");
 // 4.设置路由守卫
 onBeforeRouteUpdate((to, from) => {
     const fromCategory = from.query.category;

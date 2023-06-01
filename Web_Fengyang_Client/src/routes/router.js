@@ -28,7 +28,26 @@ let routes = [
     { path: "/blog/publish", component: () => import("../views/blog/Publish.vue") },  // 发布界面
     { path: "/blog/update", component: () => import("../views/blog/Update.vue") },    // 文章更新
 
-    { path: "/admin", component: () => import("../views/admin/Home.vue") },    // admin
+    { 
+        path: "/admin",
+        component: () => import("../views/admin/Home.vue"),
+        children: [
+            {
+                path: "article",
+                component: () => import("../views/admin/ArticleAdmin.vue")
+            },
+            {
+                path: "user",
+                component: () => import("../views/admin/UserAdmin.vue")
+            },
+            {
+                path: "image",
+                component: () => import("../views/admin/ImageAdmin.vue")
+            },
+        ]
+
+    },    // admin
+    // { path: "/admin/article", component: () => import("../views/admin/ArticleAdmin.vue") },    // admin
 
 ]
 

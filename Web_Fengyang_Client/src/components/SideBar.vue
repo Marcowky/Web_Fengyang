@@ -1,9 +1,10 @@
 <template>
     <el-menu class="sidebar" router :default-active="this.$route.fullPath" >
-        <el-menu-item v-for="item in items" :key="item.index" :index="item.index">
+        <el-menu-item v-for="item in items" :key="item.mainMenu+'?category='+item.index" :index="item.mainMenu+'?category='+item.index">
             <span>{{ item.label }}</span>
         </el-menu-item>
     </el-menu>
+    
 </template>
   
 <script lang="ts">
@@ -13,7 +14,7 @@ export default defineComponent({
     name: 'SideBar',
     props: {
         items: {
-            type: Array as PropType<{ index: string; label: string }[]>,
+            type: Array as PropType<{ index: string; label: string; mainMenu: string}[]>,
             required: true,
         },
     }
