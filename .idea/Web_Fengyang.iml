@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4">
   <component name="Go" enabled="true" />
+  <component name="NewModuleRootManager">
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="font_4099046_8f48c4d9r8b" level="application" />
+    <orderEntry type="library" name="embed" level="application" />
+  </component>
 </module>
