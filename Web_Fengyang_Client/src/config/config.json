@@ -72,17 +72,17 @@
         },
         {
             "index": "1",
-            "label": "酒店民宿",
+            "label": "特色产品",
             "mainMenu": "/consumption"
         },
         {
             "index": "2",
-            "label": "黄色",
+            "label": "美食推荐",
             "mainMenu": "/consumption"
         },
         {
             "index": "3",
-            "label": "红色",
+            "label": "团队跟游",
             "mainMenu": "/consumption"
         },
         {

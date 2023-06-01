@@ -228,11 +228,8 @@ import FooterBar from "../../components/FooterBar.vue"
 import RightBar from "../../components/RightBar.vue"
 
 export default {
-  components: {
-    TopBar,
-    FooterBar,
+  components: {   
     Chart,
-    RightBar,
   },
   data() {
     return {
