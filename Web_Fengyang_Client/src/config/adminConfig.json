@@ -1,38 +1,38 @@
 {
-    "user": [
+    "userConfig": [
         {
             "label": "id",
-            "prop": "id",
-            "width": "150",
+            "prop": "ID",
+            "width": "100",
             "sortable": "true"
         },
         {
             "label": "name",
-            "prop": "name",
+            "prop": "UserName",
             "width": "150",
             "sortable": "false"
         },
         {
             "label": "phone",
-            "prop": "phone",
+            "prop": "PhoneNumber",
             "width": "150",
             "sortable": "false"
         },
         {
             "label": "createat",
-            "prop": "createat",
-            "width": "150",
+            "prop": "CreatedAt",
+            "width": "200",
             "sortable": "true"
         },
         {
             "label": "usertype",
-            "prop": "usertype",
+            "prop": "UserType",
             "width": "150",
             "sortable": "false"
         },
         {
             "label": "status",
-            "prop": "status",
+            "prop": "Status",
             "width": "150",
             "sortable": "true"
         },

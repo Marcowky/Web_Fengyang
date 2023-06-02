@@ -22,6 +22,7 @@ type IUserController interface {
 	List(c *gin.Context)
 	GetMyInfo(c *gin.Context)
 	GetBriefInfo(c *gin.Context)
+	
 }
 
 // 注册
@@ -66,6 +67,7 @@ func (a UserController) Register(c *gin.Context) {
 
 // Login 登录
 func (a UserController) Login(c *gin.Context) {
+	
 
 	// 获取参数
 	var requestUser model.User
