@@ -1,9 +1,7 @@
 <template>
-  <!--轮播图-->
-  <Chart style=" position: relative; left: 0;  width: 100%; " />
-  <br><br><br>
-
   <!--四色丰阳-->
+  <TopBar></TopBar>
+  <Chart></Chart>
   <div class="title-1">
     <p>—四 色 丰 阳—</p>
   </div>
@@ -220,17 +218,16 @@
 
 </template>
 const link = "http://localhost:5173/#/consumption"
-<script>
-// 首页必须自己导入
-import TopBar from "../../components/TopBar.vue"
-import Chart from "../consumption/Chart.vue"
-import FooterBar from "../../components/FooterBar.vue"
-import RightBar from "../../components/RightBar.vue"
 
+<script>
+
+import Chart from "./Chart.vue";
+import TopBar from "./TopBar.vue";
 export default {
-  components: {   
+  components: {
     Chart,
-  },
+    TopBar,
+},
   data() {
     return {
       red_fengyang: "丰阳古镇位于连州市西北部，距离现今有一千多年的历史，一幢古庙、二条古街、三间祠堂、四座门楼，这里包揽了丰阳古村的全部内涵",
@@ -268,13 +265,14 @@ export default {
 </script>
 
 <style scoped>
+
 .title-1 {
   width: 100%;
   font-size: 80px;
   font-family: STXingkai;
   font-weight: 100px;
   color: #474141;
-  margin-top: 50px;
+  margin-top: 0px;
   margin-bottom: 10px;
   display: flex;
   justify-content: center;

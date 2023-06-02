@@ -1,5 +1,5 @@
 <template>
-  <TopBar v-if="showComponent"/>
+  <TopBar v-if="showComponent && showFirst"/>
   <router-view />
   <FooterBar v-if="showComponent"/>
   <RightBar v-if="showComponent"/>
@@ -14,8 +14,8 @@ import { useRouter } from 'vue-router'
 import { ref } from 'vue';
 
 const router = useRouter();
-
 const showComponent = ref(true);
+const showFirst = ref(false);
 
 router.beforeEach((to) => {
     if (to.path.startsWith('/admin')) {
@@ -23,7 +23,13 @@ router.beforeEach((to) => {
     } else {
         showComponent.value = true;
     }
+    if (to.path.startsWith('/')) {
+        showFirst.value = false;
+    } else {
+        showFirst.value = true;
+    }
 })
+
 
 </script>
 
