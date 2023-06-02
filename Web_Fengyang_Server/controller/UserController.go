@@ -3,6 +3,7 @@ package controller
 import (
 	"Web_Fengyang_Server/common"
 	"Web_Fengyang_Server/model"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -45,12 +46,17 @@ func (a UserController) Register(c *gin.Context) {
 	// 密码加密
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
+	status := true
+	if userType == "admin" {
+		status = false
+	}
 	// 创建用户
 	newUser := model.User{
 		UserName:    userName,
 		PhoneNumber: phoneNumber,
 		Password:    string(hashedPassword),
 		UserType:    userType,
+		Status:      status,
 	}
 	a.DB.Table(userType).Create(&newUser)
 
@@ -82,6 +88,11 @@ func (a UserController) Login(c *gin.Context) {
 		return
 	}
 
+	if !user.Status {
+		common.Fail(c, 422, nil, "用户被禁用或正在等待审核")
+		return
+	}
+
 	// 发放token
 	token, err := common.ReleaseToken(user)
 	if err != nil {
@@ -102,8 +113,12 @@ func (a UserController) Update(c *gin.Context) {
 	ID := updateUser.ID
 	userName := updateUser.UserName
 	phoneNumber := updateUser.PhoneNumber
-	password := updateUser.Password
+	// password := updateUser.Password
 	userType := updateUser.UserType
+	status := updateUser.Status
+
+	fmt.Println(updateUser.Status)
+	fmt.Println(updateUser.Password)
 
 	// 验证数据
 	var user model.User
@@ -119,12 +134,13 @@ func (a UserController) Update(c *gin.Context) {
 		return
 	}
 
-	// 密码加密
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	// // 密码加密
+	// hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
 	user.UserName = userName
 	user.PhoneNumber = phoneNumber
-	user.Password = string(hashedPassword)
+	// user.Password = string(hashedPassword)
+	user.Status = status
 
 	// 执行更新操作
 	if err := a.DB.Table(userType).Save(&user).Error; err != nil {
@@ -177,7 +193,7 @@ func (a UserController) List(c *gin.Context) {
 		return
 	}
 
-	common.Success(c, gin.H{"user": user }, "查找成功")
+	common.Success(c, gin.H{"user": user}, "查找成功")
 }
 
 // GetInfo 登录后获取信息，用于测试中间件
