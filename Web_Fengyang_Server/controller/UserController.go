@@ -4,6 +4,7 @@ import (
 	"Web_Fengyang_Server/common"
 	"Web_Fengyang_Server/model"
 	"fmt"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -67,7 +68,7 @@ func (a UserController) Register(c *gin.Context) {
 
 // Login 登录
 func (a UserController) Login(c *gin.Context) {
-	
+
 
 	// 获取参数
 	var requestUser model.User
@@ -183,19 +184,28 @@ func (a UserController) Delete(c *gin.Context) {
 
 // List 用于获取用户列表
 func (a UserController) List(c *gin.Context) {
-	keyword := c.Query("keyword")
+	keyword := c.DefaultQuery("keyword","")
 	userType := c.Query("userType")
+	order := c.DefaultQuery("order", "created_at desc")
+	pageNum, _ := strconv.Atoi(c.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(c.DefaultQuery("pageSize", "5"))
+
 	var user []model.User
+
 	// 构建查询条件
-	query := a.DB.Table(userType).Where("user_name LIKE ? OR phone_number LIKE ? OR id = ?", "%"+keyword+"%", "%"+keyword+"%", keyword)
+	query := a.DB.Order(order).Table(userType).Where("user_name LIKE ? OR phone_number LIKE ? OR id = ?", "%"+keyword+"%", "%"+keyword+"%", keyword)
+
+	// 获取总数
+	var count int
+	query.Count(&count)
 
 	// 执行查询
-	if err := query.Find(&user).Error; err != nil {
+	if err := query.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&user).Error; err != nil {
 		common.Fail(c, 400, nil, "查询失败")
 		return
 	}
 
-	common.Success(c, gin.H{"user": user}, "查找成功")
+	common.Success(c, gin.H{"user": user, "count": count}, "查找成功")
 }
 
 // GetInfo 登录后获取信息，用于测试中间件

@@ -165,16 +165,16 @@ func (a ArticleController) List(c *gin.Context) {
 	// 查询文章
 	switch len(args) {
 	case 0:
-		a.DB.Order(order).Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Order(order).Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
 		a.DB.Table(articleType).Model(model.Article{}).Count(&count)
 	case 1:
-		a.DB.Order(order).Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Order(order).Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0]).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
 		a.DB.Table(articleType).Model(model.Article{}).Where(querystr, args[0]).Count(&count)
 	case 2:
-		a.DB.Order(order).Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0], args[1]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Order(order).Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0], args[1]).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
 		a.DB.Table(articleType).Model(model.Article{}).Where(querystr, args[0], args[1]).Count(&count)
 	case 3:
-		a.DB.Order(order).Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0], args[1], args[2]).Order("created_at desc").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Order(order).Table(articleType).Select("id, category_id, title, LEFT(content,80) AS content, head_image, created_at").Where(querystr, args[0], args[1], args[2]).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
 		a.DB.Table(articleType).Model(model.Article{}).Where(querystr, args[0], args[1], args[2]).Count(&count)
 	}
 	// 展示文章列表
