@@ -1,6 +1,7 @@
 package model
 
 type Category struct {
-	ID           *int   `json:"id" gorm:"type:char(36);primary_key;"`
-	CategoryName string `json:"name" gorm:"type:varchar(50);not null"`
+	Index    string `json:"index" gorm:"type:char(36); not null"`
+	Label    string `json:"label" gorm:"type:varchar(50);not null"`
+	MainMenu string `json:"mainmenu" gorm:"type:varchar(50);not null"`
 }

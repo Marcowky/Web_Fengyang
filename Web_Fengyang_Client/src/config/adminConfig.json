@@ -1,0 +1,45 @@
+{
+    "user": [
+        {
+            "label": "id",
+            "prop": "id",
+            "width": "150",
+            "sortable": "true"
+        },
+        {
+            "label": "name",
+            "prop": "name",
+            "width": "150",
+            "sortable": "false"
+        },
+        {
+            "label": "phone",
+            "prop": "phone",
+            "width": "150",
+            "sortable": "false"
+        },
+        {
+            "label": "createat",
+            "prop": "createat",
+            "width": "150",
+            "sortable": "true"
+        },
+        {
+            "label": "usertype",
+            "prop": "usertype",
+            "width": "150",
+            "sortable": "false"
+        },
+        {
+            "label": "status",
+            "prop": "status",
+            "width": "150",
+            "sortable": "true"
+        },
+        {
+            "label": "option",
+            "prop": "option",
+            "sortable": "false"
+        }
+    ]
+}
