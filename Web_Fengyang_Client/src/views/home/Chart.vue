@@ -7,13 +7,13 @@
       :autoplay="{delay: 3000, disableOnInteraction: false}"  
       navigation>
         <SwiperSlide>
-          <img src="../../assets/pic1.jpg" alt="">
+          <img src="https://www.jiuzhai.com/templates/rt_sienna/custom/images/2022_06/07.jpg" alt="">
         </SwiperSlide>
         <SwiperSlide>
-          <img src="../../assets/pic2.jpg" alt="">
+          <img src="https://www.jiuzhai.com/templates/rt_sienna/custom/images/2023_05/06.jpg" alt="">
         </SwiperSlide>
         <SwiperSlide>
-          <img src="../../assets/pic3.jpg" alt="">
+          <img src="https://www.jiuzhai.com/templates/rt_sienna/custom/images/2022_06/10.jpg" alt="">
         </SwiperSlide>
       </Swiper>
       <!-- 如果需要导航按钮 -->
@@ -47,9 +47,22 @@ export default {
 <style scoped>
 .swiper
 img {
+  margin:0px;
   position: relative;
   top: 0px;
   width: 100%;
-  
+  height: 100%;
+  background-size: 100%;
 }
+
+.swiper {
+  margin:0px;
+  position: relative;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+
 </style>

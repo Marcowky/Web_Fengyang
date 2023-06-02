@@ -1,7 +1,7 @@
 <template>
   <!--四色丰阳-->
-  <TopBar></TopBar>
   <Chart></Chart>
+  <TopBar></TopBar>
   <div class="title-1">
     <p>—四 色 丰 阳—</p>
   </div>
@@ -270,7 +270,7 @@ export default {
   width: 100%;
   font-size: 80px;
   font-family: STXingkai;
-  font-weight: 100px;
+  font-weight: 100;
   color: #474141;
   margin-top: 0px;
   margin-bottom: 10px;
@@ -461,7 +461,7 @@ img {
 }
 
 .container-3 .imgBox-2 {
-  width: 410x;
+  width: 410px;
   height: 410px;
   border-radius: 50%;
   margin-right: 40px;

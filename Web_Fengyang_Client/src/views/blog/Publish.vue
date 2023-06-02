@@ -106,10 +106,10 @@ onMounted(() => {
 import config from '../../config/config.json';
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.index.startsWith("/blog?category=")).map((item) => {
+    categoryOptions.value = config.menuItems.filter(item => item.mainMenu=='/blog').map((item) => {
         return {
             label: item.label,
-            value: item.index.slice(-3)
+            value: item.index
         }
     })
     // console.log(categoryOptions)
@@ -183,9 +183,9 @@ const submit = async () => {
         })
         return
     }
-    // console.log(value)
+    // console.log(addArticle.categoryId)
     let res = await axios.post("/article/create", {
-        category_id: parseInt(addArticle.categoryId.slice(-1)),
+        category_id: parseInt(addArticle.categoryId),
         title: addArticle.title,
         content: addArticle.content,
         head_image: addArticle.headImage,
