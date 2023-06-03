@@ -1,6 +1,6 @@
 <template>
     <userInfoDialog v-model="showDialog" :dialogTitle="dialogTitle" v-if="showDialog" @updateUserList="loadUsers"
-        :dialogTableValue="dialogTableValue" />
+        :dialogTableValue="dialogTableValue" :dialogUserType="dialogUserType"/>
     <el-card>
         <el-row :gutter="20">
             <el-col :span="7">
@@ -38,13 +38,19 @@ import { ref, inject, onMounted, reactive } from 'vue'
 import { userConfig } from "../../config/adminConfig.json"
 import { ElMessage, ElMessageBox } from 'element-plus'
 
+
+
 const axios = inject("axios")
 import {
     Search,
 } from '@element-plus/icons-vue'
+import { useRoute, onBeforeRouteUpdate } from 'vue-router'
+const pageUserType = ref('')
+const route = useRoute()
 
 // 挂载页面时触发
 onMounted(() => {
+    pageUserType.value = route.query.category;
     loadUsers()
 })
 
@@ -79,6 +85,17 @@ const handleSortChange = (sort) => {
     loadUsers()
 }
 
+// 4.设置路由守卫
+onBeforeRouteUpdate((to, from) => {
+    const fromCategory = from.query.category;
+    const toCategory = to.query.category;
+
+    if (fromCategory !== toCategory) {
+        pageUserType.value=toCategory
+        loadUsers()
+    }
+});
+
 
 const userList = ref([])
 const pageInfo = reactive({
@@ -99,7 +116,7 @@ const loadUsers = async (pageNum = 0) => {
     if (pageNum != 0) {
         pageInfo.pageNum = pageNum;
     }
-    let res = await axios.get(`/user/list?userType=client&keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&order=${pageInfo.sortKey}`)
+    let res = await axios.get(`/user/list?userType=${pageUserType.value}&keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&order=${pageInfo.sortKey}`)
     if (res.data.code == 200) {
         userList.value = res.data.data.user
         // console.log(articleList)
@@ -111,6 +128,7 @@ const loadUsers = async (pageNum = 0) => {
 
 const dialogTableValue = ref({})
 const dialogTitle = ref('')
+const dialogUserType = ref('')
 const showDialog = ref(false)
 const showAddDialog = (data) => {
 
@@ -123,6 +141,7 @@ const showAddDialog = (data) => {
         dialogTableValue.value = JSON.parse(JSON.stringify(data))
     }
     showDialog.value = true
+    dialogUserType.value = pageUserType.value
 }
 const deleteUser = async (data) => {
 

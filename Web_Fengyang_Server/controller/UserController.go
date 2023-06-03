@@ -3,7 +3,6 @@ package controller
 import (
 	"Web_Fengyang_Server/common"
 	"Web_Fengyang_Server/model"
-	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -36,6 +35,7 @@ func (a UserController) Register(c *gin.Context) {
 	phoneNumber := requestUser.PhoneNumber
 	password := requestUser.Password
 	userType := requestUser.UserType
+	status := requestUser.Status
 
 	// 验证数据
 	var user model.User
@@ -48,10 +48,7 @@ func (a UserController) Register(c *gin.Context) {
 	// 密码加密
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
-	status := true
-	if userType == "admin" {
-		status = false
-	}
+
 	// 创建用户
 	newUser := model.User{
 		UserName:    userName,
@@ -120,8 +117,6 @@ func (a UserController) Update(c *gin.Context) {
 	userType := updateUser.UserType
 	status := updateUser.Status
 
-	fmt.Println(updateUser.Status)
-	fmt.Println(updateUser.PhoneNumber)
 
 	// 验证数据
 	var user model.User
@@ -163,8 +158,7 @@ func (a UserController) Delete(c *gin.Context) {
 	c.Bind(&deleteUser)
 	ID := deleteUser.ID
 	userType := deleteUser.UserType
-	fmt.Println(deleteUser.ID)
-	fmt.Println(deleteUser.UserType)
+
 
 	// 数据验证
 	var user model.User

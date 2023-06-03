@@ -104,6 +104,7 @@ onBeforeRouteUpdate((to, from) => {
 
 // 挂载页面时触发
 onMounted(() => {
+    
     loadArticles()
 })
 

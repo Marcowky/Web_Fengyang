@@ -16,13 +16,13 @@
                 <el-input v-model="user.Password" />
             </el-form-item>
             <el-form-item label="用户类型" prop="UserType">
-                <el-input v-model="user.UserType" />
+                <el-tag class="ml-2" type="success">{{user.UserType}}</el-tag>
             </el-form-item>
             <el-form-item label="创建时间" prop="CreatedAt" v-if="dialogTitle=='编辑用户'" >
                 <el-input v-model="user.CreatedAt" disabled/>
             </el-form-item>
             <el-form-item label="状态" prop="Status">
-                <el-input v-model="user.Status" />
+                <el-switch v-model="user.Status" @change=updateUser(scope.row) />
             </el-form-item>
         </el-form>
 
@@ -46,6 +46,11 @@ const props = defineProps({
     dialogTableValue: {
         tyoe: Object,
         default: () => {}
+    },
+    dialogUserType: {
+        type: String,
+        default: '',
+        required: true
     }
 })
 
@@ -67,14 +72,15 @@ watch(()=>props.dialogTableValue, () => (
     console.log(user.ID)
 ), {deep: true, immediate: true})
 
+watch(()=>props.dialogUserType, () => (
+    user.value.UserType = props.dialogUserType
+), {deep: true, immediate: true})
+
 const emits = defineEmits(['update:modelValue', 'updateUserList'])
 
 const handleClose = () => {
     emits('update:modelValue',false)
 }
-
-
-
 
 
 
@@ -138,7 +144,8 @@ const register = async () => {
         userName: user.value.UserName,
         phoneNumber: user.value.PhoneNumber,
         password: user.value.Password,
-        userType: "client"
+        userType: user.value.UserType,
+        status: user.value.Status
     })
 
     if (res.data.code == 200) {
@@ -159,12 +166,12 @@ const register = async () => {
 }
 
 const updateUser = async () => {
-    console.log(user.value.PhoneNumber)
+    console.log(user.value.UserType)
     let res = await axios.put("/user/update", {
         ID: user.value.ID,
         userName: user.value.UserName,
         phoneNumber: user.value.PhoneNumber,
-        userType: "client",
+        userType: user.value.UserType,
         Status: user.value.Status
     })
     if (res.data.code == 200) {
