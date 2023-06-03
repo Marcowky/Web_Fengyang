@@ -10,25 +10,22 @@
           <div class="arrow">
           </div>
           <el-card class ="part">
-              <el-carousel indicator-position="none" type="card" arrow="never" direction="vertical" :autoplay="false" ref="carousel" class="carousel">
-                <el-carousel-item v-for="v in newslist" :key="v.value">
-                    <img v-bind:src="v.res" alt=""/>
-                    <div class="summary" @click="showdetail()">
-                      {{v.content}}
-                    </div>
-                </el-carousel-item>
-                <div class="arrow">
-                  <link rel="stylesheet" href="http://at.alicdn.com/t/c/font_4099046_8f48c4d9r8b.css">
-                  <div style="transform: scale(1.6)">
-                    <el-icon class="iconfont icon-jiantouloukong-shang" @click="arrowClick('left')">
-                    </el-icon>
-                  </div>
-                  <div style="transform: scale(1.6);margin-top: 20px">
-                    <el-icon class="iconfont icon-jiantouloukong-xia" @click="arrowClick('right')">
-                    </el-icon>
-                  </div>
+            <el-scrollbar height="400px" ref="carousel" class = "news">
+              <el-row v-for="v in newslist"  key= "v.value" class = "news_item">
+                <div class="news_mode">
+                  <img v-bind:src="v.res" alt=" " class ="news_img"/>
+                  <span class="news_content" @click="showdetail()">
+                  {{v.content}}
+                </span>
                 </div>
-              </el-carousel>
+                <div class="big_mode">
+                  <img v-bind:src="v.res" alt=" " class ="big_img"/>
+                  <span class="big_content" @click="showdetail()">
+                  {{v.content}}
+                </span>
+                </div>
+              </el-row>
+            </el-scrollbar>
 
           </el-card>
         </el-col>
@@ -53,7 +50,7 @@
       </el-row>
       <el-row style="margin-top: 20px;margin-bottom: 8px;margin-left: 15px">
         <el-divider>
-          <span style="font-size: 20px;font-weight:bold;font-family: 华文楷体">丰阳 欢迎您!</span>
+          <span style="font-size: 22px;font-weight:bold;font-family: 华文楷体">丰阳 欢迎您!</span>
         </el-divider>
       </el-row>
 
@@ -101,6 +98,7 @@ let carousel = ref(null)
 let newslist = news.news_items
 let warninlist =warning.warning_items
 let advicelist = news.news_items
+
 //首先在setup中定义
 const router = useRouter()
 
@@ -114,17 +112,22 @@ const arrowClick = (val) => {
 const showdetail = (event) => {
  router.push('/info/page')
 }
-/*const showarrow = (val)  => {
-  if(val === 'enter')
-  {
-    document.getElementById("arrow").style.display = "block";
+const changelayout = (val) => {
+  if(val==="enter")
+  {//@mouseover="changelayout('enter')" @mouseleave="changelayout('leave')"
+    document.getElementById("news_img").style.width = "100%";//让元素隐藏
+    //document.getElementById("news_content").style.position = "absolute";
+    document.getElementById("news_content").style.left = "10px";
+    document.getElementById("news_content").style.top = "10px";
   }
   else
   {
-    document.getElementById("arrow").style.display = "none";
-    arrow.display = false
+    document.getElementById("news_img").style.width = "20%";//让元素隐藏
+    document.getElementById("news_content").style.left = "120px";
   }
-};*/
+
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -133,10 +136,6 @@ h{
   font-size: 26px;
   font-weight: 700;
   margin-bottom: 20px
-}
-img{
-  height: 250px;
-  width: 100%
 }
 
 .grid-content {
@@ -149,11 +148,60 @@ img{
   position: relative;
   border-radius: 10px
 }
-.carousel{
-  height: 400px;
-  width: 500px;
-  margin-left: 20px;
+.news{
+  left: 5px;
+  top:15px;
 }
+.news_mode{
+  position: relative;
+  margin: 5px;
+  display: block;
+}
+.big_mode{
+  position: relative;
+  margin: 5px;
+  display: none;
+}
+.news_item:hover .news_mode{
+  display: none;
+}
+.news_item:hover .big_mode{
+  display: block;
+}
+.news_img{
+  height: inherit;
+  width: 25%
+}
+.big_img{
+  left: 5px;
+  height: 80%;
+  width: 80%
+}
+.news_content{
+  width: 70%;
+  position: absolute;
+  left:150px;
+  top:5px;
+  font-size: 17px;
+  overflow: hidden; // 文字超长隐藏
+  text-overflow:ellipsis; // 显示...
+  white-space: nowrap; // 单行显示
+}
+.big_content{
+  width: 80%;
+  position: absolute;
+  left:5px;
+  bottom: 55px;
+  font-size: 17px;
+  font-weight: bold;
+  color: aliceblue;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden; // 文字超长隐藏
+  text-overflow:ellipsis; // 显示...
+  white-space: nowrap; // 单行显示
+  z-index: 2
+}
+
 .arrow{
   display: none;
   position: absolute;
@@ -162,42 +210,17 @@ img{
   bottom:10px;
   z-index: 2
 }
-.carousel:hover .arrow{
+.news:hover .arrow{
   display: block;
 }
-.el-carousel__item{
-  width: 100%;
-  height: inherit;
-}
-.el-carousel__item:nth-child(2n) {
-  background-color: rgba(255, 255, 255, 0.7);
-}
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: rgba(255, 255, 255, 0.7);
-}
-.summary{
-  width: 490px;
-  line-height: 40px;
-  margin-left: 10px;
-  font-size: 18px;
-  font-weight: normal;
-  color: aliceblue;
-  background-color: rgba(1, 1, 2, 0.42);
-  overflow: hidden; // 文字超长隐藏
-  text-overflow:ellipsis; // 显示...
-  white-space: nowrap; // 单行显示
-  position:absolute;
-  z-index:2;
-  bottom: 50px;
-}
+
 .summary:hover{
   font-size: 20px;
-  font-weight: bold;
 }
 
 .list{
   width: 100%;
-  margin-left: 30px;
+  margin-left: 20px;
   margin-bottom: 10px;
   font-size: 18px;
   font-weight: 550;
