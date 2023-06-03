@@ -99,10 +99,10 @@ onMounted(() => {
 import config from '../../config/config.json';
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.index.startsWith("/blog?category=")).map((item) => {
+    categoryOptions.value = config.menuItems.filter(item => item.mainMenu=='/blog').map((item) => {
         return {
             label: item.label,
-            value: item.index.slice(-3)
+            value: item.index
         }
     })
     // console.log(categoryOptions)

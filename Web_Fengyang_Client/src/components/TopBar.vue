@@ -1,16 +1,17 @@
 <template>
+    <div class="top-rectangle"></div>
     <el-menu class="topbar" router :default-active="this.$route.fullPath" mode="horizontal" :ellipsis="false">
         <el-menu-item style="position: absolute; left: 0px;" index="0">四色丰阳</el-menu-item>
         <div class="弹性盒子" :style="{ flexGrow: 1 }" />
         <template v-for="item in menuItems">
-            <template v-if="item.mainMenu == 'noSub'">
+            <template v-if="item.mainMenu === 'noSub'">
                 <el-menu-item :index="item.index">{{ item.label }}</el-menu-item>
             </template>
-            <template v-if="item.mainMenu == 'hasSub'">
+            <template v-if="item.mainMenu === 'hasSub'">
                 <el-sub-menu :index="item.index">
                     <template #title>{{ item.label }}</template>
                     <template v-for="subItem in menuItems">
-                        <el-menu-item :index="item.index+'?category='+subItem.index" v-if="subItem.mainMenu==item.index">{{
+                        <el-menu-item :index="item.index+'?category='+subItem.index" v-if="subItem.mainMenu===item.index">{{
                             subItem.label
                         }}</el-menu-item>
                     </template>
@@ -43,11 +44,21 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.top-rectangle {
+  position: fixed;
+  top: 0;
+  height: 50px;
+  width: 100%;
+  background-color: rgb(8, 247, 179,0.1);
+  z-index: 998; /* 确保黄色长方形位于其他内容之上 */
+}
 .topbar {
     position: fixed;
-    top: 0px;
+    top: 20px;
     height: 60px;
-    width: 100%;
+    border-radius: 30px;
+    left: 10%;
+    right:10%;
     z-index: 999;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.26);
 }

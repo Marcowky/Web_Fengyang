@@ -7,7 +7,6 @@ body,
 #app {
   position: relative;
   min-height: 120vh;
-  margin-top: 100px;
   /*
   background-image: url('./src/assets/background.jpg');
   background-size: cover;
