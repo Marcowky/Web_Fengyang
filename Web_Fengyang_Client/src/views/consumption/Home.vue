@@ -1,5 +1,5 @@
 <template>
-    <Chart style=" position: relative; left: 0;  width: 100%; " />
+    <Chart style=" position: relative; top: 10px; left: 0;  width: 100%; " />
 
     <div style=" position: relative; margin: auto; width: 80%; ">
         <SmallBar />

@@ -1,35 +1,46 @@
 <template>
   <!-- 登录注册弹框 -->
   <LoginDialog ref="loginDialogRef" />
-  <!-- 顶部栏 -->
-  <el-menu class="topbar" router :default-active="this.$route.fullPath" mode="horizontal" :ellipsis="false">
-    <el-menu-item style="position: absolute; left: 0px;" index="0">四色丰阳后台</el-menu-item>
-    <div class="弹性盒子" :style="{ flexGrow: 1 }" />
-  </el-menu>
-  <!-- 侧边栏 -->
-  <el-menu class="sidebar" router :default-active="this.$route.fullPath" unique-opened=true>
+  <div class="common-layout">
+    <el-container>
+      <el-menu class="topbar" router :default-active="this.$route.fullPath" mode="horizontal" :ellipsis="false">
+        <el-menu-item style="position: absolute; left: 0px;" index="0">四色丰阳后台</el-menu-item>
+        <div class="弹性盒子" :style="{ flexGrow: 1 }" />
+      </el-menu>
+      <el-container>
+        <el-aside width="200px">
+          <!-- 侧边栏 -->
+          <el-menu class="sidebar" router :default-active="this.$route.fullPath" unique-opened=true>
 
-    <el-sub-menu index="/admin/user">
-      <template #title>用户管理</template>
-      <el-menu-item index="/admin/user?category=client">客户</el-menu-item>
-      <el-menu-item index="/admin/user?category=admin">管理员</el-menu-item>
-    </el-sub-menu>
+            <el-sub-menu index="/admin/user">
+              <template #title>用户管理</template>
+              <el-menu-item index="/admin/user?category=client">客户</el-menu-item>
+              <el-menu-item index="/admin/user?category=admin">管理员</el-menu-item>
+            </el-sub-menu>
 
-    <el-sub-menu index="/admin/article">
-      <template #title>文章修改</template>
-      <template v-for="item in menuItems">
-        <template v-if="item.index.includes('/')">
-          <el-menu-item :index="'/admin/article?category=' + item.index.substring(1)">{{ item.label }}</el-menu-item>
-        </template>
-      </template>
-    </el-sub-menu>
+            <el-sub-menu index="/admin/article">
+              <template #title>文章修改</template>
+              <template v-for="item in menuItems">
+                <template v-if="item.index.includes('/')">
+                  <el-menu-item :index="'/admin/article?category=' + item.index.substring(1)">{{ item.label
+                  }}</el-menu-item>
+                </template>
+              </template>
+            </el-sub-menu>
 
-    <el-menu-item index="/admin/image">图片更换</el-menu-item>
+            <el-menu-item index="/admin/image">图片更换</el-menu-item>
 
-  </el-menu>
-  <!-- 内容 -->
-  <router-view />
+          </el-menu>
+        </el-aside>
+        <el-main class="mainContent">
+          <!-- 内容 -->
+          <router-view />
+        </el-main>
+      </el-container>
+    </el-container>
+  </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue'
@@ -66,5 +77,8 @@ const menuItems = config.menuItems;
   z-index: 999;
   box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
   border-radius: 0 10px 10px 0;
+}
+.mainContent {
+    margin-top: 100px;
 }
 </style>

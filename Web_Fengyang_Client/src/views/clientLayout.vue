@@ -1,6 +1,6 @@
 <template>
-    <TopBar />
-    <div class="mainContent">
+    <TopBar v-if="show"/>
+    <div :style="{ marginTop: show ? '100px' : '0' }" class="mainContent">
         <router-view />
     </div>
     <FooterBar />
@@ -12,7 +12,19 @@
 import TopBar from "../components/TopBar.vue"
 import FooterBar from "../components/FooterBar.vue"
 import RightBar from "../components/RightBar.vue"
+import { useRouter } from 'vue-router'
+import { ref } from 'vue';
 
+const router = useRouter();
+const show = ref(false);
+
+router.beforeEach((to) => {
+    if (to.path.startsWith('/home')) {
+        show.value = false;
+    } else {
+        show.value = true;
+    }
+})
 </script>
   
 <style scoped>

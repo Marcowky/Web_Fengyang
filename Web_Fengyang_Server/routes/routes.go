@@ -28,8 +28,8 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 		userRoutes.POST("login", userController.Login)                                // 登录
 		userRoutes.GET("info", middleware.AuthMiddleware(), userController.GetMyInfo) // 获取当前用户信息
 		userRoutes.GET("briefInfo", userController.GetBriefInfo)                      // 获取文章作者简要信息
-		userRoutes.DELETE("delete", userController.Delete)                            // 删除文章
-		userRoutes.PUT("update", userController.Update)                               // 删除文章
+		userRoutes.DELETE("delete", userController.Delete)                            // 
+		userRoutes.PUT("update", userController.Update)                               // 删除
 		userRoutes.GET("list", userController.List)                                   // 获取用户列表
 	}
 

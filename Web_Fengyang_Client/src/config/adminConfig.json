@@ -1,0 +1,45 @@
+{
+    "userConfig": [
+        {
+            "label": "id",
+            "prop": "ID",
+            "width": "100",
+            "sortable": "true"
+        },
+        {
+            "label": "name",
+            "prop": "UserName",
+            "width": "150",
+            "sortable": "false"
+        },
+        {
+            "label": "phone",
+            "prop": "PhoneNumber",
+            "width": "150",
+            "sortable": "false"
+        },
+        {
+            "label": "createat",
+            "prop": "CreatedAt",
+            "width": "200",
+            "sortable": "true"
+        },
+        {
+            "label": "usertype",
+            "prop": "UserType",
+            "width": "150",
+            "sortable": "false"
+        },
+        {
+            "label": "status",
+            "prop": "Status",
+            "width": "150",
+            "sortable": "true"
+        },
+        {
+            "label": "option",
+            "prop": "option",
+            "sortable": "false"
+        }
+    ]
+}
