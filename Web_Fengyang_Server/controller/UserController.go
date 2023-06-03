@@ -121,7 +121,7 @@ func (a UserController) Update(c *gin.Context) {
 	status := updateUser.Status
 
 	fmt.Println(updateUser.Status)
-	fmt.Println(updateUser.Password)
+	fmt.Println(updateUser.PhoneNumber)
 
 	// 验证数据
 	var user model.User
@@ -163,6 +163,8 @@ func (a UserController) Delete(c *gin.Context) {
 	c.Bind(&deleteUser)
 	ID := deleteUser.ID
 	userType := deleteUser.UserType
+	fmt.Println(deleteUser.ID)
+	fmt.Println(deleteUser.UserType)
 
 	// 数据验证
 	var user model.User
