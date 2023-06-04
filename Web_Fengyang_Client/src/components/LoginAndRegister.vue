@@ -1,6 +1,6 @@
 <template>
     <!-- 上传文章弹框 -->
-    <el-dialog v-model="showModal" width="25%" center>
+    <el-dialog v-model="showModal" width="25%" center :close-on-click-modal="false" :show-close="userType==='client'">
         <div class="box">
             <!-- 登录注册跳转按钮 -->
             <el-radio-group style="margin-bottom: 15px;" v-model="dialogType">

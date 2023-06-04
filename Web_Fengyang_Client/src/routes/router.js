@@ -48,6 +48,7 @@ let routes = [
 
     {
         path: "/admin",
+        redirect: '/admin/user?category=client',
         component: () => import("../views/admin/adminLayout.vue"),
         children: [
             {
@@ -66,7 +67,7 @@ let routes = [
 
     },
 
-    // { path: "/video", component: () => import("../views/video/Detail.vue") },               // 视频
+    // { path: "/login", component: () => import("../views/user/login.vue") },               // 视频
     // { path: "/", component: () => import("../views/home/Home.vue") },                        // 主页
     // { path: "/info", component: () => import("../views/info/Home.vue") }, // 咨询
     // { path: "/info/page", component: () => import("../views/info/News.vue") },

@@ -34,7 +34,7 @@
         </el-aside>
         <el-main class="mainContent">
           <!-- 内容 -->
-          <router-view />
+          <router-view v-if="showRouteView"/>
         </el-main>
       </el-container>
     </el-container>
@@ -43,17 +43,31 @@
 
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
+
 
 // 导入登录注册弹框
 import LoginDialog from '../../components/LoginAndRegister.vue'
 const loginDialogRef = ref(null)
+
+import { UserStore } from '../../stores/UserStore'
+const userStore = UserStore()
+const showRouteView = ref(userStore.token!='')
+import { toRef } from 'vue';
+
+const tokenRef = toRef(userStore, 'token');
+
+watch(tokenRef, (newToken) => {
+  showRouteView.value = newToken !== '';
+});
 
 // 挂载页面时触发
 onMounted(() => {
   loginDialogRef.value.showDialog()
   loginDialogRef.value.userType = "admin"
 })
+
+
 
 import config from '../../config/config.json'
 const menuItems = config.menuItems;
