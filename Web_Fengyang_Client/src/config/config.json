@@ -86,9 +86,19 @@
             "mainMenu": "/consumption"
         },
         {
-            "index": "/travel",
+            "index": "/hotel",
             "label": "住宿交通",
-            "mainMenu": "noSub"
+            "mainMenu": "hasSub"
+        },
+        {
+            "index": "1",
+            "label": "住宿",
+            "mainMenu": "/hotel"
+        },
+        {
+            "index": "2",
+            "label": "交通",
+            "mainMenu": "/hotel"
         },
         {
             "index": "/blog",
