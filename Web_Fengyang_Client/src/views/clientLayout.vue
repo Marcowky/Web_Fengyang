@@ -16,7 +16,7 @@ import { useRouter } from 'vue-router'
 import { ref } from 'vue';
 
 const router = useRouter();
-const show = ref(false);
+const show = ref(true);
 
 router.beforeEach((to) => {
     if (to.path.startsWith('/home')) {
