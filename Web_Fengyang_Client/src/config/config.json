@@ -91,12 +91,12 @@
             "mainMenu": "hasSub"
         },
         {
-            "index": "1",
+            "index": "/hotel",
             "label": "住宿",
             "mainMenu": "/hotel"
         },
         {
-            "index": "2",
+            "index": "/traffic",
             "label": "交通",
             "mainMenu": "/hotel"
         },
