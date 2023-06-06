@@ -1,6 +1,6 @@
 <template>
     <!-- 上传文章弹框 -->
-    <el-dialog v-model="showModal" width="25%" center>
+    <el-dialog v-model="showModal" width="25%" center :close-on-click-modal="false" :show-close="userType==='client'">
         <div class="box">
             <!-- 登录注册跳转按钮 -->
             <el-radio-group style="margin-bottom: 15px;" v-model="dialogType">
@@ -59,7 +59,8 @@ const user = reactive({
     phoneNumber: localStorage.getItem("phoneNumber") || route.query.phoneNumber || "",
     password: localStorage.getItem("password") || route.query.password || "",
     rember: localStorage.getItem("rember") == 1 || false,
-    repeatPassword: ""
+    repeatPassword: "",
+    status: true
 })
 
 const userType = ref("client")
@@ -170,11 +171,15 @@ const login = async () => {
 
 // 注册
 const register = async () => {
+    if(userType.value=="admin") {
+        user.status=false
+    }
     let res = await axios.post("/user/register", {
         userName: user.userName,
         phoneNumber: user.phoneNumber,
         password: user.password,
-        userType: userType.value
+        userType: userType.value,
+        status: user.status
     })
 
     if (res.data.code == 200) {

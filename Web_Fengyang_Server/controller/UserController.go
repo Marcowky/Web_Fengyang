@@ -3,6 +3,7 @@ package controller
 import (
 	"Web_Fengyang_Server/common"
 	"Web_Fengyang_Server/model"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -21,6 +22,7 @@ type IUserController interface {
 	List(c *gin.Context)
 	GetMyInfo(c *gin.Context)
 	GetBriefInfo(c *gin.Context)
+	
 }
 
 // 注册
@@ -33,6 +35,7 @@ func (a UserController) Register(c *gin.Context) {
 	phoneNumber := requestUser.PhoneNumber
 	password := requestUser.Password
 	userType := requestUser.UserType
+	status := requestUser.Status
 
 	// 验证数据
 	var user model.User
@@ -45,12 +48,14 @@ func (a UserController) Register(c *gin.Context) {
 	// 密码加密
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
+
 	// 创建用户
 	newUser := model.User{
 		UserName:    userName,
 		PhoneNumber: phoneNumber,
 		Password:    string(hashedPassword),
 		UserType:    userType,
+		Status:      status,
 	}
 	a.DB.Table(userType).Create(&newUser)
 
@@ -60,6 +65,7 @@ func (a UserController) Register(c *gin.Context) {
 
 // Login 登录
 func (a UserController) Login(c *gin.Context) {
+
 
 	// 获取参数
 	var requestUser model.User
@@ -79,6 +85,11 @@ func (a UserController) Login(c *gin.Context) {
 	// 判断密码是否正确
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
 		common.Fail(c, 422, nil, "密码错误")
+		return
+	}
+
+	if !user.Status {
+		common.Fail(c, 422, nil, "用户被禁用或正在等待审核")
 		return
 	}
 
@@ -102,8 +113,10 @@ func (a UserController) Update(c *gin.Context) {
 	ID := updateUser.ID
 	userName := updateUser.UserName
 	phoneNumber := updateUser.PhoneNumber
-	password := updateUser.Password
+	// password := updateUser.Password
 	userType := updateUser.UserType
+	status := updateUser.Status
+
 
 	// 验证数据
 	var user model.User
@@ -119,12 +132,13 @@ func (a UserController) Update(c *gin.Context) {
 		return
 	}
 
-	// 密码加密
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	// // 密码加密
+	// hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
 	user.UserName = userName
 	user.PhoneNumber = phoneNumber
-	user.Password = string(hashedPassword)
+	// user.Password = string(hashedPassword)
+	user.Status = status
 
 	// 执行更新操作
 	if err := a.DB.Table(userType).Save(&user).Error; err != nil {
@@ -144,6 +158,7 @@ func (a UserController) Delete(c *gin.Context) {
 	c.Bind(&deleteUser)
 	ID := deleteUser.ID
 	userType := deleteUser.UserType
+
 
 	// 数据验证
 	var user model.User
@@ -165,19 +180,28 @@ func (a UserController) Delete(c *gin.Context) {
 
 // List 用于获取用户列表
 func (a UserController) List(c *gin.Context) {
-	keyword := c.Query("keyword")
+	keyword := c.DefaultQuery("keyword","")
 	userType := c.Query("userType")
+	order := c.DefaultQuery("order", "created_at desc")
+	pageNum, _ := strconv.Atoi(c.DefaultQuery("pageNum", "1"))
+	pageSize, _ := strconv.Atoi(c.DefaultQuery("pageSize", "5"))
+
 	var user []model.User
+
 	// 构建查询条件
-	query := a.DB.Table(userType).Where("user_name LIKE ? OR phone_number LIKE ? OR id = ?", "%"+keyword+"%", "%"+keyword+"%", keyword)
+	query := a.DB.Order(order).Table(userType).Where("user_name LIKE ? OR phone_number LIKE ? OR id = ?", "%"+keyword+"%", "%"+keyword+"%", keyword)
+
+	// 获取总数
+	var count int
+	query.Count(&count)
 
 	// 执行查询
-	if err := query.Find(&user).Error; err != nil {
+	if err := query.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&user).Error; err != nil {
 		common.Fail(c, 400, nil, "查询失败")
 		return
 	}
 
-	common.Success(c, gin.H{"user": user }, "查找成功")
+	common.Success(c, gin.H{"user": user, "count": count}, "查找成功")
 }
 
 // GetInfo 登录后获取信息，用于测试中间件

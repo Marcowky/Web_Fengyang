@@ -104,6 +104,7 @@ onBeforeRouteUpdate((to, from) => {
 
 // 挂载页面时触发
 onMounted(() => {
+    
     loadArticles()
 })
 
@@ -154,8 +155,8 @@ const toDetail = (article) => {
 <style lang="scss" scoped>
 .searchButton {
     position: fixed;
-    right: 2%;
-    top: 10px;
+    right: 20%;
+    top: 30px;
     z-index: 999;
 }
 

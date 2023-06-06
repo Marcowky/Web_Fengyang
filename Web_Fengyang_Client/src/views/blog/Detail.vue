@@ -46,8 +46,7 @@ const route = useRoute()
 
 // 网络请求
 const axios = inject("axios")
-import { ElMessage } from 'element-plus'
-import { ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 // 定义变量
 const articleInfo = ref({})
@@ -66,10 +65,10 @@ import config from '../../config/config.json';
 // 加载文章种类
 const categoryOptions = ref([])
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.index.startsWith("/blog?category=")).map((item) => {
+    categoryOptions.value = config.menuItems.filter(item => item.mainMenu=='/blog').map((item) => {
         return {
             label: item.label,
-            value: item.index.slice(-3)
+            value: item.index
         }
     })
 }

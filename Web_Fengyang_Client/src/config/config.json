@@ -1,24 +1,24 @@
 {
     "menuItems": [
         {
-            "index": "/",
+            "index": "/home",
             "label": "首页",
             "mainMenu": "hasSub"
         },
         {
             "index": "1",
             "label": "四色丰阳",
-            "mainMenu": "/"
+            "mainMenu": "/home"
         },
         {
             "index": "2",
             "label": "食宿阅论",
-            "mainMenu": "/"
+            "mainMenu": "/home"
         },
         {
             "index": "3",
             "label": "热门景点",
-            "mainMenu": "/"
+            "mainMenu": "/home"
         },
         {
             "index": "/info",
@@ -86,9 +86,19 @@
             "mainMenu": "/consumption"
         },
         {
-            "index": "/travel",
+            "index": "/hotel",
             "label": "住宿交通",
-            "mainMenu": "noSub"
+            "mainMenu": "hasSub"
+        },
+        {
+            "index": "/hotel",
+            "label": "住宿",
+            "mainMenu": "/hotel"
+        },
+        {
+            "index": "/traffic",
+            "label": "交通",
+            "mainMenu": "/hotel"
         },
         {
             "index": "/blog",

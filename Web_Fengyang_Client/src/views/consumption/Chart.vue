@@ -14,10 +14,12 @@
   }
   
   .el-carousel__item:nth-child(2n) {
+    border-radius: 30px;
     background-color: #99a9bf;
   }
   
   .el-carousel__item:nth-child(2n + 1) {
+    border-radius: 30px;
     background-color: #d3dce6;
   }
   </style>
