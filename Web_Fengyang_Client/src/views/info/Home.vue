@@ -112,21 +112,21 @@ const arrowClick = (val) => {
 const showdetail = (event) => {
  router.push('/info/page')
 }
-const changelayout = (val) => {
+/*const changelayout = (val) => {
   if(val==="enter")
   {//@mouseover="changelayout('enter')" @mouseleave="changelayout('leave')"
-    document.getElementById("news_img").style.width = "100%";//让元素隐藏
+    document.getElementById("news_img").style.width = "80%";//让元素隐藏
     //document.getElementById("news_content").style.position = "absolute";
     document.getElementById("news_content").style.left = "10px";
     document.getElementById("news_content").style.top = "10px";
   }
   else
   {
-    document.getElementById("news_img").style.width = "20%";//让元素隐藏
+    document.getElementById("news_img").style.width = "25%";//让元素隐藏
     document.getElementById("news_content").style.left = "120px";
   }
 
-}
+}*/
 
 </script>
 
