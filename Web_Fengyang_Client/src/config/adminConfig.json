@@ -56,13 +56,13 @@
         {
             "label": "作者ID",
             "prop": "user_id",
-            "width": "150",
+            "width": "100",
             "sortable": "true"
         },
         {
             "label": "文章类别",
             "prop": "category_id",
-            "width": "110",
+            "width": "150",
             "sortable": "true"
         },
         {
@@ -74,7 +74,7 @@
         {
             "label": "创建时间",
             "prop": "created_at",
-            "width": "160",
+            "width": "200",
             "sortable": "true"
         },
         {
