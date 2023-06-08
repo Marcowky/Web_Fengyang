@@ -8,7 +8,7 @@
         <div class="弹性盒子" :style="{ flexGrow: 1 }" />
       </el-menu>
       <el-container>
-        <el-aside width="200px">
+        <el-aside v-if="show" width="200px">
           <!-- 侧边栏 -->
           <el-menu class="sidebar" router :default-active="this.$route.fullPath" unique-opened=true>
 
@@ -44,6 +44,8 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 
 // 导入登录注册弹框
@@ -65,6 +67,16 @@ watch(tokenRef, (newToken) => {
 onMounted(() => {
   loginDialogRef.value.showDialog()
   loginDialogRef.value.userType = "admin"
+})
+
+const show = ref(true);
+
+router.beforeEach((to) => {
+    if (to.path=='/admin/article/publish') {
+        show.value = false;
+    } else {
+        show.value = true;
+    }
 })
 
 
@@ -94,5 +106,6 @@ const menuItems = config.menuItems;
 }
 .mainContent {
     margin-top: 100px;
+    padding-left: 0;
 }
 </style>

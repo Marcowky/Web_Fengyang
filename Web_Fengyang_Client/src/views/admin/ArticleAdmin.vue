@@ -39,8 +39,9 @@ const axios = inject("axios")
 import {
     Search,
 } from '@element-plus/icons-vue'
-import { useRoute, onBeforeRouteUpdate } from 'vue-router'
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 const pageArticleType = ref('')
+const router = useRouter()
 const route = useRoute()
 
 // 挂载页面时触发
@@ -126,17 +127,12 @@ const dialogTitle = ref('')
 const dialogUserType = ref('')
 const showDialog = ref(false)
 const toPublish = (data) => {
-
-    if (!data) {
-        dialogTitle.value = "添加用户"
-        dialogTableValue.value = {}
-    }
-    else {
-        dialogTitle.value = "编辑用户"
-        dialogTableValue.value = JSON.parse(JSON.stringify(data))
-    }
-    showDialog.value = true
-    dialogUserType.value = pageArticleType.value
+    router.push({
+        path: "/admin/article/publish",
+        query: {
+            category: pageArticleType.value,
+        }
+    })
 }
 const deleteArticle = async (data) => {
 

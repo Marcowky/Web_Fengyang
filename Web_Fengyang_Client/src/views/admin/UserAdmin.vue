@@ -179,8 +179,6 @@ const deleteUser = async (data) => {
         })
         .catch()
 
-
-
 }
 
 const updateUser = async (updateUserInfo) => {
