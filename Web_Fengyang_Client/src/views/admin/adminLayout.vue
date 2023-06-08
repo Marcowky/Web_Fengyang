@@ -21,8 +21,8 @@
             <el-sub-menu index="/admin/article">
               <template #title>文章修改</template>
               <template v-for="item in menuItems">
-                <template v-if="item.index.includes('/')">
-                  <el-menu-item :index="'/admin/article?category=' + item.index.substring(1)">{{ item.label
+                <template v-if="item.index.includes('/')&&item.index!='/home'">
+                  <el-menu-item :index="'/admin/article?category=' +item.index.substring(1) + 'article'">{{ item.label
                   }}</el-menu-item>
                 </template>
               </template>
