@@ -177,7 +177,8 @@ const click_show_detail= (website) => {
 const click_hotel_location= (location) =>{
   console.log(location);
   // console.log(location[0]);
-  map.setCenter([location[0], location[1]]);
+  map.setZoomAndCenter(18,[location[0], location[1]]);
+
   // 第一个参数设置为 0，表示将页面滚动到顶部。第二个参数设置为 0，表示在垂直方向上滚动到顶部位置
   // window.scrollTo(0, 0);
   const currentPosition = window.pageYOffset; // 当前滚动位置
@@ -240,6 +241,8 @@ const initMap = () => {
     start_point = new AMap.Marker({
       position: new AMap.LngLat(112.283196, 25.043408),
       draggable: true,
+      // icon:
+      // 在这里设置icon样式，引入assets下面的startpoint.svg文件
       title: 'defineMarkerPlace'
     })
     map.add(start_point)
@@ -248,6 +251,8 @@ const initMap = () => {
     end_point = new AMap.Marker({
       position: new AMap.LngLat(112.279502, 25.046681),
       // offset: new AMap.Pixel(-10, -10),
+      // icon:
+      // 在这里设置icon样式，引入assets下面的endpoint.svg文件
       draggable: true,
       title: 'definePlace',
       zoom: 13

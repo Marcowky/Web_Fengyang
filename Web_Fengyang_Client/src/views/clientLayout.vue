@@ -19,7 +19,10 @@ const router = useRouter();
 const route = useRoute()
 const show = ref(route.path!="/home");
 
-router.beforeEach((to) => {
+router.beforeEach((to, from) => {
+    if(to !=from) {
+      window.scrollTo(0, 0);
+    }
     if (to.path.startsWith('/home')) {
         show.value = false;
     } else {
@@ -27,7 +30,7 @@ router.beforeEach((to) => {
     }
 })
 </script>
-  
+
 <style scoped>
 .mainContent {
     margin-top: 100px;
