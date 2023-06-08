@@ -28,18 +28,19 @@ const editorConfig = { placeholder: '请输入内容...', MENU_CONF: {} };
 editorConfig.MENU_CONF = {}
 editorConfig.MENU_CONF['uploadImage'] = {
   // 小于该值就插入 base64 格式（而不上传），默认为 0
-  base64LimitSize: 10 * 1024, // 10kb
+  // base64LimitSize: 10 * 1024, // 10kb
+  base64LimitSize: 0,
   server: serverUrl + "/image/upload/rich_editor_upload",
 }
-// 插入图片
-editorConfig.MENU_CONF['insertImage'] = {
-  parseImageSrc: (src) => {
-    if (src.indexOf("http") != 0) {
-      return `${serverUrl}${src}`
-    }
-    return src
-  }
-}
+// 插入图片，目前有问题，可能是编解码？，也不是很必要
+// editorConfig.MENU_CONF['insertImage'] = {
+//   parseImageSrc: (src) => {
+//     if (src.indexOf("http") != 0) {
+//       return `${serverUrl}${src}`
+//     }
+//     return src
+//   }
+// }
 // 定义属性进行双向绑定
 const props = defineProps({
   modelValue: {
