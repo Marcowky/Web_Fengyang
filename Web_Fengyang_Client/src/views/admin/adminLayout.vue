@@ -72,7 +72,7 @@ onMounted(() => {
 const show = ref(true);
 
 router.beforeEach((to) => {
-    if (to.path=='/admin/article/publish') {
+    if (to.path=='/admin/article/publish'||to.path=='/admin/article/update') {
         show.value = false;
     } else {
         show.value = true;

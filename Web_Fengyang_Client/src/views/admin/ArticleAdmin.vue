@@ -122,18 +122,26 @@ const loadArticles = async (pageNum = 0) => {
     console.log(articleList.value)
 }
 
-const dialogTableValue = ref({})
-const dialogTitle = ref('')
-const dialogUserType = ref('')
-const showDialog = ref(false)
-const toPublish = (data) => {
+const toPublish = () => {
     router.push({
         path: "/admin/article/publish",
         query: {
-            category: pageArticleType.value,
+            category: pageArticleType.value
         }
     })
 }
+
+const toUpdate = (data) => {
+    router.push({
+        path: "/admin/article/update",
+        query: {
+            category: pageArticleType.value,
+            id: data.id
+        }
+    })
+}
+
+
 const deleteArticle = async (data) => {
 
     ElMessageBox.confirm(

@@ -77,10 +77,12 @@ func (a ArticleController) Update(c *gin.Context) {
 		common.Fail(c, 400, nil, "文章不存在")
 		return
 	}
+	
 	// 获取登录用户
 	user, _ := c.Get("user")
 	userId := user.(model.User).ID
-	if userId != article.UserId {
+	userType := user.(model.User).UserType
+	if userId != article.UserId && userType != "admin" {
 		common.Fail(c, 400, nil, "登录用户不正确")
 		return
 	}
