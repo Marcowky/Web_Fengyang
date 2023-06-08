@@ -136,11 +136,12 @@ const closeSubmitModal = () => {
     showModal.value = false
 }
 
-// 图像判断
+// 判断图片的格式是否符合要求
 const beforeUpload = async (data) => {
-    if (data.file.file?.type !== "image/png") {
+    const allowedTypes = ['image/jpeg', 'image/png', "image/jpeg"]; // 允许的文件类型
+    if (!allowedTypes.includes(data.file.file?.type)) {
         ElMessage({
-            message: "只能上传png格式的图片",
+            message: "只能上传png/jpg/jpeg格式的图片",
             type: 'error',
             offset: 80
         })

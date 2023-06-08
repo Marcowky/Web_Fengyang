@@ -23,8 +23,12 @@ let routes = [
                 component: () => import("../views/consumption/Home.vue")
             },
             {
-                path: "/travel",
-                component: () => import("../views/travel/Home.vue")
+                path: "/hotel",
+                component: () => import("../views/travel/hotel.vue")
+            },
+            {
+                path: "/traffic",
+                component: () => import("../views/travel/traffic.vue")
             },
             {
                 path: '/blog',
@@ -54,6 +58,14 @@ let routes = [
             {
                 path: "article",
                 component: () => import("../views/admin/ArticleAdmin.vue")
+            },
+            {
+                path: '/admin/article/publish',
+                component: () => import("../views/admin/components/ArticlePublish.vue")
+            },
+            {
+                path: '/admin/article/update',
+                component: () => import("../views/admin/components/ArticleUpdate.vue")
             },
             {
                 path: "user",

@@ -15,7 +15,7 @@ import RightBar from "../components/RightBar.vue"
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue';
 
-const router = useRouter();
+const router = useRouter()
 const route = useRoute()
 const show = ref(route.path!="/home");
 

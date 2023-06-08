@@ -23,6 +23,9 @@
                         <el-button type="primary" @click="showAddDialog(scope.row)">修改</el-button>
                         <el-button type="primary" @click="deleteUser(scope.row)">删除</el-button>
                     </template>
+                    <template #default="scope">
+                        <el-tag class="ml-2" v-if="item.prop == 'UserType'" type="success">{{scope.row.UserType}}</el-tag>
+                    </template>
                 </el-table-column>
 
             </template>
@@ -175,8 +178,6 @@ const deleteUser = async (data) => {
             }
         })
         .catch()
-
-
 
 }
 

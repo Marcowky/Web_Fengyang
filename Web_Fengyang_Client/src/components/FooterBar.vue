@@ -1,5 +1,4 @@
 <template>
-
   <!--footer-->
   <div class="space"></div>
   <footer class="footer">
@@ -7,42 +6,60 @@
       <div class="footer-container">
         <div class="weather_wrap">
           <el-row>
-            <el-col v-for="(item,index) in weatherData" :key="index" :span="6" >
+            <el-col v-for="(item, index) in weatherData" :key="index" :span="6">
               <div class="day_weather_wrap">
                 <div class="weather_icon">
-                  <el-icon v-if="computeWeather('Sunny',item.dayWeather)" :size="55" color="white" ><Sunny /></el-icon>
-                  <el-icon v-if="computeWeather('Cloudy',item.dayWeather)" :size="55" color="white" ><Cloudy /></el-icon>
-                  <el-icon v-if="computeWeather('Pouring',item.dayWeather)" :size="55" color="white" ><Pouring /></el-icon>
-                  <el-icon v-if="computeWeather('Lightning',item.dayWeather)" :size="55" color="white" ><Lightning /></el-icon>
-                  <el-icon v-if="computeWeather('Drizzling',item.dayWeather)" :size="55" color="white" ><Drizzling /></el-icon>
-                  <el-icon v-if="computeWeather('PartlyCloudy',item.dayWeather)" :size="55" color="white" ><PartlyCloudy /></el-icon>
-                  <el-icon v-if="computeWeather('MostlyCloudy',item.dayWeather)" :size="55" color="white" ><MostlyCloudy /></el-icon>
+                  <el-icon v-if="computeWeather('Sunny', item.dayWeather)" :size="55" color="white">
+                    <Sunny />
+                  </el-icon>
+                  <el-icon v-if="computeWeather('Cloudy', item.dayWeather)" :size="55" color="white">
+                    <Cloudy />
+                  </el-icon>
+                  <el-icon v-if="computeWeather('Pouring', item.dayWeather)" :size="55" color="white">
+                    <Pouring />
+                  </el-icon>
+                  <el-icon v-if="computeWeather('Lightning', item.dayWeather)" :size="55" color="white">
+                    <Lightning />
+                  </el-icon>
+                  <el-icon v-if="computeWeather('Drizzling', item.dayWeather)" :size="55" color="white">
+                    <Drizzling />
+                  </el-icon>
+                  <el-icon v-if="computeWeather('PartlyCloudy', item.dayWeather)" :size="55" color="white">
+                    <PartlyCloudy />
+                  </el-icon>
+                  <el-icon v-if="computeWeather('MostlyCloudy', item.dayWeather)" :size="55" color="white">
+                    <MostlyCloudy />
+                  </el-icon>
                 </div>
-                  <div class="weather_detail">
-                  <li>{{formatMonthDay(item.date,item.week)}}</li>
-                  <li>{{item.nightTemp}}°C~{{item.dayTemp}}°C</li>
-                  <li>{{item.dayWeather}}</li>
-              </div>
+                <div class="weather_detail">
+                  <li>{{ formatMonthDay(item.date, item.week) }}</li>
+                  <li>{{ item.nightTemp }}°C~{{ item.dayTemp }}°C</li>
+                  <li>{{ item.dayWeather }}</li>
+                </div>
               </div>
             </el-col>
           </el-row>
 
         </div>
-        <el-divider class="divider_style"/>
+        <el-divider class="divider_style" />
         <ul class="footer-nav">
           <template v-for="item in menuItems">
-              <ul class="css-ul" v-if="!item.mainMenu.includes('/')">
-                  <li>
-                    <text class="css-main_title" >{{ item.label }}</text>
-                  </li>
-                
-                  <template v-for="subItem in menuItems">
-                    <li v-if="subItem.mainMenu==item.index">
-                      <el-link :href="link+item.index+'?category='+subItem.index">{{ subItem.label }}</el-link>
-                      <!-- <el-link type="primary">primary</el-link> -->
-                    </li>
-                  </template> 
-              </ul>
+            <ul class="css-ul" v-if="!item.mainMenu.includes('/')">
+              <li>
+                <text class="css-main_title">{{ item.label }}</text>
+              </li>
+
+              <template v-for="subItem in menuItems">
+                <li v-if="subItem.mainMenu == item.index && subItem.mainMenu != '/hotel'">
+                  <el-link :href="link + item.index + '?category=' + subItem.index">{{ subItem.label }}</el-link>
+                  <!-- <el-link type="primary">primary</el-link> -->
+                </li>
+                <li v-if="subItem.mainMenu == item.index && subItem.mainMenu == '/hotel'">
+                  <el-link :href="link + subItem.index">{{ subItem.label }}</el-link>
+                  <!-- <el-link type="primary">primary</el-link> -->
+                </li>
+              </template>
+            </ul>
           </template>
         </ul>
       </div>
@@ -65,9 +82,9 @@ window._AMapSecurityConfig = {
 };
 
 interface MenuItem {
-    index: string;
-    label: string;
-    mainMenu: string;
+  index: string;
+  label: string;
+  mainMenu: string;
 }
 
 const link = "http://localhost:5173/#";
@@ -91,7 +108,7 @@ const computeWeather = (x, dayWeather) => {
       return ['雷阵雨', '雷阵雨并伴有冰雹'].includes(dayWeather);
   }
 };
-const  formatMonthDay=(dateString,week) => {
+const formatMonthDay = (dateString, week) => {
   const [year, month, day] = dateString.split('-');
   const formattedMonth = parseInt(month, 10).toString(); // 去掉月份前导零
   const formattedDay = parseInt(day, 10).toString(); // 去掉日期前导零
@@ -131,9 +148,8 @@ const initMap = () => {
     plugins: ['AMap.Weather'] // 需要使用的插件列表，
   }).then((AMap) => {
     var weather = new AMap.Weather();
-    weather.getForecast('连州市', function(err, data)
-    {
-      weatherData.value=data.forecasts;
+    weather.getForecast('连州市', function (err, data) {
+      weatherData.value = data.forecasts;
       // console.log(weatherData.value);
       // console.log(weatherData.value[0]);
     });
@@ -153,26 +169,31 @@ onMounted(() => {
   width: 100%;
   bottom: 0;
 }
-.weather_wrap{
-  top :20px;
+
+.weather_wrap {
+  top: 20px;
   height: 80px;
   display: flex;
   justify-content: center;
-  .day_weather_wrap{
+
+  .day_weather_wrap {
     display: flex;
     padding-left: 130px;
     padding-right: 50px;
-    .weather_icon{
-      top:10px;
+
+    .weather_icon {
+      top: 10px;
       align-items: center;
     }
-    .weather_detail{
+
+    .weather_detail {
       color: white;
       left: 4px;
-  }
+    }
   }
 
 }
+
 .space {
 
   height: 500px;
@@ -190,11 +211,13 @@ onMounted(() => {
   padding: 10px 90px;
   //margin: 10px auto;
 }
-.divider_style{
+
+.divider_style {
   left: 11%;
   width: 79%;
-  top:20px;
+  top: 20px;
 }
+
 .footer-nav {
   display: flex;
   flex-wrap: wrap;
@@ -243,4 +266,5 @@ a {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
   }
-}</style>
+}
+</style>
