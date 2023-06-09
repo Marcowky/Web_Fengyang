@@ -7,37 +7,78 @@
             "sortable": "true"
         },
         {
-            "label": "name",
+            "label": "姓名",
             "prop": "UserName",
             "width": "150",
             "sortable": "false"
         },
         {
-            "label": "phone",
+            "label": "手机号",
             "prop": "PhoneNumber",
             "width": "150",
             "sortable": "false"
         },
         {
-            "label": "createat",
+            "label": "创建时间",
             "prop": "CreatedAt",
             "width": "200",
             "sortable": "true"
         },
         {
-            "label": "usertype",
+            "label": "用户类别",
             "prop": "UserType",
             "width": "150",
             "sortable": "false"
         },
         {
-            "label": "status",
+            "label": "用户状态",
             "prop": "Status",
             "width": "150",
             "sortable": "true"
         },
         {
-            "label": "option",
+            "label": "操作选项",
+            "prop": "option",
+            "sortable": "false"
+        }
+    ],
+    "articleConfig": [
+        {
+            "label": "id",
+            "prop": "id"
+        },
+        {
+            "label": "标题",
+            "prop": "title",
+            "width": "300",
+            "sortable": "false"
+        },
+        {
+            "label": "作者ID",
+            "prop": "user_id",
+            "width": "100",
+            "sortable": "true"
+        },
+        {
+            "label": "文章类别",
+            "prop": "category_id",
+            "width": "150",
+            "sortable": "true"
+        },
+        {
+            "label": "有无头图",
+            "prop": "head_image",
+            "width": "110",
+            "sortable": "true"
+        },
+        {
+            "label": "创建时间",
+            "prop": "created_at",
+            "width": "200",
+            "sortable": "true"
+        },
+        {
+            "label": "操作选项",
             "prop": "option",
             "sortable": "false"
         }

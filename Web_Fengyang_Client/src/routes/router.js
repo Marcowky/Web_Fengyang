@@ -60,6 +60,14 @@ let routes = [
                 component: () => import("../views/admin/ArticleAdmin.vue")
             },
             {
+                path: '/admin/article/publish',
+                component: () => import("../views/admin/components/ArticlePublish.vue")
+            },
+            {
+                path: '/admin/article/update',
+                component: () => import("../views/admin/components/ArticleUpdate.vue")
+            },
+            {
                 path: "user",
                 component: () => import("../views/admin/UserAdmin.vue")
             },
