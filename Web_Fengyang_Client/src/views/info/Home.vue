@@ -1,8 +1,8 @@
 
 <template>
   <!-- 顶部导航栏 -->
-    <el-card style="border-radius: 20px;margin-left: 120px;margin-right: 120px;margin-top: 30px">
-      <el-row :gutter="5" style="margin-left: 30px;margin-right: 30px">
+    <el-card style="border-radius: 20px;margin-left: 150px;margin-right: 150px;margin-top: 30px">
+      <el-row :gutter="5">
         <el-col :span="9" :offset="2" ><div class="grid-content ep-bg-purple" />
               <h>
                 最新资讯
@@ -10,18 +10,18 @@
           <div class="arrow">
           </div>
           <el-card class ="part">
-            <el-scrollbar height="400px" ref="carousel" class = "news">
-              <el-row v-for="v in newslist"  key= "v.value" class = "news_item">
+            <el-scrollbar height="80%" ref="carousel" class = "news">
+              <el-row v-for="(article, index) in newsList" class = "news_item">
                 <div class="news_mode">
-                  <img v-bind:src="v.res" alt=" " class ="news_img"/>
+                  <img v-bind:src="article.head_image" alt=" " class ="news_img"/>
                   <span class="news_content" @click="showdetail()">
-                  {{v.content}}
+                  {{article.title}}
                 </span>
                 </div>
                 <div class="big_mode">
-                  <img v-bind:src="v.res" alt=" " class ="big_img"/>
+                  <img v-bind:src="article.head_image" alt=" " class ="big_img"/>
                   <span class="big_content" @click="showdetail()">
-                  {{v.content}}
+                  {{article.title}}
                 </span>
                 </div>
               </el-row>
@@ -35,8 +35,8 @@
               景区公告
             </h>
           <el-card class="part">
-            <el-scrollbar height="200px">
-              <el-row v-for="v in warninlist" :key="v.value">
+            <el-scrollbar height="80%">
+              <el-row v-for="v in advicelist" :key="v.value">
                 <div class="list">
                   {{v.content}}
                   <router-link :to="{path: '/info/page'}"
@@ -50,11 +50,11 @@
       </el-row>
       <el-row style="margin-top: 20px;margin-bottom: 8px;margin-left: 15px">
         <el-divider>
-          <span style="font-size: 22px;font-weight:bold;font-family: 华文楷体">丰阳 欢迎您!</span>
+          <span style="font-size: 1.5rem;font-weight:bold;font-family: 华文楷体">丰阳 欢迎您!</span>
         </el-divider>
       </el-row>
 
-      <el-row :gutter="20" style="margin-left: 30px;margin-right: 30px">
+      <el-row :gutter="20">
         <el-col :span="9" :offset="2"><div class="grid-content ep-bg-purple" />
             <h>
               旅游攻略
@@ -89,18 +89,38 @@
 
 
 <script setup>
-import {ref} from "vue";
-import news from '../../config/news.json';
+import { ref, reactive, inject, onMounted } from 'vue'
 import warning from '../../config/warning.json'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 
-let carousel = ref(null)
-let newslist = news.news_items
-let warninlist =warning.warning_items
-let advicelist = news.news_items
-
+// 网络请求
+const serverUrl = inject("serverUrl")
+const axios = inject("axios")
+// 变量初始化
+const newsList = ref([])
+const warningList = warning.warning_items
+const advicelist = warning.warning_items
 //首先在setup中定义
 const router = useRouter()
+let carousel = ref(null)
+
+// 挂载页面时触发
+onMounted(() => {
+  loadArticles()
+})
+// 按条件加载文章列表
+const loadArticles = async () => {
+  // let res = await axios.get(`/article/list?articleType=infoArticle&keyword=""&pageNum=1&pageSize=5&categoryId=1`)
+  let res = await axios.get(`/article/list?articleType=infoArticle&pageNum=1&pageSize=5`)
+  if (res.data.code === 200) {
+    newsList.value = res.data.data.article
+    console.log(newsList)
+  }
+  else
+  {
+    console.log("wrong")
+  }
+}
 
 const arrowClick = (val) => {
   if(val === 'right') {
@@ -112,54 +132,40 @@ const arrowClick = (val) => {
 const showdetail = (event) => {
  router.push('/info/page')
 }
-const changelayout = (val) => {
-  if(val==="enter")
-  {//@mouseover="changelayout('enter')" @mouseleave="changelayout('leave')"
-    document.getElementById("news_img").style.width = "100%";//让元素隐藏
-    //document.getElementById("news_content").style.position = "absolute";
-    document.getElementById("news_content").style.left = "10px";
-    document.getElementById("news_content").style.top = "10px";
-  }
-  else
-  {
-    document.getElementById("news_img").style.width = "20%";//让元素隐藏
-    document.getElementById("news_content").style.left = "120px";
-  }
 
-}
 
 </script>
 
 <style lang="scss" scoped>
 h{
-  color: rgba(244, 147, 45);
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 20px
+  color: rgb(216, 102, 102);
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.4rem;
 }
 
 .grid-content {
   border-radius: 20px;
-  width: 800px;
+  width: 52rem;
 }
 .part{
-  height: 520px;
-  width: 600px;
+  height: 35rem;
+  width: inherit;
   position: relative;
-  border-radius: 10px
+  border-radius: 10px;
 }
 .news{
-  left: 5px;
-  top:15px;
+  left:0.3rem;
+  top:1rem;
 }
 .news_mode{
   position: relative;
-  margin: 5px;
+  margin: 0.3rem;
   display: block;
 }
 .big_mode{
   position: relative;
-  margin: 5px;
+  margin: 0.3rem;
   display: none;
 }
 .news_item:hover .news_mode{
@@ -173,16 +179,16 @@ h{
   width: 25%
 }
 .big_img{
-  left: 5px;
+  left: 0.3rem;
   height: 80%;
   width: 80%
 }
 .news_content{
   width: 70%;
   position: absolute;
-  left:150px;
-  top:5px;
-  font-size: 17px;
+  left:2rem;
+  top:0.3rem;
+  font-size: 17em;
   overflow: hidden; // 文字超长隐藏
   text-overflow:ellipsis; // 显示...
   white-space: nowrap; // 单行显示
@@ -190,9 +196,9 @@ h{
 .big_content{
   width: 80%;
   position: absolute;
-  left:5px;
-  bottom: 55px;
-  font-size: 17px;
+  left:0.3rem;
+  bottom: 4rem;
+  font-size: 1rem;
   font-weight: bold;
   color: aliceblue;
   background-color: rgba(0, 0, 0, 0.5);
@@ -206,9 +212,9 @@ h{
   display: none;
   position: absolute;
   color: rgba(220, 156, 125, 0.8);
-  right:20px;
-  bottom:10px;
-  z-index: 2
+  right:1.4rem;
+  bottom:0.6rem;
+  z-index: 2;
 }
 .news:hover .arrow{
   display: block;
@@ -220,9 +226,9 @@ h{
 
 .list{
   width: 100%;
-  margin-left: 20px;
-  margin-bottom: 10px;
-  font-size: 18px;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
   font-weight: 550;
 }
 .list:hover{
@@ -232,11 +238,10 @@ h{
 
 .modeCard{
   float: left;
-  width:220px;
-  height: 240px;
-  margin-left: 40px;
-  margin-bottom: 8px;
-}
+  width:13rem;
+  height: inherit;
+  margin-left: 2.5rem;
+  margin-top: 0.5rem;}
 .modeCard:hover{ //鼠标悬停时激活
 transform: scale(1.05); //放大倍数
 }
