@@ -4,9 +4,9 @@
     <el-card class="mainTable">
         <el-row :gutter="20">
             <el-col :span="7">
-                <el-input placeholder="请输入关键词" clearable v-model="pageInfo.keyword"></el-input>
+                <el-input :input="loadUsers()" placeholder="请输入关键词" clearable v-model="pageInfo.keyword"
+                    :prefix-icon="Search"></el-input>
             </el-col>
-            <el-button :icon="Search" @click="loadUsers()"> 搜索 </el-button>
             <el-button @click="showAddDialog()"> 添加 </el-button>
         </el-row>
         <el-table ref="tableRef" :data="userList" style="width: 100%; margin-top: 20px" stripe
