@@ -106,6 +106,8 @@ const computeWeather = (x, dayWeather) => {
       return ['大雨', '暴雨', '大暴雨', '特大暴雨', '极端降雨', '中雨-大雨', '大雨-暴雨', '暴雨-特大暴雨', '雨雪天气', '雨夹雪', '阵雨夹雪', '冻雨'].includes(dayWeather);
     case 'Lightning':
       return ['雷阵雨', '雷阵雨并伴有冰雹'].includes(dayWeather);
+    default :
+      return dayWeather === '多云';
   }
 };
 const formatMonthDay = (dateString, week) => {

@@ -19,12 +19,15 @@ const router = useRouter()
 const route = useRoute()
 const show = ref(route.path!="/home");
 
-router.beforeEach((to) => {
-    if (to.path.startsWith('/home')) {
-        show.value = false;
-    } else {
-        show.value = true;
-    }
+router.beforeEach((to, from) => {
+  if(to !=from) {
+    window.scrollTo(0, 0);
+  }
+  if (to.path.startsWith('/home')) {
+    show.value = false;
+  } else {
+    show.value = true;
+  }
 })
 </script>
   
