@@ -54,7 +54,7 @@ export default defineComponent({
     top: 0;
     height: 50px;
     width: 100%;
-    background-color: rgb(8, 247, 179, 0.1);
+    background: -webkit-linear-gradient(top, hsla(207, 63%, 70%, 0.37), rgba(255, 255, 255,0)) no-repeat;
     z-index: 998;
     /* 确保黄色长方形位于其他内容之上 */
 }
@@ -68,4 +68,5 @@ export default defineComponent({
     right: 10%;
     z-index: 999;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.26);
-}</style>
+}
+</style>
