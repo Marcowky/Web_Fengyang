@@ -10,18 +10,8 @@
         </el-menu>
     </div>
     <!-- 搜索栏 -->
-    <div class="searchButton">
-        <el-popover placement="bottom" title="搜索文章" :width="200" trigger="click">
-            <template #reference>
-                <el-button @click="loadArticles(0)" text bg size="large">
-                    <el-icon style="position: relative; top: -2px;" :size="20">
-                        <Search />
-                    </el-icon>
-                </el-button>
-            </template>
-            <el-input v-model="pageInfo.keyword" placeholder="请输入关键字" clearable />
-        </el-popover>
-    </div>
+    <el-input class="searchButton" :input="loadArticles()" v-model="pageInfo.keyword" placeholder="请输入关键字" clearable
+        :prefix-icon="Search" />
 
     <!-- 文章列表 -->
     <div class="content">
@@ -89,7 +79,7 @@ import SideBar from "../../components/SideBar.vue"
 // 2.导入菜单选项配置文件
 import config from '../../config/config.json';
 // 3.设置侧边栏目录项
-const menuItems = config.menuItems.filter(item => item.mainMenu=="/blog");
+const menuItems = config.menuItems.filter(item => item.mainMenu == "/blog");
 // 4.设置路由守卫
 onBeforeRouteUpdate((to, from) => {
     const fromCategory = from.query.category;
@@ -104,7 +94,7 @@ onBeforeRouteUpdate((to, from) => {
 
 // 挂载页面时触发
 onMounted(() => {
-    
+
     loadArticles()
 })
 
@@ -155,9 +145,10 @@ const toDetail = (article) => {
 <style lang="scss" scoped>
 .searchButton {
     position: fixed;
-    right: 20%;
-    top: 30px;
+    right: 13%;
+    top: 33px;
     z-index: 999;
+    width: 150px;
 }
 
 .content {
