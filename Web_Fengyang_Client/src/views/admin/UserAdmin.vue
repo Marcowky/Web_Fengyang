@@ -1,7 +1,7 @@
 <template>
     <userInfoDialog v-model="showDialog" :dialogTitle="dialogTitle" v-if="showDialog" @updateUserList="loadUsers"
         :dialogTableValue="dialogTableValue" :dialogUserType="dialogUserType"/>
-    <el-card>
+    <el-card class="mainTable">
         <el-row :gutter="20">
             <el-col :span="7">
                 <el-input placeholder="请输入关键词" clearable v-model="pageInfo.keyword"></el-input>
@@ -9,7 +9,7 @@
             <el-button :icon="Search" @click="loadUsers()"> 搜索 </el-button>
             <el-button @click="showAddDialog()"> 添加 </el-button>
         </el-row>
-        <el-table ref="tableRef" :data="userList" style="width: 100%; margin-top: 20px" border
+        <el-table ref="tableRef" :data="userList" style="width: 100%; margin-top: 20px" stripe
             @sort-change="handleSortChange">
             <template v-for="item in userConfig">
                 <el-table-column v-if="item.sortable == 'true'" sortable="custom" :width="item.width" :prop="item.prop"
@@ -206,3 +206,9 @@ const updateUser = async (updateUserInfo) => {
 }
 </script>
   
+<style scoped>
+.mainTable {
+    box-shadow: 2px 2px 6px #D3D4D8;
+    border-radius: 10px;
+}
+</style>
