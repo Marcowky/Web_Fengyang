@@ -1,5 +1,5 @@
 <template>
-    <TopBar v-if="show"/>
+    <TopBar v-if="show" />
     <div :style="{ marginTop: show ? '100px' : '0' }" class="mainContent">
         <router-view />
     </div>
@@ -17,13 +17,19 @@ import { ref } from 'vue';
 
 const router = useRouter()
 const route = useRoute()
-const show = ref(route.path!="/home");
+const show = ref(route.path != "/home");
 
-router.beforeEach((to) => {
+router.beforeEach((to, from) => {
     if (to.path.startsWith('/home')) {
         show.value = false;
     } else {
         show.value = true;
+    }
+    if (to.path != from.path) {
+        console.log("to another path")
+        window.scrollTo({
+            top: 0
+        });
     }
 })
 </script>

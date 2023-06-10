@@ -10,7 +10,7 @@
         </el-menu>
     </div>
     <!-- 搜索栏 -->
-    <el-input class="searchButton" :input="loadArticles()" v-model="pageInfo.keyword" placeholder="请输入关键字" clearable
+    <el-input class="searchButton" v-model="pageInfo.keyword" placeholder="请输入关键字" clearable
         :prefix-icon="Search" />
 
     <!-- 文章列表 -->
@@ -46,7 +46,7 @@
 
 
 <script setup>
-import { ref, reactive, inject, onMounted } from 'vue'
+import { ref, reactive, inject, onMounted, watch } from 'vue'
 // icons
 import {
     Search
@@ -139,6 +139,10 @@ const toDetail = (article) => {
         }
     })
 }
+
+watch(()=>pageInfo.keyword, () => (
+    loadArticles()
+), {deep: true, immediate: true})
 
 </script>
 
