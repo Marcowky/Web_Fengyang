@@ -1,3 +1,8 @@
+INSERT INTO web_fengyang.hotelarticle (id, user_id, category_id, title, content, head_image, article_type, created_at, updated_at) VALUES ('8d449178-3d89-44e9-a05c-2104156cca59', 1, 1, '艾顿酒店 "北京路22号"', 'price: 100
+telephone: 123456
+website: "www.baidu.com"
+center: [112.2896, 25.048]', '../../assets/hotel.png', '2', '2023-06-10 09:56:28', '2023-06-10 09:56:31');
+
 <template>
   <div class="wrap">
     <div class="wrap_1">
@@ -23,7 +28,7 @@
     <div id="hotel_wrap_title">-----酒店预订------</div>
     <div id="hotel_wrap">
       <el-row>
-        <el-col v-for="(item,index) in hotels" :key="index" :span="6" :offset="index%3 ==0 ? 2:1">
+        <el-col v-for="(item,index) in hotelsData.values()" :key="index" :span="6" :offset="index%3 ==0 ? 2:1">
           <el-card class="custom_style" shadow="always"  :body-style="{ padding: '0px' }" >
             <img src="../../assets/hotel.png" class="hotel_image"/>
             <div class="detail_hotel">
@@ -57,7 +62,7 @@
 </template>
 
 <script setup>
-import { onMounted,ref,watch } from 'vue';
+import {ref, onMounted, watch, inject} from 'vue'
 // 地图加载
 import AMapLoader from '@amap/amap-jsapi-loader'
 // element-ui 的图标引入
@@ -67,6 +72,7 @@ window._AMapSecurityConfig = {
   securityJsCode: '3626fd4fb9d0809a04788c6df4d45953'
 };
 //***********变量***********
+const axios = inject("axios")
 // map地图变量
 let map = ref(null);
 // search_content是要输入查询的内容
@@ -81,51 +87,56 @@ let driving =ref(null);
 let start_point =ref(null);
 let end_point =ref(null);
 var path = [];
-const hotels =[
-  {
-    id: 1,
-    name: '酒店1',
-    image: '../../assets/hotel.png',
-    price: 100,
-    website:"www.baidu.com",
-    center: [112.2896, 25.048],
-    placeAddress: '北京路22号',
-    telephone: 123456
-  },
-  {
-    id: 2,
-    name: '酒店2',
-    image: '../../assets/hotel.png',
-    price: 120,
-    website:"www.baidu.com",
-    center: [112.286, 25.0408],
-    placeAddress: '北京路89号',
-    telephone: 123456
-  },
-  {
-    id: 3,
-    name: '酒店3',
-    image: '../../assets/hotel.png',
-    price: 90,
-    website:"www.baidu.com",
-    center: [112.283, 25.0438],
-    placeAddress: '北京路72号',
-    telephone: 123456
-  },
-  {
-    id: 4,
-    name: '酒店3',
-    image: '../../assets/hotel.png',
-    price: 160,
-    website:"www.baidu.com",
-    center: [112.28196, 25.008],
-    placeAddress: '北京路72号',
-    telephone: 123488
-  },
-]
+// 后端返回的酒店详情变量
+var hotelsData = ref([]);
+
+// 没有后台数据时,可用下面的hotels来测试
+// const hotels =[
+//   {
+//     id: 1,
+//     name: '酒店1',
+//     image: '../../assets/hotel.png',
+//     price: 100,
+//     website:"www.baidu.com",
+//     center: [112.2896, 25.048],
+//     placeAddress: '北京路22号',
+//     telephone: 123456
+//   },
+//   {
+//     id: 2,
+//     name: '酒店2',
+//     image: '../../assets/hotel.png',
+//     price: 120,
+//     website:"www.baidu.com",
+//     center: [112.286, 25.0408],
+//     placeAddress: '北京路89号',
+//     telephone: 123456
+//   },
+//   {
+//     id: 3,
+//     name: '酒店3',
+//     image: '../../assets/hotel.png',
+//     price: 90,
+//     website:"www.baidu.com",
+//     center: [112.283, 25.0438],
+//     placeAddress: '北京路72号',
+//     telephone: 123456
+//   },
+//   {
+//     id: 4,
+//     name: '酒店3',
+//     image: '../../assets/hotel.png',
+//     price: 160,
+//     website:"www.baidu.com",
+//     center: [112.28196, 25.008],
+//     placeAddress: '北京路72号',
+//     telephone: 123488
+//   },
+// ]
 
 
 //***********函数***********
+
 // 侧边栏和导航栏的点击触发函数
 const handleSelect = (index) => {    // 这里可以定义导航栏点击函数
 };
@@ -138,7 +149,6 @@ const select = (event) => {
   // 在函数内部使用event参数来处理搜索事件
   placeSearch.setCity(event.poi.adcode);
   placeSearch.search(event.poi.name);
-  console.log("here");
 };
 
 const compute_driving = () => {
@@ -196,6 +206,43 @@ const click_hotel_location= (location) =>{
   scroll();
 };
 
+const loadArticles = async() => {
+  let res = await axios.get(`/article/list?articleType=hotelarticle`)
+  if (res.data.code == 200) {
+    var articleList = res.data.data.article
+
+    for (var i = 0; i < articleList.length; i++) {
+      var rowtitle = articleList[i].title;
+      var content = articleList[i].content;
+      // 对 obj 进行操作，例如访问属性 obj.property
+      // 通过正则表达式匹配键值对的值
+      var priceMatch = content.match(/price: (.*?)(\n|$)/);
+      var websiteMatch = content.match(/website: "(.*?)"(\n|$)/);
+      var centerMatch = content.match(/center: \[(.*?)\](\n|$)/);
+      var telephoneMatch = content.match(/telephone: (.*?)(\n|$)/);
+      var titleMatch = rowtitle.match(/(.*) "/);
+      var placeAddressMatch = rowtitle.match(/\"([^"]+)\"/);
+      // 获取匹配结果中的值
+      var price = priceMatch ? parseInt(priceMatch[1]) : null;
+      var website = websiteMatch ? websiteMatch[1] : null;
+      var center = centerMatch ? centerMatch[1].split(',').map(Number) : null; // 分割数字并将其转换为数字类型
+      var telephone = telephoneMatch ? parseInt(telephoneMatch[1]) : null;
+      var title = titleMatch ? titleMatch[1] : null;
+      var placeAddress = placeAddressMatch ? placeAddressMatch[1] : null;
+      hotelsData.value.push({
+        name: title,
+        image: articleList[i].head_image,
+        telephone: telephone,
+        price: price,
+        website: website,
+        center: center,
+        placeAddress: placeAddress,
+      });
+    }
+    console.log(hotelsData[0])
+    console.log(hotels[0])
+  }
+}
 //地图初始化函数
 const initMap = () => {
   AMapLoader.load({
@@ -275,6 +322,7 @@ const initMap = () => {
 }
 
 onMounted(() => {
+  loadArticles(),
   initMap();
 });
 
