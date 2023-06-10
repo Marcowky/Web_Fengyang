@@ -2,7 +2,7 @@
     "databaseConfig": {
         "driverName": "mysql",
         "user": "root",
-        "password": "Wu123456",
+        "password": "aaaaaa",
         "host": "localhost",
         "port": "3306",
         "database": "web_fengyang",
