@@ -52,9 +52,6 @@
     </div>
 </template>
 
-
-
-
 <script setup>
 import { ref, reactive, inject, onMounted } from 'vue'
 // icons

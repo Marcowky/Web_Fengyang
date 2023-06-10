@@ -9,9 +9,10 @@
         <el-row>
           
           <el-col :span="6">
-            <a href="http://www.baidu.com">
-              <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover">
-                <img src="../../assets/pic7.jpg" class="image"/>
+            <div v-for="(article, index) in articleList" style="margin:15px">
+              <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover" @click="toDetail(article)">
+                <img :src="serverUrl + article.head_image" class="image"/>
+                <div v-html="article.content"></div>
                 <div class="text-wrapper">
                 <div style="font-size: 15px; color: #000;">
                   <span>阳光牧场</span>
@@ -21,7 +22,7 @@
                 </div>
               </div>
               </el-card>
-            </a>
+            </div>
           </el-col>
 
           <el-col :span="6" :offset="3">
@@ -129,15 +130,57 @@
   </template>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue'
-import type { TabsPaneContext } from 'element-plus'
-
+<script setup>
+import { ref, reactive, inject, onMounted } from 'vue'
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 const activeName = ref('first')
+const articleList = ref([])
+const activeIndex = ref('0')
+const router = useRouter()
+const route = useRoute()
+const serverUrl = inject("serverUrl")
+const axios = inject("axios")
+
+const pageInfo = reactive({
+    pageNum: 1,
+    pageSize: 5,
+    pageCount: 0,
+    count: 0,
+    keyword: "",
+    categoryId: window.location.href.slice(-1) // 设置文章类别为地址最后一位
+})
+
+onMounted(() => {
+    loadArticles()
+})
+
+// 按条件加载文章列表
+const loadArticles = async (pageNum = 0) => {
+    if (pageNum != 0) {
+        pageInfo.pageNum = pageNum;
+    }
+    let res = await axios.get(`/article/list?articleType=consumptionarticle&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${pageInfo.categoryId}`)
+    if (res.data.code == 200) {
+        articleList.value = res.data.data.article
+        // console.log(articleList)
+    }
+    pageInfo.count = res.data.data.count;
+    pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
+}
+
+const toDetail = (article) => {
+    router.push({
+        path: "/blog/detail",
+        query: {
+            id: article.id,
+        }
+    })
+}
+
 const showFirst  = ref(true)
 const showSecond = ref(false)
-
-const handleClick = (tab: TabsPaneContext, event: Event) => {
+// import { TabsPaneContext } from 'element-plus'
+const handleClick = (tab, event) => {
   console.log(tab, event)
   
   if (tab.paneName === 'first') {
@@ -151,7 +194,6 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   } else {
     showSecond.value = false
   }
-
 }
 </script>
 
