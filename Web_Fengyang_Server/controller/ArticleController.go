@@ -3,6 +3,7 @@ package controller
 import (
 	"Web_Fengyang_Server/common"
 	"Web_Fengyang_Server/model"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -20,7 +21,7 @@ type IArticleController interface {
 	Delete(c *gin.Context)
 	Show(c *gin.Context)
 	List(c *gin.Context)
-	
+
 	// SearchCategory(c *gin.Context)
 	// SearchCategoryName(c *gin.Context)
 }
@@ -45,11 +46,11 @@ func (a ArticleController) Create(c *gin.Context) {
 	user, _ := c.Get("user")
 	// 创建文章
 	article := model.Article{
-		UserId:     user.(model.User).ID,
-		CategoryId: articleRequest.CategoryId,
-		Title:      articleRequest.Title,
-		Content:    articleRequest.Content,
-		HeadImage:  articleRequest.HeadImage,
+		UserId:      user.(model.User).ID,
+		CategoryId:  articleRequest.CategoryId,
+		Title:       articleRequest.Title,
+		Content:     articleRequest.Content,
+		HeadImage:   articleRequest.HeadImage,
 		ArticleType: articleRequest.ArticleType,
 	}
 	if err := a.DB.Table(article.ArticleType).Create(&article).Error; err != nil {
@@ -61,7 +62,7 @@ func (a ArticleController) Create(c *gin.Context) {
 }
 
 func (a ArticleController) Update(c *gin.Context) {
-	
+
 	var articleRequest model.CreateArticleRequest
 	// 数据验证
 	if err := c.ShouldBindJSON(&articleRequest); err != nil {
@@ -77,7 +78,7 @@ func (a ArticleController) Update(c *gin.Context) {
 		common.Fail(c, 400, nil, "文章不存在")
 		return
 	}
-	
+
 	// 获取登录用户
 	user, _ := c.Get("user")
 	userId := user.(model.User).ID
@@ -168,18 +169,26 @@ func (a ArticleController) List(c *gin.Context) {
 	// 查询文章
 	switch len(args) {
 	case 0:
-		a.DB.Order(order).Table(articleType).Select("id, user_id, category_id, title, LEFT(content,80) AS content, head_image, article_type, created_at, updated_at").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Order(order).Table(articleType).Select("id, user_id, category_id, title, content AS content, head_image, article_type, created_at, updated_at").Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
 		a.DB.Table(articleType).Model(model.Article{}).Count(&count)
 	case 1:
-		a.DB.Order(order).Table(articleType).Select("id, user_id, category_id, title, LEFT(content,80) AS content, head_image, article_type, created_at, updated_at").Where(querystr, args[0]).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Order(order).Table(articleType).Select("id, user_id, category_id, title, content AS content, head_image, article_type, created_at, updated_at").Where(querystr, args[0]).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
 		a.DB.Table(articleType).Model(model.Article{}).Where(querystr, args[0]).Count(&count)
 	case 2:
-		a.DB.Order(order).Table(articleType).Select("id, user_id, category_id, title, LEFT(content,80) AS content, head_image, article_type, created_at, updated_at").Where(querystr, args[0], args[1]).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Order(order).Table(articleType).Select("id, user_id, category_id, title, content AS content, head_image, article_type, created_at, updated_at").Where(querystr, args[0], args[1]).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
 		a.DB.Table(articleType).Model(model.Article{}).Where(querystr, args[0], args[1]).Count(&count)
 	case 3:
-		a.DB.Order(order).Table(articleType).Select("id, user_id, category_id, title, LEFT(content,80) AS content, head_image, article_type, created_at, updated_at").Where(querystr, args[0], args[1], args[2]).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
+		a.DB.Order(order).Table(articleType).Select("id, user_id, category_id, title, content AS content, head_image, article_type, created_at, updated_at").Where(querystr, args[0], args[1], args[2]).Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&article)
 		a.DB.Table(articleType).Model(model.Article{}).Where(querystr, args[0], args[1], args[2]).Count(&count)
 	}
+	for i := 0; i < len(article); i++ {
+		article[i].Content = regexp.MustCompile("<.*?>").ReplaceAllString(article[i].Content, "")
+		runes := []rune(article[i].Content)
+		if len(runes) > 20 {
+			article[i].Content = string(runes[:80])
+		}
+	}
+
 	// 展示文章列表
 	common.Success(c, gin.H{"article": article, "count": count}, "查找成功")
 }
