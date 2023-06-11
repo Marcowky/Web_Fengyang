@@ -2,28 +2,43 @@
   "news_items": [
     {
       "value": "1",
-      "content": "习近平：我重视中土关系发展，愿同埃尔多安总统一道努力，在涉及彼此核心利益和重大关切问题上相互理解",
+      "content": "第二届湘西州旅游发展大会将于7月上旬启幕",
       "res": "./src/assets/pic2.jpg"
     },
     {
       "value": "1",
-      "content": "习近平：我重视中土关系发展，愿同埃尔多安总统一道努力，在涉及彼此核心利益和重大关切问题上相互理解",
+      "content": "第二届湘西州旅游发展大会将于7月上旬启幕",
       "res": "./src/assets/pic1.jpg"
     },
     {
       "value": "1",
-      "content": "习近平：我重视中土关系发展，愿同埃尔多安总统一道努力，在涉及彼此核心利益和重大关切问题上相互理解",
-      "res": "./src/assets/pic3.jpg"
+      "content": "第二届湘西州旅游发展大会将于7月上旬启幕",
+      "res": "./src/assets/pic4.jpg"
     },
     {
       "value": "1",
-      "content": "习近平：我重视中土关系发展，愿同埃尔多安总统一道努力，在涉及彼此核心利益和重大关切问题上相互理解",
-      "res": "./src/assets/pic3.jpg"
+      "content": "第二届湘西州旅游发展大会将于7月上旬启幕",
+      "res": "./src/assets/pic5.jpg"
     },
     {
       "value": "1",
-      "content": "习近平：我重视中土关系发展，愿同埃尔多安总统一道努力，在涉及彼此核心利益和重大关切问题上相互理解",
-      "res": "./src/assets/pic3.jpg"
+      "content": "湘西州旅游发展大会将于7月上旬启幕",
+      "res": "./src/assets/pic2.jpg"
+    },
+    {
+      "value": "1",
+      "content": "湘西州旅游发展大会将于7月上旬启幕",
+      "res": "./src/assets/pic1.jpg"
+    },
+    {
+      "value": "1",
+      "content": "湘西州旅游发展大会将于7月上旬启幕",
+      "res": "./src/assets/pic4.jpg"
+    },
+    {
+      "value": "1",
+      "content": "湘西州旅游发展大会将于7月上旬启幕",
+      "res": "./src/assets/pic5.jpg"
     }
   ]
 }
