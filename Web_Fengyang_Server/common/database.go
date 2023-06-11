@@ -60,6 +60,7 @@ func InitDB() *gorm.DB {
 		url.QueryEscape(loc))
 
 	// 连接数据库
+	// dbURL := "marco:Wu123456@tcp(123.56.10.20:3506)/web_fengyang?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(driverName, args)
 	if err != nil {
 		panic("failed to open database: " + err.Error())
