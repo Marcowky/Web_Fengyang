@@ -11,16 +11,11 @@
           <el-col :span="6">
             <div v-for="(article, index) in articleList" style="margin:15px">
               <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover" @click="toDetail(article)">
-                <img :src="serverUrl + article.head_image" class="image"/>
-                <div v-html="article.content"></div>
+                <el-image :src="serverUrl + article.head_image" class="image"/>
                 <div class="text-wrapper">
-                <div style="font-size: 15px; color: #000;">
-                  <span>阳光牧场</span>
+                <div style="font-size: 15px; color: #000;">{{article.title}} </div>
+                <div style="font-size: 13px; color: #999;">{{article.content}}</div>
                 </div>
-                <div style="font-size: 13px; color: #999;">
-                  <span>开放时间8:00-18:00</span>
-                </div>
-              </div>
               </el-card>
             </div>
           </el-col>
