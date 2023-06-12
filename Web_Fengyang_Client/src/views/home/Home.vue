@@ -284,10 +284,13 @@ export default {
   height: 1440px;
   margin-bottom: 100px;
   padding-top: 0;
+  /* display: flex;
+  justify-content: center; */
 }
 
 .container-1 .list-1 {
   top: 0;
+  left: 0;
 }
 
 .container-1 .list-1 .pic-1{

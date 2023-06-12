@@ -9,6 +9,8 @@
 <script setup>
 import Chart from "../consumption/Chart.vue"
 import SmallRightBar from "./SmallRightBar.vue";
+
+
 </script>
 
 <style lang="scss" scoped></style>
