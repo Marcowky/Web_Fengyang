@@ -1,15 +1,15 @@
 <template>
-  <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+  <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick" style="margin-top:50px;">
     <el-tab-pane label="特色产品" name="first"></el-tab-pane>
     <el-tab-pane label="美食推荐" name="second"></el-tab-pane>
     <el-tab-pane label="团队跟游" name="third"></el-tab-pane>
   </el-tabs>
 
       <template v-if="showFirst">
-        <el-row>
+        <el-col>
           
-          <el-col :span="6">
-            <div v-for="(article, index) in articleList" style="margin:15px">
+          <el-row :span="6">
+            <div v-for="(article, index) in articleList" style="margin-left:50px;margin-right:50px;margin-top:30px;">
               <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover" @click="toDetail(article)">
                 <el-image :src="serverUrl + article.head_image" class="image"/>
                 <div class="text-wrapper">
@@ -18,110 +18,45 @@
                 </div>
               </el-card>
             </div>
-          </el-col>
-
-          <el-col :span="6" :offset="3">
-            <a href="http://www.baidu.com">
-              <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover">
-                <img src="../../assets/pic8.jpg" class="image"/>
-                <div class="text-wrapper">
-                <div style="padding: 0px; font-size: 15px; color: #000;">
-                  <span>青山绿水</span>
-                </div>
-                <div style="padding: 0px; font-size: 13px; color: #999;">
-                  <span>开放时间8:00-18:00</span>
-                </div>
-              </div>
-              </el-card>
-            </a>
-          </el-col>
-
-          <el-col :span="6" :offset="3">
-            <a href="http://www.baidu.com">
-              <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover">
-                <img src="../../assets/pic9.jpg" class="image"/>
-                <div class="text-wrapper">
-                  <div style="padding: 0px; font-size: 15px; color: #000;">
-                    <span>万里晴空</span>
-                  </div>
-                  <div style="padding: 0px; font-size: 13px; color: #999;">
-                    <span>开放时间8:00-18:00</span>
-                  </div>
-                </div>
-                </el-card>
-              </a>
-            </el-col>
           </el-row>
-  
-        <el-row class="card-wrapper">
-          <el-col :span="6" >
-            <a href="http://www.baidu.com">
-            <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover">
-              <img src="../../assets/pic10.jpg" class="image"/>
-              <div class="text-wrapper">
-              <div style="padding: 0px; font-size: 15px; color: #000;">
-                <span>阡陌交通</span>
-              </div>
-              <div style="padding: 0px; font-size: 13px; color: #999;">
-                <span>开放时间8:00-18:00</span>
-              </div>
-            </div>
-            </el-card>
-            </a>
-          </el-col>
 
-          <el-col :span="6" :offset="3">
-            <a href="http://www.baidu.com">
-            <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover">
-              <img src="../../assets/pic11.jpg" class="image"/>
-              <div class="text-wrapper">
-              <div style="padding: 0px; font-size: 15px; color: #000;">
-                <span>夕阳乡巷</span>
-              </div>
-              <div style="padding: 0px; font-size: 13px; color: #999;">
-                <span>开放时间8:00-18:00</span>
-              </div>
-            </div>
-            </el-card>
-            </a>
-          </el-col>
-
-          <el-col :span="6" :offset="3">
-            <a href="http://www.baidu.com">
-            <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover">
-              <img src="../../assets/pic12.jpg" class="image"/>
-              <div class="text-wrapper">
-              <div style="font-size: 15px; color: #000;">
-                <span>落日余晖</span>
-              </div>
-              <div style="font-size: 13px; color: #999;">
-                <span>开放时间8:00-18:00</span>
-              </div>
-              </div>
-            </el-card>
-            </a>
-          </el-col>
-
-        </el-row>
-
+        </el-col>
       </template>
 
   <template v-if="showSecond">
-    <el-row>
-      <el-col
-        v-for="(o, index) in 6"
-        :key="o"
-        :span="6"
-        :offset="index % 3 ? 2 : 0"
-      >
-        <el-card class="card" :body-style="{ padding: '0px' }">
-          <img src="../../assets/pic7.jpg" class="image"/>
-          <div style="padding: 5px; font-size: 13px; color: #999;">
-            <span>开放时间8:00-18:00</span>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+    <el-col>
+          
+      <el-row :span="6">
+        <div v-for="(article, index) in articleList" style="margin-left:50px;margin-right:50px;margin-top:30px">
+          <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover" @click="toDetail(article)">
+            <el-image :src="serverUrl + article.head_image" class="image"/>
+            <div class="text-wrapper">
+            <div style="font-size: 15px; color: #000;">{{article.title}} </div>
+            <div style="font-size: 13px; color: #999;">{{article.content}}</div>
+            </div>
+          </el-card>
+        </div>
+      </el-row>
+
+    </el-col>
+  </template>
+
+  <template v-if="showThird">
+    <el-col>
+          
+      <el-row :span="6">
+        <div v-for="(article, index) in articleList" style="margin-left:50px;margin-right:50px;margin-top:30px">
+          <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover" @click="toDetail(article)">
+            <el-image :src="serverUrl + article.head_image" class="image"/>
+            <div class="text-wrapper">
+            <div style="font-size: 15px; color: #000;">{{article.title}} </div>
+            <div style="font-size: 13px; color: #999;">{{article.content}}</div>
+            </div>
+          </el-card>
+        </div>
+      </el-row>
+
+    </el-col>
   </template>
 </template>
 
@@ -135,6 +70,9 @@ const router = useRouter()
 const route = useRoute()
 const serverUrl = inject("serverUrl")
 const axios = inject("axios")
+const showFirst  = ref(true)
+const showSecond = ref(false)
+const showThird  = ref(false)
 
 const pageInfo = reactive({
     pageNum: 1,
@@ -146,15 +84,15 @@ const pageInfo = reactive({
 })
 
 onMounted(() => {
-    loadArticles()
+    loadArticles(0,1)
 })
 
 // 按条件加载文章列表
-const loadArticles = async (pageNum = 0) => {
+const loadArticles = async (pageNum = 0,index = 1) => {
     if (pageNum != 0) {
         pageInfo.pageNum = pageNum;
     }
-    let res = await axios.get(`/article/list?articleType=consumptionarticle&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${pageInfo.categoryId}`)
+    let res = await axios.get(`/article/list?articleType=consumptionarticle&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${index}`)
     if (res.data.code == 200) {
         articleList.value = res.data.data.article
         // console.log(articleList)
@@ -165,29 +103,36 @@ const loadArticles = async (pageNum = 0) => {
 
 const toDetail = (article) => {
     router.push({
-        path: "/blog/detail",
+        path: "/blog",
         query: {
             id: article.id,
         }
     })
 }
 
-const showFirst  = ref(true)
-const showSecond = ref(false)
 // import { TabsPaneContext } from 'element-plus'
 const handleClick = (tab, event) => {
   console.log(tab, event)
   
   if (tab.paneName === 'first') {
     showFirst.value = true
+    loadArticles(0,1)
   } else {
     showFirst.value = false
   }
 
   if (tab.paneName === 'second') {
     showSecond.value = true
+    loadArticles(0,2)
   } else {
     showSecond.value = false
+  }
+
+  if (tab.paneName === 'third') {
+    showThird.value = true
+    loadArticles(0,3)
+  } else {
+    showThird.value = false
   }
 }
 </script>
