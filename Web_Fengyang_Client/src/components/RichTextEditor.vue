@@ -31,16 +31,19 @@ editorConfig.MENU_CONF['uploadImage'] = {
   // base64LimitSize: 10 * 1024, // 10kb
   base64LimitSize: 0,
   server: serverUrl + "/image/upload/rich_editor_upload",
+
+  // 单个文件的最大体积限制，默认为 2M
+  maxFileSize: 5 * 1024 * 1024, // 5M
 }
-// 插入图片，目前有问题，可能是编解码？，也不是很必要
-// editorConfig.MENU_CONF['insertImage'] = {
-//   parseImageSrc: (src) => {
-//     if (src.indexOf("http") != 0) {
-//       return `${serverUrl}${src}`
-//     }
-//     return src
-//   }
-// }
+// 插入图片
+editorConfig.MENU_CONF['insertImage'] = {
+  parseImageSrc: (src) => {
+    if (src.indexOf("http") != 0) {
+      return `${serverUrl}${src}`
+    }
+    return src
+  }
+}
 // 定义属性进行双向绑定
 const props = defineProps({
   modelValue: {
