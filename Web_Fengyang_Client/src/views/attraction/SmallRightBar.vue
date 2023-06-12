@@ -116,30 +116,79 @@
     </el-tabs>
 </template>
 
-  <script lang="ts" setup>
-  import { ref } from 'vue'
+  <script setup>
+  import { ref, reactive, inject, onMounted } from 'vue'
+  import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
   import type { TabsPaneContext } from 'element-plus'
 
   const tabPosition = ref('left')
   const activeName = ref('first')
+  const articleList = ref([])
+  const activeIndex = ref('0')
+  const router = useRouter()
+  const route = useRoute()
+  const serverUrl = inject("serverUrl")
+  const axios = inject("axios")
   const showFirst  = ref(true)
   const showSecond = ref(false)
+  const showThird  = ref(false)
 
-  const handleClick = (tab: TabsPaneContext, event: Event) => {
+  const pageInfo = reactive({
+      pageNum: 1,
+      pageSize: 5,
+      pageCount: 0,
+      count: 0,
+      keyword: "",
+      categoryId: window.location.href.slice(-1) // 设置文章类别为地址最后一位
+  })
+
+  onMounted(() => {
+      loadArticles(0,1)
+  })
+
+  // 按条件加载文章列表
+  const loadArticles = async (pageNum = 0,index = 1) => {
+      if (pageNum != 0) {
+          pageInfo.pageNum = pageNum;
+      }
+      let res = await axios.get(`/article/list?articleType=attractionarticle&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${index}`)
+      if (res.data.code == 200) {
+          articleList.value = res.data.data.article
+          // console.log(articleList)
+      }
+      pageInfo.count = res.data.data.count;
+      pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
+  }
+
+  const toDetail = (article) => {
+      router.push({
+          path: "/attraction",
+          query: {
+              id: article.id,
+          }
+      })
+  }
+
+  // import { TabsPaneContext } from 'element-plus'
+  const handleClick = (tab, event) => {
     console.log(tab, event)
-  
+    
     if (tab.paneName === 'first') {
-        showFirst.value = true
+      showFirst.value = true
+      loadArticles(0,1)
     } else {
-        showFirst.value = false
+      showFirst.value = false
     }
 
     if (tab.paneName === 'second') {
-        showSecond.value = true
+      showSecond.value = true
+      loadArticles(0,2)
     } else {
-        showSecond.value = false
+      showSecond.value = false
     }
   }
+
+
   </script>
 
   <style>
