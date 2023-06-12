@@ -35,7 +35,7 @@
   
 <script setup>
 
-import { ref, reactive, inject, defineProps, defineEmits, watch } from 'vue';
+import { ref, reactive, inject, watch } from 'vue';
 
 const props = defineProps({
     dialogTitle: {

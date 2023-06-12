@@ -8,7 +8,7 @@
         <div class="弹性盒子" :style="{ flexGrow: 1 }" />
       </el-menu>
       <el-container>
-        <el-aside width="200px">
+        <el-aside v-if="show" width="200px">
           <!-- 侧边栏 -->
           <el-menu class="sidebar" router :default-active="this.$route.fullPath" unique-opened=true>
 
@@ -21,8 +21,8 @@
             <el-sub-menu index="/admin/article">
               <template #title>文章修改</template>
               <template v-for="item in menuItems">
-                <template v-if="item.index.includes('/')">
-                  <el-menu-item :index="'/admin/article?category=' + item.index.substring(1)">{{ item.label
+                <template v-if="item.index.includes('/')&&item.index!='/home'">
+                  <el-menu-item :index="'/admin/article?category=' +item.index.substring(1) + 'article'">{{ item.label
                   }}</el-menu-item>
                 </template>
               </template>
@@ -44,6 +44,8 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 
 // 导入登录注册弹框
@@ -65,6 +67,16 @@ watch(tokenRef, (newToken) => {
 onMounted(() => {
   loginDialogRef.value.showDialog()
   loginDialogRef.value.userType = "admin"
+})
+
+const show = ref(true);
+
+router.beforeEach((to) => {
+    if (to.path=='/admin/article/publish'||to.path=='/admin/article/update') {
+        show.value = false;
+    } else {
+        show.value = true;
+    }
 })
 
 
@@ -94,5 +106,6 @@ const menuItems = config.menuItems;
 }
 .mainContent {
     margin-top: 100px;
+    padding-left: 0;
 }
 </style>

@@ -1,15 +1,15 @@
 <template>
     <userInfoDialog v-model="showDialog" :dialogTitle="dialogTitle" v-if="showDialog" @updateUserList="loadUsers"
         :dialogTableValue="dialogTableValue" :dialogUserType="dialogUserType"/>
-    <el-card>
+    <el-card class="mainTable">
         <el-row :gutter="20">
             <el-col :span="7">
-                <el-input placeholder="请输入关键词" clearable v-model="pageInfo.keyword"></el-input>
+                <el-input :input="loadUsers()" placeholder="请输入关键词" clearable v-model="pageInfo.keyword"
+                    :prefix-icon="Search"></el-input>
             </el-col>
-            <el-button :icon="Search" @click="loadUsers()"> 搜索 </el-button>
             <el-button @click="showAddDialog()"> 添加 </el-button>
         </el-row>
-        <el-table ref="tableRef" :data="userList" style="width: 100%; margin-top: 20px" border
+        <el-table ref="tableRef" :data="userList" style="width: 100%; margin-top: 20px" stripe
             @sort-change="handleSortChange">
             <template v-for="item in userConfig">
                 <el-table-column v-if="item.sortable == 'true'" sortable="custom" :width="item.width" :prop="item.prop"
@@ -22,6 +22,9 @@
                     <template v-if="item.prop == 'option'" #default="scope">
                         <el-button type="primary" @click="showAddDialog(scope.row)">修改</el-button>
                         <el-button type="primary" @click="deleteUser(scope.row)">删除</el-button>
+                    </template>
+                    <template #default="scope">
+                        <el-tag class="ml-2" v-if="item.prop == 'UserType'" type="success">{{scope.row.UserType}}</el-tag>
                     </template>
                 </el-table-column>
 
@@ -176,8 +179,6 @@ const deleteUser = async (data) => {
         })
         .catch()
 
-
-
 }
 
 const updateUser = async (updateUserInfo) => {
@@ -205,3 +206,9 @@ const updateUser = async (updateUserInfo) => {
 }
 </script>
   
+<style scoped>
+.mainTable {
+    box-shadow: 2px 2px 6px #D3D4D8;
+    border-radius: 10px;
+}
+</style>
