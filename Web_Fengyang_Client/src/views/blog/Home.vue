@@ -179,7 +179,7 @@ watch(()=>pageInfo.keyword, () => (
 
 .choiceBar {
     width: 150px;
-    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
+    box-shadow: 2px 0 6px rgba(255, 255, 255, 0.26);
     border-radius: 0 10px 10px 0;
     margin-top: 10%;
 }
