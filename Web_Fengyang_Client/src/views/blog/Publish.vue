@@ -64,12 +64,10 @@ import { ref, reactive, inject, onMounted } from 'vue'
 // 导入富文本编辑器
 import RichTextEditor from '../../components/RichTextEditor.vue'
 
-// 导入一些icons
-import { ArchiveOutline as ArchiveIcon } from "@vicons/ionicons5"
-import { UploadFilled } from '@element-plus/icons-vue'
 // icons
 import {
     Delete,
+    UploadFilled
 } from '@element-plus/icons-vue'
 
 // 导入路由
