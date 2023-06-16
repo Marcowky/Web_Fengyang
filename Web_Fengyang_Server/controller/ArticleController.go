@@ -21,9 +21,6 @@ type IArticleController interface {
 	Delete(c *gin.Context)
 	Show(c *gin.Context)
 	List(c *gin.Context)
-
-	// SearchCategory(c *gin.Context)
-	// SearchCategoryName(c *gin.Context)
 }
 
 func (a ArticleController) Create(c *gin.Context) {
