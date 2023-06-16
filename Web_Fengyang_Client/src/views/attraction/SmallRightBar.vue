@@ -119,7 +119,7 @@
   <script setup>
   import { ref, reactive, inject, onMounted } from 'vue'
   import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
-  import type { TabsPaneContext } from 'element-plus'
+  // import type { TabsPaneContext } from 'element-plus'
 
   const tabPosition = ref('left')
   const activeName = ref('first')
