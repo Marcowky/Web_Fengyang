@@ -72,3 +72,21 @@ export async function userListOut(pageInfo) {
         return null
     }
 }
+
+export async function userBriefInfo(userID) {
+    try {
+        let res = await axios.get(`user/briefInfo?userType=client&id=${userID}`)
+        return res // 返回响应数据
+    } catch (error) {
+        return null
+    }
+}
+
+export async function userInfo() {
+    try {
+        let res = await axios.get("user/info")
+        return res // 返回响应数据
+    } catch (error) {
+        return null
+    }
+}

@@ -10,8 +10,7 @@
         </el-menu>
     </div>
     <!-- 搜索栏 -->
-    <el-input class="searchButton" v-model="pageInfo.keyword" placeholder="请输入关键字" clearable
-        :prefix-icon="Search" />
+    <el-input class="searchButton" v-model="pageInfo.keyword" placeholder="请输入关键字" clearable :prefix-icon="Search" />
 
     <!-- 文章列表 -->
     <div class="content">
@@ -45,6 +44,7 @@
 
 <script setup>
 import { ref, reactive, inject, onMounted, watch } from 'vue'
+import { userInfo } from '../../api/user';
 // icons
 import {
     Search
@@ -115,17 +115,14 @@ import LoginDialog from '../../components/LoginAndRegister.vue'
 const loginDialogRef = ref(null)
 
 const goPublish = async () => {
-    try {
-        let resUser = await axios.get("user/info")
-        if (resUser.data.code == 200) {
+    userInfo().then(result => {
+        if (result != null) {
             router.push("/blog/publish")
         }
-    } catch (err) {
-        if (err.response.status === 401) {
-            // 显示登录注册弹框
+        else {
             loginDialogRef.value.showDialog()
         }
-    }
+    })
 }
 
 // 前往详情页
@@ -138,9 +135,9 @@ const toDetail = (article) => {
     })
 }
 
-watch(()=>pageInfo.keyword, () => (
+watch(() => pageInfo.keyword, () => (
     loadArticles()
-), {deep: true, immediate: true})
+), { deep: true, immediate: true })
 
 </script>
 

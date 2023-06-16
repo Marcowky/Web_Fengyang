@@ -16,7 +16,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		// token为空
 		if tokenString == "" {
-			common.Fail(c, 401, nil, "权限不足")
+			common.Fail(c, 401, nil, "未登录")
 			c.Abort()
 			return
 		}

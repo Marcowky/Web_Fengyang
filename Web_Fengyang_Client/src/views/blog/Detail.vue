@@ -23,7 +23,7 @@
                 <!-- 分类信息 -->
                 <div style="position: absolute; right: 50px; top: 15px; color: #808080;">
                     文章分类：
-                    <el-tag class="ml-2" type="success">{{categoryName}}</el-tag>
+                    <el-tag class="ml-2" type="success">{{ categoryName }}</el-tag>
                 </div>
             </div>
             <!-- 分割线 -->
@@ -38,6 +38,7 @@
 
 <script setup>
 import { ref, inject, onMounted } from 'vue'
+import { userInfo, userBriefInfo } from '../../api/user';
 
 // 导入路由
 import { useRouter, useRoute } from 'vue-router'
@@ -65,7 +66,7 @@ import config from '../../config/config.json';
 // 加载文章种类
 const categoryOptions = ref([])
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.mainMenu=='/blog').map((item) => {
+    categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/blog').map((item) => {
         return {
             label: item.label,
             value: item.index
@@ -81,18 +82,22 @@ const loadArticle = async () => {
         articleInfo.value = resArticle.data.data.article
         // 获取分类
         let label = categoryOptions.value.find((item) => item.value.endsWith(resArticle.data.data.article.category_id)).label
-            categoryName.value = label
+        categoryName.value = label
+
         // 获取作者信息
-        let resWriter = await axios.get(`user/briefInfo?userType=client&id=${articleInfo.value.user_id}`)
-        articleInfo.value.username = resWriter.data.data.userName
+        userBriefInfo(articleInfo.value.user_id).then(result => {
+            if (result != null) articleInfo.value.username = result.data.data.userName
+        })
+
         // 获取用户信息，判断用户是否是作者
-        let resUser = await axios.get("user/info")
-        if (resUser.data.code == 200) {
-            user.value = resUser.data.data
-            if (user.value.id == articleInfo.value.user_id) {
-                self.value = true
+        userInfo().then(result => {
+            if (result != null) {
+                user.value = result.data.data
+                if (user.value.id == articleInfo.value.user_id) {
+                    self.value = true
+                }
             }
-        }
+        })
     }
 }
 
@@ -184,7 +189,7 @@ const handleSelect = (index) => {
 </style>
 
 <style module>
-.article img{
-  max-width: 100%;
+.article img {
+    max-width: 100%;
 }
 </style>
