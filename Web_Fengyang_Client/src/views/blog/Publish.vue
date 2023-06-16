@@ -74,7 +74,7 @@ import {
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
-
+import { imageUpload, imageDelete } from '../../api/image'
 
 // 这也是在Vue.js 3中使用的代码，它使用了inject函数来获取从祖先组件中通过provide提供的三个依赖项。
 // serverUrl：这是一个服务器地址的字符串，用于向该地址发送HTTP请求。该值是通过在某个祖先组件中使用provide("serverUrl", serverUrl)提供的。在当前组件中，我们可以使用inject("serverUrl")来访问它。
@@ -104,7 +104,7 @@ onMounted(() => {
 import config from '../../config/config.json';
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.mainMenu=='/blog').map((item) => {
+    categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/blog').map((item) => {
         return {
             label: item.label,
             value: item.index
@@ -139,28 +139,23 @@ const beforeUpload = async (file) => {
 // 控制文章头图
 const newHeadImage = ref(false)
 const customRequest = async (file) => {
-    const formData = new FormData()
-    formData.append('file', file.file)
-    // console.log(formData)
-    let res = await axios.post("/image/upload", formData)
-    addArticle.headImage = res.data.data.filePath
-    newHeadImage.value = true
+    imageUpload(file).then(result => {
+        if (result != null) {
+            addArticle.headImage = result.data.data.filePath
+            newHeadImage.value = true
+        }
+    })
 }
-// const deleteImage = () => {
-//     addArticle.headImage = ""
-//     newHeadImage.value = false
-// }
+
 
 const deleteImage = async () => {
-  try {
-    console.log(addArticle.headImage)
-    const response = await axios.post("/image/delete", { filePath: addArticle.headImage })
-    console.log(response.data)
-    addArticle.headImage = ""
-    newHeadImage.value = false
-  } catch (error) {
-    console.error(error)
-  }
+
+    imageDelete(addArticle.headImage).then(result => {
+        if (result == null) {
+            addArticle.headImage = ""
+            newHeadImage.value = false
+        }
+    })
 }
 
 // 上传文章

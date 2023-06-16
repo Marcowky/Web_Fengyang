@@ -60,6 +60,7 @@
 // inject：从祖先组件提供的provide注入一个依赖项，使得当前组件可以访问它。
 // onMounted：在组件加载完毕后立即执行一个函数。
 import { ref, reactive, inject, onMounted } from 'vue'
+import { imageUpload, imageDelete } from '../../../api/image'
 
 // 导入富文本编辑器
 import RichTextEditor from '../../../components/RichTextEditor.vue'
@@ -102,7 +103,7 @@ onMounted(() => {
 import config from '../../../config/config.json';
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.mainMenu=='/'+articleType.value.substring(0, articleType.value.length - 7)).map((item) => {
+    categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/' + articleType.value.substring(0, articleType.value.length - 7)).map((item) => {
         return {
             label: item.label,
             value: item.index
@@ -137,24 +138,24 @@ const beforeUpload = async (file) => {
 // 控制文章头图
 const newHeadImage = ref(false)
 const customRequest = async (file) => {
-    const formData = new FormData()
-    formData.append('file', file.file)
-    // console.log(formData)
-    let res = await axios.post("/image/upload", formData)
-    addArticle.headImage = res.data.data.filePath
-    newHeadImage.value = true
+
+    imageUpload(file).then(result => {
+        if (result != null) {
+            addArticle.headImage = result.data.data.filePath
+            newHeadImage.value = true
+        }
+    })
+
 }
 
 const deleteImage = async () => {
-  try {
-    console.log(addArticle.headImage)
-    const response = await axios.post("/image/delete", { filePath: addArticle.headImage })
-    console.log(response.data)
-    addArticle.headImage = ""
-    newHeadImage.value = false
-  } catch (error) {
-    console.error(error)
-  }
+    imageDelete(addArticle.headImage).then(result => {
+        if (result == null) {
+            console.log("delete!!!!!!!!!!!!")
+            addArticle.headImage = ""
+            newHeadImage.value = false
+        }
+    })
 }
 
 // 上传文章

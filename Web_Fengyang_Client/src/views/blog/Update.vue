@@ -65,6 +65,7 @@ import {
 import { ref, reactive, inject, onMounted } from 'vue'
 // 富文本编辑器
 import RichTextEditor from '../../components/RichTextEditor.vue'
+import { imageUpload, imageDelete } from '../../api/image'
 // 导入路由
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
@@ -98,7 +99,7 @@ onMounted(() => {
 import config from '../../config/config.json';
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.mainMenu=='/blog').map((item) => {
+    categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/blog').map((item) => {
         return {
             label: item.label,
             value: item.index
@@ -151,22 +152,27 @@ const beforeUpload = async (file) => {
 
 // 上传封面
 const customRequest = async (file) => {
-    const formData = new FormData()
-    formData.append('file', file.file)
-    console.log(formData)
-    let res = await axios.post("/image/upload", formData)
-    updateArticle.headImage = res.data.data.filePath
-    newHeadImage.value = true
+    imageUpload(file).then(result => {
+        if (result != null) {
+            updateArticle.headImage = result.data.data.filePath
+            newHeadImage.value = true
+        }
+    })
 }
 // 删除封面
-const deleteImage = () => {
-    updateArticle.headImage = ""
-    newHeadImage.value = false
+const deleteImage = async () => {
+
+    imageDelete(updateArticle.headImage).then(result => {
+        if (result == null) {
+            updateArticle.headImage = ""
+            newHeadImage.value = false
+        }
+    })
 }
 
 // 提交文章
 const submit = async () => {
-    if(updateArticle.title==""){
+    if (updateArticle.title == "") {
         ElMessage({
             message: "请输入标题",
             type: 'error',
@@ -174,7 +180,7 @@ const submit = async () => {
         })
         return
     }
-    if(updateArticle.categoryId == ""){
+    if (updateArticle.categoryId == "") {
         updateArticle.categoryId = updateArticle.oldCategoryId.toString()
     }
     console.log(updateArticle)

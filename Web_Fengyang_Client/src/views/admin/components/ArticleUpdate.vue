@@ -47,6 +47,7 @@
                 size="large" />
             <!-- 按钮 -->
             <div style="margin-top: 17px;">
+                <!-- TODO -->
                 <el-button style="margin-right: 20px;" type="danger" @click="closeSubmitModal">取消</el-button>
                 <el-button style="margin-right: 20px;" type="danger" @click="dialogFormVisible = true">取消</el-button>
                 <el-button type="primary" @click="submit">确认</el-button>
@@ -66,6 +67,7 @@ import {
 import { ref, reactive, inject, onMounted } from 'vue'
 // 富文本编辑器
 import RichTextEditor from '../../../components/RichTextEditor.vue'
+import { imageUpload, imageDelete } from '../../../api/image'
 // 导入路由
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
@@ -101,13 +103,12 @@ onMounted(() => {
 import config from '../../../config/config.json';
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.mainMenu=='/'+articleType.value.substring(0, articleType.value.length - 7)).map((item) => {
+    categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/' + articleType.value.substring(0, articleType.value.length - 7)).map((item) => {
         return {
             label: item.label,
             value: item.index
         }
     })
-    // console.log(categoryOptions)
 }
 
 // 加载文章
@@ -153,23 +154,29 @@ const beforeUpload = async (file) => {
 }
 // 上传封面
 const customRequest = async (file) => {
-    const formData = new FormData()
-    formData.append('file', file.file)
-    console.log(formData)
-    let res = await axios.post("/image/upload", formData)
-    updateArticle.headImage = res.data.data.filePath
-    newHeadImage.value = true
+
+    imageUpload(file).then(result => {
+        if (result != null) {
+            updateArticle.headImage = result.data.data.filePath
+            newHeadImage.value = true
+        }
+    })
 }
 
 // 删除封面
-const deleteImage = () => {
-    updateArticle.headImage = ""
-    newHeadImage.value = false
+const deleteImage = async () => {
+
+    imageDelete(updateArticle.headImage).then(result => {
+        if (result == null) {
+            updateArticle.headImage = ""
+            newHeadImage.value = false
+        }
+    })
 }
 
 // 提交文章
 const submit = async () => {
-    if(updateArticle.title==""){
+    if (updateArticle.title == "") {
         ElMessage({
             message: "请输入标题",
             type: 'error',
@@ -177,7 +184,7 @@ const submit = async () => {
         })
         return
     }
-    if(updateArticle.categoryId == ""){
+    if (updateArticle.categoryId == "") {
         updateArticle.categoryId = updateArticle.oldCategoryId.toString()
     }
     console.log(updateArticle)
