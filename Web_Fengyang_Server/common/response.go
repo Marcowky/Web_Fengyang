@@ -20,15 +20,15 @@ func Fail(c *gin.Context, code int, data gin.H, msg string) {
 	// TODO 重构响应
 	switch code {
 	case 400:
-		Response(c, http.StatusOK, 400, data, msg) // 请求错误
+		Response(c, http.StatusBadRequest, 400, data, msg) // 请求错误
 	case 422:
-		Response(c, http.StatusOK, 422, data, msg) // 内容无效
+		Response(c, http.StatusUnprocessableEntity, 422, data, msg) // 内容无效
 	case 500:
 		Response(c, http.StatusInternalServerError, 500, data, msg) // ServerError 服务器错误
 	case 401:
 		Response(c, http.StatusUnauthorized, 401, data, msg) // Unauthorized 权限不足
 	default:
-		Response(c, http.StatusOK, 400, data, msg) // 请求错误
+		Response(c, http.StatusBadRequest, 400, data, msg) // 请求错误
 	}
 
 }

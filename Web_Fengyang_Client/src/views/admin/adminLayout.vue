@@ -66,7 +66,7 @@ watch(tokenRef, (newToken) => {
 // 挂载页面时触发
 onMounted(() => {
   loginDialogRef.value.showDialog()
-  loginDialogRef.value.userType = "admin"
+  loginDialogRef.value.user.userType = "admin"
 })
 
 const show = ref(true);

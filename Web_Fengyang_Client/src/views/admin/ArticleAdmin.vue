@@ -235,32 +235,6 @@ const deleteArticle = async (data) => {
         .catch()
 
 }
-
-const updateArticle = async (updateUserInfo) => {
-    console.log(updateUserInfo.userType)
-    let res = await axios.put("/user/update", {
-        ID: updateUserInfo.ID,
-        UserName: updateUserInfo.UserName,
-        PhoneNumber: updateUserInfo.PhoneNumber,
-        userType: updateUserInfo.UserType,
-        Status: updateUserInfo.Status
-    })
-    if (res.data.code == 200) {
-        ElMessage({
-            message: res.data.msg,
-            type: 'success',
-            offset: 80
-        })
-    } else {
-        ElMessage({
-            message: res.data.msg,
-            type: 'error',
-            offset: 80
-        })
-    }
-}
-
-
 </script>
 
 <style scoped>
