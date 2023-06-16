@@ -87,7 +87,8 @@ interface MenuItem {
   mainMenu: string;
 }
 
-const link = "http://localhost:5173/#";
+
+const link = window.location.origin;
 const menuItems = ref(config.menuItems as MenuItem[]);
 const weatherData = ref(null);
 const computeWeather = (x, dayWeather) => {
