@@ -39,7 +39,7 @@
 <script setup>
 import { ref, inject, onMounted } from 'vue'
 import { userInfo, userBriefInfo } from '../../api/user';
-import { articleDelete } from '../../api/article'
+import { articleDelete, articleDetail } from '../../api/article'
 // 导入路由
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
@@ -76,29 +76,30 @@ const loadCategories = async () => {
 
 // 加载文章
 const loadArticle = async () => {
-    // 获取文章信息
-    let resArticle = await axios.get(`article/detail?articleType=blogArticle&id=${route.query.id}`)
-    if (resArticle.data.code == 200) {
-        articleInfo.value = resArticle.data.data.article
-        // 获取分类
-        let label = categoryOptions.value.find((item) => item.value.endsWith(resArticle.data.data.article.category_id)).label
-        categoryName.value = label
 
-        // 获取作者信息
-        userBriefInfo(articleInfo.value.user_id).then(result => {
-            if (result != null) articleInfo.value.username = result.data.data.userName
-        })
+    articleDetail('blogArticle', route.query.id).then(result => {
+        if (result != null) {
+            articleInfo.value = result.data.data.article
+            // 获取分类
+            let label = categoryOptions.value.find((item) => item.value.endsWith(result.data.data.article.category_id)).label
+            categoryName.value = label
 
-        // 获取用户信息，判断用户是否是作者
-        userInfo().then(result => {
-            if (result != null) {
-                user.value = result.data.data
-                if (user.value.id == articleInfo.value.user_id) {
-                    self.value = true
+            // 获取作者信息
+            userBriefInfo(articleInfo.value.user_id).then(result => {
+                if (result != null) articleInfo.value.username = result.data.data.userName
+            })
+
+            // 获取用户信息，判断用户是否是作者
+            userInfo().then(result => {
+                if (result != null) {
+                    user.value = result.data.data
+                    if (user.value.id == articleInfo.value.user_id) {
+                        self.value = true
+                    }
                 }
-            }
-        })
-    }
+            })
+        }
+    })
 }
 
 // 前往更新

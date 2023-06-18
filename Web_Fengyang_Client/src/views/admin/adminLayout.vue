@@ -71,11 +71,14 @@ onMounted(() => {
 
 const show = ref(true);
 
-router.beforeEach((to) => {
+router.beforeEach((to, from) => {
     if (to.path=='/admin/article/publish'||to.path=='/admin/article/update') {
         show.value = false;
     } else {
         show.value = true;
+    }
+    if(to !=from) {
+      window.scrollTo(0, 0);
     }
 })
 

@@ -62,3 +62,12 @@ export async function articleDelete(articleType, articleID) {
         return error
     }
 }
+
+export async function articleDetail(articleType, articleID) {
+    try {
+        let res = await axios.get(`article/detail?articleType=${articleType}&id=${articleID}`)
+        return res
+    } catch (error) {
+        return null
+    }
+}

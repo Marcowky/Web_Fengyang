@@ -105,7 +105,6 @@ const loadArticles = async (pageNum = 0) => {
     articleListOut(pageInfo).then(result => {
         if (result != null) {
             articleList.value = result.data.data.article
-            console.log(articleList.value)
             pageInfo.count = result.data.data.count;
             pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
         }

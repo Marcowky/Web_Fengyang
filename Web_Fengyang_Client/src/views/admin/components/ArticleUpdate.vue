@@ -66,6 +66,7 @@ import { ref, reactive, inject, onMounted } from 'vue'
 // 富文本编辑器
 import RichTextEditor from '../../../components/RichTextEditor.vue'
 import { imageUpload, imageDelete } from '../../../api/image'
+import { articleDetail } from '../../../api/article'
 // 导入路由
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
@@ -111,19 +112,18 @@ const loadCategories = async () => {
 
 // 加载文章
 const loadArticle = async () => {
-    let res = await axios.get(`article/detail?articleType=${articleType.value}&id=${route.query.id}`)
-
-    if (res.data.code == 200) {
-        let label = categoryOptions.value.find((item) => item.value.endsWith(res.data.data.article.category_id)).label
-        updateArticle.oldCategoryId = res.data.data.article.category_id
-        updateArticle.oldCategory = label
-        updateArticle.title = res.data.data.article.title
-        updateArticle.content = res.data.data.article.content
-        updateArticle.headImage = res.data.data.article.head_image
-        newHeadImage.value = updateArticle.headImage ? true : false
-        loadOk.value = true
-    }
-
+    articleDetail(articleType.value, route.query.id).then(result => {
+        if (result != null) {
+            let label = categoryOptions.value.find((item) => item.value.endsWith(result.data.data.article.category_id)).label
+            updateArticle.oldCategoryId = result.data.data.article.category_id
+            updateArticle.oldCategory = label
+            updateArticle.title = result.data.data.article.title
+            updateArticle.content = result.data.data.article.content
+            updateArticle.headImage = result.data.data.article.head_image
+            newHeadImage.value = updateArticle.headImage ? true : false
+            loadOk.value = true
+        }
+    })
 }
 
 // 显示发布弹窗
