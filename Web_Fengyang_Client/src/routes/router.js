@@ -72,7 +72,7 @@ let routes = [
                 component: () => import("../views/admin/UserAdmin.vue")
             },
             {
-                path: "image",
+                path: "carousel",
                 component: () => import("../views/admin/ImageAdmin.vue")
             },
         ]
