@@ -66,7 +66,7 @@ import { ref, reactive, inject, onMounted } from 'vue'
 // 富文本编辑器
 import RichTextEditor from '../../components/RichTextEditor.vue'
 import { imageUpload, imageDelete } from '../../api/image'
-import { articleDetail } from '../../api/article'
+import { articleDetail, articleUpdate } from '../../api/article'
 // 导入路由
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
@@ -74,19 +74,19 @@ const route = useRoute()
 
 // 网络请求
 const serverUrl = inject("serverUrl")
-const axios = inject("axios")
 import { ElMessage } from 'element-plus'
 // 变量初始化
 const loadOk = ref(false)
 const categoryOptions = ref([])
 const updateArticle = reactive({
-    id: 0,
+    id: route.query.id,
     categoryId: "",
     title: "",
     content: "",
     headImage: "",
     oldCategory: "",
-    oldCategoryId: ""
+    oldCategoryId: "",
+    articleType: 'blogArticle'
 })
 const showModal = ref(false)
 const newHeadImage = ref(true)
@@ -106,7 +106,6 @@ const loadCategories = async () => {
             value: item.index
         }
     })
-    // console.log(categoryOptions)
 }
 
 // 加载文章
@@ -174,46 +173,13 @@ const deleteImage = async () => {
 
 // 提交文章
 const submit = async () => {
-    if (updateArticle.title == "") {
-        ElMessage({
-            message: "请输入标题",
-            type: 'error',
-            offset: 80
-        })
-        return
-    }
-    if (updateArticle.categoryId == "") {
-        updateArticle.categoryId = updateArticle.oldCategoryId.toString()
-    }
-    console.log(updateArticle)
-    let res = await axios.put(`article/update?articleType=blogArticle&id=${route.query.id}`, {
-        category_id: parseInt(updateArticle.categoryId.slice(-1)),
-        title: updateArticle.title,
-        content: updateArticle.content,
-        head_image: updateArticle.headImage,
-        article_type: "blogArticle"
+    articleUpdate(updateArticle).then(result => {
+        if (result == null) {
+            router.go(-2)
+        }
     })
-
-    if (res.data.code == 200) {
-        ElMessage({
-            message: res.data.msg,
-            type: 'success',
-            offset: 80
-        })
-        goback()
-    } else {
-        ElMessage({
-            message: res.data.msg,
-            type: 'error',
-            offset: 80
-        })
-    }
 }
 
-// 返回上一级
-const goback = () => {
-    router.go(-2)
-}
 
 const handleSelect = (index) => {
     switch (index) {
@@ -221,7 +187,7 @@ const handleSelect = (index) => {
             showModalModal()
             break;
         case "2":
-            goback()
+        router.go(-2)
             break;
         default:
             break;

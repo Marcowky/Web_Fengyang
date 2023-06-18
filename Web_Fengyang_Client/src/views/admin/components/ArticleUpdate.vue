@@ -66,29 +66,27 @@ import { ref, reactive, inject, onMounted } from 'vue'
 // 富文本编辑器
 import RichTextEditor from '../../../components/RichTextEditor.vue'
 import { imageUpload, imageDelete } from '../../../api/image'
-import { articleDetail } from '../../../api/article'
+import { articleDetail, articleUpdate } from '../../../api/article'
 // 导入路由
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
-const articleType = ref(route.query.category)
-
 // 网络请求
 const serverUrl = inject("serverUrl")
-const axios = inject("axios")
 import { ElMessage } from 'element-plus'
 // 变量初始化
 const loadOk = ref(false)
 const categoryOptions = ref([])
 const updateArticle = reactive({
-    id: 0,
+    id: route.query.id,
     categoryId: "",
     title: "",
     content: "",
     headImage: "",
     oldCategory: "",
-    oldCategoryId: ""
+    oldCategoryId: "",
+    articleType: route.query.category
 })
 const showModal = ref(false)
 const newHeadImage = ref(true)
@@ -102,7 +100,7 @@ onMounted(() => {
 import config from '../../../config/config.json';
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/' + articleType.value.substring(0, articleType.value.length - 7)).map((item) => {
+    categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/' + updateArticle.articleType.substring(0, updateArticle.articleType.length - 7)).map((item) => {
         return {
             label: item.label,
             value: item.index
@@ -112,7 +110,7 @@ const loadCategories = async () => {
 
 // 加载文章
 const loadArticle = async () => {
-    articleDetail(articleType.value, route.query.id).then(result => {
+    articleDetail(updateArticle.articleType, updateArticle.id).then(result => {
         if (result != null) {
             let label = categoryOptions.value.find((item) => item.value.endsWith(result.data.data.article.category_id)).label
             updateArticle.oldCategoryId = result.data.data.article.category_id
@@ -174,45 +172,11 @@ const deleteImage = async () => {
 
 // 提交文章
 const submit = async () => {
-    if (updateArticle.title == "") {
-        ElMessage({
-            message: "请输入标题",
-            type: 'error',
-            offset: 80
-        })
-        return
-    }
-    if (updateArticle.categoryId == "") {
-        updateArticle.categoryId = updateArticle.oldCategoryId.toString()
-    }
-    console.log(updateArticle)
-    let res = await axios.put(`article/update?articleType=${articleType.value}&id=${route.query.id}`, {
-        category_id: parseInt(updateArticle.categoryId.slice(-1)),
-        title: updateArticle.title,
-        content: updateArticle.content,
-        head_image: updateArticle.headImage,
-        article_type: articleType.value
+    articleUpdate(updateArticle).then(result => {
+        if (result == null) {
+            router.go(-1)
+        }
     })
-
-    if (res.data.code == 200) {
-        ElMessage({
-            message: res.data.msg,
-            type: 'success',
-            offset: 80
-        })
-        goback()
-    } else {
-        ElMessage({
-            message: res.data.msg,
-            type: 'error',
-            offset: 80
-        })
-    }
-}
-
-// 返回上一级
-const goback = () => {
-    router.go(-1)
 }
 
 const handleSelect = (index) => {
@@ -221,7 +185,7 @@ const handleSelect = (index) => {
             showModalModal()
             break;
         case "2":
-            goback()
+            router.go(-1)
             break;
         default:
             break;
