@@ -39,7 +39,7 @@
 <script setup>
 import { ref, inject, onMounted } from 'vue'
 import { userInfo, userBriefInfo } from '../../api/user';
-
+import { articleDelete } from '../../api/article'
 // 导入路由
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
@@ -47,7 +47,7 @@ const route = useRoute()
 
 // 网络请求
 const axios = inject("axios")
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 
 // 定义变量
 const articleInfo = ref({})
@@ -124,34 +124,21 @@ const toDelete = async (blog) => {
         }
     )
         .then(async () => {
-            let res = await axios.delete(`article/delete?articleType=blogArticle&id=${articleInfo.value.id}`)
-            if (res.data.code == 200) {
-                ElMessage({
-                    message: res.data.msg,
-                    offset: 80
-                })
-                goback()
-            } else {
-                ElMessage({
-                    message: res.data.msg,
-                    type: 'error',
-                    offset: 80
-                })
-            }
+            articleDelete("blogArticle", articleInfo.value.id).then(result => {
+                if (result == null) {
+                    router.go(-1)
+                }
+            })
         })
         .catch()
 }
 
-// 回到上级页面
-const goback = () => {
-    router.go(-1)
-}
 
 const handleSelect = (index) => {
 
     switch (index) {
         case "1":
-            goback()
+            router.go(-1)
             break;
         case "2":
             toUpdate()

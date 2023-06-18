@@ -21,7 +21,7 @@ export async function articleListOut(pageInfo) {
             arg = arg +`&categoryId=${pageInfo.categoryId}`
         }
         let res = await axios.get(arg)
-        return res // 返回响应数据
+        return res 
     } catch (error) {
         return null
     }
@@ -45,7 +45,18 @@ export async function articlePost(article) {
             article_type: article.articleType
         })
         showMessage(res.data.msg, 'success')
-        return null // 返回响应数据
+        return null 
+    } catch (error) {
+        showMessage(error.response.data.msg, 'error')
+        return error
+    }
+}
+
+export async function articleDelete(articleType, articleID) {
+    try {
+        let res = await axios.delete(`article/delete?articleType=${articleType}&id=${articleID}`)
+        showMessage(res.data.msg, 'success')
+        return null
     } catch (error) {
         showMessage(error.response.data.msg, 'error')
         return error

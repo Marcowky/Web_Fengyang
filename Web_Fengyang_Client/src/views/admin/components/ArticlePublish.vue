@@ -166,7 +166,6 @@ const submit = async () => {
     })
 }
 
-
 const handleSelect = (index) => {
     switch (index) {
         case "1":

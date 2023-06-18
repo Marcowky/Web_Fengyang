@@ -47,12 +47,12 @@
 </template>
   
 <script  setup>
-import { ref, inject, onMounted, reactive } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 import { articleConfig } from "../../config/adminConfig.json"
 import config from "../../config/config.json"
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import hotelInfoDialog from "./components/hotelInfoDialog.vue"
-const axios = inject("axios")
+import { articleDelete } from '../../api/article'
 import {
     Search,
 } from '@element-plus/icons-vue'
@@ -216,20 +216,11 @@ const deleteArticle = async (data) => {
         }
     )
         .then(async () => {
-            let res = await axios.delete(`article/delete?articleType=${pageInfo.pageArticleType}&id=${data.id}`)
-            if (res.data.code == 200) {
-                ElMessage({
-                    message: res.data.msg,
-                    offset: 80
-                })
-                loadArticles()
-            } else {
-                ElMessage({
-                    message: res.data.msg,
-                    type: 'error',
-                    offset: 80
-                })
-            }
+            articleDelete(pageInfo.pageArticleType, data.id).then(result => {
+                if (result == null) {
+                    loadArticles()
+                }
+            })
         })
         .catch()
 
