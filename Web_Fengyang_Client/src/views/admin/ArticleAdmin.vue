@@ -1,15 +1,15 @@
 <template>
-  <hotelInfoDialog v-model="showDialog" :dialogTitle="dialogTitle" v-if="showDialog" @updateHotelsList="loadArticles"
-                  :dialogTableValue="dialogTableValue"/>
+    <hotelInfoDialog v-model="showDialog" :dialogTitle="dialogTitle" v-if="showDialog" @updateHotelsList="loadArticles"
+        :dialogTableValue="dialogTableValue" />
     <el-card class="mainTable">
         <el-row :gutter="20">
             <el-col :span="7">
                 <el-input :input="loadArticles()" placeholder="请输入关键词" clearable v-model="pageInfo.keyword"
                     :prefix-icon="Search"></el-input>
-            </el-col >
+            </el-col>
             <div v-if="showAdd">
-              <el-button v-if="showButton" @click="toPublish()" > 发布 </el-button>
-              <el-button v-else @click="showAddDialog()" > 发布 </el-button>
+                <el-button v-if="showButton" @click="toPublish()"> 发布 </el-button>
+                <el-button v-else @click="showAddDialog()"> 发布 </el-button>
             </div>
 
 
@@ -33,9 +33,9 @@
                 <el-table-column v-if="item.label != 'id' && item.sortable == 'false'" :width="item.width" :prop="item.prop"
                     :label="item.label">
                     <template v-if="item.prop == 'option'" #default="scope">
-                      <el-button v-if="showButton" type="primary" @click="toUpdate(scope.row)">修改</el-button>
-                      <el-button v-else type="primary" @click="showAddDialog(scope.row)">修改</el-button>
-                      <el-button type="primary" @click="deleteArticle(scope.row)">删除</el-button>
+                        <el-button v-if="showButton" type="primary" @click="toUpdate(scope.row)">修改</el-button>
+                        <el-button v-else type="primary" @click="showAddDialog(scope.row)">修改</el-button>
+                        <el-button type="primary" @click="deleteArticle(scope.row)">删除</el-button>
                     </template>
 
                 </el-table-column>
@@ -57,8 +57,8 @@ import {
     Search,
 } from '@element-plus/icons-vue'
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
-import HotelInfoDialog from "./components/hotelInfoDialog.vue";
-const pageArticleType = ref('')
+import { articleListOut } from '../../api/article'
+
 const router = useRouter()
 const route = useRoute()
 const showAdd = ref()
@@ -68,28 +68,27 @@ const dialogTableValue = ref('')
 const showDialog = ref(false)
 // 挂载页面时触发
 onMounted(() => {
-    pageArticleType.value = route.query.category;
-    showAdd.value = (pageArticleType.value != 'blogarticle')
-    showButton.value = (pageArticleType.value != 'hotelarticle')
+    pageInfo.pageArticleType = route.query.category
+    showAdd.value = (pageInfo.pageArticleType != 'blogarticle')
+    showButton.value = (pageInfo.pageArticleType != 'hotelarticle')
     loadArticles()
 })
 // 这里是酒店增/改弹窗的触发函数,向dialogTablieValue注入值,并通过组件之间的传参给dialog
-const showAddDialog = (data=false) => {
-  if (!data) {
-    dialogTitle.value = "添加酒店信息"
-    console.log("Here")
-    dialogTableValue.value = {"test": 111}
-  }
-  else {
-    dialogTitle.value = "编辑酒店信息"
-    dialogTableValue.value = JSON.parse(JSON.stringify(data))
-  }
-  showDialog.value = true
+const showAddDialog = (data = false) => {
+    if (!data) {
+        dialogTitle.value = "添加酒店信息"
+        console.log("Here")
+        dialogTableValue.value = { "test": 111 }
+    }
+    else {
+        dialogTitle.value = "编辑酒店信息"
+        dialogTableValue.value = JSON.parse(JSON.stringify(data))
+    }
+    showDialog.value = true
 }
 
 const handleSortChange = (sort) => {
-    // console.log('当前排序字段：', sort.prop);
-    // console.log('当前排序方式：', sort.order);
+
     // 处理排序逻辑...
     switch (sort.prop) {
         case 'user_id':
@@ -116,8 +115,7 @@ const handleSortChange = (sort) => {
             pageInfo.sortKey = 'created_at desc'
             break
     }
-    // pageInfo.sortKey=sort.prop+' '+sort.order
-    // console.log('当前排序query：', pageInfo.sortKey);
+
     loadArticles()
 }
 
@@ -127,9 +125,9 @@ onBeforeRouteUpdate((to, from) => {
     const toCategory = to.query.category;
 
     if (fromCategory !== toCategory) {
-        pageArticleType.value = toCategory
-        showButton.value = (pageArticleType.value !== 'hotelarticle')
-        showAdd.value = (pageArticleType.value != 'blogarticle')
+        pageInfo.pageArticleType = toCategory
+        showButton.value = (pageInfo.pageArticleType !== 'hotelarticle')
+        showAdd.value = (pageInfo.pageArticleType != 'blogarticle')
 
         loadArticles()
     }
@@ -144,14 +142,15 @@ const pageInfo = reactive({
     count: 0,
     keyword: "",
     sortKey: 'created_at desc',
-    categoryId: ""
+    categoryId: "",
+    pageArticleType: ""
 })
 
 const getCategoryName = (categoryId) => {
-  if(pageArticleType.value != 'hotelarticle'){
-    return config.menuItems.find(item => item.mainMenu == '/' + pageArticleType.value.substring(0, pageArticleType.value.length - 7) && item.index == categoryId).label
-  }
-  return  "酒店记录"
+    if (pageInfo.pageArticleType != 'hotelarticle') {
+        return config.menuItems.find(item => item.mainMenu == '/' + pageInfo.pageArticleType.substring(0, pageInfo.pageArticleType.length - 7) && item.index == categoryId).label
+    }
+    return "酒店记录"
 }
 
 const getColor = (categoryId) => {
@@ -175,31 +174,31 @@ const loadArticles = async (pageNum = 0) => {
     if (pageInfo.categoryId == "") {
         pageInfo.categoryId = 0
     }
-    let res = await axios.get(`/article/list?articleType=${pageArticleType.value}&keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${pageInfo.categoryId}&order=${pageInfo.sortKey}`)
-    if (res.data.code == 200) {
-        articleList.value = res.data.data.article
-        // console.log(articleList)
-    }
-    pageInfo.count = res.data.data.count;
-    pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
-    console.log(articleList.value[1].content)
+
+    articleListOut(pageInfo).then(result => {
+        if (result != null) {
+            articleList.value = result.data.data.article
+            pageInfo.count = result.data.data.count;
+            pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
+        }
+    })
+
 }
 
 const toPublish = () => {
     router.push({
         path: "/admin/article/publish",
         query: {
-            category: pageArticleType.value
+            category: pageInfo.pageArticleType
         }
     })
 }
 
 const toUpdate = (data) => {
-  console.log(pageArticleType.value)
-  router.push({
+    router.push({
         path: "/admin/article/update",
         query: {
-            category: pageArticleType.value,
+            category: pageInfo.pageArticleType,
             id: data.id
         }
     })
@@ -217,7 +216,7 @@ const deleteArticle = async (data) => {
         }
     )
         .then(async () => {
-            let res = await axios.delete(`article/delete?articleType=${pageArticleType.value}&id=${data.id}`)
+            let res = await axios.delete(`article/delete?articleType=${pageInfo.pageArticleType}&id=${data.id}`)
             if (res.data.code == 200) {
                 ElMessage({
                     message: res.data.msg,
@@ -241,5 +240,6 @@ const deleteArticle = async (data) => {
 .mainTable {
     box-shadow: 2px 2px 6px #D3D4D8;
     border-radius: 10px;
-}</style>
+}
+</style>
   

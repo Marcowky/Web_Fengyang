@@ -158,6 +158,7 @@
       }
       pageInfo.count = res.data.data.count;
       pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
+      
   }
 
   const toDetail = (article) => {

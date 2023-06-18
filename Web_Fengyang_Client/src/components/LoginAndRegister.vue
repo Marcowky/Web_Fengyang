@@ -50,7 +50,6 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const formRef = ref(null)
-const axios = inject("axios")
 const userStore = UserStore()
 const labelPosition = ref('top')
 const showModal = ref(false)

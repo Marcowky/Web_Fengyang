@@ -51,13 +51,12 @@ import {
 } from '@element-plus/icons-vue'
 
 // 导入路由
-import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
+import { useRouter, onBeforeRouteUpdate } from 'vue-router'
 const router = useRouter()
-const route = useRoute()
-
+import {articleListOut} from '../../api/article'
 // 网络请求
 const serverUrl = inject("serverUrl")
-const axios = inject("axios")
+
 
 // 变量初始化
 const articleList = ref([])
@@ -67,7 +66,8 @@ const pageInfo = reactive({
     pageCount: 0,
     count: 0,
     keyword: "",
-    categoryId: window.location.href.slice(-1) // 设置文章类别为地址最后一位
+    categoryId: window.location.href.slice(-1), // 设置文章类别为地址最后一位
+    pageArticleType: "blogArticle"
 })
 const activeIndex = ref('0')
 
@@ -101,13 +101,18 @@ const loadArticles = async (pageNum = 0) => {
     if (pageNum != 0) {
         pageInfo.pageNum = pageNum;
     }
-    let res = await axios.get(`/article/list?articleType=blogArticle&keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${pageInfo.categoryId}`)
-    if (res.data.code == 200) {
-        articleList.value = res.data.data.article
-        // console.log(articleList)
+
+    let page = {
+        pageArticleType: "blogArticle"
     }
-    pageInfo.count = res.data.data.count;
-    pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
+    articleListOut(pageInfo).then(result => {
+        if (result != null) {
+            articleList.value = result.data.data.article
+            console.log(articleList.value)
+            pageInfo.count = result.data.data.count;
+            pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
+        }
+    })
 }
 
 // 导入登录注册弹框
