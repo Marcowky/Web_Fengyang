@@ -21,7 +21,7 @@
             <el-sub-menu index="/admin/article">
               <template #title>文章修改</template>
               <template v-for="item in menuItems">
-                <template v-if="item.index.includes('/')&&item.index!='/home'">
+                <template v-if="item.index.includes('/')&&item.index!='/home'&&item.mainMenu!='/hotel'">
                   <el-menu-item :index="'/admin/article?category=' +item.index.substring(1) + 'article'">{{ item.label
                   }}</el-menu-item>
                 </template>
@@ -71,16 +71,19 @@ watch(tokenRef, (newToken) => {
 // 挂载页面时触发
 onMounted(() => {
   loginDialogRef.value.showDialog()
-  loginDialogRef.value.userType = "admin"
+  loginDialogRef.value.user.userType = "admin"
 })
 
 const show = ref(true);
 
-router.beforeEach((to) => {
+router.beforeEach((to, from) => {
     if (to.path=='/admin/article/publish'||to.path=='/admin/article/update') {
         show.value = false;
     } else {
         show.value = true;
+    }
+    if(to !=from) {
+      window.scrollTo(0, 0);
     }
 })
 

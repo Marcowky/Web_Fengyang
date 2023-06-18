@@ -8,9 +8,9 @@
   
 <script setup>
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
-import { ref, reactive, inject, onMounted, onBeforeUnmount, shallowRef } from 'vue'
+import { ref, inject, onMounted, onBeforeUnmount, shallowRef } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import { ElMessage } from 'element-plus'
+import { showMessage } from '../components/Message.js'
 
 // 服务端地址
 const serverUrl = inject("serverUrl")
@@ -33,11 +33,7 @@ editorConfig.MENU_CONF['uploadImage'] = {
   onBeforeUpload(file) {
     console.log(Object.keys(file))
     if (file[Object.keys(file)[Object.keys(file).length-1]].size >= 2 * 1024 * 1024) {
-      ElMessage({
-        message: "图片不能超过2M",
-        type: 'warning',
-        offset: 80
-      })
+      showMessage("图片不能超过2M", 'warning')
       return false
     }
     else {

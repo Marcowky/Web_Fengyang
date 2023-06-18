@@ -7,7 +7,7 @@
         <template #title>
           <div class="hover-image-container el-menu-item">
             <el-icon class="iconfont icon-weixinxiaochengxu"></el-icon>
-            <span>小程序</span>
+            <text>小程序</text>
             <img src="../assets/pic1.jpg" class="hover-image"/>
           </div>
         </template>
@@ -72,16 +72,17 @@
   
   .hover-image-container:hover .hover-image {
     display: block;
+    
   }
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     position: fixed; 
-    top: 450px; 
-    right: 20px; 
+    bottom: 50px; 
+    right: 30px; 
     z-index: 999;
-    width: 120px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(65, 65, 65, 0.7);
     min-height: 200px;
+    box-shadow: 2px 0 6px rgba(255, 255, 255, 0.26);
     border-radius: 15px;
   }
 
@@ -92,6 +93,10 @@
     justify-content: center;
     text-align: center;
     line-height: 2;
+    width: 70px;
+    height: 70px;
+    color: rgb(255, 255, 255);
+    border-radius: 15px;
   }
   </style>
   

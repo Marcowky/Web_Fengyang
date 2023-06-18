@@ -10,8 +10,7 @@
         </el-menu>
     </div>
     <!-- 搜索栏 -->
-    <el-input class="searchButton" v-model="pageInfo.keyword" placeholder="请输入关键字" clearable
-        :prefix-icon="Search" />
+    <el-input class="searchButton" v-model="pageInfo.keyword" placeholder="请输入关键字" clearable :prefix-icon="Search" />
 
     <!-- 文章列表 -->
     <div class="content">
@@ -45,19 +44,19 @@
 
 <script setup>
 import { ref, reactive, inject, onMounted, watch } from 'vue'
+import { userInfo } from '../../api/user';
 // icons
 import {
     Search
 } from '@element-plus/icons-vue'
 
 // 导入路由
-import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
+import { useRouter, onBeforeRouteUpdate } from 'vue-router'
 const router = useRouter()
-const route = useRoute()
-
+import {articleListOut} from '../../api/article'
 // 网络请求
 const serverUrl = inject("serverUrl")
-const axios = inject("axios")
+
 
 // 变量初始化
 const articleList = ref([])
@@ -67,7 +66,8 @@ const pageInfo = reactive({
     pageCount: 0,
     count: 0,
     keyword: "",
-    categoryId: window.location.href.slice(-1) // 设置文章类别为地址最后一位
+    categoryId: window.location.href.slice(-1), // 设置文章类别为地址最后一位
+    pageArticleType: "blogArticle"
 })
 const activeIndex = ref('0')
 
@@ -101,13 +101,14 @@ const loadArticles = async (pageNum = 0) => {
     if (pageNum != 0) {
         pageInfo.pageNum = pageNum;
     }
-    let res = await axios.get(`/article/list?articleType=blogArticle&keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${pageInfo.categoryId}`)
-    if (res.data.code == 200) {
-        articleList.value = res.data.data.article
-        // console.log(articleList)
-    }
-    pageInfo.count = res.data.data.count;
-    pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
+
+    articleListOut(pageInfo).then(result => {
+        if (result != null) {
+            articleList.value = result.data.data.article
+            pageInfo.count = result.data.data.count;
+            pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
+        }
+    })
 }
 
 // 导入登录注册弹框
@@ -115,17 +116,14 @@ import LoginDialog from '../../components/LoginAndRegister.vue'
 const loginDialogRef = ref(null)
 
 const goPublish = async () => {
-    try {
-        let resUser = await axios.get("user/info")
-        if (resUser.data.code == 200) {
+    userInfo().then(result => {
+        if (result != null) {
             router.push("/blog/publish")
         }
-    } catch (err) {
-        if (err.response.status === 401) {
-            // 显示登录注册弹框
+        else {
             loginDialogRef.value.showDialog()
         }
-    }
+    })
 }
 
 // 前往详情页
@@ -138,9 +136,9 @@ const toDetail = (article) => {
     })
 }
 
-watch(()=>pageInfo.keyword, () => (
+watch(() => pageInfo.keyword, () => (
     loadArticles()
-), {deep: true, immediate: true})
+), { deep: true, immediate: true })
 
 </script>
 
@@ -179,7 +177,7 @@ watch(()=>pageInfo.keyword, () => (
 
 .choiceBar {
     width: 150px;
-    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
+    box-shadow: 2px 0 6px rgba(255, 255, 255, 0.26);
     border-radius: 0 10px 10px 0;
     margin-top: 10%;
 }

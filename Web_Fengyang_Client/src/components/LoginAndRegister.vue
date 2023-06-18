@@ -1,6 +1,7 @@
 <template>
     <!-- 上传文章弹框 -->
-    <el-dialog v-model="showModal" width="25%" center :close-on-click-modal="false" :show-close="userType==='client'">
+    <el-dialog v-model="showModal" width="25%" center :close-on-click-modal="false"
+        :show-close="user.userType === 'client'">
         <div class="box">
             <!-- 登录注册跳转按钮 -->
             <el-radio-group style="margin-bottom: 15px;" v-model="dialogType">
@@ -42,14 +43,13 @@
 </template>
   
 <script setup>
-import { ref, reactive, inject } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ref, reactive } from 'vue'
+import { showMessage } from './Message.js'
 import { UserStore } from '../stores/UserStore'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const formRef = ref(null)
-const axios = inject("axios")
 const userStore = UserStore()
 const labelPosition = ref('top')
 const showModal = ref(false)
@@ -60,10 +60,9 @@ const user = reactive({
     password: localStorage.getItem("password") || route.query.password || "",
     rember: localStorage.getItem("rember") == 1 || false,
     repeatPassword: "",
-    status: true
+    status: true,
+    userType: "client"
 })
-
-const userType = ref("client")
 
 
 // 验证两次输入的密码是否相同
@@ -119,89 +118,49 @@ const submitForm = async (formEl) => {
         } else {
             console.log("error!")
             if (dialogType.value === '登录') {
-                ElMessage({
-                    message: "提交失败",
-                    type: 'error',
-                    offset: 80
-                })
+                showMessage("提交失败", 'error')
             } else if (dialogType.value === '注册') {
-                ElMessage({
-                    message: "注册失败",
-                    type: 'error',
-                    offset: 80
-                })
+                showMessage("注册失败", 'error')
             }
         }
     })
 }
-
+import { userRegister, userLogin } from '../api/user';
 // 登录
 const login = async () => {
-    let res = await axios.post("/user/login", {
-        phoneNumber: user.phoneNumber,
-        password: user.password,
-        userType: userType.value
-    })
-
-    if (res.data.code == 200) {
-        userStore.token = res.data.data.token
-        if (user.rember) {
-            localStorage.setItem("phoneNumber", user.phoneNumber)
-            localStorage.setItem("password", user.password)
-            localStorage.setItem("rember", user.rember ? 1 : 0)
-        } else {
-            localStorage.removeItem("phoneNumber")
-            localStorage.removeItem("password")
-            localStorage.setItem("rember", user.rember ? 1 : 0)
+    userLogin(user).then(result => {
+        if (result != null) {
+            let res = result
+            userStore.token = res.data.data.token
+            if (user.rember) {
+                localStorage.setItem("phoneNumber", user.phoneNumber)
+                localStorage.setItem("password", user.password)
+                localStorage.setItem("rember", user.rember ? 1 : 0)
+            } else {
+                localStorage.removeItem("phoneNumber")
+                localStorage.removeItem("password")
+                localStorage.setItem("rember", user.rember ? 1 : 0)
+            }
+            showModal.value = false
         }
-        ElMessage({
-            message: res.data.msg,
-            type: 'success',
-            offset: 80
-        })
-        showModal.value = false
-    } else {
-        ElMessage({
-            message: res.data.msg,
-            type: 'error',
-            offset: 80
-        })
-    }
+    })
 }
+
 
 // 注册
 const register = async () => {
-    if(userType.value=="admin") {
-        user.status=false
+    if (user.userType == "admin") {
+        user.status = false
     }
-    let res = await axios.post("/user/register", {
-        userName: user.userName,
-        phoneNumber: user.phoneNumber,
-        password: user.password,
-        userType: userType.value,
-        status: user.status
+    userRegister(user).then(result => {
+        if (result == null) dialogType.value = '登录'
     })
-
-    if (res.data.code == 200) {
-        ElMessage({
-            message: res.data.msg,
-            type: 'success',
-            offset: 80
-        })
-        dialogType.value = '登录'
-    } else {
-        ElMessage({
-            message: res.data.msg,
-            type: 'error',
-            offset: 80
-        })
-    }
 }
 
 // 暴露方法给组件外部调用
 defineExpose({
     showDialog,
-    userType
+    user
 })
 </script>
   
