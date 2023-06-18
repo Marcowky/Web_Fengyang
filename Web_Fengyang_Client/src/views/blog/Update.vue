@@ -16,7 +16,7 @@
     <el-dialog v-model="showModal" title="修改文章" width="25%" center>
         <!-- 无封面时 -->
         <div v-if="!newHeadImage" style="width: 80%; margin: auto;">
-            <el-upload drag :before-upload="beforeUpload" :http-request="customRequest" multiple>
+            <el-upload drag :before-upload="imageCheck" :http-request="customRequest" multiple>
                 <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                 <div class="el-upload__text">
                     拖动文件 或 <em>点击上传</em>
@@ -65,7 +65,7 @@ import {
 import { ref, reactive, inject, onMounted } from 'vue'
 // 富文本编辑器
 import RichTextEditor from '../../components/RichTextEditor.vue'
-import { imageUpload, imageDelete } from '../../api/image'
+import { imageUpload, imageDelete, imageCheck } from '../../api/image'
 import { articleDetail, articleUpdate } from '../../api/article'
 // 导入路由
 import { useRouter, useRoute } from 'vue-router'
@@ -74,7 +74,6 @@ const route = useRoute()
 
 // 网络请求
 const serverUrl = inject("serverUrl")
-import { ElMessage } from 'element-plus'
 // 变量初始化
 const loadOk = ref(false)
 const categoryOptions = ref([])
@@ -135,20 +134,6 @@ const showModalModal = () => {
 // 关闭发布弹窗
 const closeSubmitModal = () => {
     showModal.value = false
-}
-
-// 判断图片的格式是否符合要求
-const beforeUpload = async (file) => {
-    const allowedTypes = ['image/jpeg', 'image/png', "image/jpeg"]; // 允许的文件类型
-    if (!allowedTypes.includes(file.type)) {
-        ElMessage({
-            message: "只能上传png/jpg/jpeg格式的图片",
-            type: 'error',
-            offset: 80
-        })
-        return false;
-    }
-    return true;
 }
 
 // 上传封面

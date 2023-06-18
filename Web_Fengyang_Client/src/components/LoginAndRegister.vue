@@ -43,8 +43,8 @@
 </template>
   
 <script setup>
-import { ref, reactive, inject } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ref, reactive } from 'vue'
+import { showMessage } from './Message.js'
 import { UserStore } from '../stores/UserStore'
 import { useRoute } from 'vue-router'
 
@@ -118,17 +118,9 @@ const submitForm = async (formEl) => {
         } else {
             console.log("error!")
             if (dialogType.value === '登录') {
-                ElMessage({
-                    message: "提交失败",
-                    type: 'error',
-                    offset: 80
-                })
+                showMessage("提交失败", 'error')
             } else if (dialogType.value === '注册') {
-                ElMessage({
-                    message: "注册失败",
-                    type: 'error',
-                    offset: 80
-                })
+                showMessage("注册失败", 'error')
             }
         }
     })

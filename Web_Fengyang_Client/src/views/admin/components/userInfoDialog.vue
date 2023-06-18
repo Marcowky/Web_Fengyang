@@ -35,9 +35,10 @@
   
 <script setup>
 
-import { ref, reactive, inject, watch } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import { userUpdate } from '../../../api/user';
 import { userRegister } from '../../../api/user';
+import { showMessage } from '../../../components/Message';
 
 const props = defineProps({
     dialogTitle: {
@@ -112,35 +113,21 @@ const submitForm = async (formEl) => {
             }
         } else {
             if (dialogType.value === '登录') {
-                ElMessage({
-                    message: "提交失败",
-                    type: 'error',
-                    offset: 80
-                })
+                showMessage('提交失败', 'error')
             } else if (dialogType.value === '注册') {
-                ElMessage({
-                    message: "注册失败",
-                    type: 'error',
-                    offset: 80
-                })
+                showMessage('注册失败', 'error')
             }
         }
     })
 }
-
-// 登录
-import { ElMessage } from 'element-plus'
 // 注册
 const register = async () => {
-
-
     userRegister(user.value).then(result => {
         if (result == null) {
             emits('updateUserList')
             handleClose()
         }
     })
-
 }
 
 const updateUser = async () => {

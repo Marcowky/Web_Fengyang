@@ -35,6 +35,7 @@
 <script setup>
 import { ref, reactive, inject, watch } from 'vue';
 import {ElMessage} from "element-plus";
+import { showMessage } from '../../../components/Message';
 const axios = inject("axios")
 const props = defineProps({
   dialogTitle: {
@@ -120,11 +121,7 @@ const submitForm = async (formEl) => {
     // 剩余代码省略
   } else {
     // 表单验证不通过，可以进行错误处理
-    ElMessage({
-      message: '表单验证不通过，请检查输入',
-      type: 'error',
-      offset: 80
-    })
+    showMessage('表单验证不通过，请检查输入', 'error')
   }
   // 添加酒店
   if(hotel.value.id!=="")

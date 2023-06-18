@@ -16,7 +16,7 @@
     <el-dialog v-model="showModal" title="上传文章" width="25%" center>
         <!-- 无封面时 -->
         <div v-if="!newHeadImage" style="width: 80%; margin: auto;">
-            <el-upload drag :before-upload="beforeUpload" :http-request="customRequest" multiple>
+            <el-upload drag :before-upload="imageCheck" :http-request="customRequest" multiple>
                 <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                 <div class="el-upload__text">
                     拖动文件 或 <em>点击上传</em>
@@ -74,7 +74,7 @@ import {
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
-import { imageUpload, imageDelete } from '../../api/image'
+import { imageUpload, imageDelete, imageCheck } from '../../api/image'
 
 // 这也是在Vue.js 3中使用的代码，它使用了inject函数来获取从祖先组件中通过provide提供的三个依赖项。
 // serverUrl：这是一个服务器地址的字符串，用于向该地址发送HTTP请求。该值是通过在某个祖先组件中使用provide("serverUrl", serverUrl)提供的。在当前组件中，我们可以使用inject("serverUrl")来访问它。
@@ -82,7 +82,6 @@ import { imageUpload, imageDelete } from '../../api/image'
 // message：这是用于显示用户友好的消息的工具。在祖先组件中，我们可以使用provide("message", message)提供这个值，并在当前组件中使用inject("message")来访问它。
 // 通过使用inject和provide，我们可以轻松地实现依赖注入，同时避免了深度嵌套的属性访问和传递。
 const serverUrl = inject("serverUrl")
-import { ElMessage } from 'element-plus'
 import { articlePost } from '../../api/article'
 
 const categoryOptions = ref([])// 分类列表选项
@@ -110,7 +109,6 @@ const loadCategories = async () => {
             value: item.index
         }
     })
-    // console.log(categoryOptions)
 }
 
 // 控制发布文章时弹窗的显示与隐藏
@@ -120,20 +118,6 @@ const showModalModal = () => {
 }
 const closeSubmitModal = () => {
     showModal.value = false
-}
-// TODO 图片格式判断封装
-// 判断图片的格式是否符合要求
-const beforeUpload = async (file) => {
-    const allowedTypes = ['image/jpeg', 'image/png', "image/jpeg"]; // 允许的文件类型
-    if (!allowedTypes.includes(file.type)) {
-        ElMessage({
-            message: "只能上传png/jpg/jpeg格式的图片",
-            type: 'error',
-            offset: 80
-        })
-        return false;
-    }
-    return true;
 }
 
 // 控制文章头图
