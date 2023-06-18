@@ -26,3 +26,28 @@ export async function articleListOut(pageInfo) {
         return null
     }
 }
+
+export async function articlePost(article) {
+    try {
+        if (article.categoryId == "") {
+            showMessage("请选择分类", 'error')
+            return false
+        }
+        if (article.title == "") {
+            showMessage("请输入标题", 'error')
+            return false
+        }
+        let res = await axios.post("/article/create", {
+            category_id: parseInt(article.categoryId),
+            title: article.title,
+            content: article.content,
+            head_image: article.headImage,
+            article_type: article.articleType
+        })
+        showMessage(res.data.msg, 'success')
+        return null // 返回响应数据
+    } catch (error) {
+        showMessage(error.response.data.msg, 'error')
+        return error
+    }
+}

@@ -82,8 +82,8 @@ import { imageUpload, imageDelete } from '../../api/image'
 // message：这是用于显示用户友好的消息的工具。在祖先组件中，我们可以使用provide("message", message)提供这个值，并在当前组件中使用inject("message")来访问它。
 // 通过使用inject和provide，我们可以轻松地实现依赖注入，同时避免了深度嵌套的属性访问和传递。
 const serverUrl = inject("serverUrl")
-const axios = inject("axios")
 import { ElMessage } from 'element-plus'
+import { articlePost } from '../../api/article'
 
 const categoryOptions = ref([])// 分类列表选项
 const addArticle = reactive({// 待发布的文章对象
@@ -92,9 +92,9 @@ const addArticle = reactive({// 待发布的文章对象
     title: "",
     content: "",
     headImage: "",
+    articleType: 'blogArticle'
 })
 
-const value = ref('')
 
 onMounted(() => {
     loadCategories()
@@ -121,7 +121,7 @@ const showModalModal = () => {
 const closeSubmitModal = () => {
     showModal.value = false
 }
-
+// TODO 图片格式判断封装
 // 判断图片的格式是否符合要求
 const beforeUpload = async (file) => {
     const allowedTypes = ['image/jpeg', 'image/png', "image/jpeg"]; // 允许的文件类型
@@ -149,7 +149,6 @@ const customRequest = async (file) => {
 
 
 const deleteImage = async () => {
-
     imageDelete(addArticle.headImage).then(result => {
         if (result == null) {
             addArticle.headImage = ""
@@ -160,53 +159,11 @@ const deleteImage = async () => {
 
 // 上传文章
 const submit = async () => {
-    if (addArticle.categoryId == "") {
-        ElMessage({
-            message: "请选择分类",
-            type: 'error',
-            offset: 80
-        })
-        return
-    }
-    if (addArticle.title == "") {
-        ElMessage({
-            message: "请输入标题",
-            type: 'error',
-            offset: 80
-        })
-        return
-    }
-    // console.log(addArticle.categoryId)
-    let res = await axios.post("/article/create", {
-        category_id: parseInt(addArticle.categoryId),
-        title: addArticle.title,
-        content: addArticle.content,
-        head_image: addArticle.headImage,
-        article_type: "blogArticle"
+    articlePost(addArticle).then(result => {
+        if (result == null) {
+            router.go(-1)
+        }
     })
-    // console.log(addArticle)
-    // console.log(res)
-    if (res.data.code == 200) {
-        ElMessage({
-            message: res.data.msg,
-            type: 'success',
-            offset: 80
-        })
-        goback()
-    } else {
-        ElMessage({
-            message: res.data.msg,
-            type: 'error',
-            offset: 80
-        })
-    }
-
-}
-
-
-// 返回上级页面
-const goback = () => {
-    router.go(-1)
 }
 
 const handleSelect = (index) => {
@@ -215,7 +172,7 @@ const handleSelect = (index) => {
             showModalModal()
             break;
         case "2":
-            goback()
+        router.go(-1)
             break;
         default:
             break;

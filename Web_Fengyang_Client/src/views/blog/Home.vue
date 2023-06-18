@@ -102,9 +102,6 @@ const loadArticles = async (pageNum = 0) => {
         pageInfo.pageNum = pageNum;
     }
 
-    let page = {
-        pageArticleType: "blogArticle"
-    }
     articleListOut(pageInfo).then(result => {
         if (result != null) {
             articleList.value = result.data.data.article
