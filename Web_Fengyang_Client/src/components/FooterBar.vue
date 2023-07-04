@@ -8,24 +8,27 @@
           <el-row>
             <el-col v-for="(item, index) in weatherData" :key="index" :span="6">
               <div class="day_weather_wrap">
-                <div class="weather_icon">
-                  <el-icon :size="55" color="white">
-                    <component :is="getWeatherIcon(item.dayWeather)" />
-                  </el-icon>
+                <div class="weather_component">
+                  <div class="weather_icon">
+                    <el-icon :size="60" color="white">
+                      <component :is="getWeatherIcon(item.dayWeather)" />
+                    </el-icon>
+                  </div>
+                  <div class="weather_detail">
+                    <li>{{ formatMonthDay(item.date, item.week) }}</li>
+                    <li>{{ item.nightTemp }}°C~{{ item.dayTemp }}°C</li>
+                    <li>{{ item.dayWeather }}</li>
+                  </div>
                 </div>
-                <div class="weather_detail">
-                  <li>{{ formatMonthDay(item.date, item.week) }}</li>
-                  <li>{{ item.nightTemp }}°C~{{ item.dayTemp }}°C</li>
-                  <li>{{ item.dayWeather }}</li>
-                </div>
+
               </div>
             </el-col>
           </el-row>
         </div>
-        <el-divider class="divider_style" />
+        <!-- <el-divider class="divider_style" /> -->
         <ul class="footer-nav">
           <template v-for="item in menuItems">
-            <ul class="css-ul" v-if="!item.mainMenu.includes('/')">
+            <div v-if="!item.mainMenu.includes('/')">
               <li>
                 <text class="css-main_title">{{ item.label }}</text>
               </li>
@@ -40,7 +43,7 @@
                   <!-- <el-link type="primary">primary</el-link> -->
                 </li>
               </template>
-            </ul>
+            </div>
           </template>
         </ul>
       </div>
@@ -65,26 +68,6 @@ window._AMapSecurityConfig = {
 const link = window.location.origin
 const menuItems = ref(config.menuItems)
 const weatherData = ref(null)
-const computeWeather = (x, dayWeather) => {
-  switch (x) {
-    case 'Sunny':
-      return ['热', '晴', '平静'].includes(dayWeather)
-    case 'PartlyCloudy':
-      return ['少云', '晴间多云'].includes(dayWeather)
-    case 'Cloudy':
-      return ['阴', '霾', '中度霾', '重度霾', '严重霾', '雾', '浓雾', '强浓雾', '清雾', '大雾', '特强浓雾'].includes(dayWeather)
-    case 'MostlyCloudy':
-      return dayWeather === '多云'
-    case 'Drizzling':
-      return ['阵雨', '小雨', '中雨', '小雨-中雨'].includes(dayWeather)
-    case 'Pouring':
-      return ['大雨', '暴雨', '大暴雨', '特大暴雨', '极端降雨', '中雨-大雨', '大雨-暴雨', '暴雨-特大暴雨', '雨雪天气', '雨夹雪', '阵雨夹雪', '冻雨'].includes(dayWeather)
-    case 'Lightning':
-      return ['雷阵雨', '雷阵雨并伴有冰雹'].includes(dayWeather)
-    default:
-      return dayWeather === '多云'
-  }
-}
 
 const getWeatherIcon = (dayWeather) => {
   const sunnyWeather = ['热', '晴', '平静'];
@@ -181,29 +164,35 @@ onMounted(() => {
   height: 80px;
   display: flex;
   justify-content: center;
+  /* padding-left: 20px; */
 
   .day_weather_wrap {
     display: flex;
-    padding-left: 130px;
-    padding-right: 50px;
+    align-items: center;
 
-    .weather_icon {
-      top: 10px;
+    .weather_component {
+      display: flex;
       align-items: center;
-    }
+      padding-left: 90px;
+      padding-right: 90px;
 
-    .weather_detail {
-      color: white;
-      left: 4px;
+      .weather_icon {
+        top: 5px;
+        align-items: center;
+        padding-right: 10px;
+      }
+
+      .weather_detail {
+        color: white;
+        left: 4px;
+      }
     }
   }
 
 }
 
 .space {
-
   height: 500px;
-
 }
 
 .footer-bottom {
@@ -230,10 +219,6 @@ onMounted(() => {
   padding: 40px 0px;
 }
 
-.css-ul {
-  margin-left: 0px;
-}
-
 .css-main_title {
   display: inline-block;
   padding: 10px 0;
@@ -249,15 +234,7 @@ li {
   /* 去掉列表前面的小圈圈 */
   justify-content: space-evenly;
   /* 设置flex中间距一样 */
-
 }
-
-/* .css-li{
-  display: block;
-  font-size: 14px;
-  line-height: 30px;
-  color: #aaaaaa;
-} */
 
 a {
   text-decoration: none;
