@@ -16,7 +16,7 @@
     <el-dialog v-model="showModal" title="上传文章" width="25%" center>
         <!-- 无封面时 -->
         <div v-if="!newHeadImage" style="width: 80%; margin: auto;">
-            <el-upload drag :before-upload="beforeUpload" :http-request="customRequest" multiple>
+            <el-upload drag :before-upload="imageCheck" :http-request="customRequest" multiple>
                 <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                 <div class="el-upload__text">
                     拖动文件 或 <em>点击上传</em>
@@ -60,6 +60,7 @@
 // inject：从祖先组件提供的provide注入一个依赖项，使得当前组件可以访问它。
 // onMounted：在组件加载完毕后立即执行一个函数。
 import { ref, reactive, inject, onMounted } from 'vue'
+import { imageUpload, imageDelete, imageCheck } from '../../../api/image'
 
 // 导入富文本编辑器
 import RichTextEditor from '../../../components/RichTextEditor.vue'
@@ -75,7 +76,6 @@ import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
-const articleType = ref(route.query.category)
 
 // 这也是在Vue.js 3中使用的代码，它使用了inject函数来获取从祖先组件中通过provide提供的三个依赖项。
 // serverUrl：这是一个服务器地址的字符串，用于向该地址发送HTTP请求。该值是通过在某个祖先组件中使用provide("serverUrl", serverUrl)提供的。在当前组件中，我们可以使用inject("serverUrl")来访问它。
@@ -83,8 +83,7 @@ const articleType = ref(route.query.category)
 // message：这是用于显示用户友好的消息的工具。在祖先组件中，我们可以使用provide("message", message)提供这个值，并在当前组件中使用inject("message")来访问它。
 // 通过使用inject和provide，我们可以轻松地实现依赖注入，同时避免了深度嵌套的属性访问和传递。
 const serverUrl = inject("serverUrl")
-const axios = inject("axios")
-import { ElMessage } from 'element-plus'
+import { articlePost } from '../../../api/article'
 
 const categoryOptions = ref([])// 分类列表选项
 const addArticle = reactive({// 待发布的文章对象
@@ -93,6 +92,7 @@ const addArticle = reactive({// 待发布的文章对象
     title: "",
     content: "",
     headImage: "",
+    articleType: route.query.category
 })
 
 onMounted(() => {
@@ -102,7 +102,7 @@ onMounted(() => {
 import config from '../../../config/config.json';
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.mainMenu=='/'+articleType.value.substring(0, articleType.value.length - 7)).map((item) => {
+    categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/' + addArticle.articleType.substring(0, addArticle.articleType.length - 7)).map((item) => {
         return {
             label: item.label,
             value: item.index
@@ -120,101 +120,45 @@ const closeSubmitModal = () => {
     showModal.value = false
 }
 
-// 判断图片的格式是否符合要求
-const beforeUpload = async (file) => {
-    const allowedTypes = ['image/jpeg', 'image/png', "image/jpeg"]; // 允许的文件类型
-    if (!allowedTypes.includes(file.type)) {
-        ElMessage({
-            message: "只能上传png/jpg/jpeg格式的图片",
-            type: 'error',
-            offset: 80
-        })
-        return false;
-    }
-    return true;
-}
 
 // 控制文章头图
 const newHeadImage = ref(false)
 const customRequest = async (file) => {
-    const formData = new FormData()
-    formData.append('file', file.file)
-    // console.log(formData)
-    let res = await axios.post("/image/upload", formData)
-    addArticle.headImage = res.data.data.filePath
-    newHeadImage.value = true
+
+    imageUpload(file).then(result => {
+        if (result != null) {
+            addArticle.headImage = result.data.data.filePath
+            newHeadImage.value = true
+        }
+    })
+
 }
 
 const deleteImage = async () => {
-  try {
-    console.log(addArticle.headImage)
-    const response = await axios.post("/image/delete", { filePath: addArticle.headImage })
-    console.log(response.data)
-    addArticle.headImage = ""
-    newHeadImage.value = false
-  } catch (error) {
-    console.error(error)
-  }
+    imageDelete(addArticle.headImage).then(result => {
+        if (result == null) {
+            addArticle.headImage = ""
+            newHeadImage.value = false
+        }
+    })
 }
 
 // 上传文章
 const submit = async () => {
-    if (addArticle.categoryId == "") {
-        ElMessage({
-            message: "请选择分类",
-            type: 'error',
-            offset: 80
-        })
-        return
-    }
-    if (addArticle.title == "") {
-        ElMessage({
-            message: "请输入标题",
-            type: 'error',
-            offset: 80
-        })
-        return
-    }
-    // console.log(addArticle.categoryId)
-    let res = await axios.post("/article/create", {
-        category_id: parseInt(addArticle.categoryId),
-        title: addArticle.title,
-        content: addArticle.content,
-        head_image: addArticle.headImage,
-        article_type: articleType.value
+    articlePost(addArticle).then(result => {
+        if (result == null) {
+            router.go(-1)
+        }
     })
-    // console.log(addArticle)
-    // console.log(res)
-    if (res.data.code == 200) {
-        ElMessage({
-            message: res.data.msg,
-            type: 'success',
-            offset: 80
-        })
-        goback()
-    } else {
-        ElMessage({
-            message: res.data.msg,
-            type: 'error',
-            offset: 80
-        })
-    }
-
-}
-
-// 返回上级页面
-const goback = () => {
-    router.go(-1)
 }
 
 const handleSelect = (index) => {
     switch (index) {
         case "1":
-            console.log(articleType.value)
             showModalModal()
             break;
         case "2":
-            goback()
+            router.go(-1)
             break;
         default:
             break;

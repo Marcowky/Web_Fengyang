@@ -1,41 +1,55 @@
 <template>
-    <el-dialog model-value="showModal" :title="dialogTitle" width="30%" show-close=false @closed='handleClose'>
+    <el-dialog model-value="showModal" :title="dialogTitle" width="25%" show-close=false @closed='handleClose' center>
 
         <el-form ref="formRef" :rules="rules" :model="user" label-width="100px" :label-position="labelPosition"
-            style="min-width: 250px">
-            <el-form-item label="ID" prop="ID" v-if="dialogTitle=='编辑用户'" >
-                <el-input v-model="user.ID" disabled/>
+            style="min-width: 250px; padding-right: 40px;">
+            <el-form-item label="ID" prop="ID" v-if="dialogTitle == editUserTitle">
+                <el-input v-model="user.ID" disabled />
             </el-form-item>
-            <el-form-item label="用户名" prop="UserName">
-                <el-input v-model="user.UserName" />
+            <el-form-item label="用户名" prop="userName">
+                <el-input v-model="user.userName" />
             </el-form-item>
-            <el-form-item label="手机号" prop="PhoneNumber">
-                <el-input v-model="user.PhoneNumber" />
+            <el-form-item label="手机号" prop="phoneNumber">
+                <el-input v-model="user.phoneNumber" />
             </el-form-item>
-            <el-form-item label="密码" v-if="dialogTitle=='添加用户'" prop="Password">
-                <el-input v-model="user.Password" />
+            <el-form-item label="密码" v-if="dialogTitle == addUserTitle" prop="password">
+                <el-input v-model="user.password" />
             </el-form-item>
-            <el-form-item label="用户类型" prop="UserType">
-                <el-tag class="ml-2" type="success">{{user.UserType}}</el-tag>
+            <el-form-item label="创建时间" prop="createdAt" v-if="dialogTitle == editUserTitle">
+                <el-input v-model="user.createdAt" disabled />
             </el-form-item>
-            <el-form-item label="创建时间" prop="CreatedAt" v-if="dialogTitle=='编辑用户'" >
-                <el-input v-model="user.CreatedAt" disabled/>
-            </el-form-item>
-            <el-form-item label="状态" prop="Status">
-                <el-switch v-model="user.Status" @change=updateUser(scope.row) />
-            </el-form-item>
+            <el-row>
+                <el-col :span="11" style="padding-left: 15px;">
+                    <el-form-item label="用户类型" prop="userType">
+                        <el-tag class="ml-2" type="success">{{ user.userType }}</el-tag>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="状态" prop="status">
+                        <el-switch v-model="user.status" @change="updateUser(scope.row)" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
         </el-form>
 
-        <el-button @click="submitForm(formRef)" class="button3" type="primary"
-            style="left: auto; right: auto; text-align: center; margin-top: 10px;">
-            确认
-        </el-button>
+        <div class="button_area">
+            <el-button @click="submitForm(formRef)" type="primary" style="margin-right: 30px;">
+                确认
+            </el-button>
+            <el-button @click="handleClose" type="danger">
+                取消
+            </el-button>
+        </div>
+
     </el-dialog>
 </template>
   
 <script setup>
 
-import { ref, reactive, inject, watch } from 'vue';
+import { ref, reactive, watch } from 'vue';
+import { userUpdate } from '../../../api/user';
+import { userRegister } from '../../../api/user';
+import { showMessage } from '../../../components/Message';
 
 const props = defineProps({
     dialogTitle: {
@@ -45,7 +59,7 @@ const props = defineProps({
     },
     dialogTableValue: {
         tyoe: Object,
-        default: () => {}
+        default: () => { }
     },
     dialogUserType: {
         type: String,
@@ -53,48 +67,50 @@ const props = defineProps({
         required: true
     }
 })
-
+const editUserTitle = '编辑用户'
+const addUserTitle = '添加用户'
 const formRef = ref(null)
 const user = ref({
     ID: "",
-    UserName: "",
-    PhoneNumber: "",
-    CreatedAt:"",
-    Password: "",
-    UserType: "",
-    Status: ""
+    userName: "",
+    phoneNumber: "",
+    createdAt: "",
+    password: "",
+    userType: "",
+    status: ""
 })
 
-watch(()=>props.dialogTableValue, () => (
-    console.log(props.dialogTableValue),
-    user.value = props.dialogTableValue,
-    console.log(user.value),
-    console.log(user.ID)
-), {deep: true, immediate: true})
+watch(() => props.dialogTableValue, () => (
+    user.value.ID = props.dialogTableValue.ID,
+    user.value.userName = props.dialogTableValue.UserName,
+    user.value.phoneNumber = props.dialogTableValue.PhoneNumber,
+    user.value.createdAt = props.dialogTableValue.CreatedAt,
+    user.value.password = props.dialogTableValue.Password,
+    user.value.userType = props.dialogTableValue.UserType,
+    user.value.status = props.dialogTableValue.Status
+), { deep: true, immediate: true })
 
-watch(()=>props.dialogUserType, () => (
-    user.value.UserType = props.dialogUserType
-), {deep: true, immediate: true})
+watch(() => props.dialogUserType, () => (
+    user.value.userType = props.dialogUserType
+), { deep: true, immediate: true })
 
 const emits = defineEmits(['update:modelValue', 'updateUserList'])
 
 const handleClose = () => {
-    emits('update:modelValue',false)
+    emits('update:modelValue', false)
 }
-
-
 
 // 表单验证规则
 const rules = reactive({
-    UserName: [
+    userName: [
         { required: true, message: "请输入用户名", trigger: "blur" },
         { min: 3, max: 20, message: "用户名长度在 3 到 20 个字符", trigger: "blur" },
     ],
-    PhoneNumber: [
+    phoneNumber: [
         { required: true, message: "请输入手机号", trigger: "blur" },
         { min: 11, max: 11, message: "手机号为 11 位", trigger: "blur" },
     ],
-    Password: [
+    password: [
         { required: true, message: "请输入密码", trigger: "blur" },
         { min: 6, max: 20, message: "密码长度在 6 到 20 个字符", trigger: "blur" },
     ]
@@ -103,95 +119,50 @@ const rules = reactive({
 
 // 提交表单
 const submitForm = async (formEl) => {
-    console.log("okkkkk")
     if (!formEl) return
-    
+
     await formEl.validate((valid, fields) => {
         if (valid) {
-            if(props.dialogTitle=="添加用户"){
-                console.log("添加用户")
+            if (props.dialogTitle == addUserTitle) {
                 register()
             }
-            else if(props.dialogTitle=="编辑用户"){
-                console.log("编辑用户")
+            else if (props.dialogTitle == editUserTitle) {
                 updateUser()
             }
         } else {
-            console.log("error!")
             if (dialogType.value === '登录') {
-                ElMessage({
-                    message: "提交失败",
-                    type: 'error',
-                    offset: 80
-                })
+                showMessage('提交失败', 'error')
             } else if (dialogType.value === '注册') {
-                ElMessage({
-                    message: "注册失败",
-                    type: 'error',
-                    offset: 80
-                })
+                showMessage('注册失败', 'error')
             }
         }
     })
 }
-
-// 登录
-import { ElMessage } from 'element-plus'
-const axios = inject("axios")
 // 注册
 const register = async () => {
-    let res = await axios.post("/user/register", {
-        userName: user.value.UserName,
-        phoneNumber: user.value.PhoneNumber,
-        password: user.value.Password,
-        userType: user.value.UserType,
-        status: user.value.Status
+    userRegister(user.value).then(result => {
+        if (result == null) {
+            emits('updateUserList')
+            handleClose()
+        }
     })
-
-    if (res.data.code == 200) {
-        ElMessage({
-            message: '添加成功',
-            type: 'success',
-            offset: 80
-        })
-        emits('updateUserList')
-        handleClose()
-    } else {
-        ElMessage({
-            message: res.data.msg,
-            type: 'error',
-            offset: 80
-        })
-    }
 }
 
 const updateUser = async () => {
-    console.log(user.value.UserType)
-    let res = await axios.put("/user/update", {
-        ID: user.value.ID,
-        userName: user.value.UserName,
-        phoneNumber: user.value.PhoneNumber,
-        userType: user.value.UserType,
-        Status: user.value.Status
+    userUpdate(user.value).then(result => {
+        if (result == null) {
+            emits('updateUserList')
+            handleClose()
+        }
     })
-    if (res.data.code == 200) {
-        ElMessage({
-            message: res.data.msg,
-            type: 'success',
-            offset: 80
-        })
-        emits('updateUserList')
-        handleClose()
-    } else {
-        ElMessage({
-            message: res.data.msg,
-            type: 'error',
-            offset: 80
-        })
-    }
 }
 
 </script>
   
-<style scoped></style>
+<style scoped>
+.button_area {
+    display: flex;
+    justify-content: center;
+}
+</style>
   

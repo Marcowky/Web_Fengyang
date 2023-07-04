@@ -16,18 +16,17 @@
     <el-dialog v-model="showModal" title="修改文章" width="25%" center>
         <!-- 无封面时 -->
         <div v-if="!newHeadImage" style="width: 80%; margin: auto;">
-            <n-upload multiple directory-dnd :max="1" @before-upload="beforeUpload" :custom-request="customRequest">
-                <n-upload-dragger>
-                    <div style="margin-bottom: 12px">
-                        <n-icon size="48" :depth="3">
-                            <archive-icon />
-                        </n-icon>
+            <el-upload drag :before-upload="imageCheck" :http-request="customRequest" multiple>
+                <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                <div class="el-upload__text">
+                    拖动文件 或 <em>点击上传</em>
+                </div>
+                <template #tip>
+                    <div class="el-upload__tip">
+                        仅支持png/jpg/jpeg格式的图片
                     </div>
-                    <n-text style="font-size: 16px">
-                        点击或者拖动图片到此处
-                    </n-text>
-                </n-upload-dragger>
-            </n-upload>
+                </template>
+            </el-upload>
         </div>
         <!-- 有封面时 -->
         <div v-else style="width: 80%; margin: auto;">
@@ -58,36 +57,35 @@
 
 <script setup>
 // icons
-import { ArchiveOutline as ArchiveIcon } from "@vicons/ionicons5"
 import {
     Delete,
+    UploadFilled
 } from '@element-plus/icons-vue'
 
 import { ref, reactive, inject, onMounted } from 'vue'
 // 富文本编辑器
 import RichTextEditor from '../../../components/RichTextEditor.vue'
+import { imageUpload, imageDelete, imageCheck } from '../../../api/image'
+import { articleDetail, articleUpdate } from '../../../api/article'
 // 导入路由
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
-const articleType = ref(route.query.category)
-
 // 网络请求
 const serverUrl = inject("serverUrl")
-const axios = inject("axios")
-import { ElMessage } from 'element-plus'
 // 变量初始化
 const loadOk = ref(false)
 const categoryOptions = ref([])
 const updateArticle = reactive({
-    id: 0,
+    id: route.query.id,
     categoryId: "",
     title: "",
     content: "",
     headImage: "",
     oldCategory: "",
-    oldCategoryId: ""
+    oldCategoryId: "",
+    articleType: route.query.category
 })
 const showModal = ref(false)
 const newHeadImage = ref(true)
@@ -101,30 +99,28 @@ onMounted(() => {
 import config from '../../../config/config.json';
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.mainMenu=='/'+articleType.value.substring(0, articleType.value.length - 7)).map((item) => {
+    categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/' + updateArticle.articleType.substring(0, updateArticle.articleType.length - 7)).map((item) => {
         return {
             label: item.label,
             value: item.index
         }
     })
-    // console.log(categoryOptions)
 }
 
 // 加载文章
 const loadArticle = async () => {
-    let res = await axios.get(`article/detail?articleType=${articleType.value}&id=${route.query.id}`)
-
-    if (res.data.code == 200) {
-        let label = categoryOptions.value.find((item) => item.value.endsWith(res.data.data.article.category_id)).label
-        updateArticle.oldCategoryId = res.data.data.article.category_id
-        updateArticle.oldCategory = label
-        updateArticle.title = res.data.data.article.title
-        updateArticle.content = res.data.data.article.content
-        updateArticle.headImage = res.data.data.article.head_image
-        newHeadImage.value = updateArticle.headImage ? true : false
-        loadOk.value = true
-    }
-
+    articleDetail(updateArticle.articleType, updateArticle.id).then(result => {
+        if (result != null) {
+            let label = categoryOptions.value.find((item) => item.value.endsWith(result.data.data.article.category_id)).label
+            updateArticle.oldCategoryId = result.data.data.article.category_id
+            updateArticle.oldCategory = label
+            updateArticle.title = result.data.data.article.title
+            updateArticle.content = result.data.data.article.content
+            updateArticle.headImage = result.data.data.article.head_image
+            newHeadImage.value = updateArticle.headImage ? true : false
+            loadOk.value = true
+        }
+    })
 }
 
 // 显示发布弹窗
@@ -138,77 +134,35 @@ const closeSubmitModal = () => {
     showModal.value = false
 }
 
-// 判断图片的格式是否符合要求
-const beforeUpload = async (data) => {
-    const allowedTypes = ['image/jpeg', 'image/png', "image/jpeg"]; // 允许的文件类型
-    if (!allowedTypes.includes(data.file.file?.type)) {
-        ElMessage({
-            message: "只能上传png/jpg/jpeg格式的图片",
-            type: 'error',
-            offset: 80
-        })
-        return false;
-    }
-    return true;
-}
-
 // 上传封面
-const customRequest = async ({ file }) => {
-    const formData = new FormData()
-    formData.append('file', file.file)
-    let res = await axios.post("/image/upload", formData)
+const customRequest = async (file) => {
 
-    updateArticle.headImage = res.data.data.filePath
-    newHeadImage.value = true
+    imageUpload(file).then(result => {
+        if (result != null) {
+            updateArticle.headImage = result.data.data.filePath
+            newHeadImage.value = true
+        }
+    })
 }
 
 // 删除封面
-const deleteImage = () => {
-    updateArticle.headImage = ""
-    newHeadImage.value = false
+const deleteImage = async () => {
+
+    imageDelete(updateArticle.headImage).then(result => {
+        if (result == null) {
+            updateArticle.headImage = ""
+            newHeadImage.value = false
+        }
+    })
 }
 
 // 提交文章
 const submit = async () => {
-    if(updateArticle.title==""){
-        ElMessage({
-            message: "请输入标题",
-            type: 'error',
-            offset: 80
-        })
-        return
-    }
-    if(updateArticle.categoryId == ""){
-        updateArticle.categoryId = updateArticle.oldCategoryId.toString()
-    }
-    console.log(updateArticle)
-    let res = await axios.put(`article/update?articleType=${articleType.value}&id=${route.query.id}`, {
-        category_id: parseInt(updateArticle.categoryId.slice(-1)),
-        title: updateArticle.title,
-        content: updateArticle.content,
-        head_image: updateArticle.headImage,
-        article_type: articleType.value
+    articleUpdate(updateArticle).then(result => {
+        if (result == null) {
+            router.go(-1)
+        }
     })
-
-    if (res.data.code == 200) {
-        ElMessage({
-            message: res.data.msg,
-            type: 'success',
-            offset: 80
-        })
-        goback()
-    } else {
-        ElMessage({
-            message: res.data.msg,
-            type: 'error',
-            offset: 80
-        })
-    }
-}
-
-// 返回上一级
-const goback = () => {
-    router.go(-1)
 }
 
 const handleSelect = (index) => {
@@ -217,7 +171,7 @@ const handleSelect = (index) => {
             showModalModal()
             break;
         case "2":
-            goback()
+            router.go(-1)
             break;
         default:
             break;

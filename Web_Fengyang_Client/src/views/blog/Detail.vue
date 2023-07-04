@@ -23,7 +23,7 @@
                 <!-- 分类信息 -->
                 <div style="position: absolute; right: 50px; top: 15px; color: #808080;">
                     文章分类：
-                    <el-tag class="ml-2" type="success">{{categoryName}}</el-tag>
+                    <el-tag class="ml-2" type="success">{{ categoryName }}</el-tag>
                 </div>
             </div>
             <!-- 分割线 -->
@@ -37,35 +37,25 @@
 </template>
 
 <script setup>
-import { ref, inject, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
+import { userInfo, userBriefInfo } from '../../api/user';
+import { articleDelete, articleDetail } from '../../api/article'
+import { useRouter, useRoute } from 'vue-router' // 导入路由
+import { ElMessageBox } from 'element-plus'
+import config from '../../config/config.json';
 
-// 导入路由
-import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
-
-// 网络请求
-const axios = inject("axios")
-import { ElMessage, ElMessageBox } from 'element-plus'
-
-// 定义变量
 const articleInfo = ref({})
 const categoryName = ref("")
 const user = ref({})
 const self = ref(false)
 const activeIndex = ref('0')
 
-// 挂载页面时触发
-onMounted(() => {
-    loadArticle()
-    loadCategories()
-})
-
-import config from '../../config/config.json';
 // 加载文章种类
 const categoryOptions = ref([])
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.mainMenu=='/blog').map((item) => {
+    categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/blog').map((item) => {
         return {
             label: item.label,
             value: item.index
@@ -75,25 +65,28 @@ const loadCategories = async () => {
 
 // 加载文章
 const loadArticle = async () => {
-    // 获取文章信息
-    let resArticle = await axios.get(`article/detail?articleType=blogArticle&id=${route.query.id}`)
-    if (resArticle.data.code == 200) {
-        articleInfo.value = resArticle.data.data.article
-        // 获取分类
-        let label = categoryOptions.value.find((item) => item.value.endsWith(resArticle.data.data.article.category_id)).label
+    articleDetail('blogArticle', route.query.id).then(result => {
+        if (result != null) {
+            articleInfo.value = result.data.data.article
+            let label = categoryOptions.value.find((item) => item.value.endsWith(result.data.data.article.category_id)).label// 获取分类
             categoryName.value = label
-        // 获取作者信息
-        let resWriter = await axios.get(`user/briefInfo?userType=client&id=${articleInfo.value.user_id}`)
-        articleInfo.value.username = resWriter.data.data.userName
-        // 获取用户信息，判断用户是否是作者
-        let resUser = await axios.get("user/info")
-        if (resUser.data.code == 200) {
-            user.value = resUser.data.data
+            getUserInfo()
+        }
+    })
+}
+
+const getUserInfo = async () => {
+    userBriefInfo(articleInfo.value.user_id).then(result => {// 获取作者信息
+        if (result != null) articleInfo.value.username = result.data.data.userName
+    })
+    userInfo().then(result => {// 获取用户信息，判断用户是否是作者
+        if (result != null) {
+            user.value = result.data.data
             if (user.value.id == articleInfo.value.user_id) {
                 self.value = true
             }
         }
-    }
+    })
 }
 
 // 前往更新
@@ -107,8 +100,7 @@ const toUpdate = () => {
 }
 
 // 删除文章
-const toDelete = async (blog) => {
-
+const toDelete = async () => {
     ElMessageBox.confirm(
         '是否要删除?',
         '警告',
@@ -119,34 +111,19 @@ const toDelete = async (blog) => {
         }
     )
         .then(async () => {
-            let res = await axios.delete(`article/delete?articleType=blogArticle&id=${articleInfo.value.id}`)
-            if (res.data.code == 200) {
-                ElMessage({
-                    message: res.data.msg,
-                    offset: 80
-                })
-                goback()
-            } else {
-                ElMessage({
-                    message: res.data.msg,
-                    type: 'error',
-                    offset: 80
-                })
-            }
+            articleDelete("blogArticle", articleInfo.value.id).then(result => {
+                if (result == null) {
+                    router.go(-1)
+                }
+            })
         })
         .catch()
 }
 
-// 回到上级页面
-const goback = () => {
-    router.go(-1)
-}
-
 const handleSelect = (index) => {
-
     switch (index) {
         case "1":
-            goback()
+            router.go(-1)
             break;
         case "2":
             toUpdate()
@@ -158,6 +135,12 @@ const handleSelect = (index) => {
             break;
     }
 }
+
+// 挂载页面时触发
+onMounted(() => {
+    loadArticle()
+    loadCategories()
+})
 
 </script>
 
@@ -184,7 +167,7 @@ const handleSelect = (index) => {
 </style>
 
 <style module>
-.article img{
-  max-width: 100%;
+.article img {
+    max-width: 100%;
 }
 </style>

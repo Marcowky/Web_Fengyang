@@ -53,7 +53,6 @@ func DeleteImage(c *gin.Context) {
 		return
 	}
 	imagePath := filepath.Join("static/images", req.FilePath)
-	println("imagePath:" + imagePath)
 	err := os.Remove(imagePath)
 	if err != nil {
 		common.Fail(c, 500, nil, "删除错误")

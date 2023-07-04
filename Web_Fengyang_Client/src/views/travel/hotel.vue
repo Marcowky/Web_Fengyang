@@ -207,6 +207,7 @@ const click_hotel_location= (location) =>{
 };
 
 const loadArticles = async() => {
+  
   let res = await axios.get(`/article/list?articleType=hotelarticle`)
   if (res.data.code == 200) {
     var articleList = res.data.data.article
