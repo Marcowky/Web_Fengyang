@@ -11,11 +11,11 @@
           </div>
           <el-card shadow ="hover" class ="part">
             <el-scrollbar height="60%" ref="carousel" class = "news">
-              <el-row v-for="(article, index) in newsList" :key="article.value" class = "news_item">
+              <el-row v-for="(article, index) in newsList" class = "news_item">
                 <div class="news_mode">
                   <img v-bind:src="article.res" alt=" " class="news_img"/>
-                  <span class="news_content" @click="showdetail()">
-                  {{article.content}}
+                  <span class="news_content" @click="showdetail(article)">
+                  {{ article.content }}
                 </span>
                 </div>
               </el-row>
@@ -31,11 +31,10 @@
             </h>
           <el-card shadow ="hover" class="part">
             <el-scrollbar max-height="80%">
-              <el-row v-for="v in warningList" :key="v.value">
+              <el-row v-for="(article, index) in warningList">
                 <div class="list">
-                  {{v.content}}
-                  <router-link :to="{path: '/info/page'}"
-                               tag="button" style="position:absolute;right: 1.5rem">>></router-link>
+                  {{article.title}}
+                  <span style="position:absolute;right: 1.5rem" @click="showdetail(article)">>></span>
                 </div>
               </el-row>
             </el-scrollbar>
@@ -58,12 +57,12 @@
               旅游攻略
             </h>
           <el-card shadow ="hover" class="part">
-              <el-card v-for="v in advicelist" class="modeCard">
+              <el-card v-for="(article, index) in adviceList" class="modeCard">
                   <img
-                      src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                      src="article.head_image"
                       style="width: 100%;height: inherit"
                   />
-                  <span class= "part3-title">攻略1</span>
+                  <span class= "part3-title">{{article.title}}</span>
               </el-card>
           </el-card>
         </el-col>
@@ -99,10 +98,10 @@ const axios = inject("axios")
 const router = useRouter()
 // 变量初始化
 let number = '0'
-const qList = news.news_items
-let newsList = reactive([])
-let warningList = news.news_items
-let advicelist = warning.warning_items
+let qList = news.news_items
+let newsList = ref([])
+let warningList = ref([])
+let adviceList = ref([])
 //
 let timeStart = 0 //截取第几组的结束
 let timeEnd = 1 //默认为0组
@@ -117,20 +116,33 @@ onMounted(() => {
 
 // 按条件加载文章列表
 const loadArticles = async () => {
+
+  // let res = await axios.get(`/article/list?articleType=infoArticle&keyword=""&pageNum=1&pageSize=5&categoryId=2`)
+  /*let res = await axios.get(`/article/list?articleType=infoArticle&pageNum=1&pageSize=12&categoryId=1`)
+  if (res.data.code === 200) {
+    qList.value = res.data.data.article
+    console.log(qList)
+    console.log(res.data.data.article.title)
+  }
+  /*newsList.value = qList.value.slice(
+      num * timeStart,
+      num * timeEnd
+  );*/
   newsList = qList.slice(
       num * timeStart,
       num * timeEnd
   );
-  // let res = await axios.get(`/article/list?articleType=infoArticle&keyword=""&pageNum=1&pageSize=5&categoryId=1`)
-  let res = await axios.get(`/article/list?articleType=infoArticle&pageNum=1&pageSize=5`)
+  console.log(newsList)
+  let res = await axios.get(`/article/list?articleType=infoArticle&pageNum=1&pageSize=5&categoryId=1`)
   if (res.data.code === 200) {
-    newsList.value = res.data.data.article
-    console.log(newsList)
+    warningList.value = res.data.data.article
   }
-  else
-  {
-    console.log("wrong")
+  res = await axios.get(`/article/list?articleType=infoArticle&pageNum=1&pageSize=5&categoryId=3`)
+  if (res.data.code === 200) {
+    adviceList.value = res.data.data.article
   }
+
+
 }
 const change = async () => {
   if (qList.length > 4 && qList.length > num) {
@@ -180,8 +192,13 @@ const arrowClick = (val) => {
     carousel.value.prev()
   }
 }
-const showdetail = (event) => {
- router.push('/info/page')
+const showdetail = (article) => {
+  router.push({
+    path: "/info/detail",
+    query: {
+      id: article.id,
+    }
+  })
 }
 
 </script>
@@ -212,7 +229,8 @@ h{
 .news_img{
   transition-delay:9999s;
   height: inherit;
-  width: 30%
+  width: 30%;
+  border-radius:10px
 }
 .news_content{
   transition-delay:9999s;
@@ -223,6 +241,7 @@ h{
   font-size: 0.9rem;
   color: black;
   background-color:white;
+  border-radius:10px;
   font-weight: normal;
   overflow: hidden; // 文字超长隐藏
   text-overflow:ellipsis; // 显示...

@@ -110,11 +110,11 @@ onMounted(() => {
 
 // 按条件加载文章列表
 const loadArticles = async (pageNum = 0) => {
-    if (pageNum != 0) {
+    if (pageNum !== 0) {
         pageInfo.pageNum = pageNum;
     }
     let res = await axios.get(`/article/list?articleType=blogArticle&keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${pageInfo.categoryId}`)
-    if (res.data.code == 200) {
+    if (res.data.code === 200) {
         articleList.value = res.data.data.article
         // console.log(articleList)
     }
@@ -129,7 +129,7 @@ const loginDialogRef = ref(null)
 const goPublish = async () => {
     try {
         let resUser = await axios.get("user/info")
-        if (resUser.data.code == 200) {
+        if (resUser.data.code === 200) {
             router.push("/blog/publish")
         }
     } catch (err) {
