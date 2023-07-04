@@ -3,12 +3,12 @@
     <userInfoDialog v-model="showDialog" :dialogTitle="dialogTitle" v-if="showDialog" @updateUserList="loadUsers"
                     :dialogTableValue="dialogTableValue" :dialogCarouselType="dialogCarouselType"/>
     <!-- 首页轮播图管理部分 -->
-    <el-card class="carousel-card" shadow="hover">
+    <el-card class="mainTable">
 <!--      <h3>首页轮播图</h3>-->
       <el-row :gutter="20">
 <!--        <el-col :span="7">-->
 <!--&lt;!&ndash;          <el-input&ndash;&gt;-->
-<!--&lt;!&ndash;              v-model.trim="homeCarouselPageInfo.keyword"&ndash;&gt;-->
+<!--&lt;!&ndash;              v-model.trim="PageInfo.keyword"&ndash;&gt;-->
 <!--&lt;!&ndash;              placeholder="请输入关键词"&ndash;&gt;-->
 <!--&lt;!&ndash;              clearable&ndash;&gt;-->
 <!--&lt;!&ndash;              :prefix-icon="searchIcon"&ndash;&gt;-->
@@ -41,9 +41,10 @@
             <el-button type="danger" size="small" @click="deleteHomeCarousel(row.id)">删除</el-button>
           </template>
         </el-table-column>
+
       </el-table>
       <el-pagination style="margin-top: 20px" background layout="prev, pager, next"
-                     :page-count="homeCarouselPageInfo.pageCount" @current-change="loadHomeCarouselList"
+                     :page-count="PageInfo.pageCount" @current-change="loadHomeCarouselList"
       />
     </el-card>
 
@@ -324,7 +325,7 @@ const updateUser = async (updateUserInfo) => {
 <!--// 添加轮播图表单-->
 <!--      newCarousel: {},-->
 <!--// 首页轮播图分页信息-->
-<!--      homeCarouselPageInfo: {-->
+<!--      PageInfo: {-->
 <!--        page: 1,-->
 <!--        pageSize: 10,-->
 <!--        keyword: "",-->
@@ -350,18 +351,18 @@ const updateUser = async (updateUserInfo) => {
 <!--  },-->
 <!--  methods: {-->
 <!--// 加载首页轮播图列表-->
-<!--    loadHomeCarouselList(page = this.homeCarouselPageInfo.page) {-->
+<!--    loadHomeCarouselList(page = this.PageInfo.page) {-->
 <!--      const params = {-->
 <!--        page,-->
-<!--        pageSize: this.homeCarouselPageInfo.pageSize,-->
-<!--        keyword: this.homeCarouselPageInfo.keyword,-->
+<!--        pageSize: this.PageInfo.pageSize,-->
+<!--        keyword: this.PageInfo.keyword,-->
 <!--        type: "HOME",-->
 <!--      };-->
 <!--// 调用接口获取数据-->
 <!--      this.homeCarouselList = [];-->
 <!--// 更新分页信息-->
-<!--      this.homeCarouselPageInfo.totalCount = 0;-->
-<!--      this.homeCarouselPageInfo.pageCount = 0;-->
+<!--      this.PageInfo.totalCount = 0;-->
+<!--      this.PageInfo.pageCount = 0;-->
 <!--    },-->
 <!--// 加载消费景点轮播图列表-->
 <!--    loadConsumpAttractionCarouselList(page = this.consumpAttractionCarouselPageInfo.page) {-->
@@ -469,8 +470,8 @@ const updateUser = async (updateUserInfo) => {
 <!--    },-->
 <!--// 首页轮播图分页信息变化回调方法-->
 <!--    handleHomeCarouselSortChange(sort) {-->
-<!--      this.homeCarouselPageInfo.page = sort.currentPage;-->
-<!--      this.homeCarouselPageInfo.pageSize = sort.pageSize;-->
+<!--      this.PageInfo.page = sort.currentPage;-->
+<!--      this.PageInfo.pageSize = sort.pageSize;-->
 <!--      this.loadHomeCarouselList();-->
 <!--    },-->
 <!--// 消费景点轮播图分页信息变化回调方法-->
@@ -488,7 +489,8 @@ const updateUser = async (updateUserInfo) => {
   padding: 20px;
 }
 
-.carousel-card {
-  margin-bottom: 20px;
+.mainTable {
+  box-shadow: 2px 2px 6px #D3D4D8;
+  border-radius: 10px;
 }
 </style>
