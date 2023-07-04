@@ -13,11 +13,17 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 	r.Use(middleware.CORSMiddleware())
 
 	// 图像操作
+	carouselController := controller.NewCarouselController()
 	imageRoutes := r.Group("/image")
 	{
 		imageRoutes.POST("upload", controller.UploadImage)                              // 通用图像上传
 		imageRoutes.POST("upload/rich_editor_upload", controller.RichEditorUploadImage) // 富文本编辑器内部图像上传
 		imageRoutes.POST("delete", controller.DeleteImage)                              // blog头图删除
+		imageRoutes.POST("uploadCarouselImage", controller.UploadCarousel)              // 上传轮播图图片
+		imageRoutes.POST("addCarousel", carouselController.AddCarousel)                 // 添加轮播图表项
+		imageRoutes.POST("updateCarousel", carouselController.UpdateCarousel)           // 更新轮播图表项
+		imageRoutes.POST("deleteCarousel", carouselController.DeleteCarousel)           // 删除轮播图
+		imageRoutes.POST("list", carouselController.List)                               // 获取轮播图列表
 	}
 
 	// 用户操作

@@ -22,7 +22,6 @@ type IUserController interface {
 	List(c *gin.Context)
 	GetMyInfo(c *gin.Context)
 	GetBriefInfo(c *gin.Context)
-	
 }
 
 // 注册
@@ -48,7 +47,6 @@ func (a UserController) Register(c *gin.Context) {
 	// 密码加密
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
-
 	// 创建用户
 	newUser := model.User{
 		UserName:    userName,
@@ -65,7 +63,6 @@ func (a UserController) Register(c *gin.Context) {
 
 // Login 登录
 func (a UserController) Login(c *gin.Context) {
-
 
 	// 获取参数
 	var requestUser model.User
@@ -117,7 +114,6 @@ func (a UserController) Update(c *gin.Context) {
 	userType := updateUser.UserType
 	status := updateUser.Status
 
-
 	// 验证数据
 	var user model.User
 	a.DB.Table(userType).Where("phone_number=?", phoneNumber).First(&user)
@@ -159,7 +155,6 @@ func (a UserController) Delete(c *gin.Context) {
 	ID := deleteUser.ID
 	userType := deleteUser.UserType
 
-
 	// 数据验证
 	var user model.User
 	a.DB.Table(userType).Where("id =?", ID).First(&user)
@@ -180,7 +175,7 @@ func (a UserController) Delete(c *gin.Context) {
 
 // List 用于获取用户列表
 func (a UserController) List(c *gin.Context) {
-	keyword := c.DefaultQuery("keyword","")
+	keyword := c.DefaultQuery("keyword", "")
 	userType := c.Query("userType")
 	order := c.DefaultQuery("order", "created_at desc")
 	pageNum, _ := strconv.Atoi(c.DefaultQuery("pageNum", "1"))
