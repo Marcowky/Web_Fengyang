@@ -10,18 +10,8 @@
         </el-menu>
     </div>
     <!-- 搜索栏 -->
-    <div class="searchButton">
-        <el-popover placement="bottom" title="搜索文章" :width="200" trigger="click">
-            <template #reference>
-                <el-button @click="loadArticles(0)" text bg size="large">
-                    <el-icon style="position: relative; top: -2px;" :size="20">
-                        <Search />
-                    </el-icon>
-                </el-button>
-            </template>
-            <el-input v-model="pageInfo.keyword" placeholder="请输入关键字" clearable />
-        </el-popover>
-    </div>
+    <el-input class="searchButton" v-model="pageInfo.keyword" placeholder="请输入关键字" clearable
+        :prefix-icon="Search" />
 
     <!-- 文章列表 -->
     <div class="content">
@@ -33,7 +23,8 @@
                     :src="serverUrl + article.head_image" />
                 <div style="position: relative; height: 150px;">
                     <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
-                    <div v-html="article.content"></div>
+                    <!-- <div v-html="article.content"></div> -->
+                    <text>{{ article.content }}...</text>
                     <div style=" position: absolute; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
                 </div>
             </el-card>
@@ -41,7 +32,7 @@
             <el-card class="articleCard" v-else @click="toDetail(article)" hoverable shadow="hover">
                 <div style="position: relative; height: 120px;">
                     <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
-                    <div v-html="article.content"></div>
+                    <text>{{ article.content }}...</text>
                     <div style=" position: absolute; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
                 </div>
             </el-card>
@@ -52,11 +43,8 @@
     </div>
 </template>
 
-
-
-
 <script setup>
-import { ref, reactive, inject, onMounted } from 'vue'
+import { ref, reactive, inject, onMounted, watch } from 'vue'
 // icons
 import {
     Search
@@ -89,7 +77,7 @@ import SideBar from "../../components/SideBar.vue"
 // 2.导入菜单选项配置文件
 import config from '../../config/config.json';
 // 3.设置侧边栏目录项
-const menuItems = config.menuItems.filter(item => item.mainMenu=="/blog");
+const menuItems = config.menuItems.filter(item => item.mainMenu == "/blog");
 // 4.设置路由守卫
 onBeforeRouteUpdate((to, from) => {
     const fromCategory = from.query.category;
@@ -104,6 +92,7 @@ onBeforeRouteUpdate((to, from) => {
 
 // 挂载页面时触发
 onMounted(() => {
+
     loadArticles()
 })
 
@@ -149,14 +138,19 @@ const toDetail = (article) => {
     })
 }
 
+watch(()=>pageInfo.keyword, () => (
+    loadArticles()
+), {deep: true, immediate: true})
+
 </script>
 
 <style lang="scss" scoped>
 .searchButton {
     position: fixed;
-    right: 20%;
-    top: 30px;
+    right: 13%;
+    top: 33px;
     z-index: 999;
+    width: 150px;
 }
 
 .content {

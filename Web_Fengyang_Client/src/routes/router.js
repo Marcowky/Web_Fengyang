@@ -23,8 +23,12 @@ let routes = [
                 component: () => import("../views/consumption/Home.vue")
             },
             {
-                path: "/travel",
-                component: () => import("../views/travel/Home.vue")
+                path: "/hotel",
+                component: () => import("../views/travel/hotel.vue")
+            },
+            {
+                path: "/traffic",
+                component: () => import("../views/travel/traffic.vue")
             },
             {
                 path: '/blog',
@@ -48,11 +52,20 @@ let routes = [
 
     {
         path: "/admin",
+        redirect: '/admin/user?category=client',
         component: () => import("../views/admin/adminLayout.vue"),
         children: [
             {
                 path: "article",
                 component: () => import("../views/admin/ArticleAdmin.vue")
+            },
+            {
+                path: '/admin/article/publish',
+                component: () => import("../views/admin/components/ArticlePublish.vue")
+            },
+            {
+                path: '/admin/article/update',
+                component: () => import("../views/admin/components/ArticleUpdate.vue")
             },
             {
                 path: "user",
@@ -66,7 +79,7 @@ let routes = [
 
     },
 
-    // { path: "/video", component: () => import("../views/video/Detail.vue") },               // 视频
+    // { path: "/login", component: () => import("../views/user/login.vue") },               // 视频
     // { path: "/", component: () => import("../views/home/Home.vue") },                        // 主页
     // { path: "/info", component: () => import("../views/info/Home.vue") }, // 咨询
     // { path: "/info/page", component: () => import("../views/info/News.vue") },

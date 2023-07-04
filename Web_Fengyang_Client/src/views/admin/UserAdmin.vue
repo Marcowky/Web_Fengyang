@@ -1,15 +1,15 @@
 <template>
-    <userInfoDialog v-model="dialogVisible" />
-
-    <el-card>
+    <userInfoDialog v-model="showDialog" :dialogTitle="dialogTitle" v-if="showDialog" @updateUserList="loadUsers"
+        :dialogTableValue="dialogTableValue" :dialogUserType="dialogUserType"/>
+    <el-card class="mainTable">
         <el-row :gutter="20">
             <el-col :span="7">
-                <el-input placeholder="请输入关键词" clearable v-model="pageInfo.keyword"></el-input>
+                <el-input :input="loadUsers()" placeholder="请输入关键词" clearable v-model="pageInfo.keyword"
+                    :prefix-icon="Search"></el-input>
             </el-col>
-            <el-button :icon="Search" @click="loadUsers()"> 搜索 </el-button>
-            <el-button @click="showDialog"> 添加 </el-button>
+            <el-button @click="showAddDialog()"> 添加 </el-button>
         </el-row>
-        <el-table ref="tableRef" :data="userList" style="width: 100%; margin-top: 20px" border
+        <el-table ref="tableRef" :data="userList" style="width: 100%; margin-top: 20px" stripe
             @sort-change="handleSortChange">
             <template v-for="item in userConfig">
                 <el-table-column v-if="item.sortable == 'true'" sortable="custom" :width="item.width" :prop="item.prop"
@@ -19,29 +19,41 @@
                     </template>
                 </el-table-column>
                 <el-table-column v-if="item.sortable == 'false'" :width="item.width" :prop="item.prop" :label="item.label">
-                    <template v-if="item.prop == 'option'">
-                        <el-button type="primary">Primary</el-button>
-                        <el-button type="primary">Primary</el-button>
+                    <template v-if="item.prop == 'option'" #default="scope">
+                        <el-button type="primary" @click="showAddDialog(scope.row)">修改</el-button>
+                        <el-button type="primary" @click="deleteUser(scope.row)">删除</el-button>
+                    </template>
+                    <template #default="scope">
+                        <el-tag class="ml-2" v-if="item.prop == 'UserType'" type="success">{{scope.row.UserType}}</el-tag>
                     </template>
                 </el-table-column>
 
             </template>
 
         </el-table>
-        <el-pagination style="margin-top: 20px" background layout="prev, pager, next" :page-count="pageInfo.pageCount" @current-change="loadUsers" />
+        <el-pagination style="margin-top: 20px" background layout="prev, pager, next" :page-count="pageInfo.pageCount"
+            @current-change="loadUsers" />
     </el-card>
 </template>
   
 <script  setup>
 import { ref, inject, onMounted, reactive } from 'vue'
 import { userConfig } from "../../config/adminConfig.json"
+import { ElMessage, ElMessageBox } from 'element-plus'
+
+
+
 const axios = inject("axios")
 import {
     Search,
 } from '@element-plus/icons-vue'
+import { useRoute, onBeforeRouteUpdate } from 'vue-router'
+const pageUserType = ref('')
+const route = useRoute()
 
 // 挂载页面时触发
 onMounted(() => {
+    pageUserType.value = route.query.category;
     loadUsers()
 })
 
@@ -49,32 +61,43 @@ const handleSortChange = (sort) => {
     // console.log('当前排序字段：', sort.prop);
     // console.log('当前排序方式：', sort.order);
     // 处理排序逻辑...
-    switch(sort.prop){
+    switch (sort.prop) {
         case 'ID':
-            pageInfo.sortKey='id '
+            pageInfo.sortKey = 'id '
             break
         case 'CreatedAt':
-            pageInfo.sortKey='created_at '
+            pageInfo.sortKey = 'created_at '
             break
         case 'Status':
-            pageInfo.sortKey='status '
+            pageInfo.sortKey = 'status '
             break
     }
-    switch(sort.order){
+    switch (sort.order) {
         case 'descending':
-            pageInfo.sortKey=pageInfo.sortKey+'desc'
+            pageInfo.sortKey = pageInfo.sortKey + 'desc'
             break
         case 'ascending':
-            pageInfo.sortKey=pageInfo.sortKey+'asc'
+            pageInfo.sortKey = pageInfo.sortKey + 'asc'
             break
         default:
-            pageInfo.sortKey='created_at desc'
+            pageInfo.sortKey = 'created_at desc'
             break
     }
     // pageInfo.sortKey=sort.prop+' '+sort.order
     // console.log('当前排序query：', pageInfo.sortKey);
     loadUsers()
 }
+
+// 4.设置路由守卫
+onBeforeRouteUpdate((to, from) => {
+    const fromCategory = from.query.category;
+    const toCategory = to.query.category;
+
+    if (fromCategory !== toCategory) {
+        pageUserType.value=toCategory
+        loadUsers()
+    }
+});
 
 
 const userList = ref([])
@@ -88,9 +111,7 @@ const pageInfo = reactive({
 })
 
 import userInfoDialog from "./components/userInfoDialog.vue"
-const dialogVisible = ref(false)
 
-import { ElMessage } from 'element-plus'
 
 // 按条件加载文章列表
 const loadUsers = async (pageNum = 0) => {
@@ -98,7 +119,7 @@ const loadUsers = async (pageNum = 0) => {
     if (pageNum != 0) {
         pageInfo.pageNum = pageNum;
     }
-    let res = await axios.get(`/user/list?userType=client&keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&order=${pageInfo.sortKey}`)
+    let res = await axios.get(`/user/list?userType=${pageUserType.value}&keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&order=${pageInfo.sortKey}`)
     if (res.data.code == 200) {
         userList.value = res.data.data.user
         // console.log(articleList)
@@ -106,11 +127,58 @@ const loadUsers = async (pageNum = 0) => {
     pageInfo.count = res.data.data.count;
     pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
     console.log(userList.value)
-
 }
 
-const showDialog = () => {
-    dialogVisible.value = true
+const dialogTableValue = ref({})
+const dialogTitle = ref('')
+const dialogUserType = ref('')
+const showDialog = ref(false)
+const showAddDialog = (data) => {
+
+    if (!data) {
+        dialogTitle.value = "添加用户"
+        dialogTableValue.value = {}
+    }
+    else {
+        dialogTitle.value = "编辑用户"
+        dialogTableValue.value = JSON.parse(JSON.stringify(data))
+    }
+    showDialog.value = true
+    dialogUserType.value = pageUserType.value
+}
+const deleteUser = async (data) => {
+
+    ElMessageBox.confirm(
+        '是否要删除?',
+        '警告',
+        {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+        }
+    )
+        .then(async () => {
+            let res = await axios.put("/user/delete", {
+                ID: data.ID,
+                UserType: data.UserType
+            })
+            if (res.data.code == 200) {
+                ElMessage({
+                    message: res.data.msg,
+                    type: 'success',
+                    offset: 80
+                })
+                loadUsers()
+            } else {
+                ElMessage({
+                    message: res.data.msg,
+                    type: 'error',
+                    offset: 80
+                })
+            }
+        })
+        .catch()
+
 }
 
 const updateUser = async (updateUserInfo) => {
@@ -128,7 +196,6 @@ const updateUser = async (updateUserInfo) => {
             type: 'success',
             offset: 80
         })
-        showModal.value = false
     } else {
         ElMessage({
             message: res.data.msg,
@@ -139,3 +206,9 @@ const updateUser = async (updateUserInfo) => {
 }
 </script>
   
+<style scoped>
+.mainTable {
+    box-shadow: 2px 2px 6px #D3D4D8;
+    border-radius: 10px;
+}
+</style>

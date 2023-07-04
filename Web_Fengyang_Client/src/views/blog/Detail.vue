@@ -46,8 +46,7 @@ const route = useRoute()
 
 // 网络请求
 const axios = inject("axios")
-import { ElMessage } from 'element-plus'
-import { ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 // 定义变量
 const articleInfo = ref({})

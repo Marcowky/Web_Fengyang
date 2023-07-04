@@ -2,105 +2,117 @@
   <!--四色丰阳-->
   <Chart></Chart>
   <TopBar></TopBar>
-  <div class="title-1">
-    <p>—四 色 丰 阳—</p>
-  </div>
+  <div class="title-1"><p>—四 色 丰 阳—</p></div>
   <div class="container-1">
-    <ul>
-      <li class="list-1">
-        <a>
-          <img class="pic-1" src="../../assets/HomePage/index-pic-1.jpg" alt="index-pic-1">
-        </a>
-      </li>
-      <li class="list-2">
-        <h3>红色丰阳</h3>
-        <div class="fengyang_txt">
-          <p>{{ red_fengyang }}</p>
+    <el-row>
+      <el-col :span="10" :offset="2" >
+        <div class="image-container0">
+          <div class="image-wrapper">
+            <img class="responsive-image" src="../../assets/HomePage/index-pic-1.jpg">
+          </div>
         </div>
-      </li>
-      <li class="list-3">
-        <h3>绿色丰阳</h3>
-        <div class="fengyang_txt">
-          <p>{{ green_fengyang }}</p>
+      </el-col>
+      <el-col :span="10"  class="txt-container">
+          <h3 class="fengyang_subtitle">红色丰阳</h3>
+          <div class="content_txt"><p>{{ red_fengyang }}</p></div>
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <el-col :span="10"  :offset="2" class="txt-container">
+        <h3 class="fengyang_subtitle">绿色丰阳</h3>
+        <div class="content_txt"><p>{{ green_fengyang }}</p></div>
+      </el-col>
+      <el-col :span="10"  >
+        <div class="image-container0">
+          <div class="image-wrapper">
+            <img class="responsive-image" src="../../assets/HomePage/index-pic-4.jpg">
+          </div>
         </div>
-      </li>
-      <li class="list-4">
-        <a>
-          <img class="pic-4" src="../../assets/HomePage/index-pic-4.jpg" alt="index-pic-4">
-        </a>
-      </li>
-      <li class="list-5">
-        <a>
-          <img class="pic-5" src="../../assets/HomePage/index-pic-5.jpg" alt="index-pic-5">
-        </a>
-      </li>
-      <li class="list-6">
-        <h3>金色丰阳</h3>
-        <div class="fengyang_txt">
-          <p>{{ gold_fengyang }}</p>
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <el-col :span="10" :offset="2" >
+        <div class="image-container0">
+          <div class="image-wrapper">
+            <img class="responsive-image" src="../../assets/HomePage/index-pic-5.jpg">
+          </div>
         </div>
-      </li>
-      <li class="list-7">
-        <h3>灰色丰阳</h3>
-        <div class="fengyang_txt">
-          <p>{{ gray_fengyang }}</p>
+      </el-col>
+      <el-col :span="10"  class="txt-container">
+        <h3 class="fengyang_subtitle">金色丰阳</h3>
+        <div class="content_txt"><p>{{ red_fengyang }}</p></div>
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <el-col :span="10"  :offset="2" class="txt-container">
+        <h3 class="fengyang_subtitle">灰色丰阳</h3>
+        <div class="content_txt"><p>{{ gray_fengyang }}</p></div>
+      </el-col>
+      <el-col :span="10"  >
+        <div class="image-container0">
+          <div class="image-wrapper">
+            <img class="responsive-image" src="../../assets/HomePage/index-pic-8.jpg">
+          </div>
         </div>
-      </li>
-      <li class="list-8">
-        <a>
-          <img class="pic-8" src="../../assets/HomePage/index-pic-8.jpg" alt="index-pic-8">
-        </a>
-      </li>
-    </ul>
+      </el-col>
+    </el-row>
   </div>
+
 
   <!--食宿阅论-->
   <div class="title-1">
     <p>—食 宿 阅 论—</p>
   </div>
   <div class="container-2">
-    <ul>
-      <li class="block2-li">
-        <el-link href="http://localhost:5173/#/consumption">
-          <div class="imgBox">
-            <img src="../../assets/HomePage/index-pic-9.jpg" alt="index-pic-9">
-            <div class="text">
-                 <h3>食在丰阳</h3>
-            </div>
+    <el-row>
+      <el-col :span="6">
+          <div class="image-container1">
+            <el-link href="http://localhost:5173/#/consumption">
+              <div class="image-wrapper">
+                <img class="responsive-image" src="../../assets/HomePage/index-pic-9.jpg">
+                <div class="text"><h3>食在丰阳</h3></div>
+              </div>
+            </el-link>
           </div>
-        </el-link>
-      </li>
-      <li class="block2-li">
-        <el-link href="http://localhost:5173/#/travel">
-          <div class="imgBox">
-            <img src="../../assets/HomePage/index-pic-10.jpg" alt="index-pic-10">
-            <div class="text">
-                <h3>宿在丰阳</h3>
+      </el-col>
+
+      <el-col :span="6">
+        <div class="image-container1">
+          <el-link href="http://localhost:5173/#/travel">
+            <div class="image-wrapper">
+              <img class="responsive-image" src="../../assets/HomePage/index-pic-10.jpg">
+              <div class="text"><h3>宿在丰阳</h3></div>
             </div>
-          </div>
-        </el-link>
-      </li>
-      <li class="block2-li">
-        <el-link href="http://localhost:5173/#/info">
-          <div class="imgBox">
-            <img src="../../assets/HomePage/index-pic-11.jpg" alt="index-pic-11">
-            <div class="text">
-                <h3>阅在丰阳</h3>
+          </el-link>
+        </div>
+      </el-col>
+
+      <el-col :span="6">
+        <div class="image-container1">
+          <el-link href="http://localhost:5173/#/consumption">
+            <div class="image-wrapper">
+              <img class="responsive-image" src="../../assets/HomePage/index-pic-11.jpg">
+              <div class="text"><h3>阅在丰阳</h3></div>
             </div>
-          </div>
-        </el-link>
-      </li>
-      <li class="block2-li">
-        <el-link href="http://localhost:5173/#/blog">
-          <div class="imgBox">
-            <img src="../../assets/HomePage/index-pic-12.jpg" alt="index-pic-12">
-            <div class="text">
-                <h3>论在丰阳</h3>
+          </el-link>
+        </div>
+      </el-col>
+
+      <el-col :span="6">
+        <div class="image-container1">
+          <el-link href="http://localhost:5173/#/consumption">
+            <div class="image-wrapper">
+              <img class="responsive-image" src="../../assets/HomePage/index-pic-12.jpg">
+              <div class="text"><h3>论在丰阳</h3></div>
             </div>
-          </div>
-        </el-link>
-      </li>
-    </ul>
+          </el-link>
+        </div>
+      </el-col>
+
+    </el-row>
   </div>
 
   <!--热门景点-->
@@ -108,113 +120,116 @@
     <p>—热 门 景 点—</p>
   </div>
   <div class="container-3">
-    <ul>
-      <li class="block2-li">
-        <el-link href="http://localhost:5173/#/consumption">
-          <div class="imgBox-2">
-            <img class="block3-img" width=448px src="../../assets/HomePage/index-pic-13.jpg" alt="index-pic-13">
-            <div class="bg-h2">
-              <h2>{{ row1_title1 }}</h2>
-            </div>
-          </div>
-        </el-link>
+    <el-row :gutter="40">
+      <el-col :span="6" :offset="3">
+        <div class="image-container2">
+          <img class="responsive-image" src="../../assets/HomePage/index-pic-13.jpg" >
+          <div class="text2"><h2>{{ row1_title1 }}</h2></div>
+        </div>
+      </el-col>
 
-        <el-link href="http://localhost:5173/#/consumption">
-          <div class="imgBox-2">
-            <img class="block3-img" width=448px src="../../assets/HomePage/index-pic-14.jpg" alt="index-pic-14">
-            <div class="bg-h2">
-              <h2>{{ row1_title2 }}</h2>
-            </div>
-          </div>
-        </el-link>
-
-        <el-link href="http://localhost:5173/#/consumption">
-          <div class="imgBox-2">
-            <img class="block3-img" width=448px src="../../assets/HomePage/index-pic-15.jpg" alt="index-pic-15">
-            <div class="bg-h2">
-              <h2>{{ row1_title3 }}</h2>
-            </div>
-          </div>
-        </el-link>
-      </li> 
-    </ul>
-</div>
-
-<div class="container-4">
-    <ul>
-      <li class="block2-li">
-        <el-link href="http://localhost:5173/#/consumption">
-          <div class="imgBox-3">
-            <img class="block3-img-2" width=448px src="../../assets/HomePage/index-pic-16.jpg" alt="index-pic-9">
-              <div class="txtbox">
-                <div class="bgtxt">
-                  <p class="txt-title">{{ txt_title_1 }}</p>
-                </div>
-                <div class="bgtxt-content">
-                  <p class="txt-content">{{ txt_content_1 }}</p>
-                </div>
-              </div>
-          </div>
-        </el-link>
-
-        <el-link href="http://localhost:5173/#/consumption">
-          <div class="imgBox-3">
-            <img class="block3-img-2" width=448px src="../../assets/HomePage/index-pic-17.jpg" alt="index-pic-9">
-              <div class="txtbox">
-                <div class="bgtxt">
-                  <p class="txt-title">{{ txt_title_2 }}</p>
-                </div>
-                <div class="bgtxt-content">
-                  <p class="txt-content">{{ txt_content_2 }}</p>
-                </div>
-              </div>
-          </div>
-        </el-link>
-
-        <el-link href="http://localhost:5173/#/consumption">
-          <div class="imgBox-3">
-            <img class="block3-img-2" width=448px src="../../assets/HomePage/index-pic-18.jpg" alt="index-pic-9">
-              <div class="txtbox">
-                <div class="bgtxt">
-                  <p class="txt-title">{{ txt_title_3 }}</p>
-                </div>
-                <div class="bgtxt-content">
-                  <p class="txt-content">{{ txt_content_3 }}</p>
-                </div>
-              </div>
-          </div>
-        </el-link>
-
-        <el-link href="http://localhost:5173/#/consumption">
-          <div class="imgBox-3">
-            <img class="block3-img-2" width=448px src="../../assets/HomePage/index-pic-19.jpg" alt="index-pic-9">
-              <div class="txtbox">
-                <div class="bgtxt">
-                  <p class="txt-title">{{ txt_title_4 }}</p>
-                </div>
-                <div class="bgtxt-content">
-                  <p class="txt-content">{{ txt_content_4 }}</p>
-                </div>
-              </div>
-          </div>
-        </el-link>
-
-        <el-link href="http://localhost:5173/#/consumption">
-          <div class="imgBox-3">
-            <img class="block3-img-2" width=448px src="../../assets/HomePage/index-pic-20.jpg" alt="index-pic-9">
-              <div class="txtbox">
-                <div class="bgtxt">
-                  <p class="txt-title">{{ txt_title_5 }}</p>
-                </div>
-                <div class="bgtxt-content">
-                  <p class="txt-content">{{ txt_content_5 }}</p>
-                </div>
-              </div>
-          </div>
-        </el-link>
-      </li>
-    </ul>
+      <el-col :span="6" >
+        <div class="image-container2">
+          <img class="responsive-image" src="../../assets/HomePage/index-pic-14.jpg" >
+          <div class="text2"><h2>{{ row1_title2 }}</h2></div>
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div class="image-container2">
+          <img class="responsive-image" src="../../assets/HomePage/index-pic-15.jpg" >
+          <div class="text2"><h2>{{ row1_title3 }}</h2></div>
+        </div>
+      </el-col>
+    </el-row>
   </div>
+
+  <div class="white-block"></div>
+  <div class="container-4">
+    <el-row justify="center" :gutter="10">
+
+      <el-col :span="4">
+        <el-link href="http://localhost:5173/#/consumption">
+          <div class="image-container3">
+            <img class="responsive-image" src="../../assets/HomePage/index-pic-16.jpg" >
+            <div class="txtbox2">
+              <div class="txtbox2_background">
+                <p class="txt-title">{{ txt_title_1 }}</p>
+              </div>
+              <div class="txtbox2-content">
+                <p class="txt-content">{{ txt_content_1 }}</p>
+              </div>
+            </div>
+          </div>
+        </el-link>
+      </el-col>
+
+      <el-col :span="4">
+        <el-link href="http://localhost:5173/#/consumption">
+          <div class="image-container3">
+            <img class="responsive-image" src="../../assets/HomePage/index-pic-17.jpg" >
+            <div class="txtbox2">
+              <div class="txtbox2_background">
+                <p class="txt-title">{{ txt_title_2 }}</p>
+              </div>
+              <div class="txtbox2-content">
+                <p class="txt-content">{{ txt_content_2 }}</p>
+              </div>
+            </div>
+          </div>
+        </el-link>
+      </el-col>
+
+      <el-col :span="4">
+        <el-link href="http://localhost:5173/#/consumption">
+          <div class="image-container3">
+            <img class="responsive-image" src="../../assets/HomePage/index-pic-18.jpg" >
+            <div class="txtbox2">
+              <div class="txtbox2_background">
+                <p class="txt-title">{{ txt_title_3 }}</p>
+              </div>
+              <div class="txtbox2-content">
+                <p class="txt-content">{{ txt_content_3 }}</p>
+              </div>
+            </div>
+          </div>
+        </el-link>
+      </el-col>
+
+      <el-col :span="4">
+        <el-link href="http://localhost:5173/#/consumption">
+          <div class="image-container3">
+            <img class="responsive-image" src="../../assets/HomePage/index-pic-19.jpg" >
+            <div class="txtbox2">
+              <div class="txtbox2_background">
+                <p class="txt-title">{{ txt_title_4 }}</p>
+              </div>
+              <div class="txtbox2-content">
+                <p class="txt-content">{{ txt_content_4 }}</p>
+              </div>
+            </div>
+          </div>
+        </el-link>
+      </el-col>
+
+      <el-col :span="4">
+        <el-link href="http://localhost:5173/#/consumption">
+          <div class="image-container3">
+            <img class="responsive-image" src="../../assets/HomePage/index-pic-20.jpg" >
+            <div class="txtbox2">
+              <div class="txtbox2_background">
+                <p class="txt-title">{{ txt_title_5 }}</p>
+              </div>
+              <div class="txtbox2-content">
+                <p class="txt-content">{{ txt_content_5 }}</p>
+              </div>
+            </div>
+          </div>
+        </el-link>
+      </el-col>
+
+    </el-row>
+  </div>
+
 
 </template>
 const link = "http://localhost:5173/#/consumption"
@@ -265,7 +280,6 @@ export default {
 </script>
 
 <style scoped>
-
 .title-1 {
   width: 100%;
   font-size: 80px;
@@ -278,294 +292,190 @@ export default {
   justify-content: center;
 }
 
-.container-1 {
-  position: relative;
-  width: 100%;
-  height: 1440px;
-  margin-bottom: 100px;
-  padding-top: 0;
-  /* display: flex;
-  justify-content: center; */
-}
-
-.container-1 .list-1 {
-  top: 0;
-  left: 0;
-}
-
-.container-1 .list-1 .pic-1{
-  width: 672px;
-  height: 360px;
-}
-
-.container-1 .list-2 {
-  position: absolute;
-  top: 0;
-  right: 40px;
-  height: 360px;
-  width: 672px;
-  background: url(../../assets/HomePage/index-pic-2.jpg);
-}
-
-.container-1 .list-3 {
-  position: absolute;
-  top: 360px;
-  left: 40px;
-  height: 360px;
-  width: 672px;
-  background: url(../../assets/HomePage/index-pic-3.jpg) ;
-}
-
-.container-1 .list-4 {
-  position: absolute;
-  top: 360px;
-  right: 40px;
-}
-
-.container-1 .list-4 .pic-4{
-  top: 0;
-  width: 672px;
-  height: 360px;
-  left: 0px;
-}
-.container-1 .list-5 {
-  position: absolute;
-  top: 720px;
-}
-
-.container-1 .list-5 .pic-5{
-  width: 672px;
-  height: 360px;
-}
-
-.container-1 .list-6 {
-  position: absolute;
-  top: 720px;
-  right: 40px;
-  height: 360px;
-  width: 672px;
-  background: url(../../assets/HomePage/index-pic-2.jpg) ;
-}
-
-.container-1 .list-7 {
-  position: absolute;
-  top: 1080px;
-  left: 40px;
-  height: 360px;
-  width: 672px;
-  background: url(../../assets/HomePage/index-pic-3.jpg) ;
-}
-
-.container-1 .list-8 {
-  position: absolute;
-  top: 1080px;
-  right: 40px;
-}
-
-.container-1 .list-8 .pic-8{
-  width: 672px;
-  height: 360px;
-}
-
-.li, h3 {
-  color: #000;
-  font-size: 30px;
-  font-family: 宋体;
-  font-weight: 550;
-  margin-top: 100px;
-  margin-left: 285px;
-}
-
-ul,
-li {
-  list-style: none;
-}
-
-a {
-  text-decoration: none;
-}
-
-.fengyang_txt {
-  width: 672px;
-  height: 200px;
-  font-size: 16px;
-  font-family: 宋体;
-  color: #000;
-  padding-top: 20px;
-  padding-left: 30px;
-  padding-right: 30px;
-  display: flex;
-  text-align: center;
-  word-break: keep-all;
-  line-height: 25px;
-}
-
-.container-2 {
-  position: relative;
-  width: 100%;
-  height: 500px;
-  margin-bottom: 100px;
-  overflow:hidden
-}
-.container-2 .block2-li {
-  float: left;
-}
-
-.imgBox {
-  position: relative;
-  width: 333px;
-  overflow: hidden;
-  height: 500px;
-}
-img {
-  width: 333px;
-  height: 500px;
+img{
   transition: all .5s;
 }
 
-.imgBox .text {
-  position: absolute;
-  width: 333px;
-  height: 500px;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  text-align: center;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  background: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  -webkit-transition: all 0.35s ease-in-out;  
-  -moz-transition: all 0.35s ease-in-out;
-  transition: all 0.35s ease-in-out;
-}
-.imgBox .text h3 {
-  color: rgb(243, 243, 240);
-  font-size: 40px;
-  font-family: 宋体;
-  width: 333px;
-  margin-left: 0px;
-  margin-top: 210px;
+.container-1 {
+  :hover img {
+    transform: scale(1.1);
+  }
+  .image-container0 {
+    aspect-ratio: 670/360;
+    .image-wrapper {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      align-items: center;
+      justify-content: center;
+      .responsive-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+  .txt-container {
+    background-color: rgb(227,227,228);
+    .fengyang_subtitle {
+      color: rgb(86, 99, 136);
+      font-size: 34px;
+      top: 6%;
+      margin: 20px;
+      text-align: center;
+    }
+    .content_txt
+    {
+      top: 8%;
+      left: 5%;
+      width: 90%;
+      text-indent:2em;
+      font-size: 20px;
+      font-family: 宋体;
+    }
+  }
 }
 
-.imgBox:hover .text {
-  opacity: 1;   
+.container-2{
+  .image-container1 {
+    aspect-ratio: 300/400;
+      .image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .responsive-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+  }
+  .text {
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     background: rgba(0, 0, 0, 0.5);
+     opacity: 0;
+     transition: opacity 0.35s ease-in-out;
+   }
+  .text h3 {
+    top:50%;
+    text-align: center;
+    color: #fff;
+    font-size: 40px;
+    font-family: 宋体;
+    width: 333px;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+  }
+}
+.image-wrapper:hover .text {
+  opacity: 1;
 }
 
-.imgBox:hover img{
-  transform: scale(1.1);
-}
 
 .container-3 {
-  position: relative;
-  width: 100%;
-  height: 450px;
-}
-
-.container-3 .imgBox-2 {
-  width: 410px;
-  height: 410px;
-  border-radius: 50%;
-  margin-right: 40px;
-  overflow: hidden;
-}
-
-.container-3 .imgBox-2 .block3-img {
-  width: 410px;
-  height: 410px;
-  border-radius: 50%;
-}
-
-.bg-h2 {
-  position: absolute;
-  top: 155px;
-  width: 410px;
-  height: 110px;
-  opacity: 0;
-  overflow: hidden;
   display: flex;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
+  align-content: center;
+  .image-container2{
+    aspect-ratio: 1/1;
+    position: relative;
+    border-radius: 50%;
+    /*将容器裁成圆形*/
+    overflow: hidden;
+    /*在容器内超过容器的元素 都会被隐藏*/
+    .responsive-image{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .text2{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 20%;
+      overflow: hidden;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: opacity 0.35s ease-in-out;
+    }
+    .text2 h2{
+      padding: 10px;
+       text-align: center;
+       font-family: 宋体;
+       font-size: 40px;
+       color: #f5f5f5;
+     }
+  }
+  .image-container2:hover img{
+    transform: scale(1.1);
+  }
+  .image-container2:hover .text2{
+    opacity: 1;
+  }
 }
-.bg-h2
-h2{
-  font-family: 宋体;
-  line-height: 110px;
-  font-weight: 600;
-  position: absolute;
-  font-size: 40px;
 
-  color: #f5f5f5;
+.white-block
+{
+  height: 40px;
 }
 
-.imgBox-2:hover img{
-  transform: scale(1.1);
-}
 
-.imgBox-2:hover .bg-h2 {
-  opacity: 1;
-}
-
-.container-4 {
+.container-4 .image-container3 {
+  aspect-ratio: 275/230;
   position: relative;
-  width: 100%;
-  height: 230px;
+  overflow: hidden;
+  .responsive-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .txtbox2 {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transition: all .5s ease-in-out;
+    .txtbox2_background {
+      position: absolute;
+      bottom: 0;
+      z-index: 1;
+      height: 23%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+    .txt-title {
+      text-align: center;
+      font-family: 宋体;
+      font-weight: 600;
+      font-size: 23px;
+      color: #f5f5f5;
+      line-height: 50px;
+    }
+    .txt-content {
+      top: 55%;
+      font-family: 宋体;
+      font-size: 16px;
+      color: #f5f5f5;
+      text-indent: 2em;
+    }
+  }
 }
 
-.container-4 .imgBox-3 {
-  width: 261px;
-  height: 230px;
-  margin-right: 10px;
-}
-
-.container-4 .imgBox-3 .block3-img-2 {
-  width: 261px;
-  height: 230px;
-  margin-right: 10px;
-}
-
-
-.container-4 .txtbox {
+.container-4 .image-container3 .txtbox2 .txtbox2-content {
   position: absolute;
-  /* bottom: -180px; */
   top: 0;
-  width: 261px;
-  height: 230px;
-  transition: all .5s ease-in-out;
-  /* z-index: 3; */
-  /* -webkit-transition: all 0.35s ease-in-out;  
-  -moz-transition: all 0.35s ease-in-out;
-  transition: all 0.35s ease-in-out; */
-}
-
-.container-4 .txtbox .bgtxt {
-  position: absolute;
-  /* top: 0; */
-  bottom: 0;
   left: 0;
-  width: 261px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  opacity: 1;
-  z-index: 1;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.container-4 .txtbox .bgtxt .txt-title {
-  font-family: 宋体;
-  font-weight: 600;
-  font-size: 23px;
-  color: #f5f5f5;
-  line-height: 50px;
-}
-
-.container-4 .txtbox .bgtxt-content {
-  position: absolute;
-  top: 230px;
-  width: 261px;
-  height: 180px;
+  right: 0;
+  bottom: 23%;
   background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   overflow: hidden;
@@ -573,21 +483,16 @@ h2{
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  transition: all 0.35s ease-in-out;
+  //transition: all 0.35s ease-in-out;
+  transform: translateY(100%);
+  transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
-.txt-content {
-  top: 100px;
-  font-family: 宋体;
-  font-size: 16px;
-  color: #f5f5f5;
-  text-indent: 13%;
-}
 
-.imgBox-3:hover .bgtxt-content {
-  position: absolute;
-  top: 0px;
-  left: 0;
+.container-4 .image-container3:hover .txtbox2 .txtbox2-content {
   opacity: 1;
+  transform: translateY(0);
 }
+
+
 </style>
