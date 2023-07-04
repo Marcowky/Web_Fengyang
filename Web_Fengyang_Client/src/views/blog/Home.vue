@@ -85,7 +85,7 @@ const goPublish = async () => {
     userInfo().then(result => {
         if (result != null) {
             router.push({
-                path: "/blog/publish",
+                path: "/article/publish",
                 query: {
                     category: pageInfo.pageArticleType
                 }
@@ -100,9 +100,10 @@ const goPublish = async () => {
 
 const toDetail = (article) => { // 前往详情页
     router.push({
-        path: "/blog/detail",
+        path: "/article/detail",
         query: {
-            id: article.id,
+            category: pageInfo.pageArticleType,
+            id: article.id
         }
     })
 }
