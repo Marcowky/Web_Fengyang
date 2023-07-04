@@ -11,57 +11,47 @@
         <el-aside v-if="show" width="200px">
           <!-- 侧边栏 -->
           <el-menu class="sidebar" router :default-active="this.$route.fullPath" unique-opened=true>
-
             <el-sub-menu index="/admin/user">
               <template #title>用户管理</template>
               <el-menu-item index="/admin/user?category=client">客户</el-menu-item>
               <el-menu-item index="/admin/user?category=admin">管理员</el-menu-item>
             </el-sub-menu>
-
             <el-sub-menu index="/admin/article">
               <template #title>文章修改</template>
               <template v-for="item in menuItems">
-                <template v-if="item.index.includes('/')&&item.index!='/home'&&item.mainMenu!='/hotel'">
-                  <el-menu-item :index="'/admin/article?category=' +item.index.substring(1) + 'article'">{{ item.label
+                <template v-if="item.index.includes('/') && item.index != '/home' && item.mainMenu != '/hotel'">
+                  <el-menu-item :index="'/admin/article?category=' + item.index.substring(1) + 'article'">{{ item.label
                   }}</el-menu-item>
                 </template>
               </template>
             </el-sub-menu>
-
             <el-menu-item index="/admin/image">图片更换</el-menu-item>
-
           </el-menu>
         </el-aside>
         <el-main class="mainContent">
           <!-- 内容 -->
-          <router-view v-if="showRouteView"/>
+          <router-view v-if="showRouteView" />
         </el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 
-
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
-const router = useRouter()
-
-
-// 导入登录注册弹框
-import LoginDialog from '../../components/LoginAndRegister.vue'
-const loginDialogRef = ref(null)
-
+import LoginDialog from '../../components/LoginAndRegister.vue' // 导入登录注册弹框
 import { UserStore } from '../../stores/UserStore'
-const userStore = UserStore()
-const showRouteView = ref(userStore.token!='')
 import { toRef } from 'vue';
+import config from '../../config/config.json'
 
+const router = useRouter()
+const menuItems = config.menuItems;
+const loginDialogRef = ref(null)
+const userStore = UserStore()
+const showRouteView = ref(userStore.token != '')
 const tokenRef = toRef(userStore, 'token');
-
-watch(tokenRef, (newToken) => {
-  showRouteView.value = newToken !== '';
-});
+const show = ref(true);
 
 // 挂载页面时触发
 onMounted(() => {
@@ -69,24 +59,20 @@ onMounted(() => {
   loginDialogRef.value.user.userType = "admin"
 })
 
-const show = ref(true);
+watch(tokenRef, (newToken) => {
+  showRouteView.value = newToken !== '';
+});
 
 router.beforeEach((to, from) => {
-    if (to.path=='/admin/article/publish'||to.path=='/admin/article/update') {
-        show.value = false;
-    } else {
-        show.value = true;
-    }
-    if(to !=from) {
-      window.scrollTo(0, 0);
-    }
+  if (to.path == '/admin/article/publish' || to.path == '/admin/article/update') {
+    show.value = false;
+  } else {
+    show.value = true;
+  }
+  if (to != from) {
+    window.scrollTo(0, 0);
+  }
 })
-
-
-
-import config from '../../config/config.json'
-const menuItems = config.menuItems;
-
 </script>
 
 <style scoped>
@@ -107,8 +93,9 @@ const menuItems = config.menuItems;
   box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
   border-radius: 0 10px 10px 0;
 }
+
 .mainContent {
-    margin-top: 100px;
-    padding-left: 0;
+  margin-top: 100px;
+  padding-left: 0;
 }
 </style>
