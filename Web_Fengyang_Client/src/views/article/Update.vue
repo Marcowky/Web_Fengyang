@@ -47,8 +47,8 @@
                 size="large" />
             <!-- 按钮 -->
             <div style="margin-top: 17px;">
-                <el-button style="margin-right: 20px;" type="danger" @click="closeSubmitModal">取消</el-button>
-                <el-button type="primary" @click="submit">确认</el-button>
+                <el-button style="margin-right: 20px;" type="primary" @click="submit">确认</el-button>
+                <el-button type="danger" @click="closeSubmitModal">取消</el-button>
             </div>
         </div>
 
@@ -56,25 +56,16 @@
 </template>
 
 <script setup>
-// icons
-import {
-    Delete,
-    UploadFilled
-} from '@element-plus/icons-vue'
-
+import { Delete, UploadFilled } from '@element-plus/icons-vue' // icons
 import { ref, reactive, inject, onMounted } from 'vue'
-// 富文本编辑器
-import RichTextEditor from '../../../components/RichTextEditor.vue'
-import { imageUpload, imageDelete, imageCheck } from '../../../api/image'
-import { articleDetail, articleUpdate } from '../../../api/article'
-// 导入路由
-import { useRouter, useRoute } from 'vue-router'
+import RichTextEditor from '../../components/RichTextEditor.vue' // 富文本编辑器
+import { imageUpload, imageDelete, imageCheck } from '../../api/image'
+import { articleDetail, articleUpdate, articleCategories } from '../../api/article'
+import { useRouter, useRoute } from 'vue-router' // 导入路由
+
 const router = useRouter()
 const route = useRoute()
-
-// 网络请求
-const serverUrl = inject("serverUrl")
-// 变量初始化
+const serverUrl = inject("serverUrl") // 网络请求
 const loadOk = ref(false)
 const categoryOptions = ref([])
 const updateArticle = reactive({
@@ -90,21 +81,9 @@ const updateArticle = reactive({
 const showModal = ref(false)
 const newHeadImage = ref(true)
 
-// 挂载页面时触发
-onMounted(() => {
-    loadCategories()
-    loadArticle()
-})
-
-import config from '../../../config/config.json';
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/' + updateArticle.articleType.substring(0, updateArticle.articleType.length - 7)).map((item) => {
-        return {
-            label: item.label,
-            value: item.index
-        }
-    })
+    categoryOptions.value = articleCategories('/' + updateArticle.articleType.substring(0, updateArticle.articleType.length - 7))
 }
 
 // 加载文章
@@ -127,7 +106,6 @@ const loadArticle = async () => {
 const showModalModal = () => {
     showModal.value = true
 }
-
 
 // 关闭发布弹窗
 const closeSubmitModal = () => {
@@ -177,6 +155,12 @@ const handleSelect = (index) => {
             break;
     }
 }
+
+// 挂载页面时触发
+onMounted(() => {
+    loadCategories()
+    loadArticle()
+})
 </script>
 
 <style lang="scss" scoped>
@@ -193,7 +177,6 @@ const handleSelect = (index) => {
     border-radius: 10px;
     z-index: 99;
 }
-
 
 .other-box {
     display: flex;

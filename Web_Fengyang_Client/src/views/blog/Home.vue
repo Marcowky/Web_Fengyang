@@ -84,7 +84,12 @@ const loadArticles = async (pageNum = 0) => {
 const goPublish = async () => {
     userInfo().then(result => {
         if (result != null) {
-            router.push("/blog/publish")
+            router.push({
+                path: "/article/publish",
+                query: {
+                    category: pageInfo.pageArticleType
+                }
+            })
         }
         else {
             loginDialogRef.value.showDialog()
@@ -95,9 +100,10 @@ const goPublish = async () => {
 
 const toDetail = (article) => { // 前往详情页
     router.push({
-        path: "/blog/detail",
+        path: "/article/detail",
         query: {
-            id: article.id,
+            category: pageInfo.pageArticleType,
+            id: article.id
         }
     })
 }
