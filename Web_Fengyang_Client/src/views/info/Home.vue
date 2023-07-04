@@ -99,9 +99,9 @@ const router = useRouter()
 // 变量初始化
 let number = '0'
 let qList = news.news_items
-let newsList = ref([])
-let warningList = ref([])
-let adviceList = ref([])
+let newsList = ref({})
+let warningList = ref({})
+let adviceList = ref({})
 //
 let timeStart = 0 //截取第几组的结束
 let timeEnd = 1 //默认为0组
@@ -117,22 +117,15 @@ onMounted(() => {
 // 按条件加载文章列表
 const loadArticles = async () => {
 
-  // let res = await axios.get(`/article/list?articleType=infoArticle&keyword=""&pageNum=1&pageSize=5&categoryId=2`)
-  /*let res = await axios.get(`/article/list?articleType=infoArticle&pageNum=1&pageSize=12&categoryId=1`)
+  let res = await axios.get(`/article/list?articleType=infoArticle&keyword=""&pageNum=1&pageSize=5&categoryId=2`)
+  let res = await axios.get(`/article/list?articleType=infoArticle&pageNum=1&pageSize=12&categoryId=1`)
   if (res.data.code === 200) {
     qList.value = res.data.data.article
-    console.log(qList)
-    console.log(res.data.data.article.title)
   }
-  /*newsList.value = qList.value.slice(
-      num * timeStart,
-      num * timeEnd
-  );*/
-  newsList = qList.slice(
+  newsList.value = qList.value.slice(
       num * timeStart,
       num * timeEnd
   );
-  console.log(newsList)
   let res = await axios.get(`/article/list?articleType=infoArticle&pageNum=1&pageSize=5&categoryId=1`)
   if (res.data.code === 200) {
     warningList.value = res.data.data.article
@@ -185,13 +178,13 @@ const renderR = () =>{
   console.log(newsList);
 }
 
-const arrowClick = (val) => {
-  if(val === 'right') {
-    carousel.value.next()
-  } else {
-    carousel.value.prev()
-  }
-}
+//const arrowClick = (val) => {
+//  if(val === 'right') {
+//    carousel.value.next()
+//  } else {
+//    carousel.value.prev()
+//  }
+//}
 const showdetail = (article) => {
   router.push({
     path: "/info/detail",
