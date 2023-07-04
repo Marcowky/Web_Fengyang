@@ -36,7 +36,7 @@ let routes = [
             },
             {
                 path: '/blog/publish',
-                component: () => import("../views/blog/Publish.vue")
+                component: () => import("../views/article/ArticlePublish.vue")
             },
             {
                 path: "/blog/detail",
@@ -44,7 +44,7 @@ let routes = [
             },
             {
                 path: "/blog/update",
-                component: () => import("../views/blog/Update.vue")
+                component: () => import("../views/article/ArticleUpdate.vue")
             },
 
         ]
@@ -61,11 +61,11 @@ let routes = [
             },
             {
                 path: '/admin/article/publish',
-                component: () => import("../views/admin/components/ArticlePublish.vue")
+                component: () => import("../views/article/ArticlePublish.vue")
             },
             {
                 path: '/admin/article/update',
-                component: () => import("../views/admin/components/ArticleUpdate.vue")
+                component: () => import("../views/article/ArticleUpdate.vue")
             },
             {
                 path: "user",

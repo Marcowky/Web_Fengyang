@@ -94,6 +94,7 @@ const toUpdate = () => {
     router.push({
         path: "/blog/update",
         query: {
+            category: 'blogArticle',
             id: articleInfo.value.id,
         }
     })

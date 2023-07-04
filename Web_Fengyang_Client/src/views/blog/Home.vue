@@ -84,7 +84,12 @@ const loadArticles = async (pageNum = 0) => {
 const goPublish = async () => {
     userInfo().then(result => {
         if (result != null) {
-            router.push("/blog/publish")
+            router.push({
+                path: "/blog/publish",
+                query: {
+                    category: pageInfo.pageArticleType
+                }
+            })
         }
         else {
             loginDialogRef.value.showDialog()
