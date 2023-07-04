@@ -241,7 +241,6 @@ const loadArticles = async() => {
       });
     }
     console.log(hotelsData[0])
-    console.log(hotels[0])
   }
 }
 //地图初始化函数

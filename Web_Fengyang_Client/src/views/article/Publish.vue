@@ -87,14 +87,13 @@ const closeSubmitModal = () => {
 }
 
 const customRequest = async (file) => {
-
     imageUpload(file).then(result => {
         if (result != null) {
             addArticle.headImage = result.data.data.filePath
             newHeadImage.value = true
         }
     })
-
+  console.log(serverUrl)
 }
 
 const deleteImage = async () => {
