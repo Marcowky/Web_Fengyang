@@ -67,7 +67,7 @@
   </footer>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 // 引入高德地图api,准备实现天气显示
 import AMapLoader from '@amap/amap-jsapi-loader'
 import { onMounted, ref } from "vue";
@@ -81,15 +81,8 @@ window._AMapSecurityConfig = {
   securityJsCode: '3626fd4fb9d0809a04788c6df4d45953'
 };
 
-interface MenuItem {
-  index: string;
-  label: string;
-  mainMenu: string;
-}
-
-
 const link = window.location.origin;
-const menuItems = ref(config.menuItems as MenuItem[]);
+const menuItems = ref(config.menuItems);
 const weatherData = ref(null);
 const computeWeather = (x, dayWeather) => {
   switch (x) {
@@ -212,7 +205,7 @@ onMounted(() => {
 .footer-container {
   position: static;
   padding: 10px 90px;
-  //margin: 10px auto;
+  margin: 10px auto;
 }
 
 .divider_style {
