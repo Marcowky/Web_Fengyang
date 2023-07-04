@@ -51,10 +51,10 @@ export async function userUpdate(user) {
     try {
         let res = await axios.put("/user/update", {
             ID: user.ID,
-            UserName: user.UserName,
-            PhoneNumber: user.PhoneNumber,
-            userType: user.UserType,
-            Status: user.Status
+            UserName: user.userName,
+            PhoneNumber: user.phoneNumber,
+            userType: user.userType,
+            Status: user.status
         })
         showMessage(res.data.msg, 'success')
         return null // 返回响应数据

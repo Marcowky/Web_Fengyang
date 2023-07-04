@@ -1,9 +1,9 @@
 <template>
-    <el-dialog model-value="showModal" :title="dialogTitle" width="30%" show-close=false @closed='handleClose'>
+    <el-dialog model-value="showModal" :title="dialogTitle" width="30%" show-close=false @closed='handleClose' center>
 
         <el-form ref="formRef" :rules="rules" :model="user" label-width="100px" :label-position="labelPosition"
-            style="min-width: 250px">
-            <el-form-item label="ID" prop="ID" v-if="dialogTitle == '编辑用户'">
+            style="min-width: 250px; padding-right: 40px;">
+            <el-form-item label="ID" prop="ID" v-if="dialogTitle == editUserTitle">
                 <el-input v-model="user.ID" disabled />
             </el-form-item>
             <el-form-item label="用户名" prop="userName">
@@ -12,14 +12,14 @@
             <el-form-item label="手机号" prop="phoneNumber">
                 <el-input v-model="user.phoneNumber" />
             </el-form-item>
-            <el-form-item label="密码" v-if="dialogTitle == '添加用户'" prop="password">
+            <el-form-item label="密码" v-if="dialogTitle == addUserTitle" prop="password">
                 <el-input v-model="user.password" />
+            </el-form-item>
+            <el-form-item label="创建时间" prop="createdAt" v-if="dialogTitle == editUserTitle">
+                <el-input v-model="user.createdAt" disabled />
             </el-form-item>
             <el-form-item label="用户类型" prop="userType">
                 <el-tag class="ml-2" type="success">{{ user.userType }}</el-tag>
-            </el-form-item>
-            <el-form-item label="创建时间" prop="createdAt" v-if="dialogTitle == '编辑用户'">
-                <el-input v-model="user.createdAt" disabled />
             </el-form-item>
             <el-form-item label="状态" prop="status">
                 <el-switch v-model="user.status" @change=updateUser(scope.row) />
@@ -56,7 +56,8 @@ const props = defineProps({
         required: true
     }
 })
-
+const editUserTitle = '编辑用户'
+const addUserTitle = '添加用户'
 const formRef = ref(null)
 const user = ref({
     ID: "",
@@ -69,7 +70,13 @@ const user = ref({
 })
 
 watch(() => props.dialogTableValue, () => (
-    user.value = props.dialogTableValue
+    user.value.ID = props.dialogTableValue.ID,
+    user.value.userName = props.dialogTableValue.UserName,
+    user.value.phoneNumber = props.dialogTableValue.PhoneNumber,
+    user.value.createdAt = props.dialogTableValue.CreatedAt,
+    user.value.password = props.dialogTableValue.Password,
+    user.value.userType = props.dialogTableValue.UserType,
+    user.value.status = props.dialogTableValue.Status
 ), { deep: true, immediate: true })
 
 watch(() => props.dialogUserType, () => (
@@ -105,10 +112,10 @@ const submitForm = async (formEl) => {
 
     await formEl.validate((valid, fields) => {
         if (valid) {
-            if (props.dialogTitle == "添加用户") {
+            if (props.dialogTitle == addUserTitle) {
                 register()
             }
-            else if (props.dialogTitle == "编辑用户") {
+            else if (props.dialogTitle == editUserTitle) {
                 updateUser()
             }
         } else {
