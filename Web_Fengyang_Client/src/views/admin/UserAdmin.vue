@@ -20,16 +20,14 @@
                 </el-table-column>
                 <el-table-column v-if="item.sortable == 'false'" :width="item.width" :prop="item.prop" :label="item.label">
                     <template v-if="item.prop == 'option'" #default="scope">
-                        <el-button type="primary" @click="showAddDialog(scope.row)">修改</el-button>
-                        <el-button type="primary" @click="deleteUser(scope.row)">删除</el-button>
+                        <el-button type="warning" @click="showAddDialog(scope.row)">修改</el-button>
+                        <el-button type="danger" @click="deleteUser(scope.row)">删除</el-button>
                     </template>
                     <template #default="scope">
                         <el-tag class="ml-2" v-if="item.prop == 'UserType'" type="success">{{ scope.row.UserType }}</el-tag>
                     </template>
                 </el-table-column>
-
             </template>
-
         </el-table>
         <el-pagination style="margin-top: 20px" background layout="prev, pager, next" :page-count="pageInfo.pageCount"
             @current-change="loadUsers" />
@@ -41,19 +39,25 @@ import { ref, onMounted, reactive } from 'vue'
 import { userConfig } from "../../config/adminConfig.json"
 import { ElMessageBox } from 'element-plus'
 import { userDelete, userUpdate, userListOut } from '../../api/user';
-
-
-import {
-    Search,
-} from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
+import userInfoDialog from "./components/userInfoDialog.vue"
 
 const route = useRoute()
-
-// 挂载页面时触发
-onMounted(() => {
-    pageInfo.userType = route.query.category
+const userList = ref([])
+const pageInfo = reactive({
+    pageNum: 1,
+    pageSize: 10,
+    pageCount: 0,
+    count: 0,
+    keyword: "",
+    sortKey: 'created_at desc',
+    userType: ''
 })
+const dialogTableValue = ref({})
+const dialogTitle = ref('')
+const dialogUserType = ref('')
+const showDialog = ref(false)
 
 const handleSortChange = (sort) => {
     // 处理排序逻辑...
@@ -79,35 +83,8 @@ const handleSortChange = (sort) => {
             pageInfo.sortKey = 'created_at desc'
             break
     }
-
     loadUsers()
 }
-
-// 4.设置路由守卫
-onBeforeRouteUpdate((to, from) => {
-    const fromCategory = from.query.category;
-    const toCategory = to.query.category;
-
-    if (fromCategory !== toCategory) {
-        pageInfo.userType = toCategory
-        loadUsers()
-    }
-});
-
-
-const userList = ref([])
-const pageInfo = reactive({
-    pageNum: 1,
-    pageSize: 10,
-    pageCount: 0,
-    count: 0,
-    keyword: "",
-    sortKey: 'created_at desc',
-    userType: ''
-})
-
-import userInfoDialog from "./components/userInfoDialog.vue"
-
 
 // 按条件加载文章列表
 const loadUsers = async (pageNum = 0) => {
@@ -124,12 +101,7 @@ const loadUsers = async (pageNum = 0) => {
     // console.log(userList.value)
 }
 
-const dialogTableValue = ref({})
-const dialogTitle = ref('')
-const dialogUserType = ref('')
-const showDialog = ref(false)
 const showAddDialog = (data) => {
-
     if (!data) {
         dialogTitle.value = "添加用户"
         dialogTableValue.value = {}
@@ -158,6 +130,21 @@ const deleteUser = async (data) => {
     }).catch()
 }
 
+// 挂载页面时触发
+onMounted(() => {
+    pageInfo.userType = route.query.category
+})
+
+// 4.设置路由守卫
+onBeforeRouteUpdate((to, from) => {
+    const fromCategory = from.query.category;
+    const toCategory = to.query.category;
+
+    if (fromCategory !== toCategory) {
+        pageInfo.userType = toCategory
+        loadUsers()
+    }
+})
 </script>
   
 <style scoped>

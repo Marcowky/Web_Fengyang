@@ -5,13 +5,11 @@
             <rich-text-editor v-if="loadOk" v-model:modelValue="updateArticle.content"></rich-text-editor>
         </div>
     </div>
-
     <!-- 功能栏 -->
     <el-menu class="choiceBar" @select="handleSelect">
         <el-menu-item style="color: #409EFF;" index="1">确认</el-menu-item>
         <el-menu-item style="color: #F56C6C;" index="2">取消</el-menu-item>
     </el-menu>
-
     <!-- 上传文章弹框 -->
     <el-dialog v-model="showModal" title="修改文章" width="25%" center>
         <!-- 无封面时 -->
@@ -56,25 +54,17 @@
 </template>
 
 <script setup>
-// icons
-import {
-    Delete,
-    UploadFilled
-} from '@element-plus/icons-vue'
-
+import { Delete, UploadFilled } from '@element-plus/icons-vue'// icons
 import { ref, reactive, inject, onMounted } from 'vue'
-// 富文本编辑器
-import RichTextEditor from '../../components/RichTextEditor.vue'
+import RichTextEditor from '../../components/RichTextEditor.vue' // 富文本编辑器
 import { imageUpload, imageDelete, imageCheck } from '../../api/image'
 import { articleDetail, articleUpdate } from '../../api/article'
-// 导入路由
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'// 导入路由
+import config from '../../config/config.json';
+
 const router = useRouter()
 const route = useRoute()
-
-// 网络请求
-const serverUrl = inject("serverUrl")
-// 变量初始化
+const serverUrl = inject("serverUrl") // 网络请求地址
 const loadOk = ref(false)
 const categoryOptions = ref([])
 const updateArticle = reactive({
@@ -90,15 +80,7 @@ const updateArticle = reactive({
 const showModal = ref(false)
 const newHeadImage = ref(true)
 
-// 挂载页面时触发
-onMounted(() => {
-    loadCategories()
-    loadArticle()
-})
-
-import config from '../../config/config.json';
-// 加载文章种类
-const loadCategories = async () => {
+const loadCategories = async () => { // 加载文章种类
     categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/blog').map((item) => {
         return {
             label: item.label,
@@ -107,9 +89,7 @@ const loadCategories = async () => {
     })
 }
 
-// 加载文章
-const loadArticle = async () => {
-
+const loadArticle = async () => { // 加载文章
     articleDetail('blogArticle', route.query.id).then(result => {
         if (result != null) {
             let label = categoryOptions.value.find((item) => item.value.endsWith(result.data.data.article.category_id)).label
@@ -122,22 +102,17 @@ const loadArticle = async () => {
             loadOk.value = true
         }
     })
-
 }
 
-// 显示发布弹窗
-const showModalModal = () => {
+const showModalModal = () => { // 显示发布弹窗
     showModal.value = true
 }
 
-
-// 关闭发布弹窗
-const closeSubmitModal = () => {
+const closeSubmitModal = () => { // 关闭发布弹窗
     showModal.value = false
 }
 
-// 上传封面
-const customRequest = async (file) => {
+const customRequest = async (file) => { // 上传封面
     imageUpload(file).then(result => {
         if (result != null) {
             updateArticle.headImage = result.data.data.filePath
@@ -145,9 +120,8 @@ const customRequest = async (file) => {
         }
     })
 }
-// 删除封面
-const deleteImage = async () => {
 
+const deleteImage = async () => { // 删除封面
     imageDelete(updateArticle.headImage).then(result => {
         if (result == null) {
             updateArticle.headImage = ""
@@ -156,15 +130,13 @@ const deleteImage = async () => {
     })
 }
 
-// 提交文章
-const submit = async () => {
+const submit = async () => { // 提交文章
     articleUpdate(updateArticle).then(result => {
         if (result == null) {
             router.go(-2)
         }
     })
 }
-
 
 const handleSelect = (index) => {
     switch (index) {
@@ -178,6 +150,12 @@ const handleSelect = (index) => {
             break;
     }
 }
+
+onMounted(() => { // 挂载页面时触发
+    loadCategories()
+    loadArticle()
+})
+
 </script>
 
 <style lang="scss" scoped>
@@ -194,7 +172,6 @@ const handleSelect = (index) => {
     border-radius: 10px;
     z-index: 99;
 }
-
 
 .other-box {
     display: flex;

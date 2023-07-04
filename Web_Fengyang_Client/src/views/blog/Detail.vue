@@ -37,32 +37,21 @@
 </template>
 
 <script setup>
-import { ref, inject, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { userInfo, userBriefInfo } from '../../api/user';
 import { articleDelete, articleDetail } from '../../api/article'
-// 导入路由
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router' // 导入路由
+import { ElMessageBox } from 'element-plus'
+import config from '../../config/config.json';
+
 const router = useRouter()
 const route = useRoute()
-
-// 网络请求
-const axios = inject("axios")
-import { ElMessageBox } from 'element-plus'
-
-// 定义变量
 const articleInfo = ref({})
 const categoryName = ref("")
 const user = ref({})
 const self = ref(false)
 const activeIndex = ref('0')
 
-// 挂载页面时触发
-onMounted(() => {
-    loadArticle()
-    loadCategories()
-})
-
-import config from '../../config/config.json';
 // 加载文章种类
 const categoryOptions = ref([])
 const loadCategories = async () => {
@@ -76,28 +65,26 @@ const loadCategories = async () => {
 
 // 加载文章
 const loadArticle = async () => {
-
     articleDetail('blogArticle', route.query.id).then(result => {
         if (result != null) {
             articleInfo.value = result.data.data.article
-            // 获取分类
-            let label = categoryOptions.value.find((item) => item.value.endsWith(result.data.data.article.category_id)).label
+            let label = categoryOptions.value.find((item) => item.value.endsWith(result.data.data.article.category_id)).label// 获取分类
             categoryName.value = label
+            getUserInfo()
+        }
+    })
+}
 
-            // 获取作者信息
-            userBriefInfo(articleInfo.value.user_id).then(result => {
-                if (result != null) articleInfo.value.username = result.data.data.userName
-            })
-
-            // 获取用户信息，判断用户是否是作者
-            userInfo().then(result => {
-                if (result != null) {
-                    user.value = result.data.data
-                    if (user.value.id == articleInfo.value.user_id) {
-                        self.value = true
-                    }
-                }
-            })
+const getUserInfo = async () => {
+    userBriefInfo(articleInfo.value.user_id).then(result => {// 获取作者信息
+        if (result != null) articleInfo.value.username = result.data.data.userName
+    })
+    userInfo().then(result => {// 获取用户信息，判断用户是否是作者
+        if (result != null) {
+            user.value = result.data.data
+            if (user.value.id == articleInfo.value.user_id) {
+                self.value = true
+            }
         }
     })
 }
@@ -113,8 +100,7 @@ const toUpdate = () => {
 }
 
 // 删除文章
-const toDelete = async (blog) => {
-
+const toDelete = async () => {
     ElMessageBox.confirm(
         '是否要删除?',
         '警告',
@@ -134,9 +120,7 @@ const toDelete = async (blog) => {
         .catch()
 }
 
-
 const handleSelect = (index) => {
-
     switch (index) {
         case "1":
             router.go(-1)
@@ -151,6 +135,12 @@ const handleSelect = (index) => {
             break;
     }
 }
+
+// 挂载页面时触发
+onMounted(() => {
+    loadArticle()
+    loadCategories()
+})
 
 </script>
 

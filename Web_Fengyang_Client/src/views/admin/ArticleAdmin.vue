@@ -11,8 +11,6 @@
                 <el-button v-if="showButton" @click="toPublish()"> 发布 </el-button>
                 <el-button v-else @click="showAddDialog()"> 发布 </el-button>
             </div>
-
-
         </el-row>
         <el-table ref="tableRef" :data="articleList" style="width: 100%; margin-top: 20px" stripe
             @sort-change="handleSortChange">
@@ -33,9 +31,9 @@
                 <el-table-column v-if="item.label != 'id' && item.sortable == 'false'" :width="item.width" :prop="item.prop"
                     :label="item.label">
                     <template v-if="item.prop == 'option'" #default="scope">
-                        <el-button v-if="showButton" type="primary" @click="toUpdate(scope.row)">修改</el-button>
-                        <el-button v-else type="primary" @click="showAddDialog(scope.row)">修改</el-button>
-                        <el-button type="primary" @click="deleteArticle(scope.row)">删除</el-button>
+                        <el-button v-if="showButton" type="warning" @click="toUpdate(scope.row)">修改</el-button>
+                        <el-button v-else type="warning" @click="showAddDialog(scope.row)">修改</el-button>
+                        <el-button type="danger" @click="deleteArticle(scope.row)">删除</el-button>
                     </template>
 
                 </el-table-column>
@@ -53,9 +51,7 @@ import config from "../../config/config.json"
 import { ElMessageBox } from 'element-plus'
 import hotelInfoDialog from "./components/hotelInfoDialog.vue"
 import { articleDelete } from '../../api/article'
-import {
-    Search,
-} from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 import { articleListOut } from '../../api/article'
 
@@ -66,13 +62,7 @@ const showButton = ref()
 const dialogTitle = ref('')
 const dialogTableValue = ref('')
 const showDialog = ref(false)
-// 挂载页面时触发
-onMounted(() => {
-    pageInfo.pageArticleType = route.query.category
-    showAdd.value = (pageInfo.pageArticleType != 'blogarticle')
-    showButton.value = (pageInfo.pageArticleType != 'hotelarticle')
-    loadArticles()
-})
+
 // 这里是酒店增/改弹窗的触发函数,向dialogTablieValue注入值,并通过组件之间的传参给dialog
 const showAddDialog = (data = false) => {
     if (!data) {
@@ -88,7 +78,6 @@ const showAddDialog = (data = false) => {
 }
 
 const handleSortChange = (sort) => {
-
     // 处理排序逻辑...
     switch (sort.prop) {
         case 'user_id':
@@ -115,7 +104,6 @@ const handleSortChange = (sort) => {
             pageInfo.sortKey = 'created_at desc'
             break
     }
-
     loadArticles()
 }
 
@@ -128,7 +116,6 @@ onBeforeRouteUpdate((to, from) => {
         pageInfo.pageArticleType = toCategory
         showButton.value = (pageInfo.pageArticleType !== 'hotelarticle')
         showAdd.value = (pageInfo.pageArticleType != 'blogarticle')
-
         loadArticles()
     }
 });
@@ -205,7 +192,6 @@ const toUpdate = (data) => {
 }
 
 const deleteArticle = async (data) => {
-
     ElMessageBox.confirm(
         '是否要删除?',
         '警告',
@@ -225,6 +211,14 @@ const deleteArticle = async (data) => {
         .catch()
 
 }
+
+// 挂载页面时触发
+onMounted(() => {
+    pageInfo.pageArticleType = route.query.category
+    showAdd.value = (pageInfo.pageArticleType != 'blogarticle')
+    showButton.value = (pageInfo.pageArticleType != 'hotelarticle')
+    loadArticles()
+})
 </script>
 
 <style scoped>
