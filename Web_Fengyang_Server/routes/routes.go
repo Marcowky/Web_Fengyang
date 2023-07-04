@@ -2,7 +2,7 @@ package routes
 
 import (
 	"Web_Fengyang_Server/controller"
-	"Web_Fengyang_Server/middleware"
+	"Web_Fengyang_Server/routes/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,8 +28,8 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 		userRoutes.POST("login", userController.Login)                                // 登录
 		userRoutes.GET("info", middleware.AuthMiddleware(), userController.GetMyInfo) // 获取当前用户信息
 		userRoutes.GET("briefInfo", userController.GetBriefInfo)                      // 获取文章作者简要信息
-		userRoutes.PUT("delete", userController.Delete)                            // 
-		userRoutes.PUT("update", userController.Update)                               // 删除
+		userRoutes.PUT("delete", userController.Delete)                               // 删除用户
+		userRoutes.PUT("update", userController.Update)                               // 更新用户信息
 		userRoutes.GET("list", userController.List)                                   // 获取用户列表
 	}
 
@@ -42,9 +42,6 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 		articleRoutes.DELETE("delete", middleware.AuthMiddleware(), articleController.Delete) // 删除文章
 		articleRoutes.GET("detail", articleController.Show)                                   // 查看文章
 		articleRoutes.GET("list", articleController.List)                                     // 显示文章列表
-		// articleRoutes.GET("category", articleController.SearchCategory)                    // 查询分类
-		// articleRoutes.GET("category/:id", articleController.SearchCategoryName)            // 查询分类名
-
 	}
 
 	return r

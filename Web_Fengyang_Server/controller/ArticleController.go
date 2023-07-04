@@ -21,9 +21,6 @@ type IArticleController interface {
 	Delete(c *gin.Context)
 	Show(c *gin.Context)
 	List(c *gin.Context)
-
-	// SearchCategory(c *gin.Context)
-	// SearchCategoryName(c *gin.Context)
 }
 
 func (a ArticleController) Create(c *gin.Context) {
@@ -143,7 +140,7 @@ func (a ArticleController) List(c *gin.Context) {
 	categoryId := c.DefaultQuery("categoryId", "0")
 	order := c.DefaultQuery("order", "created_at desc")
 	pageNum, _ := strconv.Atoi(c.DefaultQuery("pageNum", "1"))
-	pageSize, _ := strconv.Atoi(c.DefaultQuery("pageSize", "5"))
+	pageSize, _ := strconv.Atoi(c.DefaultQuery("pageSize", "100"))
 	var query []string
 	var args []string
 	// 若关键词存在
@@ -184,7 +181,7 @@ func (a ArticleController) List(c *gin.Context) {
 	for i := 0; i < len(article); i++ {
 		article[i].Content = regexp.MustCompile("<.*?>").ReplaceAllString(article[i].Content, "")
 		runes := []rune(article[i].Content)
-		if len(runes) > 20 {
+		if len(runes) > 80 {
 			article[i].Content = string(runes[:80])
 		}
 	}

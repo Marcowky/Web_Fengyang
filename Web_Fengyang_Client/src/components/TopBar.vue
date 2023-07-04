@@ -1,7 +1,7 @@
 <template>
     <div class="top-rectangle"></div>
     <el-menu class="topbar" router :default-active="this.$route.fullPath" mode="horizontal" :ellipsis="false">
-        <el-menu-item style="position: absolute; left: 0px;" index="0">四色丰阳</el-menu-item>
+        <el-menu-item style="position: absolute; left: 10px; height: 53px;" index="0"><el-image style="width: 180px; height: auto;" src="/title.jpg"/></el-menu-item>
         <div class="弹性盒子" :style="{ flexGrow: 1 }" />
         <template v-for="item in menuItems">
             <template v-if="item.mainMenu === 'noSub'">
