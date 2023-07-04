@@ -1,15 +1,16 @@
 <template>
   <div style="border: 1px solid #ccc;">
     <Toolbar :editor="editorRef" :defaultConfig="toolbarConfig" :mode="mode" style="border-bottom: 1px solid #ccc" />
-    <Editor :defaultConfig="editorConfig" :mode="mode" v-model="valueHtml" style="height: 600px; overflow-y: hidden"
+    <Editor :defaultConfig="editorConfig" :mode="mode" v-model="valueHtml" style="height: 630px; overflow-y: hidden"
       @onCreated="handleCreated" @onChange="handleChange" />
   </div>
 </template>
   
 <script setup>
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
-import { ref, reactive, inject, onMounted, onBeforeUnmount, shallowRef } from 'vue'
+import { ref, inject, onMounted, onBeforeUnmount, shallowRef } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { showMessage } from '../components/Message.js'
 
 // 服务端地址
 const serverUrl = inject("serverUrl")
@@ -27,8 +28,18 @@ const editorConfig = { placeholder: '请输入内容...', MENU_CONF: {} };
 // 上传图片
 editorConfig.MENU_CONF = {}
 editorConfig.MENU_CONF['uploadImage'] = {
-  // 小于该值就插入 base64 格式（而不上传），默认为 0
-  base64LimitSize: 10 * 1024, // 10kb
+  maxFileSize: 1024 * 1024 * 1024, // 取消原先的文件限制
+  // 自定义文件限制函数
+  onBeforeUpload(file) { 
+    console.log(Object.keys(file))
+    if (file[Object.keys(file)[Object.keys(file).length-1]].size >= 2 * 1024 * 1024) {
+      showMessage("图片不能超过2M", 'warning')
+      return false
+    }
+    else {
+      return file
+    }
+  },
   server: serverUrl + "/image/upload/rich_editor_upload",
 }
 // 插入图片

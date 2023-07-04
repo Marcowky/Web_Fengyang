@@ -1,31 +1,41 @@
 <template>
+    <hotelInfoDialog v-model="showDialog" :dialogTitle="dialogTitle" v-if="showDialog" @updateHotelsList="loadArticles"
+        :dialogTableValue="dialogTableValue" />
     <el-card class="mainTable">
         <el-row :gutter="20">
             <el-col :span="7">
-                <el-input placeholder="请输入关键词" clearable v-model="pageInfo.keyword"></el-input>
+                <el-input :input="loadArticles()" placeholder="请输入关键词" clearable v-model="pageInfo.keyword"
+                    :prefix-icon="Search"></el-input>
             </el-col>
-            <el-button :icon="Search" @click="loadArticles"> 搜索 </el-button>
-            <el-button @click="toPublish()" v-if="showAdd"> 发布 </el-button>
+            <div v-if="showAdd">
+                <el-button v-if="showButton" @click="toPublish()"> 发布 </el-button>
+                <el-button v-else @click="showAddDialog()"> 发布 </el-button>
+            </div>
         </el-row>
         <el-table ref="tableRef" :data="articleList" style="width: 100%; margin-top: 20px" stripe
             @sort-change="handleSortChange">
             <template v-for="item in articleConfig">
-                <el-table-column v-if="item.label!='id' && item.sortable == 'true'" sortable="custom" :width="item.width" :prop="item.prop"
-                    :label="item.label">
+                <el-table-column v-if="item.label != 'id' && item.sortable == 'true'" sortable="custom" :width="item.width"
+                    :prop="item.prop" :label="item.label">
                     <template v-if="item.prop == 'head_image'" #default="scope">
-                        <el-tag class="ml-2" v-if="scope.row.head_image!=''" :type="getColor(scope.row.head_image=='')">有</el-tag>
-                        <el-tag class="ml-2" v-if="scope.row.head_image==''" :type="getColor(scope.row.head_image=='')">无</el-tag>
+                        <el-tag class="ml-2" v-if="scope.row.head_image != ''"
+                            :type="getColor(scope.row.head_image == '')">有</el-tag>
+                        <el-tag class="ml-2" v-if="scope.row.head_image == ''"
+                            :type="getColor(scope.row.head_image == '')">无</el-tag>
                     </template>
                     <template v-if="item.prop == 'category_id'" #default="scope">
-                        <el-tag class="ml-2" :type="getColor(scope.row.category_id)">{{ getCategoryName(scope.row.category_id) }}</el-tag>
+                        <el-tag class="ml-2" :type="getColor(scope.row.category_id)">{{
+                            getCategoryName(scope.row.category_id) }}</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column v-if="item.label!='id' && item.sortable == 'false'" :width="item.width" :prop="item.prop" :label="item.label">
+                <el-table-column v-if="item.label != 'id' && item.sortable == 'false'" :width="item.width" :prop="item.prop"
+                    :label="item.label">
                     <template v-if="item.prop == 'option'" #default="scope">
-                        <el-button type="primary" @click="toUpdate(scope.row)">修改</el-button>
-                        <el-button type="primary" @click="deleteArticle(scope.row)">删除</el-button>
+                        <el-button v-if="showButton" type="warning" @click="toUpdate(scope.row)">修改</el-button>
+                        <el-button v-else type="warning" @click="showAddDialog(scope.row)">修改</el-button>
+                        <el-button type="danger" @click="deleteArticle(scope.row)">删除</el-button>
                     </template>
-                    
+
                 </el-table-column>
             </template>
         </el-table>
@@ -35,32 +45,39 @@
 </template>
   
 <script  setup>
-import { ref, inject, onMounted, reactive } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 import { articleConfig } from "../../config/adminConfig.json"
 import config from "../../config/config.json"
-import { ElMessage, ElMessageBox } from 'element-plus'
-
-const axios = inject("axios")
-import {
-    Search,
-} from '@element-plus/icons-vue'
+import { ElMessageBox } from 'element-plus'
+import hotelInfoDialog from "./components/hotelInfoDialog.vue"
+import { articleDelete } from '../../api/article'
+import { Search } from '@element-plus/icons-vue'
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
-const pageArticleType = ref('')
+import { articleListOut } from '../../api/article'
+
 const router = useRouter()
 const route = useRoute()
 const showAdd = ref()
+const showButton = ref()
+const dialogTitle = ref('')
+const dialogTableValue = ref('')
+const showDialog = ref(false)
 
-// 挂载页面时触发
-onMounted(() => {
-    pageArticleType.value = route.query.category;
-    // console.log(pageArticleType.value=='blogarticle')
-    showAdd.value=(pageArticleType.value!='blogarticle')
-    loadArticles()
-})
+// 这里是酒店增/改弹窗的触发函数,向dialogTablieValue注入值,并通过组件之间的传参给dialog
+const showAddDialog = (data = false) => {
+    if (!data) {
+        dialogTitle.value = "添加酒店信息"
+        console.log("Here")
+        dialogTableValue.value = { "test": 111 }
+    }
+    else {
+        dialogTitle.value = "编辑酒店信息"
+        dialogTableValue.value = JSON.parse(JSON.stringify(data))
+    }
+    showDialog.value = true
+}
 
 const handleSortChange = (sort) => {
-    // console.log('当前排序字段：', sort.prop);
-    // console.log('当前排序方式：', sort.order);
     // 处理排序逻辑...
     switch (sort.prop) {
         case 'user_id':
@@ -87,8 +104,6 @@ const handleSortChange = (sort) => {
             pageInfo.sortKey = 'created_at desc'
             break
     }
-    // pageInfo.sortKey=sort.prop+' '+sort.order
-    // console.log('当前排序query：', pageInfo.sortKey);
     loadArticles()
 }
 
@@ -98,8 +113,9 @@ onBeforeRouteUpdate((to, from) => {
     const toCategory = to.query.category;
 
     if (fromCategory !== toCategory) {
-        pageArticleType.value = toCategory
-        showAdd.value=(pageArticleType.value!='blogarticle')
+        pageInfo.pageArticleType = toCategory
+        showButton.value = (pageInfo.pageArticleType !== 'hotelarticle')
+        showAdd.value = (pageInfo.pageArticleType != 'blogarticle')
         loadArticles()
     }
 });
@@ -113,15 +129,19 @@ const pageInfo = reactive({
     count: 0,
     keyword: "",
     sortKey: 'created_at desc',
-    categoryId: ""
+    categoryId: "",
+    pageArticleType: ""
 })
 
 const getCategoryName = (categoryId) => {
-    return config.menuItems.find(item => item.mainMenu=='/'+pageArticleType.value.substring(0, pageArticleType.value.length - 7) && item.index == categoryId).label
+    if (pageInfo.pageArticleType != 'hotelarticle') {
+        return config.menuItems.find(item => item.mainMenu == '/' + pageInfo.pageArticleType.substring(0, pageInfo.pageArticleType.length - 7) && item.index == categoryId).label
+    }
+    return "酒店记录"
 }
 
 const getColor = (categoryId) => {
-    switch(categoryId){
+    switch (categoryId) {
         case 1: return "success"
         case 2: return "primary"
         case 3: return "warning"
@@ -141,21 +161,22 @@ const loadArticles = async (pageNum = 0) => {
     if (pageInfo.categoryId == "") {
         pageInfo.categoryId = 0
     }
-    let res = await axios.get(`/article/list?articleType=${pageArticleType.value}&keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${pageInfo.categoryId}&order=${pageInfo.sortKey}`)
-    if (res.data.code == 200) {
-        articleList.value = res.data.data.article
-        // console.log(articleList)
-    }
-    pageInfo.count = res.data.data.count;
-    pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
-    console.log(articleList.value)
+
+    articleListOut(pageInfo).then(result => {
+        if (result != null) {
+            articleList.value = result.data.data.article
+            pageInfo.count = result.data.data.count;
+            pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
+        }
+    })
+
 }
 
 const toPublish = () => {
     router.push({
         path: "/admin/article/publish",
         query: {
-            category: pageArticleType.value
+            category: pageInfo.pageArticleType
         }
     })
 }
@@ -164,15 +185,13 @@ const toUpdate = (data) => {
     router.push({
         path: "/admin/article/update",
         query: {
-            category: pageArticleType.value,
+            category: pageInfo.pageArticleType,
             id: data.id
         }
     })
 }
 
-
 const deleteArticle = async (data) => {
-
     ElMessageBox.confirm(
         '是否要删除?',
         '警告',
@@ -183,48 +202,23 @@ const deleteArticle = async (data) => {
         }
     )
         .then(async () => {
-            let res = await axios.delete(`article/delete?articleType=${pageArticleType.value}&id=${data.id}`)
-            if (res.data.code == 200) {
-                ElMessage({
-                    message: res.data.msg,
-                    offset: 80
-                })
-                loadArticles()
-            } else {
-                ElMessage({
-                    message: res.data.msg,
-                    type: 'error',
-                    offset: 80
-                })
-            }
+            articleDelete(pageInfo.pageArticleType, data.id).then(result => {
+                if (result == null) {
+                    loadArticles()
+                }
+            })
         })
         .catch()
 
 }
 
-const updateArticle = async (updateUserInfo) => {
-    console.log(updateUserInfo.userType)
-    let res = await axios.put("/user/update", {
-        ID: updateUserInfo.ID,
-        UserName: updateUserInfo.UserName,
-        PhoneNumber: updateUserInfo.PhoneNumber,
-        userType: updateUserInfo.UserType,
-        Status: updateUserInfo.Status
-    })
-    if (res.data.code == 200) {
-        ElMessage({
-            message: res.data.msg,
-            type: 'success',
-            offset: 80
-        })
-    } else {
-        ElMessage({
-            message: res.data.msg,
-            type: 'error',
-            offset: 80
-        })
-    }
-}
+// 挂载页面时触发
+onMounted(() => {
+    pageInfo.pageArticleType = route.query.category
+    showAdd.value = (pageInfo.pageArticleType != 'blogarticle')
+    showButton.value = (pageInfo.pageArticleType != 'hotelarticle')
+    loadArticles()
+})
 </script>
 
 <style scoped>

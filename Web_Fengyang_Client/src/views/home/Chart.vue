@@ -38,7 +38,6 @@ export default {
   data() {
     return {
       modules: [ Pagination, Autoplay, Navigation ], 
-      topbarHeight: 60,
     }
   }
 }

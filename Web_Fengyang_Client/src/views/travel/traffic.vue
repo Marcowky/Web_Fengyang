@@ -27,7 +27,8 @@
   <div id="wrap">
     <h2 class="title"> 公路交通</h2>
     <div class="passage_content">目前乘坐大巴可以选择连州、韶关、郴州三个市区选择大巴前往丰阳镇，请根据出发地及时间，择优选择乘车地点
-    <div class="passage_content">值得一提的是，如果您想通过自驾游前往丰阳镇，请您点击这里，我们为您规划路线</div></div>
+    <div class="passage_content">值得一提的是，如果您想通过自驾游前往丰阳镇，请您点击 <el-button type="success" @click="directToFengYang" round>这里</el-button> ,我们为您规划路线</div></div>
+
     <div class="subtitle">连州方向</div>
     <div class="traffic_wrap_detail">
       <div class="traffic_wrap">
@@ -62,7 +63,15 @@
 
 </template>
 <script setup>
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+
+const directToFengYang = () => {
+  router.push({
+    path: '/hotel',
+  });
+};
 </script>
 
 
