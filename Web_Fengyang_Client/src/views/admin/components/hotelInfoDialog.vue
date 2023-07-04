@@ -16,8 +16,10 @@
       <el-form-item label="网站" prop="website">
         <el-input v-model="hotel.website" />
       </el-form-item>
-      <el-form-item label="经纬度" prop="center"  >
+      <el-form-item label="东经" prop="center"  >
         <el-input v-model="hotel.center[0]" />
+      </el-form-item>
+      <el-form-item label="北纬" prop="center"  >
         <el-input v-model="hotel.center[1]" />
       </el-form-item>
       <el-form-item label="地址" prop="placeAddress">
@@ -61,12 +63,12 @@ const hotel = ref({
   placeAddress:""
 })
 const gethotaldetail =(rowtitle,content,image,id)=> {
-  var priceMatch = content.match(/price: (.*?)(\n|$)/)
-  var websiteMatch = content.match(/website: "(.*?)"(\n|$)/)
-  var centerMatch = content.match(/center: \[(.*?)\](\n|$)/)
-  var telephoneMatch = content.match(/telephone: (.*?)(\n|$)/)
-  var titleMatch = rowtitle.match(/(.*) "/)
-  var placeAddressMatch = rowtitle.match(/\"([^"]+)\"/)
+  var priceMatch = content.match(/price: (.*?)##/);
+  var websiteMatch = content.match(/website: "(.*?)"##/);
+  var centerMatch = content.match(/center: \[(.*?)\]/);
+  var telephoneMatch = content.match(/telephone: (.*?)##/);
+  var titleMatch = rowtitle.match(/(.*) "/);
+  var placeAddressMatch = rowtitle.match(/\"([^"]+)\"/);
   // 获取匹配结果中的值
   hotel.value.price = priceMatch ? parseInt(priceMatch[1]) : null
   hotel.value.website = websiteMatch ? websiteMatch[1] : null
@@ -113,7 +115,7 @@ const rules = reactive({
 
 const submitForm = async (formEl) => {
   const new_title=`${hotel.value.name} "${hotel.value.placeAddress}"`
-  const new_content=`price: ${hotel.value.price}\ntelephone: ${hotel.value.telephone}\nwebsite: "${hotel.value.website}"\ncenter: [${hotel.value.center[0]}, ${hotel.value.center[1]}]`
+  const new_content=`price: ${hotel.value.price}##telephone: ${hotel.value.telephone}##website: "${hotel.value.website}"##center: [${hotel.value.center[0]}, ${hotel.value.center[1]}]`
   // 验证表单
   const valid = await formEl.validate()
   if (valid) {
