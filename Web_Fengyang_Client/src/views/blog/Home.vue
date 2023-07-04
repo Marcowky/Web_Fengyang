@@ -11,7 +11,6 @@
     </div>
     <!-- 搜索栏 -->
     <el-input class="searchButton" v-model="pageInfo.keyword" placeholder="请输入关键字" clearable :prefix-icon="Search" />
-
     <!-- 文章列表 -->
     <div class="content">
         <!-- 文章卡片 -->
@@ -22,7 +21,6 @@
                     :src="serverUrl + article.head_image" />
                 <div style="position: relative; height: 150px;">
                     <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
-                    <!-- <div v-html="article.content"></div> -->
                     <text>{{ article.content }}...</text>
                     <div style=" position: absolute; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
                 </div>
@@ -45,20 +43,15 @@
 <script setup>
 import { ref, reactive, inject, onMounted, watch } from 'vue'
 import { userInfo } from '../../api/user';
-// icons
-import {
-    Search
-} from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'// icons
+import { useRouter, onBeforeRouteUpdate } from 'vue-router'// 导入路由
+import { articleListOut } from '../../api/article'
+import SideBar from "../../components/SideBar.vue" // 1.导入侧边栏
+import config from '../../config/config.json' // 2.导入菜单选项配置文件
+import LoginDialog from '../../components/LoginAndRegister.vue' // 导入登录注册弹框
 
-// 导入路由
-import { useRouter, onBeforeRouteUpdate } from 'vue-router'
+const serverUrl = inject("serverUrl")// 网络请求
 const router = useRouter()
-import {articleListOut} from '../../api/article'
-// 网络请求
-const serverUrl = inject("serverUrl")
-
-
-// 变量初始化
 const articleList = ref([])
 const pageInfo = reactive({
     pageNum: 1,
@@ -70,31 +63,8 @@ const pageInfo = reactive({
     pageArticleType: "blogArticle"
 })
 const activeIndex = ref('0')
-
-// 页面中侧边栏与导航栏的设置
-// 1.导入侧边栏
-import SideBar from "../../components/SideBar.vue"
-// 2.导入菜单选项配置文件
-import config from '../../config/config.json';
-// 3.设置侧边栏目录项
-const menuItems = config.menuItems.filter(item => item.mainMenu == "/blog");
-// 4.设置路由守卫
-onBeforeRouteUpdate((to, from) => {
-    const fromCategory = from.query.category;
-    const toCategory = to.query.category;
-
-    if (fromCategory !== toCategory) {
-        pageInfo.categoryId = to.query.category // 设置文章种类
-        loadArticles(0) // 加载文章
-    }
-});
-
-
-// 挂载页面时触发
-onMounted(() => {
-
-    loadArticles()
-})
+const menuItems = config.menuItems.filter(item => item.mainMenu == "/blog"); // 设置侧边栏目录项
+const loginDialogRef = ref(null)
 
 // 按条件加载文章列表
 const loadArticles = async (pageNum = 0) => {
@@ -111,10 +81,6 @@ const loadArticles = async (pageNum = 0) => {
     })
 }
 
-// 导入登录注册弹框
-import LoginDialog from '../../components/LoginAndRegister.vue'
-const loginDialogRef = ref(null)
-
 const goPublish = async () => {
     userInfo().then(result => {
         if (result != null) {
@@ -126,8 +92,8 @@ const goPublish = async () => {
     })
 }
 
-// 前往详情页
-const toDetail = (article) => {
+
+const toDetail = (article) => { // 前往详情页
     router.push({
         path: "/blog/detail",
         query: {
@@ -136,7 +102,23 @@ const toDetail = (article) => {
     })
 }
 
-watch(() => pageInfo.keyword, () => (
+onBeforeRouteUpdate((to, from) => { // 设置路由守卫,文章种类改变时重新加载文章
+    const fromCategory = from.query.category;
+    const toCategory = to.query.category;
+
+    if (fromCategory !== toCategory) {
+        pageInfo.categoryId = to.query.category // 设置文章种类
+        loadArticles(0) // 加载文章
+    }
+});
+
+
+
+onMounted(() => { // 挂载页面时加载文章
+    loadArticles()
+})
+
+watch(() => pageInfo.keyword, () => ( // 搜索关键词改变时加载文章
     loadArticles()
 ), { deep: true, immediate: true })
 

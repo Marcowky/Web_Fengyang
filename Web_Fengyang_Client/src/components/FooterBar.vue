@@ -25,7 +25,7 @@
             </el-col>
           </el-row>
         </div>
-        <!-- <el-divider class="divider_style" /> -->
+        <el-divider class="divider_style" />
         <ul class="footer-nav">
           <template v-for="item in menuItems">
             <div v-if="!item.mainMenu.includes('/')">
@@ -204,7 +204,6 @@ onMounted(() => {
 .footer-container {
   position: static;
   padding: 10px 90px;
-  margin: 10px auto;
 }
 
 .divider_style {

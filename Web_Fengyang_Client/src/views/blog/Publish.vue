@@ -5,13 +5,11 @@
             <rich-text-editor v-model:modelValue="addArticle.content"></rich-text-editor>
         </div>
     </div>
-
     <!-- 功能栏 -->
     <el-menu class="choiceBar" @select="handleSelect">
         <el-menu-item style="color: #409EFF;" index="1">发布</el-menu-item>
         <el-menu-item style="color: #F56C6C;" index="2">取消</el-menu-item>
     </el-menu>
-
     <!-- 上传文章弹框 -->
     <el-dialog v-model="showModal" title="上传文章" width="25%" center>
         <!-- 无封面时 -->
@@ -53,37 +51,16 @@
 </template>
 
 <script setup>
-
-
-// ref：创建一个响应式的引用对象，用于包装一个简单数据类型的值。
-// reactive：创建一个响应式的对象，用于包装一个复杂数据类型的值，如对象或数组。
-// inject：从祖先组件提供的provide注入一个依赖项，使得当前组件可以访问它。
-// onMounted：在组件加载完毕后立即执行一个函数。
 import { ref, reactive, inject, onMounted } from 'vue'
-
-// 导入富文本编辑器
-import RichTextEditor from '../../components/RichTextEditor.vue'
-
-// icons
-import {
-    Delete,
-    UploadFilled
-} from '@element-plus/icons-vue'
-
-// 导入路由
-import { useRouter } from 'vue-router'
-const router = useRouter()
-
-import { imageUpload, imageDelete, imageCheck } from '../../api/image'
-
-// 这也是在Vue.js 3中使用的代码，它使用了inject函数来获取从祖先组件中通过provide提供的三个依赖项。
-// serverUrl：这是一个服务器地址的字符串，用于向该地址发送HTTP请求。该值是通过在某个祖先组件中使用provide("serverUrl", serverUrl)提供的。在当前组件中，我们可以使用inject("serverUrl")来访问它。
-// axios：这是一个类似于fetch的HTTP客户端工具，用于发送HTTP请求。同样地，这个值也是通过在祖先组件中使用provide("axios", axios)提供的。
-// message：这是用于显示用户友好的消息的工具。在祖先组件中，我们可以使用provide("message", message)提供这个值，并在当前组件中使用inject("message")来访问它。
-// 通过使用inject和provide，我们可以轻松地实现依赖注入，同时避免了深度嵌套的属性访问和传递。
-const serverUrl = inject("serverUrl")
+import RichTextEditor from '../../components/RichTextEditor.vue' // 导入富文本编辑器
+import { Delete, UploadFilled } from '@element-plus/icons-vue' // icons
 import { articlePost } from '../../api/article'
+import { useRouter } from 'vue-router' // 导入路由
+import { imageUpload, imageDelete, imageCheck } from '../../api/image'
+import config from '../../config/config.json';
 
+const router = useRouter()
+const serverUrl = inject("serverUrl")
 const categoryOptions = ref([])// 分类列表选项
 const addArticle = reactive({// 待发布的文章对象
     id: 0,
@@ -93,14 +70,9 @@ const addArticle = reactive({// 待发布的文章对象
     headImage: "",
     articleType: 'blogArticle'
 })
+const newHeadImage = ref(false)
+const showModal = ref(false) // 控制发布文章时弹窗的显示与隐藏
 
-
-onMounted(() => {
-    loadCategories()
-})
-
-
-import config from '../../config/config.json';
 // 加载文章种类
 const loadCategories = async () => {
     categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/blog').map((item) => {
@@ -111,8 +83,6 @@ const loadCategories = async () => {
     })
 }
 
-// 控制发布文章时弹窗的显示与隐藏
-const showModal = ref(false) // 响应式变量，常用于管理Vue.js组件中的状态和显示/隐藏逻辑，例如用于显示或隐藏模态框或图片上传框等
 const showModalModal = () => {
     showModal.value = true
 }
@@ -120,8 +90,6 @@ const closeSubmitModal = () => {
     showModal.value = false
 }
 
-// 控制文章头图
-const newHeadImage = ref(false)
 const customRequest = async (file) => {
     imageUpload(file).then(result => {
         if (result != null) {
@@ -130,7 +98,6 @@ const customRequest = async (file) => {
         }
     })
 }
-
 
 const deleteImage = async () => {
     imageDelete(addArticle.headImage).then(result => {
@@ -141,8 +108,7 @@ const deleteImage = async () => {
     })
 }
 
-// 上传文章
-const submit = async () => {
+const submit = async () => { // 上传文章
     articlePost(addArticle).then(result => {
         if (result == null) {
             router.go(-1)
@@ -156,12 +122,17 @@ const handleSelect = (index) => {
             showModalModal()
             break;
         case "2":
-        router.go(-1)
+            router.go(-1)
             break;
         default:
             break;
     }
 }
+
+onMounted(() => {
+    loadCategories()
+})
+
 </script>
 
 <style lang="scss" scoped>
