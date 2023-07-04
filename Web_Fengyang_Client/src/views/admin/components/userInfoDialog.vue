@@ -1,5 +1,5 @@
 <template>
-    <el-dialog model-value="showModal" :title="dialogTitle" width="30%" show-close=false @closed='handleClose' center>
+    <el-dialog model-value="showModal" :title="dialogTitle" width="25%" show-close=false @closed='handleClose' center>
 
         <el-form ref="formRef" :rules="rules" :model="user" label-width="100px" :label-position="labelPosition"
             style="min-width: 250px; padding-right: 40px;">
@@ -18,18 +18,29 @@
             <el-form-item label="创建时间" prop="createdAt" v-if="dialogTitle == editUserTitle">
                 <el-input v-model="user.createdAt" disabled />
             </el-form-item>
-            <el-form-item label="用户类型" prop="userType">
-                <el-tag class="ml-2" type="success">{{ user.userType }}</el-tag>
-            </el-form-item>
-            <el-form-item label="状态" prop="status">
-                <el-switch v-model="user.status" @change=updateUser(scope.row) />
-            </el-form-item>
+            <el-row>
+                <el-col :span="11" style="padding-left: 15px;">
+                    <el-form-item label="用户类型" prop="userType">
+                        <el-tag class="ml-2" type="success">{{ user.userType }}</el-tag>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="状态" prop="status">
+                        <el-switch v-model="user.status" @change="updateUser(scope.row)" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
         </el-form>
 
-        <el-button @click="submitForm(formRef)" class="button3" type="primary"
-            style="left: auto; right: auto; text-align: center; margin-top: 10px;">
-            确认
-        </el-button>
+        <div class="button_area">
+            <el-button @click="submitForm(formRef)" type="primary" style="margin-right: 30px;">
+                确认
+            </el-button>
+            <el-button @click="handleClose" type="danger">
+                取消
+            </el-button>
+        </div>
+
     </el-dialog>
 </template>
   
@@ -148,5 +159,10 @@ const updateUser = async () => {
 
 </script>
   
-<style scoped></style>
+<style scoped>
+.button_area {
+    display: flex;
+    justify-content: center;
+}
+</style>
   
