@@ -39,10 +39,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { userInfo, userBriefInfo } from '../../api/user';
-import { articleDelete, articleDetail } from '../../api/article'
+import { articleDelete, articleDetail, articleCategories } from '../../api/article'
 import { useRouter, useRoute } from 'vue-router' // 导入路由
 import { ElMessageBox } from 'element-plus'
-import config from '../../config/config.json';
 
 const router = useRouter()
 const route = useRoute()
@@ -55,12 +54,7 @@ const activeIndex = ref('0')
 // 加载文章种类
 const categoryOptions = ref([])
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/blog').map((item) => {
-        return {
-            label: item.label,
-            value: item.index
-        }
-    })
+    categoryOptions.value = articleCategories('/' + route.query.category.substring(0, route.query.category.length - 7))
 }
 
 // 加载文章

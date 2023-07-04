@@ -60,9 +60,8 @@ import { Delete, UploadFilled } from '@element-plus/icons-vue' // icons
 import { ref, reactive, inject, onMounted } from 'vue'
 import RichTextEditor from '../../components/RichTextEditor.vue' // 富文本编辑器
 import { imageUpload, imageDelete, imageCheck } from '../../api/image'
-import { articleDetail, articleUpdate } from '../../api/article'
+import { articleDetail, articleUpdate, articleCategories } from '../../api/article'
 import { useRouter, useRoute } from 'vue-router' // 导入路由
-import config from '../../config/config.json'
 
 const router = useRouter()
 const route = useRoute()
@@ -84,12 +83,7 @@ const newHeadImage = ref(true)
 
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/' + updateArticle.articleType.substring(0, updateArticle.articleType.length - 7)).map((item) => {
-        return {
-            label: item.label,
-            value: item.index
-        }
-    })
+    categoryOptions.value = articleCategories('/' + updateArticle.articleType.substring(0, updateArticle.articleType.length - 7))
 }
 
 // 加载文章

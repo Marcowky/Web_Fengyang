@@ -56,8 +56,7 @@ import { imageUpload, imageDelete, imageCheck } from '../../api/image'
 import RichTextEditor from '../../components/RichTextEditor.vue' // 导入富文本编辑器
 import { UploadFilled, Delete } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router' // 导入路由
-import { articlePost } from '../../api/article'
-import config from '../../config/config.json'
+import { articlePost, articleCategories } from '../../api/article'
 
 const router = useRouter()
 const route = useRoute()
@@ -76,12 +75,7 @@ const addArticle = reactive({// 待发布的文章对象
 
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = config.menuItems.filter(item => item.mainMenu == '/' + addArticle.articleType.substring(0, addArticle.articleType.length - 7)).map((item) => {
-        return {
-            label: item.label,
-            value: item.index
-        }
-    })
+    categoryOptions.value = articleCategories('/' + addArticle.articleType.substring(0, addArticle.articleType.length - 7))
 }
 
 // 控制发布文章时弹窗的显示与隐藏
