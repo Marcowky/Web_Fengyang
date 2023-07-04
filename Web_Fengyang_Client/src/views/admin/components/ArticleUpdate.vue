@@ -47,8 +47,8 @@
                 size="large" />
             <!-- 按钮 -->
             <div style="margin-top: 17px;">
-                <el-button style="margin-right: 20px;" type="danger" @click="closeSubmitModal">取消</el-button>
-                <el-button type="primary" @click="submit">确认</el-button>
+                <el-button style="margin-right: 20px;" type="primary" @click="submit">确认</el-button>
+                <el-button type="danger" @click="closeSubmitModal">取消</el-button>
             </div>
         </div>
 
