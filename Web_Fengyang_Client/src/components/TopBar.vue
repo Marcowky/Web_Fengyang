@@ -67,6 +67,6 @@ export default defineComponent({
     left: 10%;
     right: 10%;
     z-index: 999;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.26);
+    box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
 }
 </style>

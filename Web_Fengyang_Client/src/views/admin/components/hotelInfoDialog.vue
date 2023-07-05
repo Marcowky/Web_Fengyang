@@ -1,11 +1,33 @@
 <template>
   <el-dialog model-value="showModal" :title="dialogTitle" width="30%" show-close=false @closed='handleClose'>
     <el-form ref="formRef" :rules="rules" :model="hotel" label-width="100px"  style="min-width: 250px">
+
+<!--      <el-form-item label="酒店图片地址" prop="image">-->
+<!--        <el-input v-model="hotel.image" />-->
+<!--      </el-form-item>-->
+      <!-- 无封面时 -->
+      <div class="image_text">酒店图片</div>
+      <div v-if="!newHeadImage" style="width: 80%; margin: auto;">
+        <el-upload drag :before-upload="imageCheck" :http-request="customRequest" multiple>
+          <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+          <div class="el-upload__text">
+            拖动文件 或 <em>点击上传</em>
+          </div>
+          <template #tip>
+            <div class="el-upload__tip">
+              仅支持png/jpg/jpeg格式的图片,照片不为空
+            </div>
+          </template>
+        </el-upload>
+      </div>
+      <!-- 有封面时 -->
+      <div v-else style="width: 80%; margin: auto;">
+        <el-image :src="serverUrl + hotel.image"></el-image>
+        <el-button class="delete-button" size="large" @click="deleteImage" type="danger" :icon="Delete" circle />
+      </div>
+
       <el-form-item label="酒店名" prop="name"  >
         <el-input v-model="hotel.name" />
-      </el-form-item>
-      <el-form-item label="酒店图片地址" prop="image">
-        <el-input v-model="hotel.image" />
       </el-form-item>
       <el-form-item label="电话" prop="telephone">
         <el-input v-model="hotel.telephone" />
@@ -16,9 +38,11 @@
       <el-form-item label="网站" prop="website">
         <el-input v-model="hotel.website" />
       </el-form-item>
-      <el-form-item label="经纬度" prop="center"  >
-        <el-input v-model="hotel.center[0]" />
-        <el-input v-model="hotel.center[1]" />
+      <el-form-item label="东经" prop="longitude"  >
+        <el-input v-model="hotel.longitude" />
+      </el-form-item>
+      <el-form-item label="北纬" prop="latitude"  >
+        <el-input v-model="hotel.latitude" />
       </el-form-item>
       <el-form-item label="地址" prop="placeAddress">
         <el-input v-model="hotel.placeAddress" />
@@ -36,7 +60,10 @@
 import { ref, reactive, inject, watch } from 'vue';
 import {ElMessage} from "element-plus";
 import { showMessage } from '../../../components/Message';
+import {imageCheck, imageDelete, imageUpload} from "../../../api/image.js";
+import {Delete, UploadFilled} from "@element-plus/icons-vue";
 const axios = inject("axios")
+const serverUrl = inject("serverUrl")
 const props = defineProps({
   dialogTitle: {
     type: String,
@@ -48,6 +75,7 @@ const props = defineProps({
     default: () => {}
   },
 })
+const newHeadImage= ref(false)
 const formRef = ref(null)
 const raw_hotel = ref(null)
 const hotel = ref({
@@ -58,15 +86,17 @@ const hotel = ref({
   price: "",
   website: "",
   center: "",
+  longitude:"",
+  latitude:"",
   placeAddress:""
 })
 const gethotaldetail =(rowtitle,content,image,id)=> {
-  var priceMatch = content.match(/price: (.*?)(\n|$)/)
-  var websiteMatch = content.match(/website: "(.*?)"(\n|$)/)
-  var centerMatch = content.match(/center: \[(.*?)\](\n|$)/)
-  var telephoneMatch = content.match(/telephone: (.*?)(\n|$)/)
-  var titleMatch = rowtitle.match(/(.*) "/)
-  var placeAddressMatch = rowtitle.match(/\"([^"]+)\"/)
+  var priceMatch = content.match(/price: (.*?)##/);
+  var websiteMatch = content.match(/website: "(.*?)"##/);
+  var centerMatch = content.match(/center: \[(.*?)\]/);
+  var telephoneMatch = content.match(/telephone: (.*?)##/);
+  var titleMatch = rowtitle.match(/(.*) "/);
+  var placeAddressMatch = rowtitle.match(/\"([^"]+)\"/);
   // 获取匹配结果中的值
   hotel.value.price = priceMatch ? parseInt(priceMatch[1]) : null
   hotel.value.website = websiteMatch ? websiteMatch[1] : null
@@ -76,6 +106,8 @@ const gethotaldetail =(rowtitle,content,image,id)=> {
   hotel.value.placeAddress = placeAddressMatch ? placeAddressMatch[1] : null
   hotel.value.image=image
   hotel.value.id=id
+  hotel.value.longitude=hotel.value.center[0]
+  hotel.value.latitude=hotel.value.center[1]
   console.log(hotel.value)
 }
 
@@ -84,7 +116,7 @@ watch(() => props.dialogTableValue, () => {
     // console.log("添加酒店");
   } else {
     raw_hotel.value = props.dialogTableValue;
-    console.log(raw_hotel.value);
+    newHeadImage.value=true;
     gethotaldetail(raw_hotel.value.title, raw_hotel.value.content, raw_hotel.value.head_image, raw_hotel.value.id);
   }
 }, { deep: true, immediate: true });
@@ -111,9 +143,33 @@ const rules = reactive({
   ],
 })
 
+const customRequest = async (file) => {
+  imageUpload(file).then(result => {
+    if (result != null) {
+      hotel.value.image = result.data.data.filePath
+      newHeadImage.value = true
+    }
+  })
+}
+
+const deleteImage = async () => {
+  console.log("delete"+hotel.value.image)
+  imageDelete(hotel.value.image).then(result => {
+    if (result == null) {
+      hotel.value.image = ""
+      newHeadImage.value = false
+    }
+  })
+}
 const submitForm = async (formEl) => {
   const new_title=`${hotel.value.name} "${hotel.value.placeAddress}"`
-  const new_content=`price: ${hotel.value.price}\ntelephone: ${hotel.value.telephone}\nwebsite: "${hotel.value.website}"\ncenter: [${hotel.value.center[0]}, ${hotel.value.center[1]}]`
+  const new_content=`price: ${hotel.value.price}##telephone: ${hotel.value.telephone}##website: "${hotel.value.website}"##center: [${hotel.value.longitude}, ${hotel.value.latitude}]`
+  if(newHeadImage.value==false)
+  {
+    // 表单验证不通过，可以进行错误处理
+    showMessage('照片验证不能为空，请添加图片', 'error')
+    return;
+  }
   // 验证表单
   const valid = await formEl.validate()
   if (valid) {
@@ -122,6 +178,7 @@ const submitForm = async (formEl) => {
   } else {
     // 表单验证不通过，可以进行错误处理
     showMessage('表单验证不通过，请检查输入', 'error')
+    return;
   }
   // 添加酒店
   if(hotel.value.id!=="")
@@ -179,5 +236,12 @@ const submitForm = async (formEl) => {
 </script>
 
 <style scoped>
-
+.image_text{
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  height: 32px;
+  font-size: 16px;
+  color: rgb(96, 98, 102);
+  text-align: center;
+  color-scheme: light;
+}
 </style>

@@ -1,10 +1,8 @@
-INSERT INTO web_fengyang.hotelarticle (id, user_id, category_id, title, content, head_image, article_type, created_at, updated_at) VALUES ('8d449178-3d89-44e9-a05c-2104156cca59', 1, 1, '艾顿酒店 "北京路22号"', 'price: 100
-telephone: 123456
-website: "www.baidu.com"
-center: [112.2896, 25.048]', '../../assets/hotel.png', '2', '2023-06-10 09:56:28', '2023-06-10 09:56:31');
-
 <template>
   <div class="wrap">
+    <div class="wrap_0">
+      <div id="hotel_wrap_title">-----路径查询-----</div>
+    </div>
     <div class="wrap_1">
       <!-- 搜索框 -->
       <div id="search_container">
@@ -30,7 +28,7 @@ center: [112.2896, 25.048]', '../../assets/hotel.png', '2', '2023-06-10 09:56:28
       <el-row>
         <el-col v-for="(item,index) in hotelsData.values()" :key="index" :span="6" :offset="index%3 ==0 ? 2:1">
           <el-card class="custom_style" shadow="always"  :body-style="{ padding: '0px' }" >
-            <img src="../../assets/hotel.png" class="hotel_image"/>
+            <el-image :src="serverUrl + item.image" class="hotel_image"></el-image>
             <div class="detail_hotel">
                 <h1 class="hotel_title">
                   <span class="hotel_name">{{ item.name }}</span>
@@ -73,6 +71,7 @@ window._AMapSecurityConfig = {
 };
 //***********变量***********
 const axios = inject("axios")
+const serverUrl = inject("serverUrl")
 // map地图变量
 let map = ref(null);
 // search_content是要输入查询的内容
@@ -89,50 +88,6 @@ let end_point =ref(null);
 var path = [];
 // 后端返回的酒店详情变量
 var hotelsData = ref([]);
-
-// 没有后台数据时,可用下面的hotels来测试
-// const hotels =[
-//   {
-//     id: 1,
-//     name: '酒店1',
-//     image: '../../assets/hotel.png',
-//     price: 100,
-//     website:"www.baidu.com",
-//     center: [112.2896, 25.048],
-//     placeAddress: '北京路22号',
-//     telephone: 123456
-//   },
-//   {
-//     id: 2,
-//     name: '酒店2',
-//     image: '../../assets/hotel.png',
-//     price: 120,
-//     website:"www.baidu.com",
-//     center: [112.286, 25.0408],
-//     placeAddress: '北京路89号',
-//     telephone: 123456
-//   },
-//   {
-//     id: 3,
-//     name: '酒店3',
-//     image: '../../assets/hotel.png',
-//     price: 90,
-//     website:"www.baidu.com",
-//     center: [112.283, 25.0438],
-//     placeAddress: '北京路72号',
-//     telephone: 123456
-//   },
-//   {
-//     id: 4,
-//     name: '酒店3',
-//     image: '../../assets/hotel.png',
-//     price: 160,
-//     website:"www.baidu.com",
-//     center: [112.28196, 25.008],
-//     placeAddress: '北京路72号',
-//     telephone: 123488
-//   },
-// ]
 
 
 //***********函数***********
@@ -211,16 +166,15 @@ const loadArticles = async() => {
   let res = await axios.get(`/article/list?articleType=hotelarticle`)
   if (res.data.code == 200) {
     var articleList = res.data.data.article
-
     for (var i = 0; i < articleList.length; i++) {
       var rowtitle = articleList[i].title;
       var content = articleList[i].content;
       // 对 obj 进行操作，例如访问属性 obj.property
       // 通过正则表达式匹配键值对的值
-      var priceMatch = content.match(/price: (.*?)(\n|$)/);
-      var websiteMatch = content.match(/website: "(.*?)"(\n|$)/);
-      var centerMatch = content.match(/center: \[(.*?)\](\n|$)/);
-      var telephoneMatch = content.match(/telephone: (.*?)(\n|$)/);
+      var priceMatch = content.match(/price: (.*?)##/);
+      var websiteMatch = content.match(/website: "(.*?)"##/);
+      var centerMatch = content.match(/center: \[(.*?)\]/);
+      var telephoneMatch = content.match(/telephone: (.*?)##/);
       var titleMatch = rowtitle.match(/(.*) "/);
       var placeAddressMatch = rowtitle.match(/\"([^"]+)\"/);
       // 获取匹配结果中的值
@@ -241,7 +195,6 @@ const loadArticles = async() => {
       });
     }
     console.log(hotelsData[0])
-    console.log(hotels[0])
   }
 }
 //地图初始化函数
@@ -350,11 +303,20 @@ watch(search_content, (newValue) => {
   .wrap{
     border-radius: 20px;
     padding-top: 20px;
-    background-color: #eee6e3;
+    background-color: white;
     margin-left: 10%;
     margin-right: 10%;
+    .wrap_0{
+      #hotel_wrap_title{
+        text-align: center;
+        font-family: 宋体;
+        color: rgb(153, 0, 0);
+        font-size: 50px;
+      }
+    }
     .wrap_1{
     //margin-top: 80px; /* 调整顶部间距，使输入框和按钮位于导航栏下方 */
+      margin-top: 30px;
       height: 50px;
       display: flex;
       align-items: center;  //子元素垂直居中
@@ -369,14 +331,16 @@ watch(search_content, (newValue) => {
         display: flex;
         #search_input{
           height: 50px;
-          width: 300px;
+          width: 320px;
         }
         #searchBtn {
-          height: 50px;
+          left: 11px;
+          height: 52px;
           width: 100px;
+          margin-right: 10px;
         }
         #compute_driving_Btn{
-          height: 50px;
+          height: 52px;
           width: 100px;
         }
       }
@@ -430,7 +394,7 @@ watch(search_content, (newValue) => {
     border-radius: 20px;
     height: auto;
     width: auto;
-    background-color: #e9e9e0;
+    background-color: white;
     margin-top: 10px ;
     margin-bottom: 20px;
     margin-left: 10%;
