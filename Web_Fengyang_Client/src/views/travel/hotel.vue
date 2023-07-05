@@ -337,6 +337,7 @@ watch(search_content, (newValue) => {
           left: 11px;
           height: 52px;
           width: 100px;
+          margin-right: 10px;
         }
         #compute_driving_Btn{
           height: 52px;
