@@ -1,9 +1,9 @@
 
 <template>
   <!-- 顶部导航栏 -->
-    <el-card style="border-radius: 20px;margin-left: 10rem;margin-right: 10rem;margin-top: 2rem">
+    <el-card style="border-radius: 20px;margin-left: 10rem; margin-right: 10rem; margin-top: 2rem; ">
       <el-row :gutter="5">
-        <el-col :span="9" :offset="1" ><div class="grid-content ep-bg-purple" />
+        <el-col :span="9" :offset="1"><div class="grid-content ep-bg-purple" />
               <h>
                 最新资讯
               </h>
@@ -25,7 +25,7 @@
           </el-card>
         </el-col>
 
-        <el-col :span="9" :offset="3"><div class="grid-content ep-bg-purple" />
+        <el-col :span="9" :offset="2"><div class="grid-content ep-bg-purple" />
             <h>
               景区公告
             </h>
@@ -67,7 +67,7 @@
               </el-card>
           </el-card>
         </el-col>
-        <el-col :span="9" :offset="3"><div class="grid-content ep-bg-purple" />
+        <el-col :span="9" :offset="2"><div class="grid-content ep-bg-purple" />
             <h>
               假日时节
             </h>
@@ -188,10 +188,9 @@ const showdetail = (event) => {
 
 <style lang="scss" scoped>
 h{
-  color: rgb(216, 102, 102);
-  font-size: 1.3rem;
+  color: #474141;
+  font-size: 20px;
   font-weight: bold;
-  margin-bottom: 1.4rem;
 }
 
 .grid-content {
@@ -199,6 +198,7 @@ h{
   width: 30rem;
 }
 .part{
+  margin-top: 10px;
   height: 31rem;
   width: 32rem;
   position: relative;
