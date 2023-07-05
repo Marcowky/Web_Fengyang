@@ -12,11 +12,11 @@
                     <template #title>{{ item.label }}</template>
                     <template v-for="subItem in menuItems">
                         <el-menu-item :index="item.index + '?category=' + subItem.index"
-                            v-if="subItem.mainMenu === item.index && subItem.mainMenu != '/hotel'">{{
-                                subItem.label
-                            }}</el-menu-item>
+                            v-if="subItem.mainMenu == item.index && subItem.mainMenu != '/hotel'">
+                            {{ subItem.label }}
+                        </el-menu-item>
                         <el-menu-item :index="subItem.index"
-                            v-if="subItem.mainMenu === item.index && subItem.mainMenu == '/hotel'">{{
+                            v-if="subItem.mainMenu == item.index && subItem.mainMenu == '/hotel'">{{
                                 subItem.label
                             }}</el-menu-item>
                     </template>

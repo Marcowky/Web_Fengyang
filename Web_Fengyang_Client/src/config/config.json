@@ -6,17 +6,17 @@
             "mainMenu": "hasSub"
         },
         {
-            "index": "1",
+            "index": "#home1",
             "label": "四色丰阳",
             "mainMenu": "/home"
         },
         {
-            "index": "2",
+            "index": "#home2",
             "label": "食宿阅论",
             "mainMenu": "/home"
         },
         {
-            "index": "3",
+            "index": "#home3",
             "label": "热门景点",
             "mainMenu": "/home"
         },
@@ -27,7 +27,7 @@
         },
         {
             "index": "1",
-            "label": "景区活动",
+            "label": "最新资讯",
             "mainMenu": "/info"
         },
         {
@@ -37,7 +37,12 @@
         },
         {
             "index": "3",
-            "label": "志愿活动",
+            "label": "旅游攻略",
+            "mainMenu": "/info"
+        },
+        {
+            "index": "4",
+            "label": "假日时节",
             "mainMenu": "/info"
         },
         {
@@ -46,22 +51,22 @@
             "mainMenu": "hasSub"
         },
         {
-            "index": "1",
+            "index": "#attraction1",
             "label": "热门景点",
             "mainMenu": "/attraction"
         },
         {
-            "index": "2",
+            "index": "#attraction2",
             "label": "游玩攻略",
             "mainMenu": "/attraction"
         },
         {
-            "index": "3",
+            "index": "#attraction3",
             "label": "路线规划",
             "mainMenu": "/attraction"
         },
         {
-            "index": "4",
+            "index": "#attraction4",
             "label": "未完待续",
             "mainMenu": "/attraction"
         },
