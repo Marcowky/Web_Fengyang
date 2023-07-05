@@ -3,6 +3,7 @@ package controller
 import (
 	"Web_Fengyang_Server/common"
 	"Web_Fengyang_Server/model"
+	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -165,6 +166,7 @@ func (a UserController) Delete(c *gin.Context) {
 	a.DB.Table(userType).Where("id =?", ID).First(&user)
 	if user.ID == 0 {
 		common.Fail(c, 422, nil, "用户不存在")
+		fmt.Println("hhhhhhhhhhhhhhhhhhhhhhh", ID)
 		return
 	}
 

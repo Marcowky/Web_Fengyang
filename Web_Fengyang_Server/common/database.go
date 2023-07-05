@@ -26,9 +26,15 @@ type DatabaseConfig struct {
 }
 
 // InitDB() 数据库初始化
-func InitDB() *gorm.DB {
+func InitDB(mode string) *gorm.DB {
+	var configPath string
+	switch (mode) {
+	case "run": configPath = "config/config.json"
+	case "test": configPath = "config/testConfig.json"
+	}
+
 	// 导入配置文件
-	configFile, err := os.Open("config/config.json")
+	configFile, err := os.Open(configPath)
     if err != nil {
         panic("failed to open database: " + err.Error())
     }
@@ -50,6 +56,7 @@ func InitDB() *gorm.DB {
 	database := myConfig.Config.Database
 	charset := myConfig.Config.Charset
 	loc := myConfig.Config.Loc
+
 	args := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=%s&parseTime=true&loc=%s",
 		user,
 		password,
@@ -68,6 +75,7 @@ func InitDB() *gorm.DB {
 	DB = db
 	return db
 }
+
 
 // 数据库信息获取
 func GetDB() *gorm.DB {
