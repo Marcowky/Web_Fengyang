@@ -23,10 +23,6 @@ let routes = [
                 component: () => import("../views/consumption/Home.vue")
             },
             {
-                path: "/consumption/detail",
-                component: () => import("../views/consumption/PaperConsumpution.vue")
-            },
-            {
                 path: "/hotel",
                 component: () => import("../views/travel/hotel.vue")
             },

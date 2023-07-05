@@ -72,8 +72,9 @@
 
   const toDetail = (article) => {
       router.push({
-          path: "/attraction",
+          path: "/article/detail",
           query: {
+              categoryId: "",
               id: article.id,
           }
       })
