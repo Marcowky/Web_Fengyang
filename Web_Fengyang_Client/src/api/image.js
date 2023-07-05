@@ -33,3 +33,26 @@ export async function imageDelete(imagePath) {
         return error
     }
 }
+
+export async function carouselListOut(pageInfo) {
+    try {
+        let res = await axios.get(`/image/list?category=${pageInfo.category}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&order=${pageInfo.sortKey}`)
+        return res // 返回响应数据
+    } catch (error) {
+        return null
+    }
+}
+
+export async function carouselDelete(carousel) {
+    try {
+        let res = await axios.put("/image/deleteCarousel", {
+            ID: carousel.ID,
+            category: carousel.category
+        })
+        showMessage(res.data.msg, 'success')
+        return null // 返回响应数据
+    } catch (error) {
+        showMessage(error.response.data.msg, 'error')
+        return error
+    }
+}

@@ -2,7 +2,6 @@ package common
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -37,7 +36,7 @@ func TextCheck(text string) (string, error) {
 	payload.Set("symbol", "*")
 	req, _ := http.NewRequest("POST", uri, strings.NewReader(payload.Encode()))
 
-	req.Header.Add("X-APISpace-Token", "i4gdsvoxjj4t7edn3qpdzfvfp02maroc")
+	req.Header.Add("X-APISpace-Token", "w7aeug15gzbtubqujsxokbh323ury6he")
 	req.Header.Add("Authorization-Type", "apikey")
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
@@ -50,7 +49,7 @@ func TextCheck(text string) (string, error) {
 		return "", err
 		//println("TextCheck error")
 	}
-	//println("TextCheck" + string(body))
+	println("TextCheck" + string(body))
 
 	var result map[string]interface{}
 	errjs := json.Unmarshal(body, &result)
@@ -62,6 +61,6 @@ func TextCheck(text string) (string, error) {
 	// 获取"data"字段的值
 	dataValue := result["data"].(string)
 
-	fmt.Println(dataValue)
+	//fmt.Println(dataValue)
 	return dataValue, nil
 }

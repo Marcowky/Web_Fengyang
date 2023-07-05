@@ -25,8 +25,6 @@
                 </template>
               </template>
             </el-sub-menu>
-            <el-menu-item index="/admin/image">图片更换</el-menu-item>
-
 <!--            <el-menu-item index="/admin/image">图片更换</el-menu-item>-->
             <el-sub-menu index="/admin/carousel">
               <template #title>轮播图管理</template>

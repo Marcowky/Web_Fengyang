@@ -22,8 +22,8 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 		imageRoutes.POST("uploadCarouselImage", controller.UploadCarousel)              // 上传轮播图图片
 		imageRoutes.POST("addCarousel", carouselController.AddCarousel)                 // 添加轮播图表项
 		imageRoutes.POST("updateCarousel", carouselController.UpdateCarousel)           // 更新轮播图表项
-		imageRoutes.POST("deleteCarousel", carouselController.DeleteCarousel)           // 删除轮播图
-		imageRoutes.POST("list", carouselController.List)                               // 获取轮播图列表
+		imageRoutes.POST("deleteCarousel", carouselController.DeleteCarousel)           // 删除轮播图表项
+		imageRoutes.GET("list", carouselController.List)                                // 获取轮播图列表
 	}
 
 	// 用户操作
