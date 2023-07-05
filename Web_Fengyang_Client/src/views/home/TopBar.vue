@@ -1,6 +1,6 @@
 <template>
+    <div class="top-rectangle"></div>
     <el-menu class="topbar" router :default-active="this.$route.fullPath" mode="horizontal" :ellipsis="false">
-        <el-menu-item style="color: white; position: absolute; left: 0px;" index="0">四色丰阳</el-menu-item>
         <div class="弹性盒子" :style="{ flexGrow: 1 }" />
         <template v-for="item in menuItems">
             <template v-if="item.mainMenu == 'noSub'" >
@@ -64,4 +64,15 @@ export default defineComponent({
     font-weight: bold; /* 加粗 */
     color: white; /* 白色字体颜色 */
 }
+
+.top-rectangle {
+    position: fixed;
+    top: 0;
+    height: 100px;
+    width: 100%;
+    background: -webkit-linear-gradient(top, hsla(0, 0%, 24%, 0.727), rgba(255, 255, 255,0)) no-repeat;
+    z-index: 998;
+    /* 确保黄色长方形位于其他内容之上 */
+}
+
 </style>
