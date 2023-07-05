@@ -51,22 +51,22 @@
             "mainMenu": "hasSub"
         },
         {
-            "index": "#attraction1",
+            "index": "1",
             "label": "热门景点",
             "mainMenu": "/attraction"
         },
         {
-            "index": "#attraction2",
+            "index": "2",
             "label": "游玩攻略",
             "mainMenu": "/attraction"
         },
         {
-            "index": "#attraction3",
+            "index": "13",
             "label": "路线规划",
             "mainMenu": "/attraction"
         },
         {
-            "index": "#attraction4",
+            "index": "4",
             "label": "未完待续",
             "mainMenu": "/attraction"
         },
