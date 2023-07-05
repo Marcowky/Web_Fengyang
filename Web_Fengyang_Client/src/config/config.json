@@ -61,16 +61,6 @@
             "mainMenu": "/attraction"
         },
         {
-            "index": "3",
-            "label": "路线规划",
-            "mainMenu": "/attraction"
-        },
-        {
-            "index": "4",
-            "label": "未完待续",
-            "mainMenu": "/attraction"
-        },
-        {
             "index": "/consumption",
             "label": "景区消费",
             "mainMenu": "hasSub"
