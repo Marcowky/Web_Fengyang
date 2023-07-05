@@ -93,16 +93,15 @@ const hotel = ref({
 const gethotaldetail =(rowtitle,content,image,id)=> {
   var priceMatch = content.match(/price: (.*?)##/);
   var websiteMatch = content.match(/website: "(.*?)"##/);
-  var centerMatch = content.match(/center: \[(.*?)\]/);
+  var centerMatch = content.match(/center: \[(.*?)\]##/);
   var telephoneMatch = content.match(/telephone: (.*?)##/);
-  var titleMatch = rowtitle.match(/(.*) "/);
-  var placeAddressMatch = rowtitle.match(/\"([^"]+)\"/);
+  var placeAddressMatch = content.match(/location: "(.*?)"/);
   // 获取匹配结果中的值
   hotel.value.price = priceMatch ? parseInt(priceMatch[1]) : null
   hotel.value.website = websiteMatch ? websiteMatch[1] : null
   hotel.value.center = centerMatch ? centerMatch[1].split(',').map(Number) : null // 分割数字并将其转换为数字类型
   hotel.value.telephone = telephoneMatch ? parseInt(telephoneMatch[1]) : null
-  hotel.value.name = titleMatch ? titleMatch[1] : null
+  hotel.value.name = rowtitle
   hotel.value.placeAddress = placeAddressMatch ? placeAddressMatch[1] : null
   hotel.value.image=image
   hotel.value.id=id
@@ -162,8 +161,8 @@ const deleteImage = async () => {
   })
 }
 const submitForm = async (formEl) => {
-  const new_title=`${hotel.value.name} "${hotel.value.placeAddress}"`
-  const new_content=`price: ${hotel.value.price}##telephone: ${hotel.value.telephone}##website: "${hotel.value.website}"##center: [${hotel.value.longitude}, ${hotel.value.latitude}]`
+  const new_title=`${hotel.value.name}`
+  const new_content=`price: ${hotel.value.price}##telephone: ${hotel.value.telephone}##website: "${hotel.value.website}"##center: [${hotel.value.longitude}, ${hotel.value.latitude}]##location: "${hotel.value.placeAddress}"`
   if(newHeadImage.value==false)
   {
     // 表单验证不通过，可以进行错误处理
