@@ -1,6 +1,6 @@
 import { axios } from '../main.js'
 import { showMessage } from '../components/Message.js'
-
+import config from '../config/config.json'
 
 export async function articleListOut(pageInfo) {
     try {
@@ -92,4 +92,13 @@ export async function articleUpdate(article) {
         showMessage(error.response.data.msg, 'error')
         return error
     }
+}
+
+export function articleCategories(articleType) {
+    return config.menuItems
+        .filter(item => item.mainMenu === articleType)
+        .map(item => ({
+            label: item.label,
+            value: item.index
+        }))
 }

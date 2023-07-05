@@ -35,18 +35,17 @@ let routes = [
                 component: () => import("../views/blog/Home.vue")
             },
             {
-                path: '/blog/publish',
-                component: () => import("../views/blog/Publish.vue")
+                path: '/article/publish',
+                component: () => import("../views/article/Publish.vue")
             },
             {
-                path: "/blog/detail",
-                component: () => import("../views/blog/Detail.vue")
+                path: "/article/update",
+                component: () => import("../views/article/Update.vue")
             },
             {
-                path: "/blog/update",
-                component: () => import("../views/blog/Update.vue")
+                path: "/article/detail",
+                component: () => import("../views/article/Detail.vue")
             },
-
         ]
     },
 
@@ -61,11 +60,11 @@ let routes = [
             },
             {
                 path: '/admin/article/publish',
-                component: () => import("../views/admin/components/ArticlePublish.vue")
+                component: () => import("../views/article/Publish.vue")
             },
             {
                 path: '/admin/article/update',
-                component: () => import("../views/admin/components/ArticleUpdate.vue")
+                component: () => import("../views/article/Update.vue")
             },
             {
                 path: "user",

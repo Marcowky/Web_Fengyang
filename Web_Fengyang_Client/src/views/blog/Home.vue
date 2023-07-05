@@ -14,22 +14,22 @@
     <!-- 文章列表 -->
     <div class="content">
         <!-- 文章卡片 -->
-        <div v-for="(article, index) in articleList" style="margin:15px">
+        <div v-for="(article, index) in articleList"  class="articleCard">
             <!-- 若有封面图 -->
-            <el-card class="articleCard" v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
+            <el-card v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
                 <el-image style="height: 150px; float: right; margin-bottom: 20px; margin-left: 15px;"
                     :src="serverUrl + article.head_image" />
                 <div style="position: relative; height: 150px;">
                     <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
-                    <text>{{ article.content }}...</text>
+                    <text>{{ cutContent(article.content) }}</text>
                     <div style=" position: absolute; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
                 </div>
             </el-card>
             <!-- 若无封面图 -->
-            <el-card class="articleCard" v-else @click="toDetail(article)" hoverable shadow="hover">
+            <el-card v-else @click="toDetail(article)" hoverable shadow="hover">
                 <div style="position: relative; height: 120px;">
                     <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
-                    <text>{{ article.content }}...</text>
+                    <text>{{ cutContent(article.content) }}</text>
                     <div style=" position: absolute; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
                 </div>
             </el-card>
@@ -81,10 +81,23 @@ const loadArticles = async (pageNum = 0) => {
     })
 }
 
+const cutContent = (content) => {
+    if (content.length <= 80) {
+        return content;
+    } else {
+        return content.substring(0, 80) + '...';
+    }
+}
+
 const goPublish = async () => {
     userInfo().then(result => {
         if (result != null) {
-            router.push("/blog/publish")
+            router.push({
+                path: "/article/publish",
+                query: {
+                    category: pageInfo.pageArticleType
+                }
+            })
         }
         else {
             loginDialogRef.value.showDialog()
@@ -95,9 +108,10 @@ const goPublish = async () => {
 
 const toDetail = (article) => { // 前往详情页
     router.push({
-        path: "/blog/detail",
+        path: "/article/detail",
         query: {
-            id: article.id,
+            category: pageInfo.pageArticleType,
+            id: article.id
         }
     })
 }
@@ -136,30 +150,35 @@ watch(() => pageInfo.keyword, () => ( // 搜索关键词改变时加载文章
 .content {
     position: relative;
     margin: auto;
-    width: 1000px;
+    width: 70%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background: white;
-    box-shadow: 2px 2px 6px #D3D4D8;
+    box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
     border-radius: 10px;
     z-index: 99;
 }
 
 .articleCard {
     cursor: pointer;
-    width: 950px;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    // padding-bottom: 5px;
 }
 
 .pageSlider {
     display: flex;
     justify-content: center;
+    padding: 10px;
 }
 
 .choiceBar {
     width: 150px;
-    box-shadow: 2px 0 6px rgba(255, 255, 255, 0.26);
+    box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
     border-radius: 0 10px 10px 0;
     margin-top: 10%;
 }

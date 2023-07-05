@@ -12,11 +12,11 @@
                     <template #title>{{ item.label }}</template>
                     <template v-for="subItem in menuItems">
                         <el-menu-item :index="item.index + '?category=' + subItem.index"
-                            v-if="subItem.mainMenu === item.index && subItem.mainMenu != '/hotel'">{{
-                                subItem.label
-                            }}</el-menu-item>
+                            v-if="subItem.mainMenu == item.index && subItem.mainMenu != '/hotel'">
+                            {{ subItem.label }}
+                        </el-menu-item>
                         <el-menu-item :index="subItem.index"
-                            v-if="subItem.mainMenu === item.index && subItem.mainMenu == '/hotel'">{{
+                            v-if="subItem.mainMenu == item.index && subItem.mainMenu == '/hotel'">{{
                                 subItem.label
                             }}</el-menu-item>
                     </template>
@@ -67,6 +67,6 @@ export default defineComponent({
     left: 10%;
     right: 10%;
     z-index: 999;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.26);
+    box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
 }
 </style>
