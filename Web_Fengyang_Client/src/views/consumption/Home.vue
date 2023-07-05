@@ -8,9 +8,8 @@
 
 <script setup>
 
-import Chart from './Chart.vue'
+import Chart from '../../components/Chart.vue'
 import SmallBar from './SmallBar.vue'
-
 
 </script>
 
