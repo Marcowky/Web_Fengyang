@@ -1,6 +1,6 @@
 <template>
     <div class="top-rectangle"></div>
-    <el-menu class="topbar" router :default-active="this.$route.fullPath" mode="horizontal" :ellipsis="false">
+    <el-menu class="el-menu-demo" router :default-active="this.$route.fullPath" mode="horizontal" :ellipsis="false">
         <div class="弹性盒子" :style="{ flexGrow: 1 }" />
         <template v-for="item in menuItems">
             <template v-if="item.mainMenu == 'noSub'" >
@@ -47,7 +47,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.topbar {
+.el-menu-demo {
     position: absolute;
     top: 20px;
     height: 60px;
@@ -58,6 +58,22 @@ export default defineComponent({
     z-index: 999;
     background-color: rgb(255, 255, 255,0); 
 }
+
+// 设置选中时的样式
+// .el-menu-demo .is-active {
+//     background-color: #00000f !important;
+//     color: #fff;
+//     span {
+//     color: #fff !important;
+//     }
+// }
+
+
+// 设置下拉子菜单选项鼠标悬浮时的样式
+// .el-menu-item:hover {
+//     background-color: rgb(3, 19, 33) !important;
+
+// }
 
 .fontset{
     font-family: "Microsoft YaHei", sans-serif; /* 使用微软雅黑字体 */
@@ -74,5 +90,13 @@ export default defineComponent({
     z-index: 998;
     /* 确保黄色长方形位于其他内容之上 */
 }
+</style>
 
+<!-- el-sub-menu的代码不能包含在scoped -->
+<style lang="less">
+.el-sub-menu :hover{
+  background-color: transparent !important; 
+  font-weight: bold;
+  color: #1785fb;
+}
 </style>
