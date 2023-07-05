@@ -6,27 +6,27 @@
             <el-form-item label="ID" prop="ID" v-if="dialogTitle == editUserTitle">
                 <el-input v-model="user.ID" disabled />
             </el-form-item>
-            <el-form-item label="用户名" prop="userName">
-                <el-input v-model="user.userName" />
+            <el-form-item label="用户名" prop="UserName">
+                <el-input v-model="user.UserName" />
             </el-form-item>
-            <el-form-item label="手机号" prop="phoneNumber">
-                <el-input v-model="user.phoneNumber" />
+            <el-form-item label="手机号" prop="PhoneNumber">
+                <el-input v-model="user.PhoneNumber" />
             </el-form-item>
-            <el-form-item label="密码" v-if="dialogTitle == addUserTitle" prop="password">
-                <el-input v-model="user.password" />
+            <el-form-item label="密码" v-if="dialogTitle == addUserTitle" prop="Password">
+                <el-input v-model="user.Password" />
             </el-form-item>
-            <el-form-item label="创建时间" prop="createdAt" v-if="dialogTitle == editUserTitle">
-                <el-input v-model="user.createdAt" disabled />
+            <el-form-item label="创建时间" prop="CreatedAt" v-if="dialogTitle == editUserTitle">
+                <el-input v-model="user.CreatedAt" disabled />
             </el-form-item>
             <el-row>
                 <el-col :span="11" style="padding-left: 15px;">
-                    <el-form-item label="用户类型" prop="userType">
-                        <el-tag class="ml-2" type="success">{{ user.userType }}</el-tag>
+                    <el-form-item label="用户类型" prop="UserType">
+                        <el-tag class="ml-2" type="success">{{ user.UserType }}</el-tag>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="状态" prop="status">
-                        <el-switch v-model="user.status" @change="updateUser(scope.row)" />
+                    <el-form-item label="状态" prop="Status">
+                        <el-switch v-model="user.Status" @change="updateUser(scope.row)" />
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -72,26 +72,20 @@ const addUserTitle = '添加用户'
 const formRef = ref(null)
 const user = ref({
     ID: "",
-    userName: "",
-    phoneNumber: "",
-    createdAt: "",
-    password: "",
-    userType: "",
-    status: ""
+    UserName: "",
+    PhoneNumber: "",
+    CreatedAt: "",
+    Password: "",
+    UserType: "",
+    Status: ""
 })
 
 watch(() => props.dialogTableValue, () => (
-    user.value.ID = props.dialogTableValue.ID,
-    user.value.userName = props.dialogTableValue.UserName,
-    user.value.phoneNumber = props.dialogTableValue.PhoneNumber,
-    user.value.createdAt = props.dialogTableValue.CreatedAt,
-    user.value.password = props.dialogTableValue.Password,
-    user.value.userType = props.dialogTableValue.UserType,
-    user.value.status = props.dialogTableValue.Status
+    user.value = props.dialogTableValue
 ), { deep: true, immediate: true })
 
 watch(() => props.dialogUserType, () => (
-    user.value.userType = props.dialogUserType
+    user.value.UserType = props.dialogUserType
 ), { deep: true, immediate: true })
 
 const emits = defineEmits(['update:modelValue', 'updateUserList'])
@@ -102,15 +96,15 @@ const handleClose = () => {
 
 // 表单验证规则
 const rules = reactive({
-    userName: [
+    UserName: [
         { required: true, message: "请输入用户名", trigger: "blur" },
         { min: 3, max: 20, message: "用户名长度在 3 到 20 个字符", trigger: "blur" },
     ],
-    phoneNumber: [
+    PhoneNumber: [
         { required: true, message: "请输入手机号", trigger: "blur" },
         { min: 11, max: 11, message: "手机号为 11 位", trigger: "blur" },
     ],
-    password: [
+    Password: [
         { required: true, message: "请输入密码", trigger: "blur" },
         { min: 6, max: 20, message: "密码长度在 6 到 20 个字符", trigger: "blur" },
     ]
@@ -120,7 +114,6 @@ const rules = reactive({
 // 提交表单
 const submitForm = async (formEl) => {
     if (!formEl) return
-
     await formEl.validate((valid, fields) => {
         if (valid) {
             if (props.dialogTitle == addUserTitle) {
@@ -140,7 +133,16 @@ const submitForm = async (formEl) => {
 }
 // 注册
 const register = async () => {
-    userRegister(user.value).then(result => {
+    let tempUser = ({
+        ID: user.value.ID,
+        userName: user.value.UserName,
+        phoneNumber: user.value.PhoneNumber,
+        createdAt: user.value.CreatedAt,
+        password: user.value.Password,
+        userType: user.value.UserType,
+        status: user.value.Status
+    })
+    userRegister(tempUser).then(result => {
         if (result == null) {
             emits('updateUserList')
             handleClose()
