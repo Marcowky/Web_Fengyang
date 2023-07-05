@@ -1,0 +1,83 @@
+{
+    "register": {
+        "success": [
+            {
+                "userName": "testUser1",
+                "phoneNumber": "12345678901",
+                "password": "test456",
+                "userType": "client",
+                "status": true,
+                "expectResponse": "注册成功"
+            },
+            {
+                "userName": "testUser2",
+                "phoneNumber": "12345678902",
+                "password": "test789",
+                "userType": "client",
+                "status": true,
+                "expectResponse": "注册成功"
+            },
+            {
+                "userName": "testUser3",
+                "phoneNumber": "12345678903",
+                "password": "test123",
+                "userType": "admin",
+                "status": true,
+                "expectResponse": "注册成功"
+            },
+            {
+                "userName": "testUser4",
+                "phoneNumber": "12345678904",
+                "password": "test456",
+                "userType": "admin",
+                "status": true,
+                "expectResponse": "注册成功"
+            }
+        ],
+        "repeat": [
+            {
+                "userName": "testUser1",
+                "phoneNumber": "12345678901",
+                "password": "test456",
+                "userType": "client",
+                "status": true,
+                "expectResponse": "电话号码已注册"
+            },
+            {
+                "userName": "testUser2",
+                "phoneNumber": "12345678902",
+                "password": "test789",
+                "userType": "client",
+                "status": true,
+                "expectResponse": "电话号码已注册"
+            },
+            {
+                "userName": "testUser3",
+                "phoneNumber": "12345678903",
+                "password": "test123",
+                "userType": "admin",
+                "status": true,
+                "expectResponse": "电话号码已注册"
+            },
+            {
+                "userName": "testUser4",
+                "phoneNumber": "12345678904",
+                "password": "test456",
+                "userType": "admin",
+                "status": true,
+                "expectResponse": "电话号码已注册"
+            }
+        ]
+    },
+    "login": {
+        "noUser": [],
+        "passwardWarn": [],
+        "statusFalse": [],
+        "success": []
+    },
+    "update": {},
+    "delete": {},
+    "list": {},
+    "getMyInfo": {},
+    "getBriefInfo": {}
+}

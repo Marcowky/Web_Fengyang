@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// 获取初始化的数据库
-	db := common.InitDB()
+	db := common.InitDB("run")
 	// 初始化文章分类
 	// controller.InitCategory()
 	// 延迟关闭数据库

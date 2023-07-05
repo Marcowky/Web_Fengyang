@@ -26,9 +26,14 @@ type DatabaseConfig struct {
 }
 
 // InitDB() 数据库初始化
-func InitDB() *gorm.DB {
+func InitDB(mode string) *gorm.DB {
+	var configPath string
+	switch (mode) {
+	case "run": configPath = "config/config.json"
+	case "test": configPath = "config/testConfig.json"
+	}
 	// 导入配置文件
-	configFile, err := os.Open("config/config.json")
+	configFile, err := os.Open(configPath)
     if err != nil {
         panic("failed to open database: " + err.Error())
     }
