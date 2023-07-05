@@ -78,12 +78,12 @@ const directToFengYang = () => {
 
 <style scoped>
 #wrap{
+  border-radius: 20px;
   width: 70%;
   left: 15%;
   padding-left: 2%;
   padding-right: 2%;
   padding-bottom: 20px;
-  //background-color: #7B3DE0;
   background-color: white;
 }
 #center{
@@ -113,11 +113,14 @@ const directToFengYang = () => {
   }
 }
 .title{
-  color: rgb(86, 99, 136);
-  font-size: 32px;
+  color: #474141;
+  font-size: 40px;
   top: 10px;
   margin: 20px;
+  padding-top: 15px;
   text-align: center;
+  font-family: 宋体;
+  font-weight: 600;
 }
 
 .subtitle{
@@ -126,14 +129,14 @@ const directToFengYang = () => {
   font-weight: bold;
   font-size: 20px;
   margin: 20px;
-  //padding-bottom: 80px;
 }
 .passage_content{
-  color: rgb(133, 100, 83);
-  font-size: 19px;
-  font-family: 等线;
-  margin-bottom: 20px;
+  top: 8%;
+  margin-bottom: 3%;
+  font-size: 18px;
+  font-family: 宋体;
+  color: rgb(0, 0, 0);
+  line-height: 30px;
   text-indent: 2em;
-/*这个是首行缩进*/
 }
 </style>

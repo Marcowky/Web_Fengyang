@@ -2,7 +2,7 @@
   <!--四色丰阳-->
   <Chart></Chart>
   <TopBar></TopBar>
-  <div class="title-1"><p>—四 色 丰 阳—</p></div>
+  <div class="title-1" id="home1"><p>—四 色 丰 阳—</p></div>
   <div class="container-1">
     <el-row>
       <el-col :span="10" :offset="2" >
@@ -63,7 +63,7 @@
 
 
   <!--食宿阅论-->
-  <div class="title-1">
+  <div class="title-1" id="home2">
     <p>—食 宿 阅 论—</p>
   </div>
   <div class="container-2">
@@ -116,7 +116,7 @@
   </div>
 
   <!--热门景点-->
-  <div class="title-1">
+  <div class="title-1" id="home3">
     <p>—热 门 景 点—</p>
   </div>
   <div class="container-3">
@@ -268,6 +268,10 @@ export default {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
+    goAnchor(selector) {
+      let anchor = this.$el.querySelector(selector)
+      document.documentElement.scrollTop = anchor.offsetTop 
+    },
   },
   // mounted() {
   //   // 改变网页背景颜色
@@ -276,6 +280,12 @@ export default {
   // beforeDestroy() {
   //   document.querySelector('body').removeAttribute('style')
   // },
+  mounted: function(){
+    this.$nextTick(()=> {
+          this.goAnchor(window.location.hash)
+    })
+  },
+
 };
 </script>
 
@@ -286,7 +296,7 @@ export default {
   font-family: STXingkai;
   font-weight: 100;
   color: #474141;
-  margin-top: 0px;
+  margin-top: 100px;
   margin-bottom: 10px;
   display: flex;
   justify-content: center;
@@ -297,9 +307,6 @@ img{
 }
 
 .container-1 {
-  :hover img {
-    transform: scale(1.1);
-  }
   .image-container0 {
     aspect-ratio: 670/360;
     .image-wrapper {
@@ -316,13 +323,15 @@ img{
     }
   }
   .txt-container {
-    background-color: rgb(227,227,228);
+    background: url(../../assets/HomePage/index-pic-2.jpg);
     .fengyang_subtitle {
-      color: rgb(86, 99, 136);
+      color: rgb(0, 0, 0);
       font-size: 34px;
       top: 6%;
       margin: 20px;
       text-align: center;
+      font-family: 宋体;
+      
     }
     .content_txt
     {
@@ -330,15 +339,28 @@ img{
       left: 5%;
       width: 90%;
       text-indent:2em;
-      font-size: 20px;
+      font-size: 18px;
       font-family: 宋体;
+      color: rgb(0, 0, 0);
+      display: flex;
+      text-align: center;
+      word-break: keep-all;
+      line-height: 30px;
+      
     }
   }
 }
 
+.image-container0:hover img {
+    transform: scale(1.1);
+  }
+
 .container-2{
+  margin-left: 3%;
+  margin-right: 3%;
   .image-container1 {
     aspect-ratio: 300/400;
+
       .image-wrapper {
         position: relative;
         width: 100%;
@@ -361,21 +383,27 @@ img{
      background: rgba(0, 0, 0, 0.5);
      opacity: 0;
      transition: opacity 0.35s ease-in-out;
+     display: flex;
+     justify-content: center;/* 水平居中 */
+     align-items: center;/* 垂直居中 */
+     
    }
   .text h3 {
-    top:50%;
-    text-align: center;
+    
     color: #fff;
     font-size: 40px;
     font-family: 宋体;
     width: 333px;
     writing-mode: vertical-rl;
-    text-orientation: upright;
   }
 }
-.image-wrapper:hover .text {
+.image-container1:hover .text {
   opacity: 1;
 }
+.image-container1:hover img {
+    transform: scale(1.1);
+  }
+
 
 
 .container-3 {
@@ -427,8 +455,6 @@ img{
 }
 
 
-
-
 .container-4 .image-container3 {
   aspect-ratio: 275/230;
   position: relative;
@@ -445,6 +471,10 @@ img{
     width: 100%;
     height: 100%;
     transition: all .5s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     .txtbox2_background {
       position: absolute;
       bottom: 0;
@@ -455,15 +485,14 @@ img{
       overflow: hidden;
     }
     .txt-title {
-      text-align: center;
       font-family: 宋体;
       font-weight: 600;
       font-size: 23px;
       color: #f5f5f5;
-      line-height: 50px;
+      line-height: 100%;
     }
     .txt-content {
-      top: 55%;
+      top: 47%;
       font-family: 宋体;
       font-size: 16px;
       color: #f5f5f5;
@@ -485,16 +514,13 @@ img{
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  //transition: all 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out;
   transform: translateY(100%);
-  transition: transform 0.5s ease, opacity 0.5s ease;
+  /* transition: transform 0.5s ease, opacity 0.5s ease; */
 }
-
 
 .container-4 .image-container3:hover .txtbox2 .txtbox2-content {
   opacity: 1;
   transform: translateY(0);
 }
-
-
 </style>
