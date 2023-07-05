@@ -1,5 +1,5 @@
 <template>
-  <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick" style="margin-top:50px;">
+  <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick" router style="margin-top:50px;">
     <el-tab-pane label="特色产品" name="first"></el-tab-pane>
     <el-tab-pane label="美食推荐" name="second"></el-tab-pane>
     <el-tab-pane label="团队跟游" name="third"></el-tab-pane>
@@ -103,12 +103,40 @@ const loadArticles = async (pageNum = 0,index = 1) => {
 
 const toConsumpution = (article) => {
     router.push({
-        path: "/consumption/detail",
+        path: "/article/detail",
         query: {
-            id: article.id,
+            category: "consumptionarticle",
+            id: article.id
         }
     })
 }
+
+//路由守卫
+onBeforeRouteUpdate((to, from) => {
+  const toCategory = to.query.category;
+
+  if (toCategory === '1') {
+    showFirst.value = true;
+    showSecond.value = false;
+    showThird.value = false;
+    activeName.value = 'first'
+    loadArticles(0, 1);
+  } else if (toCategory === '2') {
+    showFirst.value = false;
+    showSecond.value = true;
+    showThird.value = false;
+    activeName.value = 'second'
+    loadArticles(0, 2);
+  } else if (toCategory === '3') {
+    showFirst.value = false;
+    showSecond.value = false;
+    showThird.value = true;
+    activeName.value = 'third'
+    loadArticles(0, 3);
+  }
+
+});
+
 
 // import { TabsPaneContext } from 'element-plus'
 const handleClick = (tab, event) => {
@@ -117,6 +145,7 @@ const handleClick = (tab, event) => {
   if (tab.paneName === 'first') {
     showFirst.value = true
     loadArticles(0,1)
+    router.push({ query: { category: '1' } });
   } else {
     showFirst.value = false
   }
@@ -124,6 +153,7 @@ const handleClick = (tab, event) => {
   if (tab.paneName === 'second') {
     showSecond.value = true
     loadArticles(0,2)
+    router.push({ query: { category: '2' } });
   } else {
     showSecond.value = false
   }
@@ -131,6 +161,7 @@ const handleClick = (tab, event) => {
   if (tab.paneName === 'third') {
     showThird.value = true
     loadArticles(0,3)
+    router.push({ query: { category: '3' } });
   } else {
     showThird.value = false
   }
