@@ -173,7 +173,7 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     background: white;
-    box-shadow: 2px 2px 6px #D3D4D8;
+    box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
     border-radius: 10px;
     z-index: 99;
 }
@@ -190,7 +190,7 @@ onMounted(() => {
     position: absolute;
     right: 0px;
     bottom: 0px;
-    box-shadow: 2px 2px 6px #D3D4D8;
+    box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
 }
 
 .choiceBar {
@@ -198,7 +198,7 @@ onMounted(() => {
     top: 25%;
     z-index: 999;
     width: 150px;
-    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
+    box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
     border-radius: 0 10px 10px 0;
 }
 </style>

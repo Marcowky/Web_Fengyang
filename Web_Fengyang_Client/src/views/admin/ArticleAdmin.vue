@@ -225,7 +225,7 @@ onMounted(() => {
 
 <style scoped>
 .mainTable {
-    box-shadow: 2px 2px 6px #D3D4D8;
+    box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
     border-radius: 10px;
 }
 </style>

@@ -156,7 +156,7 @@ watch(() => pageInfo.keyword, () => ( // 搜索关键词改变时加载文章
     align-items: center;
     justify-content: center;
     background: white;
-    box-shadow: 2px 2px 6px #D3D4D8;
+    box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
     border-radius: 10px;
     z-index: 99;
 }
@@ -178,7 +178,7 @@ watch(() => pageInfo.keyword, () => ( // 搜索关键词改变时加载文章
 
 .choiceBar {
     width: 150px;
-    box-shadow: 2px 0 6px rgba(255, 255, 255, 0.26);
+    box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
     border-radius: 0 10px 10px 0;
     margin-top: 10%;
 }

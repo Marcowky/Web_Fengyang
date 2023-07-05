@@ -27,7 +27,7 @@ export default defineComponent({
     top: 25%;
     width: 150px;
     z-index: 999;
-    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.26);
+    box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
     border-radius: 0 10px 10px 0;
 }
 </style>
