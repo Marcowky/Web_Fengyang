@@ -35,11 +35,11 @@
 
               <template v-for="subItem in menuItems">
                 <li v-if="subItem.mainMenu == item.index && subItem.mainMenu != '/hotel'">
-                  <el-link :href="item.index + subItem.index">{{ subItem.label }}</el-link>
+                  <el-link :href="link + item.index + '?category=' + subItem.index">{{ subItem.label }}</el-link>
                   <!-- <el-link type="primary">primary</el-link> -->
                 </li>
                 <li v-if="subItem.mainMenu == item.index && subItem.mainMenu == '/hotel'">
-                  <el-link :href="link + subItem.index">{{ subItem.label }}</el-link>
+                  <el-link :href="subItem.index">{{ subItem.label }}</el-link>
                   <!-- <el-link type="primary">primary</el-link> -->
                 </li>
               </template>

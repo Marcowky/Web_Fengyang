@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <div class="wrap_0">
-      <div id="hotel_wrap_title">-----路径查询-----</div>
+      <div id="hotel_wrap_title_1">—路 径 查 询—</div>
     </div>
     <div class="wrap_1">
       <!-- 搜索框 -->
@@ -23,7 +23,7 @@
   </div>
   <div class="wrap_3">
     <!-- 酒店展示 -->
-    <div id="hotel_wrap_title">-----酒店预订------</div>
+    <div id="hotel_wrap_title_2">—酒 店 预 订—</div>
     <div id="hotel_wrap">
       <el-row>
         <el-col v-for="(item,index) in hotelsData.values()" :key="index" :span="6" :offset="index%3 ==0 ? 2:1">
@@ -307,16 +307,21 @@ watch(search_content, (newValue) => {
     margin-left: 10%;
     margin-right: 10%;
     .wrap_0{
-      #hotel_wrap_title{
-        text-align: center;
-        font-family: 宋体;
-        color: rgb(153, 0, 0);
-        font-size: 50px;
+      #hotel_wrap_title_1{
+        width: 100%;
+        font-size: 80px;
+        font-family: STXingkai;
+        font-weight: 100;
+        color: #474141;
+        margin-top: 20px;
+        padding-bottom: 10px;
+        display: flex;
+        justify-content: center;
       }
     }
     .wrap_1{
     //margin-top: 80px; /* 调整顶部间距，使输入框和按钮位于导航栏下方 */
-      margin-top: 30px;
+      margin-top: 0px;
       height: 50px;
       display: flex;
       align-items: center;  //子元素垂直居中
@@ -399,13 +404,20 @@ watch(search_content, (newValue) => {
     margin-bottom: 20px;
     margin-left: 10%;
     margin-right: 10%;
-    #hotel_wrap_title{
-      text-align: center;
-      font-family: 宋体;
-      color: rgb(153, 0, 0);
-      font-size: 50px;
+    #hotel_wrap_title_2{
+      width: 100%;
+      font-size: 80px;
+      font-family: STXingkai;
+      font-weight: 100;
+      color: #474141;
+      margin-top: 30px;
+      padding-top: 30px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
     }
     #hotel_wrap {
+      padding-bottom: 35px;
       .hotel_image{
         max-width: 100%;
         max-height: 100%;

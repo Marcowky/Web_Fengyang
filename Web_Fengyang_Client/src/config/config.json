@@ -97,12 +97,12 @@
         },
         {
             "index": "/hotel",
-            "label": "住宿",
+            "label": "景区住宿",
             "mainMenu": "/hotel"
         },
         {
             "index": "/traffic",
-            "label": "交通",
+            "label": "景区交通",
             "mainMenu": "/hotel"
         },
         {
@@ -122,7 +122,7 @@
         },
         {
             "index": "3",
-            "label": "美食",
+            "label": "美食分享",
             "mainMenu": "/blog"
         }
         
