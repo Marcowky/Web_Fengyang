@@ -10,11 +10,11 @@
           
           <el-row :span="6">
             <div v-for="(article, index) in articleList" style="margin-left:50px;margin-right:50px;margin-top:30px;">
-              <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover" @click="toDetail(article)">
+              <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover" @click="toConsumpution(article)">
                 <el-image :src="serverUrl + article.head_image" class="image"/>
                 <div class="text-wrapper">
                 <div style="font-size: 15px; color: #000;">{{article.title}} </div>
-                <div style="font-size: 13px; color: #999;">{{article.content}}</div>
+                <div style="font-size: 13px; color: #999;">开放时间 8:00-19:00</div>
                 </div>
               </el-card>
             </div>
@@ -28,7 +28,7 @@
           
       <el-row :span="6">
         <div v-for="(article, index) in articleList" style="margin-left:50px;margin-right:50px;margin-top:30px">
-          <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover" @click="toDetail(article)">
+          <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover" @click="toConsumpution(article)">
             <el-image :src="serverUrl + article.head_image" class="image"/>
             <div class="text-wrapper">
             <div style="font-size: 15px; color: #000;">{{article.title}} </div>
@@ -46,7 +46,7 @@
           
       <el-row :span="6">
         <div v-for="(article, index) in articleList" style="margin-left:50px;margin-right:50px;margin-top:30px">
-          <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover" @click="toDetail(article)">
+          <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover" @click="toConsumpution(article)">
             <el-image :src="serverUrl + article.head_image" class="image"/>
             <div class="text-wrapper">
             <div style="font-size: 15px; color: #000;">{{article.title}} </div>
@@ -101,9 +101,9 @@ const loadArticles = async (pageNum = 0,index = 1) => {
     pageInfo.pageCount = parseInt(pageInfo.count / pageInfo.pageSize) + (pageInfo.count % pageInfo.pageSize > 0 ? 1 : 0)
 }
 
-const toDetail = (article) => {
+const toConsumpution = (article) => {
     router.push({
-        path: "/blog",
+        path: "/consumption/detail",
         query: {
             id: article.id,
         }
