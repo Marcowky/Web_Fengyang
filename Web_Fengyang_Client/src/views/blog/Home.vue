@@ -14,9 +14,9 @@
     <!-- 文章列表 -->
     <div class="content">
         <!-- 文章卡片 -->
-        <div v-for="(article, index) in articleList" style="margin:15px">
+        <div v-for="(article, index) in articleList"  class="articleCard">
             <!-- 若有封面图 -->
-            <el-card class="articleCard" v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
+            <el-card v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
                 <el-image style="height: 150px; float: right; margin-bottom: 20px; margin-left: 15px;"
                     :src="serverUrl + article.head_image" />
                 <div style="position: relative; height: 150px;">
@@ -26,7 +26,7 @@
                 </div>
             </el-card>
             <!-- 若无封面图 -->
-            <el-card class="articleCard" v-else @click="toDetail(article)" hoverable shadow="hover">
+            <el-card v-else @click="toDetail(article)" hoverable shadow="hover">
                 <div style="position: relative; height: 120px;">
                     <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
                     <text>{{ cutContent(article.content) }}</text>
@@ -150,7 +150,7 @@ watch(() => pageInfo.keyword, () => ( // 搜索关键词改变时加载文章
 .content {
     position: relative;
     margin: auto;
-    width: 1000px;
+    width: 70%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -163,12 +163,17 @@ watch(() => pageInfo.keyword, () => ( // 搜索关键词改变时加载文章
 
 .articleCard {
     cursor: pointer;
-    width: 950px;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    // padding-bottom: 5px;
 }
 
 .pageSlider {
     display: flex;
     justify-content: center;
+    padding: 10px;
 }
 
 .choiceBar {
