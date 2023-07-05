@@ -3,7 +3,7 @@
         "success": [
             {
                 "userName": "testUser1",
-                "phoneNumber": "12345678901",
+                "phoneNumber": "00000000001",
                 "password": "test456",
                 "userType": "client",
                 "status": true,
@@ -11,15 +11,15 @@
             },
             {
                 "userName": "testUser2",
-                "phoneNumber": "12345678902",
+                "phoneNumber": "00000000002",
                 "password": "test789",
                 "userType": "client",
-                "status": true,
+                "status": false,
                 "expectResponse": "注册成功"
             },
             {
                 "userName": "testUser3",
-                "phoneNumber": "12345678903",
+                "phoneNumber": "00000000003",
                 "password": "test123",
                 "userType": "admin",
                 "status": true,
@@ -27,17 +27,17 @@
             },
             {
                 "userName": "testUser4",
-                "phoneNumber": "12345678904",
+                "phoneNumber": "00000000004",
                 "password": "test456",
                 "userType": "admin",
-                "status": true,
+                "status": false,
                 "expectResponse": "注册成功"
             }
         ],
         "repeat": [
             {
                 "userName": "testUser1",
-                "phoneNumber": "12345678901",
+                "phoneNumber": "00000000001",
                 "password": "test456",
                 "userType": "client",
                 "status": true,
@@ -45,15 +45,15 @@
             },
             {
                 "userName": "testUser2",
-                "phoneNumber": "12345678902",
+                "phoneNumber": "00000000002",
                 "password": "test789",
                 "userType": "client",
-                "status": true,
+                "status": false,
                 "expectResponse": "电话号码已注册"
             },
             {
                 "userName": "testUser3",
-                "phoneNumber": "12345678903",
+                "phoneNumber": "00000000003",
                 "password": "test123",
                 "userType": "admin",
                 "status": true,
@@ -61,23 +61,219 @@
             },
             {
                 "userName": "testUser4",
-                "phoneNumber": "12345678904",
+                "phoneNumber": "00000000004",
                 "password": "test456",
                 "userType": "admin",
-                "status": true,
+                "status": false,
                 "expectResponse": "电话号码已注册"
             }
         ]
     },
     "login": {
-        "noUser": [],
-        "passwardWarn": [],
-        "statusFalse": [],
-        "success": []
+        "noUser": [
+            {
+                "userName": "testUser1",
+                "phoneNumber": "11111111111",
+                "password": "test456",
+                "userType": "client",
+                "status": true,
+                "expectResponse": "用户不存在"
+            },
+            {
+                "userName": "testUser3",
+                "phoneNumber": "11111111113",
+                "password": "test123",
+                "userType": "admin",
+                "status": true,
+                "expectResponse": "用户不存在"
+            }
+        ],
+        "passwardWrong": [
+            {
+                "userName": "testUser1",
+                "phoneNumber": "00000000001",
+                "password": "warn456",
+                "userType": "client",
+                "status": true,
+                "expectResponse": "密码错误"
+            },
+            {
+                "userName": "testUser3",
+                "phoneNumber": "00000000003",
+                "password": "warn123",
+                "userType": "admin",
+                "status": true,
+                "expectResponse": "密码错误"
+            }
+        ],
+        "statusFalse": [
+            {
+                "userName": "testUser2",
+                "phoneNumber": "00000000002",
+                "password": "test789",
+                "userType": "client",
+                "status": false,
+                "expectResponse": "用户被禁用或正在等待审核"
+            },
+            {
+                "userName": "testUser4",
+                "phoneNumber": "00000000004",
+                "password": "test456",
+                "userType": "admin",
+                "status": false,
+                "expectResponse": "用户被禁用或正在等待审核"
+            }
+        ],
+        "success": [
+            {
+                "userName": "testUser1",
+                "phoneNumber": "00000000001",
+                "password": "test456",
+                "userType": "client",
+                "status": true,
+                "expectResponse": "登录成功"
+            },
+            {
+                "userName": "testUser3",
+                "phoneNumber": "00000000003",
+                "password": "test123",
+                "userType": "admin",
+                "status": true,
+                "expectResponse": "登录成功"
+            }
+        ]
     },
-    "update": {},
+    "list": {
+        "success": [
+            {
+                "userType": "client",
+                "keyword": "",
+                "pageNum": "1",
+                "pageSize": "10",
+                "order": "created_at desc",
+                "expectResponse": "查找成功"
+            },
+            {
+                "userType": "client",
+                "keyword": "marco",
+                "pageNum": "3",
+                "pageSize": "5",
+                "order": "created_at desc",
+                "expectResponse": "查找成功"
+            },
+            {
+                "userType": "admin",
+                "keyword": "",
+                "pageNum": "1",
+                "pageSize": "10",
+                "order": "id desc",
+                "expectResponse": "查找成功"
+            }
+        ],
+        "fail": [
+            {
+                "userType": "wrongType",
+                "keyword": "",
+                "pageNum": "1",
+                "pageSize": "10",
+                "order": "created_at desc",
+                "expectResponse": "查询失败"
+            },
+            {
+                "userType": "admin",
+                "keyword": "",
+                "pageNum": "1",
+                "pageSize": "10",
+                "order": "wrongOrder desc",
+                "expectResponse": "查询失败"
+            },
+            {
+                "userType": "client",
+                "keyword": "",
+                "pageNum": "1",
+                "pageSize": "10",
+                "order": "created_at wrongOrder",
+                "expectResponse": "查询失败"
+            }
+        ]
+    },
+    "getBriefInfo": [
+        {
+            "userType": "client",
+            "id": "999",
+            "expectResponse": "用户不存在"
+        },
+        {
+            "userType": "wrongType",
+            "id": "666",
+            "expectResponse": "用户不存在"
+        }
+    ],
     "delete": {},
-    "list": {},
-    "getMyInfo": {},
-    "getBriefInfo": {}
+    "update": {
+        "phoneNumberRepeat": [
+            {
+                "userName": "testUser1",
+                "phoneNumber": "00000000003",
+                "password": "test456",
+                "userType": "client",
+                "status": true,
+                "expectResponse": "登录成功"
+            },
+            {
+                "userName": "testUser3",
+                "phoneNumber": "00000000001",
+                "password": "test123",
+                "userType": "admin",
+                "status": true,
+                "expectResponse": "登录成功"
+            }
+        ],
+        "noUser": [
+            {
+                "userName": "testUser1",
+                "phoneNumber": "00000000001",
+                "password": "test456",
+                "userType": "client",
+                "status": true,
+                "expectResponse": "登录成功"
+            },
+            {
+                "userName": "testUser3",
+                "phoneNumber": "00000000003",
+                "password": "test123",
+                "userType": "admin",
+                "status": true,
+                "expectResponse": "登录成功"
+            }
+        ],
+        "success": [
+            {
+                "userName": "testUser1",
+                "phoneNumber": "00000000001",
+                "password": "test456",
+                "userType": "client",
+                "status": true,
+                "expectResponse": "登录成功"
+            },
+            {
+                "userName": "testUser3",
+                "phoneNumber": "00000000003",
+                "password": "test123",
+                "userType": "admin",
+                "status": true,
+                "expectResponse": "登录成功"
+            }
+        ]
+    },
+    "existUser": [
+        {
+            "userType": "client",
+            "phoneNumber": "00000000001"
+        },
+        {
+            "userType": "admin",
+            "phoneNumber": "00000000003"
+        }
+    ]
 }
