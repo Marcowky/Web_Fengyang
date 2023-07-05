@@ -93,7 +93,6 @@ const customRequest = async (file) => {
             newHeadImage.value = true
         }
     })
-  console.log(serverUrl)
 }
 
 const deleteImage = async () => {

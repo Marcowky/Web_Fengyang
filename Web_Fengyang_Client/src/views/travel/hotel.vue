@@ -28,7 +28,7 @@
       <el-row>
         <el-col v-for="(item,index) in hotelsData.values()" :key="index" :span="6" :offset="index%3 ==0 ? 2:1">
           <el-card class="custom_style" shadow="always"  :body-style="{ padding: '0px' }" >
-            <img src="../../assets/hotel.png" class="hotel_image"/>
+            <el-image :src="serverUrl + item.image" class="hotel_image"></el-image>
             <div class="detail_hotel">
                 <h1 class="hotel_title">
                   <span class="hotel_name">{{ item.name }}</span>
@@ -71,6 +71,7 @@ window._AMapSecurityConfig = {
 };
 //***********变量***********
 const axios = inject("axios")
+const serverUrl = inject("serverUrl")
 // map地图变量
 let map = ref(null);
 // search_content是要输入查询的内容

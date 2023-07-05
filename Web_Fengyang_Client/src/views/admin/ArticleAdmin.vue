@@ -67,10 +67,12 @@ const showDialog = ref(false)
 const showAddDialog = (data = false) => {
     if (!data) {
         dialogTitle.value = "添加酒店信息"
-        console.log("Here")
+        console.log("添加酒店信息")
         dialogTableValue.value = { "test": 111 }
     }
     else {
+        console.log("修改酒店信息")
+        console.log(data)
         dialogTitle.value = "编辑酒店信息"
         dialogTableValue.value = JSON.parse(JSON.stringify(data))
     }
