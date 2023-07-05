@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <el-dialog model-value="showModal" :title="dialogTitle" width="30%" show-close=false @closed='handleClose'>
     <el-form ref="formRef" :rules="rules" :model="hotel" label-width="100px"  style="min-width: 250px">
 
@@ -6,7 +6,6 @@
 <!--        <el-input v-model="hotel.image" />-->
 <!--      </el-form-item>-->
       <!-- 无封面时 -->
-      <div class="image_text">酒店图片</div>
       <div v-if="!newHeadImage" style="width: 80%; margin: auto;">
         <el-upload drag :before-upload="imageCheck" :http-request="customRequest" multiple>
           <el-icon class="el-icon--upload"><upload-filled /></el-icon>
@@ -25,34 +24,34 @@
         <el-image :src="serverUrl + hotel.image"></el-image>
         <el-button class="delete-button" size="large" @click="deleteImage" type="danger" :icon="Delete" circle />
       </div>
-
+      <div class="content-text">
       <el-form-item label="酒店名" prop="name"  >
-        <el-input v-model="hotel.name" />
+        <el-input v-model="hotel.name" class="item_style"/>
       </el-form-item>
       <el-form-item label="电话" prop="telephone">
-        <el-input v-model="hotel.telephone" />
+        <el-input v-model="hotel.telephone" class="item_style"/>
       </el-form-item>
       <el-form-item label="价格"  prop="price">
-        <el-input v-model="hotel.price" />
+        <el-input v-model="hotel.price" class="item_style"/>
       </el-form-item>
       <el-form-item label="网站" prop="website">
-        <el-input v-model="hotel.website" />
+        <el-input v-model="hotel.website" class="item_style"/>
       </el-form-item>
       <el-form-item label="东经" prop="longitude"  >
-        <el-input v-model="hotel.longitude" />
+        <el-input v-model="hotel.longitude" class="item_style"/>
       </el-form-item>
       <el-form-item label="北纬" prop="latitude"  >
-        <el-input v-model="hotel.latitude" />
+        <el-input v-model="hotel.latitude" class="item_style"/>
       </el-form-item>
       <el-form-item label="地址" prop="placeAddress">
-        <el-input v-model="hotel.placeAddress" />
+        <el-input v-model="hotel.placeAddress" class="item_style"/>
       </el-form-item>
+      </div>
     </el-form>
-
-    <el-button @click="submitForm(formRef)" class="button3" type="primary"
-               style="left: auto; right: auto; text-align: center; margin-top: 10px;">
-      确认
-    </el-button>
+    <div class="button_box">
+      <el-button @click="submitForm(formRef)" class="button3" type="primary">确认</el-button>
+    <el-button type="danger" @click="handleClose">取消</el-button>
+    </div>
   </el-dialog>
 </template>
 
@@ -235,12 +234,26 @@ const submitForm = async (formEl) => {
 </script>
 
 <style scoped>
-.image_text{
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  height: 32px;
-  font-size: 16px;
-  color: rgb(96, 98, 102);
-  text-align: center;
-  color-scheme: light;
+.delete-button {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
+}
+.content-text{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.item_style{
+  width: 370px;
+  padding-right: 50px ;
+}
+.button_box{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
