@@ -32,6 +32,7 @@ func InitDB(mode string) *gorm.DB {
 	case "run": configPath = "config/config.json"
 	case "test": configPath = "config/testConfig.json"
 	}
+
 	// 导入配置文件
 	configFile, err := os.Open(configPath)
     if err != nil {
@@ -55,6 +56,7 @@ func InitDB(mode string) *gorm.DB {
 	database := myConfig.Config.Database
 	charset := myConfig.Config.Charset
 	loc := myConfig.Config.Loc
+
 	args := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=%s&parseTime=true&loc=%s",
 		user,
 		password,
@@ -73,6 +75,7 @@ func InitDB(mode string) *gorm.DB {
 	DB = db
 	return db
 }
+
 
 // 数据库信息获取
 func GetDB() *gorm.DB {

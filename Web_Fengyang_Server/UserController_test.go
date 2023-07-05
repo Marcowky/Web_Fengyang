@@ -11,20 +11,23 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
+	"github.com/jinzhu/gorm"
 )
 
 var router *gin.Engine
 var userController controller.IUserController
 var jsonData map[string]interface{}
+var db *gorm.DB
 
 func init() {
 	loadTestDataFromFile()
 
-	db := common.InitDB("test")
+	db = common.InitDB("test")
 	db.Table("client").AutoMigrate(model.User{})
 	db.Table("admin").AutoMigrate(model.User{})
 
@@ -37,6 +40,17 @@ func init() {
 	router.GET("/list", userController.List)
 	router.GET("/myinfo", middleware.AuthMiddleware(), userController.GetMyInfo)
 	router.GET("/briefinfo", userController.GetBriefInfo)
+}
+
+func TestMain(m *testing.M) {
+	result := m.Run()
+	cleanTable()
+	os.Exit(result)
+}
+
+func cleanTable(){
+	db.Exec("DELETE FROM client")
+	db.Exec("DELETE FROM admin")
 }
 
 func loadTestDataFromFile() {
