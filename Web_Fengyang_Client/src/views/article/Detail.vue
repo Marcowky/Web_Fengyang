@@ -70,7 +70,7 @@ const loadArticle = async () => {
 }
 
 const getUserInfo = async () => {
-    userBriefInfo(articleInfo.value.user_id).then(result => {// 获取作者信息
+    userBriefInfo(route.query.category, articleInfo.value.user_id).then(result => {// 获取作者信息
         if (result != null) articleInfo.value.username = result.data.data.userName
     })
     userInfo().then(result => {// 获取用户信息，判断用户是否是作者
@@ -147,6 +147,7 @@ onMounted(() => {
     height: auto;
     background: white;
     box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
+    color:black;
     border-radius: 10px;
     z-index: 99;
 }
