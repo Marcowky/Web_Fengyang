@@ -73,7 +73,7 @@ const showThird  = ref(false)
 
 const pageInfo = reactive({
     pageNum: 1,
-    pageSize: 5,
+    pageSize: 10,
     pageCount: 0,
     count: 0,
     keyword: "",
