@@ -25,6 +25,7 @@ type ICarouselController interface {
 	DeleteCarousel(c *gin.Context)
 	List(c *gin.Context)
 	UpdateCarousel(c *gin.Context)
+	CarouselUrlList(c *gin.Context)
 }
 
 // UploadImage 上传图像
@@ -164,11 +165,11 @@ func (a CarouselController) UpdateCarousel(c *gin.Context) {
 	iorder := updateCarousel.Iorder
 	category := updateCarousel.Category
 	url := updateCarousel.Url
-	println("更新轮播图id")
-	println(ID)
-	println("更新轮播图ioder")
-	println(iorder)
-	println("更新轮播图category" + category)
+	//println("更新轮播图id")
+	//println(ID)
+	//println("更新轮播图ioder")
+	//println(iorder)
+	//println("更新轮播图category" + category)
 
 	// 验证数据
 	var carousel model.Carousel
@@ -228,7 +229,7 @@ func (a CarouselController) DeleteCarousel(c *gin.Context) {
 func (a CarouselController) List(c *gin.Context) {
 	//keyword := c.DefaultQuery("keyword", "")
 	category := c.Query("category")
-	order := c.DefaultQuery("Iorder", "Iorder asc")
+	order := c.DefaultQuery("Iorder", "iorder asc")
 	pageNum, _ := strconv.Atoi(c.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(c.DefaultQuery("pageSize", "5"))
 
@@ -248,6 +249,40 @@ func (a CarouselController) List(c *gin.Context) {
 	}
 
 	common.Success(c, gin.H{"carousel": carousel, "count": count}, "加载成功")
+}
+
+// List 用于获取ioder不为0的轮播图的url列表
+func (a CarouselController) CarouselUrlList(c *gin.Context) {
+	category := c.Query("category")
+	var order string
+	order = "Iorder asc"
+	var carousel []model.Carousel
+
+	// 构建查询条件
+	query := a.DB.Order(order).Table(category).Where("iorder > ?", 0).Select("url") // 修改这里选择"url"
+	//query := a.DB.Order(order).Table(category).Where("Iorder > ?", 0) // 修改这里选择"url"
+
+	// 获取总数
+	var count int
+	query.Count(&count)
+
+	// 执行查询
+	if err := query.Find(&carousel).Error; err != nil {
+		common.Fail(c, 400, nil, "查询失败")
+		return
+	}
+
+	// 提取URL列表
+	var urlList []string
+	for _, item := range carousel {
+		//println("item.Url= ")
+		//println(item.Url)
+		urlList = append(urlList, item.Url)
+	}
+	//println("urlList[0]= ")
+	//println(urlList[0])
+	common.Success(c, gin.H{"urlList": urlList, "count": count}, "加载成功") // 返回urlList
+	//common.Success(c, gin.H{"urlList": carousel, "count": count}, "加载成功")
 }
 
 func NewCarouselController() ICarouselController {
