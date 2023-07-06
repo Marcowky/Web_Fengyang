@@ -167,25 +167,22 @@ const loadArticles = async() => {
   if (res.data.code == 200) {
     var articleList = res.data.data.article
     for (var i = 0; i < articleList.length; i++) {
-      var rowtitle = articleList[i].title;
       var content = articleList[i].content;
       // 对 obj 进行操作，例如访问属性 obj.property
       // 通过正则表达式匹配键值对的值
       var priceMatch = content.match(/price: (.*?)##/);
       var websiteMatch = content.match(/website: "(.*?)"##/);
-      var centerMatch = content.match(/center: \[(.*?)\]/);
+      var centerMatch = content.match(/center: \[(.*?)\]##/);
       var telephoneMatch = content.match(/telephone: (.*?)##/);
-      var titleMatch = rowtitle.match(/(.*) "/);
-      var placeAddressMatch = rowtitle.match(/\"([^"]+)\"/);
+      var placeAddressMatch = content.match(/location: "(.*?)"/);
       // 获取匹配结果中的值
       var price = priceMatch ? parseInt(priceMatch[1]) : null;
       var website = websiteMatch ? websiteMatch[1] : null;
       var center = centerMatch ? centerMatch[1].split(',').map(Number) : null; // 分割数字并将其转换为数字类型
       var telephone = telephoneMatch ? parseInt(telephoneMatch[1]) : null;
-      var title = titleMatch ? titleMatch[1] : null;
       var placeAddress = placeAddressMatch ? placeAddressMatch[1] : null;
       hotelsData.value.push({
-        name: title,
+        name: articleList[i].title,
         image: articleList[i].head_image,
         telephone: telephone,
         price: price,
@@ -216,7 +213,7 @@ const initMap = () => {
     // 在图面添加鹰眼控件，在地图右下角显示地图的缩略图
     map.addControl(new AMap.HawkEye())
     // 在图面添加类别切换控件，实现默认图层与卫星图、实施交通图层之间切换的控制
-    map.addControl(new AMap.MapType({defaultType:1,showTraffic:true,showRoad:true}))
+    map.addControl(new AMap.MapType({defaultType:0,showTraffic:true,showRoad:true}))
     // 在图面添加定位控件，用来获取和展示用户主机所在的经纬度位置
     map.addControl(new AMap.Geolocation())
 
