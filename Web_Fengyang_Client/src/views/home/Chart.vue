@@ -3,39 +3,18 @@
   <div class="swiper">
     <Swiper :modules="modules" :pagination="{ clickable: true }" :autoplay="{ delay: 3000, disableOnInteraction: false }"
       navigation>
-      <SwiperSlide>
+      <SwiperSlide v-for="item in chatImageData">
         <div class="title">
           <div class="title-large">
-            <p>四色丰阳</p>
+            <p>{{ item.titleLargeText }}</p>
           </div>
           <div class="title-small">
-            <p>水流暴冲，湛蓝的水光瞬间爆发，形成了一道喷涌而起的喷泉！</p>
+            <p>{{ item.titleSmallText }}</p>
           </div>
         </div>
-        <img src="https://www.jiuzhai.com/templates/rt_sienna/custom/images/2022_06/07.jpg" alt="">
+        <img :src="item.imagePath" alt="">
       </SwiperSlide>
-      <SwiperSlide>
-        <div class="title">
-          <div class="title-large">
-            <p>四色丰阳</p>
-          </div>
-          <div class="title-small">
-            <p>水流暴冲，湛蓝的水光瞬间爆发，形成了一道喷涌而起的喷泉！</p>
-          </div>
-        </div>
-        <img src="https://www.jiuzhai.com/templates/rt_sienna/custom/images/2023_05/06.jpg" alt="">
-      </SwiperSlide>
-      <SwiperSlide>
-        <div class="title">
-          <div class="title-large">
-            <p>四色丰阳</p>
-          </div>
-          <div class="title-small">
-            <p>水流暴冲，湛蓝的水光瞬间爆发，形成了一道喷涌而起的喷泉！</p>
-          </div>
-        </div>
-        <img src="https://www.jiuzhai.com/templates/rt_sienna/custom/images/2022_06/10.jpg" alt="">
-      </SwiperSlide>
+
     </Swiper>
     <!-- 如果需要导航按钮 -->
     <div class="swiper-button-prev"></div>
@@ -59,6 +38,23 @@ export default {
   data() {
     return {
       modules: [Pagination, Autoplay, Navigation],
+      chatImageData: [
+        {
+          imagePath: "/src/assets/HomePage/chart/homeChartPic3.jpg",
+          titleLargeText: "一碧千里",
+          titleSmallText: "绿意盎然的盛夏，谱写一场夏天的故事。"
+        },
+        {
+          imagePath: "/src/assets/HomePage/chart/homeChartPic2.jpg",
+          titleLargeText: "碧水微澜",
+          titleSmallText: "湛蓝的水，青翠的树，山中画，画中意，犹如仙境。"
+        },
+        {
+          imagePath: "/src/assets/HomePage/chart/homeChartPic1.jpg",
+          titleLargeText: "水帘悬挂",
+          titleSmallText: "跌宕奔腾，似玉如银；水清爽而透明，轻盈而飘逸。"
+        }
+      ]
     }
   }
 }
