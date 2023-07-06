@@ -7,13 +7,13 @@
             <h>
               最新资讯
             </h>
-          <el-card shadow ="hover" class ="part">
+          <el-card shadow ="hover" class ="part1">
             <el-button class="page" @click = "loadArticles">换一批</el-button>
             <el-scrollbar height="60%" ref="carousel" class = "news">
               <el-row v-for="(article, index) in qList" class = "news_item">
-                <div class="news_mode">
+                <div class="news_mode" @click="showdetail(article)">
                   <el-image :src="serverUrl + article.head_image" class="news_img"/>
-                  <span class="news_content" @click="showdetail(article)">
+                  <span class="news_content">
                   {{ article.title }}
                  </span>
                   <div class="news_time">发布时间：{{ article.created_at }}</div>
@@ -21,38 +21,35 @@
               </el-row>
             </el-scrollbar>
           </el-card>
-
         </el-col>
-
         <el-col :span="10" :offset="2"><div class="grid-content ep-bg-purple" />
             <h>
               景区公告
             </h>
-          <el-card shadow ="hover" class="part">
+          <el-card shadow ="hover" class="part1">
             <el-scrollbar max-height="80%">
               <el-row v-for="(article, index) in warningList">
                 <div class="list" @click="showdetail(article)">
                   {{article.title}}
-                  <span style="position:absolute;right: 1.5rem" >>></span>
                 </div>
+                <span style="position:absolute;right: 1.5rem" >>></span>
               </el-row>
             </el-scrollbar>
           </el-card>
 
         </el-col>
       </el-row>
-      <el-row style="margin-top: 20px;margin-bottom: 8px;margin-left: 1.1rem">
+      <el-row style="margin-top: 2rem;margin-bottom: 8px;margin-left: 1.3rem">
         <el-divider>
-          <span style="font-size: 1.5rem;font-weight:bold;font-family: 华文楷体">丰阳 欢迎您!</span>
+          <span style="font-size: 1.5rem;font-weight:bold;font-family: 华文楷体">丰阳 欢迎您 !</span>
         </el-divider>
       </el-row>
-
       <el-row :gutter="20">
         <el-col :span="10" :offset="1"><div class="grid-content ep-bg-purple" />
             <h>
               旅游攻略
             </h>
-          <el-card shadow ="hover" class="part">
+          <el-card shadow ="hover" class="part2">
               <el-card v-for="(article, index) in adviceList" class="modeCard" @click="showdetail(article)">
                   <el-image :src="serverUrl + article.head_image" style="width: 100%;height: inherit"/>
                   <span class= "part3-title">{{article.title}}</span>
@@ -63,14 +60,13 @@
             <h>
               假日时节
             </h>
-          <el-card shadow ="hover" class="part">
+          <el-card shadow ="hover" class="part2">
             <img
                 src="../../assets/event.jpg"
                 style="width: 95%;height: inherit;margin-left: 1rem;"
             />
             <div data-tockify-component="calendar" data-tockify-calendar="weigp"></div>
           </el-card>
-
         </el-col>
       </el-row>
     </el-card>
@@ -111,11 +107,11 @@ let pageInfo1 = ({
 })
 let pageInfo2 = ({
   pageArticleType: 'infoArticle',
-  categoryId: 1
+  categoryId: 2
 })
 let pageInfo3 = ({
   pageArticleType: 'infoArticle',
-  categoryId: 1
+  categoryId: 3
 })
 // 挂载页面时触发
 onMounted(() => {
@@ -145,14 +141,6 @@ const loadArticles = async () => {
       adviceList.value = result.data.data.article
     }
   })
-}
-// 计算数据的长度，共分为几组，如果不能整除则加1
-const listlen = () => {
-  let len = qList.value.length;
-  group = len / num;
-  if (len % num !== 0) {
-    group = parseInt(group) + 1;
-  }
 }
 //const arrowClick = (val) => {
 //  if(val === 'right') {
@@ -185,13 +173,18 @@ h{
   border-radius: 20px;
   width: 30rem;
 }
-.part{
-  height: 90%;
-  width: 100%;
+.part1{
+  height: 100%;
+  width: 110%;
   position: relative;
   border-radius: 10px;
 }
-
+.part2{
+  height: 80%;
+  width: 110%;
+  position: relative;
+  border-radius: 10px;
+}
 .news_mode{
   position: relative;
   margin: 0.15rem;
@@ -206,17 +199,16 @@ h{
   transition-delay:9999s;
   position: absolute;
   left:33%;
-  right: 10%;
-  bottom: 70%;
+  bottom: 60%;
+  right: 0;
   font-size: 0.9rem;
   color: black;
   background-color:white;
   border-radius:10px;
-  font-weight: bold;
-  overflow: hidden; // 文字超长隐藏
+  /*overflow: hidden; // 文字超长隐藏
   text-overflow:ellipsis; // 显示...
   white-space: nowrap; // 单行显示
-  z-index:2;
+  z-index:2;*/
 }
 .news_time{
   transition-delay:9999s;
@@ -232,7 +224,7 @@ h{
 }
 .news{
   position: relative;
-  top:0.5rem;
+  top:1.5rem;
 }
 .news:hover .news_img{
   transition: none;
@@ -243,12 +235,13 @@ h{
   transition:none;
   position: absolute;
   left:33%;
-  right: 10%;
   bottom: 70%;
+  right: 0;
   font-size: 0.9rem;
   font-weight: normal;
   color: black;
   background-color:white;
+
 }
 .news:hover .news_time{
   transition: none;
@@ -264,19 +257,20 @@ h{
 }
 .news_item:hover .news_img{
   transition-delay:0s;
-  width: 60%;
+  width: 70%;
   height: inherit;
 }
-.news_item:hover .news_content{
-  transition-delay:0s;
+.news_item:hover .news_content {
+  transition-delay: 0s;
   position: absolute;
-  left: 1rem;
-  right: 40%;
+  left: 0;
+  right: 30%;
   bottom: 0.5rem;
   font-size: 1rem;
   font-weight: bold;
   color: aliceblue;
   background-color: rgba(0, 0, 0, 0.5);
+
 }
 .news_item:hover .news_time{
   transition-delay:0s;
@@ -289,8 +283,8 @@ h{
   z-index: 2;
 }
 .list{
-  width: 100%;
-  margin-left: 2rem;
+  width: 85%;
+  margin-left: 1rem;
   margin-bottom: 1rem;
   font-size: 0.9rem;
   overflow: hidden; // 文字超长隐藏
@@ -305,13 +299,21 @@ h{
 
 .modeCard{
   float: left;
-  width:11.6rem;
-  height: inherit;
-  margin-left: 2.2rem;
-  margin-top: 1.5rem;
+  width:12rem;
+  height: 12rem;
+  border-radius: 5px;
+  margin-left: 7%;
+  margin-top: 10%;
 }
 .modeCard:hover{ //鼠标悬停时激活
 transform: scale(1.05); //放大倍数
+}
+.part3-title{
+  bottom: 0;
+  color: black;
+}
+.modeCard:hover .part3-title{
+  color:cornflowerblue;
 }
 
 </style>
