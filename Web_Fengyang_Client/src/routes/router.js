@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 let routes = [
     {
         path: '/',
-        redirect: '/home',
+        redirect: '/home?category=#home1',
         component: () => import("../views/clientLayout.vue"),
         children: [
             {

@@ -143,7 +143,7 @@ onMounted(() => {
 .content {
     position: relative;
     margin: auto;
-    width: 1000px;
+    width: 70%;
     height: auto;
     background: white;
     box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
