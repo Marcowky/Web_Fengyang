@@ -78,8 +78,9 @@
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     position: fixed; 
-    bottom: 50px; 
-    right: 30px; 
+    bottom: 250px; 
+    right: 50px; 
+    border-right-width: 0;
     z-index: 999;
     background-color: rgba(65, 65, 65, 0.7);
     min-height: 200px;
