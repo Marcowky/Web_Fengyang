@@ -67,10 +67,12 @@ const showDialog = ref(false)
 const showAddDialog = (data = false) => {
     if (!data) {
         dialogTitle.value = "添加酒店信息"
-        console.log("Here")
+        console.log("添加酒店信息")
         dialogTableValue.value = { "test": 111 }
     }
     else {
+        console.log("修改酒店信息")
+        console.log(data)
         dialogTitle.value = "编辑酒店信息"
         dialogTableValue.value = JSON.parse(JSON.stringify(data))
     }
@@ -223,7 +225,7 @@ onMounted(() => {
 
 <style scoped>
 .mainTable {
-    box-shadow: 2px 2px 6px #D3D4D8;
+    box-shadow: 0 0 6px rgba(50, 50, 50, 0.26);
     border-radius: 10px;
 }
 </style>

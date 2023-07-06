@@ -17,7 +17,6 @@ func Success(c *gin.Context, data gin.H, msg string) {
 
 // Fail 失败
 func Fail(c *gin.Context, code int, data gin.H, msg string) {
-	// TODO 重构响应
 	switch code {
 	case 400:
 		Response(c, http.StatusBadRequest, 400, data, msg) // 请求错误
@@ -30,5 +29,4 @@ func Fail(c *gin.Context, code int, data gin.H, msg string) {
 	default:
 		Response(c, http.StatusBadRequest, 400, data, msg) // 请求错误
 	}
-
 }

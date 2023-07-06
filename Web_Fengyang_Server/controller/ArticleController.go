@@ -181,8 +181,8 @@ func (a ArticleController) List(c *gin.Context) {
 	for i := 0; i < len(article); i++ {
 		article[i].Content = regexp.MustCompile("<.*?>").ReplaceAllString(article[i].Content, "")
 		runes := []rune(article[i].Content)
-		if len(runes) > 80 {
-			article[i].Content = string(runes[:80])
+		if len(runes) > 160 {
+			article[i].Content = string(runes[:160])
 		}
 	}
 

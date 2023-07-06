@@ -8,7 +8,7 @@
           <div class="hover-image-container el-menu-item">
             <el-icon class="iconfont icon-weixinxiaochengxu"></el-icon>
             <text>小程序</text>
-            <img src="../assets/pic1.jpg" class="hover-image"/>
+            <img src="../assets/xiaochengxu.jpg" class="hover-image"/>
           </div>
         </template>
       </el-menu-item>
@@ -18,7 +18,7 @@
           <div class="hover-image-container el-menu-item">
             <el-icon class="iconfont icon-weixin"></el-icon>
             <span>公众号</span>
-            <img src="../assets/pic1.jpg" class="hover-image"/>
+            <img src="../assets/gongzhonghao.png" class="hover-image"/>
           </div>
         </template>
       </el-menu-item>
@@ -28,7 +28,7 @@
           <div class="hover-image-container el-menu-item">
             <el-icon><service /></el-icon>
             <span>景区热线</span>
-            <img src="../assets/pic1.jpg" class="hover-image"/>
+            <span class="hover-image" style="white-space: pre-wrap;">景区热线: 40-16438629 86-78286993</span>
           </div>
         </template>
       </el-menu-item>
@@ -64,6 +64,7 @@
   .hover-image {
     display: none;
     position: absolute;
+    border-radius: 30px;
     right: 100px;
     top: -25px;
     width: 100px;
