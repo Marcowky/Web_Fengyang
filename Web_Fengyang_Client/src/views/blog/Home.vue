@@ -14,11 +14,10 @@
     <!-- 文章列表 -->
     <div class="content">
         <!-- 文章卡片 -->
-        <div v-for="(article, index) in articleList"  class="articleCard">
+        <div v-for="(article, index) in articleList" class="articleCard">
             <!-- 若有封面图 -->
             <el-card v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
-                <el-image class = "cardImage" 
-                    :src="serverUrl + article.head_image" :fit="fit"/>
+                <el-image class="cardImage" :src="serverUrl + article.head_image" fit="cover" />
                 <div style="position: relative; height: 150px;">
                     <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
                     <text>{{ cutContent(article.content) }}</text>
@@ -195,10 +194,10 @@ watch(() => pageInfo.keyword, () => ( // 搜索关键词改变时加载文章
 }
 
 .cardImage {
-    height: 150px; 
-    width: 250px;  
-    float: right; 
-    margin-bottom: 20px; 
+    height: 150px;
+    width: 250px;
+    float: right;
+    margin-bottom: 20px;
     margin-left: 15px;
     border-radius: 5px 5px 5px 5px;
 }
