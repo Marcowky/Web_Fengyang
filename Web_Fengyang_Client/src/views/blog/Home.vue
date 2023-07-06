@@ -17,7 +17,7 @@
         <div v-for="(article, index) in articleList"  class="articleCard">
             <!-- 若有封面图 -->
             <el-card v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
-                <el-image style="height: 150px; width: 250px;  float: right; margin-bottom: 20px; margin-left: 15px;"
+                <el-image class = "cardImage" 
                     :src="serverUrl + article.head_image" :fit="fit"/>
                 <div style="position: relative; height: 150px;">
                     <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
@@ -192,5 +192,14 @@ watch(() => pageInfo.keyword, () => ( // 搜索关键词改变时加载文章
     position: fixed;
     top: 25%;
     z-index: 999;
+}
+
+.cardImage {
+    height: 150px; 
+    width: 250px;  
+    float: right; 
+    margin-bottom: 20px; 
+    margin-left: 15px;
+    border-radius: 5px 5px 5px 5px;
 }
 </style>

@@ -7,7 +7,7 @@
     </el-menu>
 
     <div class="content">
-        <div style="margin:15px">
+        <div style="margin:30px; padding-top: 10px;">
             <!-- title -->
             <!-- <h1>{{ articleInfo.title }}</h1> -->
             <div style="height: 5px;"></div>
