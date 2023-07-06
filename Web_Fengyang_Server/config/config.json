@@ -1,7 +1,7 @@
 {
     "databaseConfig": {
         "driverName": "mysql",
-        "user": "root",
+        "user": "marco",
         "password": "Wu123456",
         "host": "localhost",
         "port": "3506",
