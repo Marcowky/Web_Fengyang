@@ -28,7 +28,9 @@
           <div class="hover-image-container el-menu-item">
             <el-icon><service /></el-icon>
             <span>景区热线</span>
-            <span class="hover-image" style="white-space: pre-wrap;">景区热线: 40-16438629 86-78286993</span>
+            <p class="hover-image">景区热线:</p>
+            <p class="hover-image" style="top:10px">40-16438629</p>
+            <p class="hover-image" style="top:30px">86-78286993</p>
           </div>
         </template>
       </el-menu-item>
@@ -38,7 +40,7 @@
           <div class="hover-image-container el-menu-item">
             <el-icon><ChatDotSquare /></el-icon>
             <span>投诉举报</span>
-            <img src="../assets/pic1.jpg" class="hover-image"/>
+            <img src="../assets/tousujubao.png" class="hover-image"/>
           </div>
         </template>
       </el-menu-item>
@@ -64,22 +66,22 @@
   .hover-image {
     display: none;
     position: absolute;
-    border-radius: 30px;
-    right: 100px;
-    top: -25px;
+    border-radius: 10px;
+    right: 80px;
+    top: -15px;
     width: 100px;
     height: 100px;
   }
   
   .hover-image-container:hover .hover-image {
     display: block;
-    
   }
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     position: fixed; 
-    bottom: 50px; 
-    right: 30px; 
+    bottom: 10%; 
+    right: 2%; 
+    border-right-width: 0;
     z-index: 999;
     background-color: rgba(65, 65, 65, 0.7);
     min-height: 200px;
