@@ -1,4 +1,5 @@
 <template>
+
   <div class="wrap">
     <div class="wrap_0">
       <div id="hotel_wrap_title_1">—路 径 查 询—</div>
@@ -9,12 +10,12 @@
         <el-input v-model="search_input_content" id="search_input" placeholder="请输入你要查找的关键词" type="text"></el-input>
         <el-button type="primary" id="searchBtn" @click="send_search">地点查询</el-button>
         <el-button type="primary" id="compute_driving_Btn" @click="compute_driving">路径计算</el-button>
-  <!--      <el-button type="primary" plain round @click="send()">点击返回丰阳镇中心</el-button>-->
+        <!--      <el-button type="primary" plain round @click="send()">点击返回丰阳镇中心</el-button>-->
       </div>
     </div>
 
     <div class="wrap_2">
-    <!-- 地图框 -->
+      <!-- 地图框 -->
       <div id="map_wrap">
         <div id="container" class="custom_style"></div>
         <div id="panel" class="custom_style"></div>
@@ -25,15 +26,17 @@
     <!-- 酒店展示 -->
     <div id="hotel_wrap_title_2">—酒 店 预 订—</div>
     <div id="hotel_wrap">
-      <el-row>
-        <el-col v-for="(item,index) in hotelsData.values()" :key="index" :span="6" :offset="index%3 ==0 ? 2:1">
+      <el-row >
+        <el-col style="padding-bottom: 30px" v-for="(item,index) in hotelsData.values()" :key="index" :span="6" :offset="index%3 ==0 ? 2:1">
           <el-card class="custom_style" shadow="always"  :body-style="{ padding: '0px' }" >
-            <el-image :src="serverUrl + item.image" class="hotel_image"></el-image>
+            <div class="img-box">
+              <el-image :src="serverUrl + item.image" class="hotel_image"></el-image>
+            </div>
             <div class="detail_hotel">
-                <h1 class="hotel_title">
-                  <span class="hotel_name">{{ item.name }}</span>
-                  <span class="hotel_price">{{ item.price }}元/晚起</span>
-                </h1>
+              <h1 class="hotel_title">
+                <span class="hotel_name">{{ item.name }}</span>
+                <span class="hotel_price">{{ item.price }}元/晚起</span>
+              </h1>
 
               <div class="hotel_profile">
                 <p>地址: {{ item.placeAddress }}</p>
@@ -162,7 +165,7 @@ const click_hotel_location= (location) =>{
 };
 
 const loadArticles = async() => {
-  
+
   let res = await axios.get(`/article/list?articleType=hotelarticle`)
   if (res.data.code == 200) {
     var articleList = res.data.data.article
@@ -274,221 +277,228 @@ const initMap = () => {
 
 onMounted(() => {
   loadArticles(),
-  initMap();
+      initMap();
 });
 
 
 watch(search_content, (newValue) => {
-    if (newValue != null) {
-      console.log(newValue);
-      placeSearch.search(newValue);
-      // drawBounds(newValue);
-      // map.value.setZoom(16, true, 1);
+      if (newValue != null) {
+        console.log(newValue);
+        placeSearch.search(newValue);
+        // drawBounds(newValue);
+        // map.value.setZoom(16, true, 1);
+      }
     }
-  }
 );
 </script>
 
 
 <style lang="less">
-  .custom_style{
-    border-radius: 20px;
-    :hover .hotel_image{
-      transform: scale(1.05);
-    }
-  }
-  .wrap{
-    border-radius: 20px;
-    padding-top: 20px;
-    background-color: white;
-    margin-left: 10%;
-    margin-right: 10%;
-    .wrap_0{
-      #hotel_wrap_title_1{
-        width: 100%;
-        font-size: 80px;
-        font-family: STXingkai;
-        font-weight: 100;
-        color: #474141;
-        margin-top: 20px;
-        padding-bottom: 10px;
-        display: flex;
-        justify-content: center;
-      }
-    }
-    .wrap_1{
-    //margin-top: 80px; /* 调整顶部间距，使输入框和按钮位于导航栏下方 */
-      margin-top: 0px;
-      height: 50px;
-      display: flex;
-      align-items: center;  //子元素垂直居中
-      justify-content: center; /* 将子元素水平居中 */
-    // > * 是一个 CSS 选择器，用于选择该元素的直接子元素。
-      > * {
-        margin-right: 10px; /* 添加右侧间距 */
-      }
-    // 搜索容器
-      #search_container{
-        position: absolute;
-        display: flex;
-        #search_input{
-          height: 50px;
-          width: 320px;
-        }
-        #searchBtn {
-          left: 11px;
-          height: 52px;
-          width: 100px;
-          margin-right: 10px;
-        }
-        #compute_driving_Btn{
-          height: 52px;
-          width: 100px;
-        }
-      }
-    }
 
-    .wrap_2{
-      height: 800px;
-      width: auto;
-      margin-left: 5%;
-      margin-right: 5%;
-      #map_wrap {
-        z-index: 10;
-      //absolute是相对于最近的父元素来定位
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      // 使用translate函数将元素在水平和垂直方向上分别向左和向上移动自身宽度和高度的一半，以使其完全居中显示。
-        height: 90%;
-        width: 100%;
-        #container {
-          padding: 0px;
-          margin: 0px;
-          width: 100%;
-          height: 100%;
-        }
-        #panel {
-          position: fixed;
-          background-color: white;
-          max-height: 90%;
-          overflow-y: auto;
-          top: 10px;
-          left: 10px;
-          width: 280px;
-        }
-        #panel .amap-call {
-          background-color: #009cf9;
-          border-top-left-radius: 4px;
-          border-top-right-radius: 4px;
-        }
-        #panel .amap-lib-driving {
-          border-bottom-left-radius: 4px;
-          border-bottom-right-radius: 4px;
-          overflow: hidden;
-        }
-      }
-    }
+.custom_style{
+  border-radius: 20px;
+  .img-box{
+    aspect-ratio: 500/400;
+    overflow: hidden;
   }
-
-  .wrap_3{
-    border-radius: 20px;
-    height: auto;
-    width: auto;
-    background-color: white;
-    margin-top: 10px ;
-    margin-bottom: 20px;
-    margin-left: 10%;
-    margin-right: 10%;
-    #hotel_wrap_title_2{
+  .hotel_image{
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+  }
+  :hover .hotel_image{
+    transform: scale(1.05);
+  }
+}
+.wrap{
+  border-radius: 20px;
+  padding-top: 20px;
+  background-color: white;
+  margin-left: 10%;
+  margin-right: 10%;
+  .wrap_0{
+    #hotel_wrap_title_1{
       width: 100%;
       font-size: 80px;
       font-family: STXingkai;
       font-weight: 100;
       color: #474141;
-      margin-top: 30px;
-      padding-top: 30px;
-      margin-bottom: 10px;
+      margin-top: 20px;
+      padding-bottom: 10px;
       display: flex;
       justify-content: center;
     }
-    #hotel_wrap {
-      padding-bottom: 35px;
-      .hotel_image{
-        max-width: 100%;
-        max-height: 100%;
-        transition: transform 0.4s;
-        /* 样式变化时设置动画时间为0.5秒 */
+  }
+  .wrap_1{
+  //margin-top: 80px; /* 调整顶部间距，使输入框和按钮位于导航栏下方 */
+    margin-top: 0px;
+    height: 50px;
+    display: flex;
+    align-items: center;  //子元素垂直居中
+    justify-content: center; /* 将子元素水平居中 */
+  // > * 是一个 CSS 选择器，用于选择该元素的直接子元素。
+    > * {
+      margin-right: 10px; /* 添加右侧间距 */
+    }
+  // 搜索容器
+    #search_container{
+      position: absolute;
+      display: flex;
+      #search_input{
+        height: 50px;
+        width: 320px;
       }
-      .detail_hotel{
-        margin: 0px;
-        padding: 0px 10px 10px;
-        .hotel_title{
-          margin: 0px;
-          text-align: center;
-          .hotel_name{
-            max-width: 100%;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            padding-right: 10px;
-            font-size: 28px;
-            font-family: 宋体;
-            font-weight: bold;
-            letter-spacing: -1px;
-            color: rgb(200 , 100, 89);
-          }
-          .hotel_price{
-            padding-left: 5px;
-            padding-right: 5px;
-            width: auto;
-            font-size: 18px;
-            font-family: 微软雅黑;
-            line-height: 16px;
-            background: rgb(153, 0, 0);
-            color: rgb(255, 255, 255);
-          }
-        }
-        .hotel_profile{
-          font-family: 微软雅黑;
-          margin-left: 10px;
-          font-size: 16px;
-          color: #796358;
-        }
-        .hotel_icon{
-          margin-left: 10px;
-          display: flex;
-        //justify-content: space-between;   //将元素平均分布在容器内，并在它们之间留出空间
-          .show_detail{
-            display: flex;
-            font-family: 微软雅黑;
-            color: #796358;
-          }
-          .hotel_location
-          {
-            margin-left: 20px;
-            display: flex;
-            font-family: 微软雅黑;
-            color: #796358;
-          }
-          .icon_detail{
-            display: none;
-          //opacity: 0;
-          //height: 0;
-            transition: transform 0.4s;
-          }
-          .hotel_location :hover .icon_detail{
-            display: block;
-          }
-          #show {
-            display: block;
-            height: 10px;
-          }
-        }
+      #searchBtn {
+        left: 11px;
+        height: 52px;
+        width: 100px;
+        margin-right: 10px;
+      }
+      #compute_driving_Btn{
+        height: 52px;
+        width: 100px;
       }
     }
   }
 
+  .wrap_2{
+    height: 800px;
+    width: auto;
+    margin-left: 5%;
+    margin-right: 5%;
+    #map_wrap {
+      z-index: 10;
+    //absolute是相对于最近的父元素来定位
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    // 使用translate函数将元素在水平和垂直方向上分别向左和向上移动自身宽度和高度的一半，以使其完全居中显示。
+      height: 90%;
+      width: 100%;
+      #container {
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+        height: 100%;
+      }
+      #panel {
+        position: fixed;
+        background-color: white;
+        max-height: 90%;
+        overflow-y: auto;
+        top: 10px;
+        left: 10px;
+        width: 280px;
+      }
+      #panel .amap-call {
+        background-color: #009cf9;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+      }
+      #panel .amap-lib-driving {
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        overflow: hidden;
+      }
+    }
+  }
+}
 
+.wrap_3{
+  border-radius: 20px;
+  height: auto;
+  width: auto;
+  background-color: white;
+  margin-top: 10px ;
+  margin-bottom: 20px;
+  margin-left: 10%;
+  margin-right: 10%;
+  #hotel_wrap_title_2{
+    width: 100%;
+    font-size: 80px;
+    font-family: STXingkai;
+    font-weight: 100;
+    color: #474141;
+    margin-top: 30px;
+    padding-top: 30px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+  }
+  #hotel_wrap {
+    padding-bottom: 35px;
+    .hotel_image{
+      max-width: 100%;
+      max-height: 100%;
+      transition: transform 0.4s;
+      /* 样式变化时设置动画时间为0.5秒 */
+    }
+    .detail_hotel{
+      margin: 0px;
+      padding: 0px 10px 10px;
+      .hotel_title{
+        margin: 0px;
+        text-align: center;
+        .hotel_name{
+          max-width: 100%;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          padding-right: 10px;
+          font-size: 28px;
+          font-family: 宋体;
+          font-weight: bold;
+          letter-spacing: -1px;
+          color: rgb(200 , 100, 89);
+        }
+        .hotel_price{
+          padding-left: 5px;
+          padding-right: 5px;
+          width: auto;
+          font-size: 18px;
+          font-family: 微软雅黑;
+          line-height: 16px;
+          background: rgb(153, 0, 0);
+          color: rgb(255, 255, 255);
+        }
+      }
+      .hotel_profile{
+        font-family: 微软雅黑;
+        margin-left: 10px;
+        font-size: 16px;
+        color: #796358;
+      }
+      .hotel_icon{
+        margin-left: 10px;
+        display: flex;
+      //justify-content: space-between;   //将元素平均分布在容器内，并在它们之间留出空间
+        .show_detail{
+          display: flex;
+          font-family: 微软雅黑;
+          color: #796358;
+        }
+        .hotel_location {
+          margin-left: 20px;
+          display: flex;
+          font-family: 微软雅黑;
+          color: #796358;
+        }
+        .icon_detail{
+          display: none;
+        //opacity: 0;
+        //height: 0;
+          transition: transform 0.4s;
+        }
+        .hotel_location :hover .icon_detail{
+          display: block;
+        }
+        #show {
+          display: block;
+          height: 10px;
+        }
+      }
+    }
+  }
+}
 
 </style>
