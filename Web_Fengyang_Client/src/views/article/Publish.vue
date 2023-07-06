@@ -1,7 +1,7 @@
 <template>
     <!-- 富文本编辑器 -->
     <div class="content">
-        <div style="margin:15px">
+        <div style="padding:15px; width: 100%;">
             <rich-text-editor v-model:modelValue="addArticle.content"></rich-text-editor>
         </div>
     </div>
@@ -135,7 +135,7 @@ onMounted(() => {
 .content {
     position: relative;
     margin: auto;
-    width: 1000px;
+    width: 70%;
     display: flex;
     flex-direction: column;
     align-items: center;
