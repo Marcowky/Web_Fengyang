@@ -92,7 +92,7 @@
       if (pageNum != 0) {
           pageInfo.pageNum = pageNum;
       }
-      let res = await axios.get(`/article/list?articleType=attractionarticle&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${index}`)
+      let res = await axios.get(`/article/list?articleType=attractionArticle&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${index}`)
       if (res.data.code == 200) {
           articleList.value = res.data.data.article
           // console.log(articleList)
