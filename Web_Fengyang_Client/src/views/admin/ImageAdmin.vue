@@ -5,7 +5,7 @@
     <!-- 轮播图管理部分 -->
     <el-card class="mainTable">
       <el-row :gutter="20">
-        <el-button @click="showAddCarouselDialog">
+        <el-button @click="showAddCarouselDialog()">
           添加
         </el-button>
       </el-row>
@@ -39,7 +39,7 @@
 
       </el-table>
       <el-pagination style="margin-top: 20px" background layout="prev, pager, next"
-                     :page-count="PageInfo.pageCount" @current-change="loadCarousels"
+                     :page-count="pageInfo.pageCount" @current-change="loadCarousels"
       />
     </el-card>
 
@@ -117,8 +117,7 @@ onBeforeRouteUpdate((to, from) => {
   }
 });
 
-import userInfoDialog from "./components/userInfoDialog.vue"
-import {userDelete, userListOut} from "../../api/user.js";
+import carouselInfoDialog from "./components/carouselInfoDialog.vue"
 import {carouselDelete, carouselListOut} from "../../api/image.js";
 
 

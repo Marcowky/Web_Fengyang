@@ -247,8 +247,8 @@ func (a CarouselController) List(c *gin.Context) {
 
 func NewCarouselController() ICarouselController {
 	db := common.GetDB()
-	db.Table("home").AutoMigrate(model.User{})
-	db.Table("consumpAttraction").AutoMigrate(model.User{})
+	db.Table("home").AutoMigrate(model.Carousel{})
+	db.Table("consumpAttraction").AutoMigrate(model.Carousel{})
 	return CarouselController{DB: db}
 
 }

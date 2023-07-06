@@ -56,3 +56,48 @@ export async function carouselDelete(carousel) {
         return error
     }
 }
+
+export async function carouselRegister(carousel) {
+    try {
+        let res = await axios.post("/image/addCarousel", {
+            Order:     carousel.order,
+            Category: carousel.category,
+            Url:      carousel.url
+        })
+        showMessage(res.data.msg, 'success')
+        return null // 返回响应数据
+    } catch (error) {
+        showMessage(error.response.data.msg, 'error')
+        return error
+    }
+}
+
+export async function carouselUpdate(carousel) {
+    try {
+        let res = await axios.put("/image/updateCarousel", {
+            ID: carousel.ID,
+            Order:     carousel.order,
+            Category: carousel.category,
+            Url:      carousel.url
+        })
+        showMessage(res.data.msg, 'success')
+        return null // 返回响应数据
+    } catch (error) {
+        showMessage(error.response.data.msg, 'error')
+        return error
+    }
+}
+
+// 上传轮播图图片
+export async function carouselUpload(file) {
+    try {
+        const formData = new FormData()
+        formData.append('file', file.file)
+        let res = await axios.post("/image/uploadCarouselImage", formData)
+        showMessage(res.data.msg, 'success')
+        return res
+    } catch (error) {
+        showMessage(error.response.data.msg, 'error')
+        return null
+    }
+}
