@@ -116,8 +116,8 @@ onBeforeRouteUpdate((to, from) => {
 
     if (fromCategory !== toCategory) {
         pageInfo.pageArticleType = toCategory
-        showButton.value = (pageInfo.pageArticleType !== 'hotelarticle')
-        showAdd.value = (pageInfo.pageArticleType != 'blogarticle')
+        showButton.value = (pageInfo.pageArticleType !== 'hotelArticle')
+        showAdd.value = (pageInfo.pageArticleType != 'blogArticle')
         loadArticles()
     }
 });
@@ -136,7 +136,7 @@ const pageInfo = reactive({
 })
 
 const getCategoryName = (categoryId) => {
-    if (pageInfo.pageArticleType != 'hotelarticle') {
+    if (pageInfo.pageArticleType != 'hotelArticle') {
         return config.menuItems.find(item => item.mainMenu == '/' + pageInfo.pageArticleType.substring(0, pageInfo.pageArticleType.length - 7) && item.index == categoryId).label
     }
     return "酒店记录"
@@ -163,7 +163,7 @@ const loadArticles = async (pageNum = 0) => {
     if (pageInfo.categoryId == "") {
         pageInfo.categoryId = 0
     }
-
+    console.log(pageInfo.pageArticleType)
     articleListOut(pageInfo).then(result => {
         if (result != null) {
             articleList.value = result.data.data.article
@@ -217,8 +217,8 @@ const deleteArticle = async (data) => {
 // 挂载页面时触发
 onMounted(() => {
     pageInfo.pageArticleType = route.query.category
-    showAdd.value = (pageInfo.pageArticleType != 'blogarticle')
-    showButton.value = (pageInfo.pageArticleType != 'hotelarticle')
+    showAdd.value = (pageInfo.pageArticleType != 'blogArticle')
+    showButton.value = (pageInfo.pageArticleType != 'hotelArticle')
     loadArticles()
 })
 </script>
