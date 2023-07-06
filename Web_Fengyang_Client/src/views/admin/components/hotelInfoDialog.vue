@@ -59,6 +59,7 @@
 import { ref, reactive, inject, watch } from 'vue';
 import {ElMessage} from "element-plus";
 import { showMessage } from '../../../components/Message';
+import {articlePost, articleUpdate} from '../../../api/article.js'
 import {imageCheck, imageDelete, imageUpload} from "../../../api/image.js";
 import {Delete, UploadFilled} from "@element-plus/icons-vue";
 const axios = inject("axios")
@@ -178,58 +179,75 @@ const submitForm = async (formEl) => {
     showMessage('表单验证不通过，请检查输入', 'error')
     return;
   }
-  // 添加酒店
+  // 更改酒店
   if(hotel.value.id!=="")
   {
-    let res = await axios.put(`article/update?articleType=hotelArticle&id=${hotel.value.id}`, {
+    let updateArticle = {
+      articleType: 'hotelArticle',
+      id: hotel.value.id,
       title: new_title,
       content: new_content,
-      head_image: hotel.value.image,
-      article_type: "hotelArticle",
-      category_id: 1,
-    })
-    if (res.data.code == 200) {
-      ElMessage({
-        message: res.data.msg,
-        type: 'success',
-        offset: 80
-      })
-      emits('updateHotelsList')
-      handleClose()
-    } else {
-      ElMessage({
-        message: res.data.msg,
-        type: 'error',
-        offset: 80
-      })
+      headImage: hotel.value.image,
+      categoryId: '1'
     }
+    await update(updateArticle)
   }
-  //更改酒店
+  //添加酒店
   else {
-    let res = await axios.post("/article/create", {
+    let addArticle = {
+      articleType: 'hotelArticle',
       title: new_title,
       content: new_content,
-      head_image: hotel.value.image,
-      article_type: "hotelArticle",
-      category_id: 1,
-    })
-    if (res.data.code == 200) {
-      ElMessage({
-        message: res.data.msg,
-        type: 'success',
-        offset: 80
-      })
-      emits('updateHotelsList')
-      handleClose()
-    } else {
-      ElMessage({
-        message: res.data.msg,
-        type: 'error',
-        offset: 80
-      })
+      headImage: hotel.value.image,
+      categoryId: 1
     }
+    await submit(addArticle)
+
+
+    // let res = await axios.post("/article/create", {
+    //   title: new_title,
+    //   content: new_content,
+    //   head_image: hotel.value.image,
+    //   article_type: "hotelArticle",
+    //   category_id: 1,
+    // })
+    // if (res.data.code == 200) {
+    //   ElMessage({
+    //     message: res.data.msg,
+    //     type: 'success',
+    //     offset: 80
+    //   })
+    //   emits('updateHotelsList')
+    //   handleClose()
+    // } else {
+    //   ElMessage({
+    //     message: res.data.msg,
+    //     type: 'error',
+    //     offset: 80
+    //   })
+    // }
   }
 
+}
+
+const submit = async (addArticle) => {
+  articlePost(addArticle).then(result => {
+    if (result == null) {
+      // router.go(-1)
+      emits('updateHotelsList')
+      handleClose()
+    }
+  })
+}
+
+const update = async (updateArticle) => {
+  articleUpdate(updateArticle).then(result => {
+    if (result == null) {
+      // router.go(-1)
+      emits('updateHotelsList')
+      handleClose()
+    }
+  })
 }
 </script>
 
