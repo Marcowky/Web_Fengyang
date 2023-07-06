@@ -166,7 +166,7 @@ const click_hotel_location= (location) =>{
 
 const loadArticles = async() => {
 
-  let res = await axios.get(`/article/list?articleType=hotelarticle`)
+  let res = await axios.get(`/article/list?articleType=hotelArticle`)
   if (res.data.code == 200) {
     var articleList = res.data.data.article
     for (var i = 0; i < articleList.length; i++) {

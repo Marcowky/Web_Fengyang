@@ -181,11 +181,11 @@ const submitForm = async (formEl) => {
   // 添加酒店
   if(hotel.value.id!=="")
   {
-    let res = await axios.put(`article/update?articleType=hotelarticle&id=${hotel.value.id}`, {
+    let res = await axios.put(`article/update?articleType=hotelArticle&id=${hotel.value.id}`, {
       title: new_title,
       content: new_content,
       head_image: hotel.value.image,
-      article_type: "hotelarticle",
+      article_type: "hotelArticle",
       category_id: 1,
     })
     if (res.data.code == 200) {
@@ -210,7 +210,7 @@ const submitForm = async (formEl) => {
       title: new_title,
       content: new_content,
       head_image: hotel.value.image,
-      article_type: "hotelarticle",
+      article_type: "hotelArticle",
       category_id: 1,
     })
     if (res.data.code == 200) {
