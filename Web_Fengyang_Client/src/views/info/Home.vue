@@ -3,12 +3,12 @@
   <!-- 顶部导航栏 -->
     <el-card style="border-radius: 20px;margin-left: 10rem;margin-right: 10rem;margin-top: 2rem">
       <el-row :gutter="5">
-        <el-col :span="9" :offset="1" ><div class="grid-content ep-bg-purple" />
-              <h>
-                最新资讯
-              </h>
-          <el-button class="page" @click = "loadArticles">换一换</el-button>
+        <el-col :span="10" :offset="1" ><div class="grid-content ep-bg-purple" />
+            <h>
+              最新资讯
+            </h>
           <el-card shadow ="hover" class ="part">
+            <el-button class="page" @click = "loadArticles">换一批</el-button>
             <el-scrollbar height="60%" ref="carousel" class = "news">
               <el-row v-for="(article, index) in qList" class = "news_item">
                 <div class="news_mode">
@@ -24,7 +24,7 @@
 
         </el-col>
 
-        <el-col :span="9" :offset="3"><div class="grid-content ep-bg-purple" />
+        <el-col :span="10" :offset="2"><div class="grid-content ep-bg-purple" />
             <h>
               景区公告
             </h>
@@ -48,7 +48,7 @@
       </el-row>
 
       <el-row :gutter="20">
-        <el-col :span="9" :offset="1"><div class="grid-content ep-bg-purple" />
+        <el-col :span="10" :offset="1"><div class="grid-content ep-bg-purple" />
             <h>
               旅游攻略
             </h>
@@ -59,14 +59,14 @@
               </el-card>
           </el-card>
         </el-col>
-        <el-col :span="9" :offset="3"><div class="grid-content ep-bg-purple" />
+        <el-col :span="10" :offset="2"><div class="grid-content ep-bg-purple" />
             <h>
               假日时节
             </h>
           <el-card shadow ="hover" class="part">
             <img
                 src="../../assets/event.jpg"
-                style="width: 91%;height: inherit;margin-left: 2rem;"
+                style="width: 95%;height: inherit;margin-left: 1rem;"
             />
             <div data-tockify-component="calendar" data-tockify-calendar="weigp"></div>
           </el-card>
@@ -177,6 +177,7 @@ h{
   color: rgb(216, 102, 102);
   font-size: 1.3rem;
   font-weight: bold;
+  margin-top: 1rem;
   margin-bottom: 1.6rem;
 }
 
@@ -185,8 +186,8 @@ h{
   width: 30rem;
 }
 .part{
-  height: 32rem;
-  width: 32rem;
+  height: 90%;
+  width: 100%;
   position: relative;
   border-radius: 10px;
 }
@@ -231,7 +232,6 @@ h{
 }
 .news{
   position: relative;
-  left:5%;
   top:0.5rem;
 }
 .news:hover .news_img{
@@ -285,7 +285,7 @@ h{
 .page{
   position: absolute;
   color: rgb(103, 151, 213);
-  right:-4.8rem;
+  right: 0.8rem;
   z-index: 2;
 }
 .list{
