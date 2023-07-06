@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e01eb80d-981b-46a9-b3c8-d2298cd13837" name="Changes" comment="完善资讯页面">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Client/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Client/src/App.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Web_Fengyang_Client/src/views/info/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Client/src/views/info/Home.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
