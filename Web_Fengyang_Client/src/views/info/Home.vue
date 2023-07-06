@@ -146,14 +146,6 @@ const loadArticles = async () => {
     }
   })
 }
-// 计算数据的长度，共分为几组，如果不能整除则加1
-const listlen = () => {
-  let len = qList.value.length;
-  group = len / num;
-  if (len % num !== 0) {
-    group = parseInt(group) + 1;
-  }
-}
 //const arrowClick = (val) => {
 //  if(val === 'right') {
 //    carousel.value.next()
