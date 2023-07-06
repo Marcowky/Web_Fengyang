@@ -1,10 +1,10 @@
 {
     "databaseConfig": {
         "driverName": "mysql",
-        "user": "marco",
+        "user": "root",
         "password": "Wu123456",
         "host": "localhost",
-        "port": "3506",
+        "port": "3306",
         "database": "web_fengyang",
         "charset": "utf8",
         "loc": "Asia/Shanghai"
