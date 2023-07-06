@@ -14,7 +14,6 @@
                 <el-image :src="serverUrl + article.head_image" class="image"/>
                 <div class="text-wrapper">
                 <div style="font-size: 15px; color: #000;">{{article.title}} </div>
-                <div style="font-size: 13px; color: #999;">开放时间 8:00-19:00</div>
                 </div>
               </el-card>
             </div>
@@ -32,7 +31,6 @@
             <el-image :src="serverUrl + article.head_image" class="image"/>
             <div class="text-wrapper">
             <div style="font-size: 15px; color: #000;">{{article.title}} </div>
-            <div style="font-size: 13px; color: #999;">{{article.content}}</div>
             </div>
           </el-card>
         </div>
@@ -50,7 +48,6 @@
             <el-image :src="serverUrl + article.head_image" class="image"/>
             <div class="text-wrapper">
             <div style="font-size: 15px; color: #000;">{{article.title}} </div>
-            <div style="font-size: 13px; color: #999;">{{article.content}}</div>
             </div>
           </el-card>
         </div>
