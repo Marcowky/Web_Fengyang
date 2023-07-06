@@ -13,7 +13,7 @@ import { router } from "./routes/router"; // 引入路由
 import axios from "axios"; // 引入axios
 import { UserStore } from "./stores/UserStore" // 引入UserStore
 
-axios.defaults.baseURL = "http://localhost:8080"; // 服务端地址全局配置
+axios.defaults.baseURL = "http://123.56.10.20:8080"; // 服务端地址全局配置
 
 const app = createApp(App);
 
