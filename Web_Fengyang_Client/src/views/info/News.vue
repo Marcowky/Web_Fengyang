@@ -1,5 +1,6 @@
 <template>
 <el-card style="border-radius: 20px;margin-left: 120px;margin-right: 120px;margin-top: 60px">
+  <el-button @click="router.go(-1)">返回</el-button>
   <el-container>
     <el-header  class="info-header">
       <h2 class="info-title">{{ articleInfo.title }}</h2>
@@ -8,7 +9,7 @@
         <el-divider direction="vertical"></el-divider>
         <span>作者：未知</span>
         <el-divider direction="vertical"></el-divider>
-        <span>{{ articleInfo.created_at }}</span>
+        <span>发布时间：{{ articleInfo.created_at }}</span>
       </div>
     </el-header>
     <el-main class="info-main">
