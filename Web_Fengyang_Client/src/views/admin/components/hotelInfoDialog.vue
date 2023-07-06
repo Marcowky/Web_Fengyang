@@ -71,7 +71,7 @@ const props = defineProps({
     required: true
   },
   dialogTableValue: {
-    tyoe: Object,
+    type: Object,
     default: () => {}
   },
 })

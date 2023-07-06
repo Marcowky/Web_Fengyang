@@ -45,7 +45,8 @@
     "articleConfig": [
         {
             "label": "id",
-            "prop": "id"
+            "prop": "id",
+            "sortable": "true"
         },
         {
             "label": "标题",
@@ -81,6 +82,38 @@
             "label": "操作选项",
             "prop": "option",
             "sortable": "false"
+        }
+    ],
+
+    "carouselConfig": [
+        {
+            "label": "id",
+            "prop": "ID",
+            "width": "100"
+        },
+        {
+            "label": "顺序",
+            "prop": "Iorder",
+            "sortable": "true",
+            "width": "100"
+        },
+        {
+            "label": "类别",
+            "prop": "Category",
+            "width": "200",
+            "sortable": "false"
+        },
+        {
+            "label": "图片",
+            "prop": "Url",
+            "width": "500",
+            "sortable": "false"
+        },
+        {
+            "label": "操作选项",
+            "prop": "option",
+            "sortable": "false",
+            "width": "300"
         }
     ]
 }

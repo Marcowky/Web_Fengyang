@@ -30,7 +30,7 @@ editorConfig.MENU_CONF = {}
 editorConfig.MENU_CONF['uploadImage'] = {
   maxFileSize: 1024 * 1024 * 1024, // 取消原先的文件限制
   // 自定义文件限制函数
-  onBeforeUpload(file) { 
+  onBeforeUpload(file) {
     console.log(Object.keys(file))
     if (file[Object.keys(file)[Object.keys(file).length-1]].size >= 2 * 1024 * 1024) {
       showMessage("图片不能超过2M", 'warning')

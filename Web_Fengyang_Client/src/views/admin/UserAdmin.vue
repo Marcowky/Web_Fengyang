@@ -86,7 +86,7 @@ const handleSortChange = (sort) => {
     loadUsers()
 }
 
-// 按条件加载文章列表
+// 按条件加载用户列表
 const loadUsers = async (pageNum = 0) => {
     if (pageNum != 0) {
         pageInfo.pageNum = pageNum;
