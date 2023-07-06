@@ -11,9 +11,9 @@
             <el-button class="page" @click = "loadArticles">换一批</el-button>
             <el-scrollbar height="60%" ref="carousel" class = "news">
               <el-row v-for="(article, index) in qList" class = "news_item">
-                <div class="news_mode">
+                <div class="news_mode" @click="showdetail(article)">
                   <el-image :src="serverUrl + article.head_image" class="news_img"/>
-                  <span class="news_content" @click="showdetail(article)">
+                  <span class="news_content">
                   {{ article.title }}
                  </span>
                   <div class="news_time">发布时间：{{ article.created_at }}</div>
@@ -31,17 +31,17 @@
               <el-row v-for="(article, index) in warningList">
                 <div class="list" @click="showdetail(article)">
                   {{article.title}}
-                  <span style="position:absolute;right: 1.5rem" >>></span>
                 </div>
+                <span style="position:absolute;right: 1.5rem" >>></span>
               </el-row>
             </el-scrollbar>
           </el-card>
 
         </el-col>
       </el-row>
-      <el-row style="margin-top: 20px;margin-bottom: 8px;margin-left: 1.1rem">
+      <el-row style="margin-top: 2rem;margin-bottom: 8px;margin-left: 1.3rem">
         <el-divider>
-          <span style="font-size: 1.5rem;font-weight:bold;font-family: 华文楷体;margin-top: 2rem">丰阳 欢迎您!</span>
+          <span style="font-size: 1.5rem;font-weight:bold;font-family: 华文楷体">丰阳 欢迎您 !</span>
         </el-divider>
       </el-row>
       <el-row :gutter="20">
@@ -175,7 +175,7 @@ h{
 }
 .part1{
   height: 100%;
-  width: 100%;
+  width: 110%;
   position: relative;
   border-radius: 10px;
 }
@@ -283,8 +283,8 @@ h{
   z-index: 2;
 }
 .list{
-  width: 100%;
-  margin-left: 2rem;
+  width: 85%;
+  margin-left: 1rem;
   margin-bottom: 1rem;
   font-size: 0.9rem;
   overflow: hidden; // 文字超长隐藏
@@ -299,13 +299,21 @@ h{
 
 .modeCard{
   float: left;
-  width:10rem;
-  height: inherit;
-  margin-left: 2.2rem;
-  margin-top: 1.5rem;
+  width:12rem;
+  height: 12rem;
+  border-radius: 5px;
+  margin-left: 7%;
+  margin-top: 10%;
 }
 .modeCard:hover{ //鼠标悬停时激活
 transform: scale(1.05); //放大倍数
+}
+.part3-title{
+  bottom: 0;
+  color: black;
+}
+.modeCard:hover .part3-title{
+  color:cornflowerblue;
 }
 
 </style>
