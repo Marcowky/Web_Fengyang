@@ -73,9 +73,10 @@ export async function userListOut(pageInfo) {
     }
 }
 
-export async function userBriefInfo(userID) {
+export async function userBriefInfo(articleCategory, userID) {
     try {
-        let res = await axios.get(`user/briefInfo?userType=client&id=${userID}`)
+        let userCategory = (articleCategory == 'blogArticle') ? 'client' : 'admin'
+        let res = await axios.get(`user/briefInfo?userType=${userCategory}&id=${userID}`)
         return res // 返回响应数据
     } catch (error) {
         return null

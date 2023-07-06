@@ -6,11 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e01eb80d-981b-46a9-b3c8-d2298cd13837" name="Changes" comment="完善资讯页面">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Client/src/api/image.js" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Client/src/api/image.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Client/src/components/Chart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Client/src/components/Chart.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Server/common/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Server/common/database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Server/controller/ImageController.go" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Server/controller/ImageController.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Server/routes/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Server/routes/routes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Client/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Client/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Client/src/views/info/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Client/src/views/info/Home.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,15 +23,7 @@
     </option>
   </component>
   <component name="GOROOT" url="file://$PROJECT_DIR$/../../../mygoland" />
-  <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="master" />
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="master" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -44,7 +33,6 @@
     <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2QI3srgW68Kk1vPkL1royGKtw4c" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -59,38 +47,14 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/liuy&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Go_Workplace/src/Web_Fengyang&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\Go\\GoLand 2022.3.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\mygoland\\GoLand 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Go Build.go build main.go">
-    <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="Web_Fengyang" />
-      <working_directory value="$PROJECT_DIR$/Web_Fengyang_Server" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/Web_Fengyang_Server/main.go" />
-      <method v="2" />
-    </configuration>
-    <configuration name="go build textCheck.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="Web_Fengyang" />
-      <working_directory value="$PROJECT_DIR$/Web_Fengyang_Server" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/Web_Fengyang_Server/common/textCheck.go" />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Go Build.go build main.go" />
-        <item itemvalue="Go Build.go build textCheck.go" />
-      </list>
-    </recent_temporary>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
