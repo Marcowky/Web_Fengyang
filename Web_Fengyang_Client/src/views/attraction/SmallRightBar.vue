@@ -1,5 +1,5 @@
 <template>
-    <el-tabs v-model="activeName" :tab-position="tabPosition" style="height: 800px" class="demo-tabs" @tab-click="handleClick">
+    <el-tabs v-model="activeName" :tab-position="tabPosition" style="height: 550px" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="热门景点" name="first"></el-tab-pane>
       <el-tab-pane label="游玩攻略" name="second"></el-tab-pane>
 
@@ -12,7 +12,7 @@
                 <el-image :src="serverUrl + article.head_image" class="image"/>
                 <div class="text-wrapper">
                 <div style="font-size: 15px; color: #000;">{{article.title}} </div>
-                <div style="font-size: 13px; color: #999;">{{article.content}}</div>
+                <div style="font-size: 13px; color: #999;">开放时间 8:00-19:00</div>
                 </div>
               </el-card>
             </div>
@@ -25,12 +25,11 @@
         <el-col>
               
           <el-row :span="6">
-            <div v-for="(article, index) in articleList" style="margin-left:40px;margin-right:40px;margin-top:30px">
+            <div v-for="(article, index) in articleList" style="margin-left:40px;margin-right:40px;;margin-bottom:30px">
               <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover" @click="toAttraction(article)">
                 <el-image :src="serverUrl + article.head_image" class="image"/>
                 <div class="text-wrapper">
                 <div style="font-size: 15px; color: #000;">{{article.title}} </div>
-                <div style="font-size: 13px; color: #999;">{{article.content}}</div>
                 </div>
               </el-card>
             </div>
@@ -59,7 +58,7 @@
 
   const pageInfo = reactive({
       pageNum: 1,
-      pageSize: 5,
+      pageSize: 6,
       pageCount: 0,
       count: 0,
       keyword: "",
@@ -106,7 +105,7 @@
       router.push({
           path: "/article/detail",
           query: {
-              category: "attractionarticle",
+              category: "attractionArticle",
               id: article.id,
           }
       })
