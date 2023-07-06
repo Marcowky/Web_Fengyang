@@ -71,9 +71,10 @@ import { Position, Document } from '@element-plus/icons-vue'
 // 安全秘钥
 window._AMapSecurityConfig = {
   securityJsCode: '3626fd4fb9d0809a04788c6df4d45953'
-};
+}
+import { articleListOut } from '../../api/article.js'
 //***********变量***********
-const axios = inject("axios")
+// const axios = inject("axios")
 const serverUrl = inject("serverUrl")
 // map地图变量
 let map = ref(null);
@@ -165,38 +166,44 @@ const click_hotel_location= (location) =>{
 };
 
 const loadArticles = async() => {
-
-  let res = await axios.get(`/article/list?articleType=hotelarticle`)
-  if (res.data.code == 200) {
-    var articleList = res.data.data.article
-    for (var i = 0; i < articleList.length; i++) {
-      var content = articleList[i].content;
-      // 对 obj 进行操作，例如访问属性 obj.property
-      // 通过正则表达式匹配键值对的值
-      var priceMatch = content.match(/price: (.*?)##/);
-      var websiteMatch = content.match(/website: "(.*?)"##/);
-      var centerMatch = content.match(/center: \[(.*?)\]##/);
-      var telephoneMatch = content.match(/telephone: (.*?)##/);
-      var placeAddressMatch = content.match(/location: "(.*?)"/);
-      // 获取匹配结果中的值
-      var price = priceMatch ? parseInt(priceMatch[1]) : null;
-      var website = websiteMatch ? websiteMatch[1] : null;
-      var center = centerMatch ? centerMatch[1].split(',').map(Number) : null; // 分割数字并将其转换为数字类型
-      var telephone = telephoneMatch ? parseInt(telephoneMatch[1]) : null;
-      var placeAddress = placeAddressMatch ? placeAddressMatch[1] : null;
-      hotelsData.value.push({
-        name: articleList[i].title,
-        image: articleList[i].head_image,
-        telephone: telephone,
-        price: price,
-        website: website,
-        center: center,
-        placeAddress: placeAddress,
-      });
+  let pageInfo = {
+    pageArticleType:'hotelArticle'
+  }
+  articleListOut(pageInfo).then(result => {
+    if (result != null) {
+      matchData(result.data.data.article)
     }
-    console.log(hotelsData[0])
+  })
+}
+
+const matchData = (articleList) => {
+  for (var i = 0; i < articleList.length; i++) {
+    var content = articleList[i].content;
+    // 对 obj 进行操作，例如访问属性 obj.property
+    // 通过正则表达式匹配键值对的值
+    var priceMatch = content.match(/price: (.*?)##/);
+    var websiteMatch = content.match(/website: "(.*?)"##/);
+    var centerMatch = content.match(/center: \[(.*?)\]##/);
+    var telephoneMatch = content.match(/telephone: (.*?)##/);
+    var placeAddressMatch = content.match(/location: "(.*?)"/);
+    // 获取匹配结果中的值
+    var price = priceMatch ? parseInt(priceMatch[1]) : null;
+    var website = websiteMatch ? websiteMatch[1] : null;
+    var center = centerMatch ? centerMatch[1].split(',').map(Number) : null; // 分割数字并将其转换为数字类型
+    var telephone = telephoneMatch ? parseInt(telephoneMatch[1]) : null;
+    var placeAddress = placeAddressMatch ? placeAddressMatch[1] : null;
+    hotelsData.value.push({
+      name: articleList[i].title,
+      image: articleList[i].head_image,
+      telephone: telephone,
+      price: price,
+      website: website,
+      center: center,
+      placeAddress: placeAddress,
+    });
   }
 }
+
 //地图初始化函数
 const initMap = () => {
   AMapLoader.load({
