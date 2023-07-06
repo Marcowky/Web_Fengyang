@@ -28,7 +28,7 @@
 <!--            <el-menu-item index="/admin/image">图片更换</el-menu-item>-->
             <el-sub-menu index="/admin/carousel">
               <template #title>轮播图管理</template>
-              <el-menu-item index="/admin/carousel?category=home">首页</el-menu-item>
+<!--              <el-menu-item index="/admin/carousel?category=home">首页</el-menu-item>-->
               <el-menu-item index="/admin/carousel?category=consumpAttraction">消费景点</el-menu-item>
             </el-sub-menu>
 

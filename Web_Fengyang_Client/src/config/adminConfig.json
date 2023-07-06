@@ -100,20 +100,20 @@
         {
             "label": "类别",
             "prop": "Category",
-            "width": "100",
+            "width": "200",
             "sortable": "false"
         },
         {
             "label": "图片",
             "prop": "Url",
-            "width": "250",
+            "width": "500",
             "sortable": "false"
         },
         {
             "label": "操作选项",
             "prop": "option",
             "sortable": "false",
-            "width": "250"
+            "width": "300"
         }
     ]
 }

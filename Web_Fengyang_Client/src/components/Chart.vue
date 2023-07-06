@@ -5,8 +5,7 @@
 <!--      <el-carousel-item v-for="item in 6" :key="item">-->
 <!--        <img :src="`../src/assets/pic${item}.jpg`" :alt="'Slide ' + item" />-->
         <el-carousel-item v-for="(item, index) in urlList" :key="index">
-<!--          <div><p>{{item.Url}}</p>></div>>-->
-          <img :src= "serverUrl + item.Url" :alt="'Slide ' + (index + 1)" />
+          <img :src= "serverUrl + item" :alt="'Slide ' + (index + 1)" />
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -17,7 +16,7 @@
 <script setup>
 import {ref, onMounted, inject} from 'vue'
 import {carouselUrlListOut} from "../api/image.js";
-import {resolveBaseUrl} from "vite";
+// import {resolveBaseUrl} from "vite"; // import会报错
 
 const urlList = ref([])
 const serverUrl = inject("serverUrl") // 网络请求
@@ -28,9 +27,9 @@ const response = async (pageInfo) => {
   carouselUrlListOut(pageInfo).then(result => {
     if (result != null) {
       let res = result
-      urlList.value = res.data.urlList
-      // console.log("urlList " )
-      // console.log(urlList.value[0])
+      urlList.value = res.data.data.urlList
+      console.log("urlList ")
+      console.log(urlList.value[0])
     }
   })
 }

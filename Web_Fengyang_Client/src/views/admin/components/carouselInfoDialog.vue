@@ -9,7 +9,7 @@
       <el-form-item label="顺序" prop="iorder">
         <el-input v-model="carousel.iorder" />
       </el-form-item>
-      <el-form-item label="图片">
+      <el-form-item label="图片" prop="url">
         <!-- 无封面时 -->
         <div v-if="!newImage" style="width: 80%; margin: auto;">
           <el-upload drag :before-upload="imageCheck" :http-request="customRequest" multiple>
@@ -26,7 +26,7 @@
         </div>
         <!-- 有封面时 -->
         <div v-else style="width: 80%; margin: auto;">
-          <el-image :src="serverUrl + imageUrl"></el-image>
+          <el-image :src="serverUrl + imageUrl" v-model="carousel.url"></el-image>
 <!--          <el-image :src= ></el-image>-->
           <el-button class="delete-button" size="large" @click="deleteImage" type="danger" :icon="Delete" circle />
         </div>
@@ -200,9 +200,11 @@ const customRequest = async (file) => {
 // 删除图片
 const deleteImage = async () => {
 
-  imageDelete(carousel.url).then(result => {
+  imageDelete(imageUrl.value).then(result => {
+  // imageDelete(carousel.url).then(result => {
     if (result == null) {
       carousel.url = ""
+      imageUrl.value = ""
       newImage.value = false
     }
   })

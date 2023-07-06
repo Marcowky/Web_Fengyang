@@ -1,4 +1,5 @@
 <template>
+  <Chart style=" position: relative; top: 10px;left: 0;  width: 100%; " />
   <div class="carousel-container">
     <carouselInfoDialog v-model="showDialog" :dialogTitle="dialogTitle" v-if="showDialog" @updateCarouselList="loadCarousels"
                     :dialogTableValue="dialogTableValue" :dialogCarouselType="dialogCarouselType"/>
@@ -17,11 +18,12 @@
           @sort-change="handleSortChange"
       >
         <template v-for="item in carouselConfig">
-          <el-table-column v-if="item.sortable == 'true'" sortable="custom" :width="item.width" :prop="item.prop"
-                           :label="item.label">
-          </el-table-column>
-          <el-table-column v-if="item.sortable == 'false'" :width="item.width" :prop="item.prop" :label="item.label">
-            <template v-if="item.prop == 'option'" #default="scope">
+<!--          <el-table-column v-if="item.sortable == 'true'" sortable="custom" :width="item.width" :prop="item.prop"-->
+<!--                           :label="item.label">-->
+<!--          </el-table-column>-->
+<!--          <el-table-column v-if="item.sortable == 'false'" :width="item.width" :prop="item.prop" :label="item.label">-->
+          <el-table-column  :width="item.width" :prop="item.prop" :label="item.label">
+          <template v-if="item.prop == 'option'" #default="scope">
               <el-button type="warning" @click="showAddCarouselDialog(scope.row)">修改</el-button>
               <el-button type="danger" @click="deleteCarousel(scope.row)">删除</el-button>
             </template>
@@ -31,8 +33,11 @@
             </template>
 
             <template v-if="item.prop == 'Url'" #default="scope">
-              <el-image style="height: 150px; float: right; margin-bottom: 20px; margin-left: 15px;"
+<!--              margin-left: 15px-->
+              <div style="height: 150px">
+              <el-image style="height: 100%; float: left; margin-bottom: 1%;margin-right: 3%;"
                         :src="serverUrl + scope.row.Url"/>
+              </div>
             </template>
           </el-table-column>
         </template>
@@ -51,6 +56,7 @@ import { ref, inject, onMounted, reactive } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { carouselConfig } from "../../config/adminConfig.json"
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
+import Chart from "../../components/Chart.vue"
 
 
 const serverUrl = inject("serverUrl")// 网络请求
@@ -134,6 +140,7 @@ const loadCarousels = async (pageNum = 0) => {
   // }
   carouselListOut(pageInfo).then(result => {
     if (result != null) {
+      console.log("111")
       carouselList.value = result.data.data.carousel
       pageInfo.count = result.data.data.count;
     }

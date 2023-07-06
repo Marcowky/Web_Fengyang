@@ -106,7 +106,7 @@ export async function carouselUrlListOut(pageInfo) {
     try {
         let res = await axios.get(`/image/urlList?category=${pageInfo.category}`)
         console.log(res)
-        console.log(res.data.Url[0])
+        console.log(res.data.data.urlList)
         return res // 返回响应数据
     } catch (error) {
         return null

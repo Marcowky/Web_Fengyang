@@ -6,8 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="e01eb80d-981b-46a9-b3c8-d2298cd13837" name="Changes" comment="完善资讯页面">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Client/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Client/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Client/src/views/info/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Client/src/views/info/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Client/src/api/image.js" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Client/src/api/image.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Client/src/components/Chart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Client/src/components/Chart.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Client/src/config/adminConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Client/src/config/adminConfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Client/src/views/admin/ImageAdmin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Client/src/views/admin/ImageAdmin.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Client/src/views/admin/adminLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Client/src/views/admin/adminLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web_Fengyang_Client/src/views/admin/components/carouselInfoDialog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/Web_Fengyang_Client/src/views/admin/components/carouselInfoDialog.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +37,7 @@
     <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2QI3srgW68Kk1vPkL1royGKtw4c" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -92,7 +97,8 @@
     <MESSAGE value="使悬浮动画样式保持，从后端获取文章数据，尝试实现“换一批”功能" />
     <MESSAGE value="使悬浮动画样式保持" />
     <MESSAGE value="完善资讯页面" />
-    <option name="LAST_COMMIT_MESSAGE" value="完善资讯页面" />
+    <MESSAGE value="更正 消费轮播图" />
+    <option name="LAST_COMMIT_MESSAGE" value="更正 消费轮播图" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
