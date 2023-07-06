@@ -111,7 +111,7 @@ const loadArticles = async (pageNum = 0,index = 1) => {
     if (pageNum != 0) {
         pageInfo.pageNum = pageNum;
     }
-    let res = await axios.get(`/article/list?articleType=consumptionarticle&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${index}`)
+    let res = await axios.get(`/article/list?articleType=consumptionArticle&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${index}`)
     if (res.data.code == 200) {
         articleList.value = res.data.data.article
         // console.log(articleList)
@@ -124,7 +124,7 @@ const toConsumpution = (article) => {
     router.push({
         path: "/article/detail",
         query: {
-            category: "consumptionarticle",
+            category: "consumptionArticle",
             id: article.id
         }
     })

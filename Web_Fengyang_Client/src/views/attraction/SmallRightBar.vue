@@ -1,5 +1,5 @@
 <template>
-    <el-tabs v-model="activeName" :tab-position="tabPosition" style="height: 800px" class="demo-tabs" @tab-click="handleClick">
+    <el-tabs v-model="activeName" :tab-position="tabPosition" style="height: 550px" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="热门景点" name="first"></el-tab-pane>
       <el-tab-pane label="游玩攻略" name="second"></el-tab-pane>
 
@@ -25,7 +25,7 @@
         <el-col>
               
           <el-row :span="6">
-            <div v-for="(article, index) in articleList" style="margin-left:40px;margin-right:40px;margin-top:30px">
+            <div v-for="(article, index) in articleList" style="margin-left:40px;margin-right:40px;;margin-bottom:30px">
               <el-card class="card" :body-style="{ padding: '0px' }" shadow="hover" @click="toAttraction(article)">
                 <el-image :src="serverUrl + article.head_image" class="image"/>
                 <div class="text-wrapper">
@@ -58,7 +58,7 @@
 
   const pageInfo = reactive({
       pageNum: 1,
-      pageSize: 5,
+      pageSize: 6,
       pageCount: 0,
       count: 0,
       keyword: "",
@@ -91,7 +91,7 @@
       if (pageNum != 0) {
           pageInfo.pageNum = pageNum;
       }
-      let res = await axios.get(`/article/list?articleType=attractionarticle&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${index}`)
+      let res = await axios.get(`/article/list?articleType=attractionArticle&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&categoryId=${index}`)
       if (res.data.code == 200) {
           articleList.value = res.data.data.article
           // console.log(articleList)
@@ -105,7 +105,7 @@
       router.push({
           path: "/article/detail",
           query: {
-              category: "attractionarticle",
+              category: "attractionArticle",
               id: article.id,
           }
       })
