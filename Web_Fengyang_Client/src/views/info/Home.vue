@@ -47,7 +47,7 @@
       <el-row :gutter="20">
         <el-col :span="10" :offset="1"><div class="grid-content ep-bg-purple" />
             <h>
-              旅游攻略
+              三下乡
             </h>
           <el-card shadow ="hover" class="part2">
               <el-card v-for="(article, index) in adviceList" class="modeCard" @click="showdetail(article)">

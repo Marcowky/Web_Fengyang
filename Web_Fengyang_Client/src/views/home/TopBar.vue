@@ -82,7 +82,7 @@ export default defineComponent({
 }
 
 .top-rectangle {
-    position: fixed;
+    position: absolute;
     top: 0;
     height: 100px;
     width: 100%;

@@ -17,8 +17,8 @@
         <div v-for="(article, index) in articleList"  class="articleCard">
             <!-- 若有封面图 -->
             <el-card v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
-                <el-image style="height: 150px; float: right; margin-bottom: 20px; margin-left: 15px;"
-                    :src="serverUrl + article.head_image" />
+                <el-image style="height: 150px; width: 250px;  float: right; margin-bottom: 20px; margin-left: 15px;"
+                    :src="serverUrl + article.head_image" :fit="fit"/>
                 <div style="position: relative; height: 150px;">
                     <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
                     <text>{{ cutContent(article.content) }}</text>
@@ -82,10 +82,10 @@ const loadArticles = async (pageNum = 0) => {
 }
 
 const cutContent = (content) => {
-    if (content.length <= 80) {
+    if (content.length <= 100) {
         return content;
     } else {
-        return content.substring(0, 80) + '...';
+        return content.substring(0, 100) + '...';
     }
 }
 
