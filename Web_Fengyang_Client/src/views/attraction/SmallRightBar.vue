@@ -1,5 +1,5 @@
 <template>
-    <el-tabs v-model="activeName" :tab-position="tabPosition" style="height: 550px" class="demo-tabs" @tab-click="handleClick">
+    <el-tabs v-model="activeName" :tab-position="tabPosition" style="height: 800px" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="热门景点" name="first"></el-tab-pane>
       <el-tab-pane label="游玩攻略" name="second"></el-tab-pane>
 
@@ -58,7 +58,7 @@
 
   const pageInfo = reactive({
       pageNum: 1,
-      pageSize: 6,
+      pageSize: 10,
       pageCount: 0,
       count: 0,
       keyword: "",
