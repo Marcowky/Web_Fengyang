@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 let routes = [
     {
         path: '/',
-        redirect: '/home',
+        redirect: '/home?category=#home1',
         component: () => import("../views/clientLayout.vue"),
         children: [
             {
@@ -13,6 +13,10 @@ let routes = [
             {
                 path: '/info',
                 component: () => import("../views/info/Home.vue")
+            },
+            {
+                path: "/info/detail",
+                component: () => import("../views/info/News.vue")
             },
             {
                 path: "/attraction",
