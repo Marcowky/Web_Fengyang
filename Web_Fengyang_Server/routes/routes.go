@@ -21,8 +21,8 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 		imageRoutes.POST("delete", controller.DeleteImage)                              // blog头图删除
 		imageRoutes.POST("uploadCarouselImage", controller.UploadCarousel)              // 上传轮播图图片
 		imageRoutes.POST("addCarousel", carouselController.AddCarousel)                 // 添加轮播图表项
-		imageRoutes.POST("updateCarousel", carouselController.UpdateCarousel)           // 更新轮播图表项
-		imageRoutes.POST("deleteCarousel", carouselController.DeleteCarousel)           // 删除轮播图表项
+		imageRoutes.PUT("updateCarousel", carouselController.UpdateCarousel)            // 更新轮播图表项
+		imageRoutes.PUT("deleteCarousel", carouselController.DeleteCarousel)            // 删除轮播图表项
 		imageRoutes.GET("list", carouselController.List)                                // 获取轮播图列表
 	}
 
@@ -49,6 +49,8 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 		articleRoutes.GET("detail", articleController.Show)                                   // 查看文章
 		articleRoutes.GET("list", articleController.List)                                     // 显示文章列表
 	}
+
+	//articleRoutes.GET("carousel", articleController.List)
 
 	return r
 }

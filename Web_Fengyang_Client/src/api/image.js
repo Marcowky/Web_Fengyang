@@ -47,7 +47,7 @@ export async function carouselDelete(carousel) {
     try {
         let res = await axios.put("/image/deleteCarousel", {
             ID: carousel.ID,
-            category: carousel.category
+            category: carousel.Category
         })
         showMessage(res.data.msg, 'success')
         return null // 返回响应数据
@@ -60,7 +60,7 @@ export async function carouselDelete(carousel) {
 export async function carouselRegister(carousel) {
     try {
         let res = await axios.post("/image/addCarousel", {
-            Order:     carousel.order,
+            IOrder:     carousel.iorder,
             Category: carousel.category,
             Url:      carousel.url
         })
@@ -76,7 +76,7 @@ export async function carouselUpdate(carousel) {
     try {
         let res = await axios.put("/image/updateCarousel", {
             ID: carousel.ID,
-            Order:     carousel.order,
+            Iorder:     carousel.iorder,
             Category: carousel.category,
             Url:      carousel.url
         })

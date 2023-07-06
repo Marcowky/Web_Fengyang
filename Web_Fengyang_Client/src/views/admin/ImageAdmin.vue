@@ -27,12 +27,12 @@
             </template>
 
             <template #default="scope">
-              <el-tag class="ml-2" v-if="item.prop == 'category'" type="success">{{ scope.row.category }}</el-tag>
+              <el-tag class="ml-2" v-if="item.prop == 'Category'" type="success">{{ scope.row.Category }}</el-tag>
             </template>
 
-            <template v-if="item.prop == 'url'" #default="scope">
+            <template v-if="item.prop == 'Url'" #default="scope">
               <el-image style="height: 150px; float: right; margin-bottom: 20px; margin-left: 15px;"
-                        :src="serverUrl" + scope.row.url/>
+                        :src="serverUrl + scope.row.Url"/>
             </template>
           </el-table-column>
         </template>
@@ -63,7 +63,7 @@ const pageInfo = reactive({
   pageCount: 0,
   count: 0,
   // keyword: "",
-  sortKey: 'order desc',
+  sortKey: 'Iorder desc',
   category: ''
 })
 const dialogTableValue = ref({})
@@ -79,14 +79,14 @@ onMounted(() => {
 
 const handleSortChange = (sort) => {
   // console.log('当前排序字段：', sort.prop);
-  // console.log('当前排序方式：', sort.order);
+  // console.log('当前排序方式：', sort.iorder);
   // 处理排序逻辑...
   switch (sort.prop) {
     case 'ID':
       pageInfo.sortKey = 'id '
       break
-    case 'order':
-      pageInfo.sortKey = 'order '
+    case 'Iorder':
+      pageInfo.sortKey = 'Iorder '
       break
 
   }
@@ -98,11 +98,11 @@ const handleSortChange = (sort) => {
       pageInfo.sortKey = pageInfo.sortKey + 'asc'
       break
     default:
-      pageInfo.sortKey = 'order desc'
+      pageInfo.sortKey = 'Iorder desc'
       break
   }
-  // pageInfo.sortKey=sort.prop+' '+sort.order
-  // console.log('当前排序query：', pageInfo.sortKey);
+  // pageInfo.sortKey=sort.prop+' '+sort.iorder
+  // console.log('当前排序query：' , pageInfo.sortKey);
   loadCarousels()
 }
 
@@ -127,7 +127,7 @@ const loadCarousels = async (pageNum = 0) => {
   if (pageNum != 0) {
     pageInfo.pageNum = pageNum;
   }
-  // let res = await axios.get(`/images/list?userType=${pageCarouselType.value}&keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&order=${pageInfo.sortKey}`)
+  // let res = await axios.get(`/images/list?userType=${pageCarouselType.value}&keyword=${pageInfo.keyword}&pageNum=${pageInfo.pageNum}&pageSize=${pageInfo.pageSize}&iorder=${pageInfo.sortKey}`)
   // if (res.data.code == 200) {
   //   userList.value = res.data.data.user
   //   // console.log(articleList)

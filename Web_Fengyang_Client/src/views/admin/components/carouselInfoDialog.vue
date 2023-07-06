@@ -6,8 +6,8 @@
       <el-form-item label="ID" prop="ID" v-if="dialogTitle == editCarouselTitle">
         <el-input v-model="carousel.ID" disabled />
       </el-form-item>
-      <el-form-item label="顺序" prop="order">
-        <el-input v-model="carousel.order" />
+      <el-form-item label="顺序" prop="iorder">
+        <el-input v-model="carousel.iorder" />
       </el-form-item>
       <el-form-item label="图片">
         <!-- 无封面时 -->
@@ -26,7 +26,8 @@
         </div>
         <!-- 有封面时 -->
         <div v-else style="width: 80%; margin: auto;">
-          <el-image :src="serverUrl + carousel.url"></el-image>
+          <el-image :src="serverUrl + imageUrl"></el-image>
+<!--          <el-image :src= ></el-image>-->
           <el-button class="delete-button" size="large" @click="deleteImage" type="danger" :icon="Delete" circle />
         </div>
       </el-form-item>
@@ -81,13 +82,17 @@ const props = defineProps({
     required: true
   }
 })
+const imageUrl = ref('')
 const serverUrl = inject("serverUrl") // 网络请求
 const editCarouselTitle = "编辑轮播图"
 const addCarouselTitle = "添加轮播图"
 const formRef = ref(null)
+
+// const imageurl = ref(serverUrl+"")
+
 const carousel = ref({
   ID: "",
-  order: "",
+  iorder: "",
   category: "",
   url: ""
 })
@@ -96,9 +101,9 @@ const newImage = ref(false)
 
 watch(() => props.dialogTableValue, () => (
         carousel.value.ID = props.dialogTableValue.ID,
-        carousel.value.order = props.dialogTableValue.order,
-        carousel.value.category = props.dialogTableValue.category,
-        carousel.value.url = props.dialogTableValue.url,
+        carousel.value.iorder = props.dialogTableValue.Iorder,
+        carousel.value.url = props.dialogTableValue.Url,
+        imageUrl.value = props.dialogTableValue.Url,
         newImage.value = props.dialogTableValue.ID ? true : false
 ), { deep: true, immediate: true })
 
@@ -155,9 +160,9 @@ const submitForm = async (formEl) => {
 const register = async () => {
   let tempCarousel = ({
     ID: carousel.value.ID,
-    order: carousel.value.order,
+    iorder: carousel.value.iorder,
     category: carousel.value.category,
-    url: carousel.value.url,
+    url: imageUrl.value,
 
   })
   carouselRegister(tempCarousel).then(result => {
@@ -185,6 +190,9 @@ const customRequest = async (file) => {
     if (result != null) {
       carousel.url = result.data.data.filePath
       newImage.value = true
+      imageUrl.value = result.data.data.filePath
+      console.log("severurl= " + serverUrl)
+      console.log("url= " + imageUrl.value)
     }
   })
 }

@@ -138,13 +138,13 @@ func (a CarouselController) AddCarousel(c *gin.Context) {
 	// 获取context中的参数
 	var requestCarousel model.Carousel
 	c.Bind(&requestCarousel) // 将请求中的JSON数据绑定到User结构体中，方便后续操作
-	order := requestCarousel.Order
+	iorder := requestCarousel.Iorder
 	category := requestCarousel.Category
 	url := requestCarousel.Url
 
 	// 创建轮播图
 	newCarousel := model.Carousel{
-		Order:    order,
+		Iorder:   iorder,
 		Category: category,
 		Url:      url,
 	}
@@ -161,9 +161,14 @@ func (a CarouselController) UpdateCarousel(c *gin.Context) {
 	var updateCarousel model.Carousel
 	c.Bind(&updateCarousel) // 将请求中的JSON数据绑定到User结构体中，方便后续操作
 	ID := updateCarousel.ID
-	order := updateCarousel.Order
+	iorder := updateCarousel.Iorder
 	category := updateCarousel.Category
 	url := updateCarousel.Url
+	println("更新轮播图id")
+	println(ID)
+	println("更新轮播图ioder")
+	println(iorder)
+	println("更新轮播图category" + category)
 
 	// 验证数据
 	var carousel model.Carousel
@@ -173,7 +178,7 @@ func (a CarouselController) UpdateCarousel(c *gin.Context) {
 		return
 	}
 
-	carousel.Order = order
+	carousel.Iorder = iorder
 	carousel.Url = url
 
 	// 执行更新操作
@@ -192,15 +197,15 @@ func (a CarouselController) DeleteCarousel(c *gin.Context) {
 	c.Bind(&deleteCarousel)
 	ID := deleteCarousel.ID
 	category := deleteCarousel.Category
-	url := deleteCarousel.Url
+	//url := deleteCarousel.Url
 
 	// 从/carousel文件夹中删除
-	imagePath := filepath.Join("static/images", url)
-	err := os.Remove(imagePath)
-	if err != nil {
-		common.Fail(c, 500, nil, "删除错误")
-		return
-	}
+	//imagePath := filepath.Join("static/images", url)
+	//err := os.Remove(imagePath)
+	//if err != nil {
+	//	common.Fail(c, 500, nil, "删除错误")
+	//	return
+	//}
 	// 数据验证
 	var carousel model.Carousel
 	a.DB.Table(category).Where("id =?", ID).First(&carousel)
@@ -223,7 +228,7 @@ func (a CarouselController) DeleteCarousel(c *gin.Context) {
 func (a CarouselController) List(c *gin.Context) {
 	//keyword := c.DefaultQuery("keyword", "")
 	category := c.Query("category")
-	order := c.DefaultQuery("order", "order desc")
+	order := c.DefaultQuery("Iorder", "Iorder asc")
 	pageNum, _ := strconv.Atoi(c.DefaultQuery("pageNum", "1"))
 	pageSize, _ := strconv.Atoi(c.DefaultQuery("pageSize", "5"))
 

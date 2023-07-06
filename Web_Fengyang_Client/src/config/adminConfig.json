@@ -88,29 +88,32 @@
     "carouselConfig": [
         {
             "label": "id",
-            "prop": "id"
+            "prop": "ID",
+            "width": "100"
         },
         {
             "label": "顺序",
-            "prop": "order",
-            "sortable": "true"
+            "prop": "Iorder",
+            "sortable": "true",
+            "width": "100"
         },
         {
             "label": "类别",
-            "prop": "category",
-            "width": "150",
+            "prop": "Category",
+            "width": "100",
             "sortable": "false"
         },
         {
             "label": "图片",
-            "prop": "url",
-            "width": "110",
+            "prop": "Url",
+            "width": "250",
             "sortable": "false"
         },
         {
             "label": "操作选项",
             "prop": "option",
-            "sortable": "false"
+            "sortable": "false",
+            "width": "250"
         }
     ]
 }
