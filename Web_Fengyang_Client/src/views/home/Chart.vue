@@ -14,7 +14,6 @@
         </div>
         <img :src="item.imagePath" alt="">
       </SwiperSlide>
-
     </Swiper>
     <!-- 如果需要导航按钮 -->
     <div class="swiper-button-prev"></div>

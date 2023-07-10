@@ -1,4 +1,3 @@
-
 <template>
   <!-- 顶部导航栏 -->
   <el-card style="border-radius: 20px;margin-left: 10rem;margin-right: 10rem;margin-top: 2rem">
@@ -75,28 +74,18 @@
 
 
 <script setup>
-import { ref, reactive, inject, onMounted, onUpdated } from 'vue'
-import warning from '../../config/warning.json'
-import news from '../../config/news.json'
-import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
+import { ref, inject, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { articleListOut } from "../../api/article.js";
 
 // 网络请求
 const serverUrl = inject("serverUrl")
-const axios = inject("axios")
 //首先在setup中定义
 const router = useRouter()
 // 变量初始化
-let number = '0'
 let qList = ref([])
-let newsList = ref([])
 let warningList = ref([])
 let adviceList = ref([])
-let timeStart = 0 //截取第几组的结束
-let timeEnd = 1 //默认为0组
-let group = 0 //组数
-let num = 4//一页展示list数量
-let clickNum = 0//点击次数
 let pageInfo1 = ({
   pageNum: 1,
   pageSize: 4,
@@ -113,10 +102,8 @@ let pageInfo3 = ({
   pageArticleType: 'infoArticle',
   categoryId: 3
 })
-// 挂载页面时触发
-onMounted(() => {
-  loadArticles()
-})
+
+
 // 按条件加载文章列表
 const loadArticles = async () => {
   articleListOut(pageInfo1).then(result => {
@@ -142,13 +129,6 @@ const loadArticles = async () => {
     }
   })
 }
-//const arrowClick = (val) => {
-//  if(val === 'right') {
-//    carousel.value.next()
-//  } else {
-//    carousel.value.prev()
-//  }
-//}
 const showdetail = (article) => {
   router.push({
     path: "/article/detail",
@@ -159,6 +139,10 @@ const showdetail = (article) => {
   })
 }
 
+// 挂载页面时触发
+onMounted(() => {
+  loadArticles()
+})
 </script>
 
 <style lang="scss" scoped>
@@ -335,4 +319,5 @@ h {
 
 .modeCard:hover .part3-title {
   color: cornflowerblue;
-}</style>
+}
+</style>
