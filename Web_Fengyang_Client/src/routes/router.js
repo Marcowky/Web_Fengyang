@@ -15,10 +15,6 @@ let routes = [
                 component: () => import("../views/info/Home.vue")
             },
             {
-                path: "/info/detail",
-                component: () => import("../views/info/News.vue")
-            },
-            {
                 path: "/attraction",
                 component: () => import("../views/attraction/Home.vue")
             },
