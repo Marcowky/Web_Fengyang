@@ -3,6 +3,7 @@ package controller
 import (
 	"Web_Fengyang_Server/common"
 	"Web_Fengyang_Server/model"
+	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -199,45 +200,3 @@ func NewArticleController() IArticleController {
 	db.Table("hotelArticle").AutoMigrate(model.Article{})
 	return ArticleController{DB: db}
 }
-
-// // SearchCategory 查询分类
-// func (a ArticleController) SearchCategory(c *gin.Context) {
-// 	db := common.GetDB()
-// 	var categories []model.Category
-// 	if err := db.Find(&categories).Error; err != nil {
-// 		common.Fail(c, 400, nil, "查找失败")
-// 		return
-// 	}
-// 	common.Success(c, gin.H{"categories": categories}, "查找成功")
-// }
-
-// // SearchCategoryName 查询分类名
-// func (a ArticleController) SearchCategoryName(c *gin.Context) {
-// 	db := common.GetDB()
-// 	var category model.Category
-// 	// 获取path中的分类id
-// 	categoryId := c.Params.ByName("id")
-// 	if err := db.Where("id = ?", categoryId).First(&category).Error; err != nil {
-// 		common.Fail(c, 400, nil, "分类不存在")
-// 		return
-// 	}
-// 	common.Success(c, gin.H{"categoryName": category.CategoryName}, "查找成功")
-// }
-
-// 初始化文章类别
-// func InitCategory() {
-// 	db := common.GetDB()
-// 	db.AutoMigrate(model.Category{})
-// 	var category model.Category
-// 	if err := db.Where("id = ?", 0).First(&category).Error; err == nil {
-// 		return
-// 	}
-// 	categoryArray := []string{"ALL", "category1", "category2", "category3", "category4"}
-// 	for i := 0; i < len(categoryArray); i++ {
-// 		newCategory := model.Category{
-// 			ID:           &i,
-// 			CategoryName: categoryArray[i],
-// 		}
-// 		db.Create(&newCategory)
-// 	}
-// }

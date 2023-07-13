@@ -1,8 +1,6 @@
 package model
 
-// import "github.com/jinzhu/gorm"
-
-/* model/user.go */
+// TODO 添加用户级别，用以区分用户的权限以及相应功能
 type User struct {
 	ID          uint   `gorm:"primaryKey;not null"`
 	UserName    string `gorm:"varchar(20);not null"`

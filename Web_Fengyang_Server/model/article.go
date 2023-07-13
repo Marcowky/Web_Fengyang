@@ -17,15 +17,6 @@ type Article struct {
 	UpdatedAt   Time      `json:"updated_at" gorm:"type:timestamp"`
 }
 
-type ArticleInfo struct {
-	ID         string `json:"id"`
-	CategoryId uint   `json:"category_id"`
-	Title      string `json:"title"`
-	Content    string `json:"content"`
-	HeadImage  string `json:"head_image"`
-	CreatedAt  Time   `json:"created_at"`
-}
-
 // BeforeCreate 在创建文章之前将id赋值
 func (a *Article) BeforeCreate(s *gorm.Scope) error {
 	return s.SetColumn("ID", uuid.NewV4())

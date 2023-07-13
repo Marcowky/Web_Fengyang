@@ -1,8 +1,5 @@
 package model
 
-// import "github.com/jinzhu/gorm"
-
-/* model/carousel.go */
 type Carousel struct {
 	ID       uint   `gorm:"primaryKey;not null"`
 	Iorder   string `gorm:"varchar(20)"`
