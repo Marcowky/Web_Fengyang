@@ -38,7 +38,7 @@ func InitDB(mode string) *gorm.DB {
 	case "local":
 		configPath = "config/localConfig.json"
 	case "test":
-		configPath = "config/testConfig.json"
+		configPath = "../config/testConfig.json"
 	}
 
 	var jsonData map[string]interface{}

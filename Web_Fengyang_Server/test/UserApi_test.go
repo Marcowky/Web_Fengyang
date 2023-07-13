@@ -1,4 +1,4 @@
-package main
+package test
 
 import (
 	"Web_Fengyang_Server/common"
@@ -18,6 +18,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/stretchr/testify/assert"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var router *gin.Engine
@@ -57,7 +58,7 @@ func cleanTable() {
 
 func loadTestDataFromFile() {
 	// 读取JSON文件内容
-	data, err := ioutil.ReadFile("./test/userTestData.json")
+	data, err := ioutil.ReadFile("./userTestData.json")
 	if err != nil {
 		fmt.Println("无法读取文件:", err)
 		return

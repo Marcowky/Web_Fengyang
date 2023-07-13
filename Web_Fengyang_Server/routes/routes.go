@@ -51,7 +51,5 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 		articleRoutes.GET("list", articleController.List)                                     // 显示文章列表
 	}
 
-	//articleRoutes.GET("carousel", articleController.List)
-
 	return r
 }
