@@ -15,21 +15,14 @@
     <div class="content">
         <!-- 文章卡片 -->
         <div v-for="(article, index) in articleList" class="articleCard">
-            <!-- 若有封面图 -->
-            <el-card v-if="article.head_image" @click="toDetail(article)" hoverable shadow="hover">
-                <el-image class="cardImage" :src="serverUrl + article.head_image" fit="cover" />
-                <div style="position: relative; height: 150px;">
-                    <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
+            <el-card @click="toDetail(article)" hoverable shadow="hover">
+                <template v-if="article.head_image">
+                    <el-image class="cardImage" :src="serverUrl + article.head_image" fit="cover" />
+                </template>
+                <div :style="[article.head_image ? 'height: 150px;' : 'height: 120px;']">
+                    <div class="articleTitle">{{ article.title }}</div>
                     <text>{{ cutContent(article.content) }}</text>
-                    <div style=" position: absolute; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
-                </div>
-            </el-card>
-            <!-- 若无封面图 -->
-            <el-card v-else @click="toDetail(article)" hoverable shadow="hover">
-                <div style="position: relative; height: 120px;">
-                    <div style=" margin-bottom: 10px; font-weight:bold; font-size: 20px;">{{ article.title }}</div>
-                    <text>{{ cutContent(article.content) }}</text>
-                    <div style=" position: absolute; bottom: 0px; color: gray;">发布时间：{{ article.created_at }}</div>
+                    <div class="articleTime">发布时间：{{ article.created_at }}</div>
                 </div>
             </el-card>
         </div>
@@ -200,5 +193,17 @@ watch(() => pageInfo.keyword, () => ( // 搜索关键词改变时加载文章
     margin-bottom: 20px;
     margin-left: 15px;
     border-radius: 5px 5px 5px 5px;
+}
+
+.articleTitle {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.articleTime {
+    position: absolute;
+    bottom: 0px;
+    color: gray;
 }
 </style>

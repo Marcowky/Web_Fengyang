@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net/url"
 
 	// "fmt"
 	// "net/url"
@@ -32,8 +33,10 @@ type DatabaseConfig struct {
 func InitDB(mode string) *gorm.DB {
 	var configPath string
 	switch mode {
-	case "run":
+	case "online":
 		configPath = "config/config.json"
+	case "local":
+		configPath = "config/localConfig.json"
 	case "test":
 		configPath = "config/testConfig.json"
 	}
@@ -61,14 +64,14 @@ func InitDB(mode string) *gorm.DB {
 	charset := databaseConfig["charset"].(string)
 	loc := databaseConfig["loc"].(string)
 
-	args := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=True&loc=%s",
+	args := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=%s&parseTime=True&loc=%s",
 		user,
 		password,
 		host,
 		port,
 		database,
 		charset,
-		loc)
+		url.QueryEscape(loc))
 
 	// 连接数据库
 	db, err := gorm.Open(driverName, args)
