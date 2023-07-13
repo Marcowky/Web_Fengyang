@@ -3,14 +3,13 @@ import { userStore } from '../main.js'
 import config from '../config/config.json'
 
 const renameData = (data) => {
-    // 替换每个项的名称
     const replacedData = data.map(item => {
         return {
             index: item.Order.toString(),
             label: item.Label,
             mainMenu: '/' + item.PageName
-        };
-    });
+        }
+    })
     return replacedData
 }
 
