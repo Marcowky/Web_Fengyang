@@ -3,7 +3,6 @@ package controller
 import (
 	"Web_Fengyang_Server/common"
 	"Web_Fengyang_Server/model"
-	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -22,6 +21,7 @@ type IArticleController interface {
 	Delete(c *gin.Context)
 	Show(c *gin.Context)
 	List(c *gin.Context)
+	CategoryList(c *gin.Context)
 }
 
 func (a ArticleController) Create(c *gin.Context) {
@@ -198,5 +198,15 @@ func NewArticleController() IArticleController {
 	db.Table("consumptionArticle").AutoMigrate(model.Article{})
 	db.Table("blogArticle").AutoMigrate(model.Article{})
 	db.Table("hotelArticle").AutoMigrate(model.Article{})
+	db.Table("category").AutoMigrate(model.Category{})
 	return ArticleController{DB: db}
+}
+
+func (a ArticleController) CategoryList(c *gin.Context) {
+	// 页面内容
+	var categorys []model.Category
+	// 查询文章
+	a.DB.Table("category").Find(&categorys)
+	// 展示文章列表
+	common.Success(c, gin.H{"categorys": categorys}, "获取成功")
 }
