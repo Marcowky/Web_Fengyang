@@ -102,3 +102,12 @@ export function articleCategories(articleType) {
             value: item.index
         }))
 }
+
+export async function categoryList() {
+    try {
+        let res = await axios.get(`article/categoryList`)
+        return res
+    } catch (error) {
+        return null
+    }
+}

@@ -49,7 +49,7 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 		articleRoutes.DELETE("delete", middleware.AuthMiddleware(), articleController.Delete) // 删除文章
 		articleRoutes.GET("detail", articleController.Show)                                   // 查看文章
 		articleRoutes.GET("list", articleController.List)                                     // 显示文章列表
-		articleRoutes.GET("category", articleController.CategoryList)                         // 获取文章分类
+		articleRoutes.GET("categoryList", articleController.CategoryList)                         // 获取文章分类
 	}
 
 	return r
