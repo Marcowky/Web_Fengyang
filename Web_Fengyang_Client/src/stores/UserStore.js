@@ -4,6 +4,7 @@ export const UserStore = defineStore("admin", {
   state: () => {
     return {
       token: "",
+      menuItem: []
     };
   },
   actions: {},

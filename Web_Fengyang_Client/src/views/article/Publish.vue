@@ -36,8 +36,8 @@
             <!-- 分类选择 -->
             <el-select style="margin-top: 10px; width: 80%;" v-model="addArticle.categoryId" class="m-2" placeholder="请选择分类"
                 size="large">
-                <el-option v-for="item in categoryOptions" :key="item.value" :label="item.label"
-                    :value="item.value"></el-option>
+                <el-option v-for="item in categoryOptions" :key="item.index" :label="item.label"
+                    :value="item.index"></el-option>
             </el-select>
             <!-- 标题输入 -->
             <el-input style="margin-top: 15px; width: 80%;" v-model="addArticle.title" placeholder="请输入标题" size="large" />
@@ -56,7 +56,8 @@ import { imageUpload, imageDelete, imageCheck } from '../../api/image'
 import RichTextEditor from '../../components/RichTextEditor.vue' // 导入富文本编辑器
 import { UploadFilled, Delete } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router' // 导入路由
-import { articlePost, articleCategories } from '../../api/article'
+import { articlePost } from '../../api/article'
+import { categoryGetByArticleType } from '../../api/category'
 
 const router = useRouter()
 const route = useRoute()
@@ -75,7 +76,7 @@ const addArticle = reactive({// 待发布的文章对象
 
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = articleCategories('/' + addArticle.articleType.substring(0, addArticle.articleType.length - 7))
+    categoryOptions.value = categoryGetByArticleType('/' + addArticle.articleType.substring(0, addArticle.articleType.length - 7))
 }
 
 // 控制发布文章时弹窗的显示与隐藏

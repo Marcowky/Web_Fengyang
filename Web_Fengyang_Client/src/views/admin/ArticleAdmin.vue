@@ -47,13 +47,13 @@
 <script  setup>
 import { ref, onMounted, reactive } from 'vue'
 import { articleConfig } from "../../config/adminConfig.json"
-import config from "../../config/config.json"
 import { ElMessageBox } from 'element-plus'
 import hotelInfoDialog from "./components/hotelInfoDialog.vue"
 import { articleDelete } from '../../api/article'
 import { Search } from '@element-plus/icons-vue'
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 import { articleListOut } from '../../api/article'
+import { categoryGetLabel } from '../../api/category'
 
 const router = useRouter()
 const route = useRoute()
@@ -137,7 +137,7 @@ const pageInfo = reactive({
 
 const getCategoryName = (categoryId) => {
     if (pageInfo.pageArticleType != 'hotelArticle') {
-        return config.menuItems.find(item => item.mainMenu == '/' + pageInfo.pageArticleType.substring(0, pageInfo.pageArticleType.length - 7) && item.index == categoryId).label
+        return categoryGetLabel('/' + pageInfo.pageArticleType.substring(0, pageInfo.pageArticleType.length - 7), categoryId)
     }
     return "酒店记录"
 }

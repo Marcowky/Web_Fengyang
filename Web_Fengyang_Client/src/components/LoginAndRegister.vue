@@ -45,12 +45,11 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { showMessage } from './Message.js'
-import { UserStore } from '../stores/UserStore'
+import { userStore } from '../main.js'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const formRef = ref(null)
-const userStore = UserStore()
 const labelPosition = ref('top')
 const showModal = ref(false)
 const dialogType = ref("登录")

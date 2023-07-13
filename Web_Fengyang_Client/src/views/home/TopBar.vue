@@ -25,22 +25,16 @@
     </el-menu>
 </template>
 
-<script lang="ts">
+<script lang>
 import { defineComponent } from 'vue';
 // 导入菜单选项配置文件
-import config from '../../config/config.json';
-
-interface MenuItem {
-    index: string;
-    label: string;
-    mainMenu: string;
-}
+import { menuList } from '../../api/category'
 
 export default defineComponent({
     name: 'TopBar',
     data() {
         return {
-            menuItems: config.menuItems as MenuItem[]
+            menuItems: menuList()
         }
     },
 });
@@ -58,22 +52,6 @@ export default defineComponent({
     z-index: 999;
     background-color: rgb(255, 255, 255,0); 
 }
-
-// 设置选中时的样式
-// .el-menu-demo .is-active {
-//     background-color: #00000f !important;
-//     color: #fff;
-//     span {
-//     color: #fff !important;
-//     }
-// }
-
-
-// 设置下拉子菜单选项鼠标悬浮时的样式
-// .el-menu-item:hover {
-//     background-color: rgb(3, 19, 33) !important;
-
-// }
 
 .fontset{
     font-family: "Microsoft YaHei", sans-serif; /* 使用微软雅黑字体 */

@@ -55,8 +55,7 @@
 // 引入高德地图api,准备实现天气显示
 import AMapLoader from '@amap/amap-jsapi-loader'
 import { onMounted, ref } from "vue"
-// 导入菜单选项配置文件
-import config from '../config/config.json'
+import { menuList } from '../api/category';
 // element-ui 的图标引入图标
 import { Sunny, Cloudy, Pouring, Lightning, Drizzling, PartlyCloudy, MostlyCloudy } from '@element-plus/icons-vue'
 import '@element-plus/icons-vue'
@@ -66,7 +65,7 @@ window._AMapSecurityConfig = {
 }
 
 const link = window.location.origin
-const menuItems = ref(config.menuItems)
+const menuItems = ref(menuList())
 const weatherData = ref(null)
 
 const getWeatherIcon = (dayWeather) => {

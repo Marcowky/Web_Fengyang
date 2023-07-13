@@ -47,14 +47,13 @@
 import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import LoginDialog from '../../components/LoginAndRegister.vue' // 导入登录注册弹框
-import { UserStore } from '../../stores/UserStore'
+import { userStore } from '../../main.js'
 import { toRef } from 'vue';
-import config from '../../config/config.json'
+import { menuList } from '../../api/category';
 
 const router = useRouter()
-const menuItems = config.menuItems;
+const menuItems = menuList()
 const loginDialogRef = ref(null)
-const userStore = UserStore()
 const showRouteView = ref(userStore.token != '')
 const tokenRef = toRef(userStore, 'token');
 const show = ref(true);

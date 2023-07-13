@@ -4,7 +4,7 @@
         <el-menu-item style="position: absolute; left: 10px; height: 53px;" index="0"><el-image style="width: 180px; height: auto;" src="/title.jpg"/></el-menu-item>
         <div class="弹性盒子" :style="{ flexGrow: 1 }" />
         <template v-for="item in menuItems">
-            <template v-if="item.mainMenu === 'noSub'">
+            <template>
                 <el-menu-item :index="item.index">{{ item.label }}</el-menu-item>
             </template>
             <template v-if="item.mainMenu === 'hasSub'">
@@ -27,22 +27,17 @@
     </el-menu>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script>
+import { defineComponent } from 'vue'
 // 导入菜单选项配置文件
-import config from '../config/config.json';
+import { menuList } from '../api/category'
 
-interface MenuItem {
-    index: string;
-    label: string;
-    mainMenu: string;
-}
 
 export default defineComponent({
     name: 'TopBar',
     data() {
         return {
-            menuItems: config.menuItems as MenuItem[]
+            menuItems: menuList()
         }
     },
 });

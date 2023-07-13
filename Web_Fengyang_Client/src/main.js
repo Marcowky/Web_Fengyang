@@ -34,4 +34,4 @@ axios.interceptors.request.use((config) => {
 app.use(router); // 引入路由
 app.mount("#app");
 
-export {axios}
+export {axios, userStore}

@@ -39,8 +39,8 @@ import { Search } from '@element-plus/icons-vue'// icons
 import { useRouter, onBeforeRouteUpdate } from 'vue-router'// 导入路由
 import { articleListOut } from '../../api/article'
 import SideBar from "../../components/SideBar.vue" // 1.导入侧边栏
-import config from '../../config/config.json' // 2.导入菜单选项配置文件
 import LoginDialog from '../../components/LoginAndRegister.vue' // 导入登录注册弹框
+import { categoryGetByArticleType } from '../../api/category'
 
 const serverUrl = inject("serverUrl")// 网络请求
 const router = useRouter()
@@ -55,7 +55,7 @@ const pageInfo = reactive({
     pageArticleType: "blogArticle"
 })
 const activeIndex = ref('0')
-const menuItems = config.menuItems.filter(item => item.mainMenu == "/blog"); // 设置侧边栏目录项
+const menuItems = categoryGetByArticleType("/blog") // 设置侧边栏目录项
 const loginDialogRef = ref(null)
 
 // 按条件加载文章列表

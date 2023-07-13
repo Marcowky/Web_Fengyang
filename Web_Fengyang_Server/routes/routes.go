@@ -40,7 +40,7 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 		userRoutes.GET("list", userController.List)                                   // 获取用户列表
 	}
 
-	//文章操作
+	// 文章操作
 	articleController := controller.NewArticleController()
 	articleRoutes := r.Group("/article")
 	{
@@ -49,7 +49,13 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 		articleRoutes.DELETE("delete", middleware.AuthMiddleware(), articleController.Delete) // 删除文章
 		articleRoutes.GET("detail", articleController.Show)                                   // 查看文章
 		articleRoutes.GET("list", articleController.List)                                     // 显示文章列表
-		articleRoutes.GET("categoryList", articleController.CategoryList)                         // 获取文章分类
+	}
+
+	// 分类操作
+	categoryController := controller.NewCategoryController()
+	categoryRoutes := r.Group("/category")
+	{
+		categoryRoutes.GET("categoryList", categoryController.CategoryList) // 获取文章分类
 	}
 
 	return r

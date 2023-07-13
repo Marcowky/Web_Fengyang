@@ -39,9 +39,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { userInfo, userBriefInfo } from '../../api/user';
-import { articleDelete, articleDetail, articleCategories } from '../../api/article'
+import { articleDelete, articleDetail } from '../../api/article'
 import { useRouter, useRoute } from 'vue-router' // 导入路由
 import { ElMessageBox } from 'element-plus'
+import { categoryGetByArticleType } from '../../api/category'
 
 const router = useRouter()
 const route = useRoute()
@@ -54,7 +55,7 @@ const activeIndex = ref('0')
 // 加载文章种类
 const categoryOptions = ref([])
 const loadCategories = async () => {
-    categoryOptions.value = articleCategories('/' + route.query.category.substring(0, route.query.category.length - 7))
+    categoryOptions.value = categoryGetByArticleType('/' + route.query.category.substring(0, route.query.category.length - 7))
 }
 
 // 加载文章
@@ -62,7 +63,7 @@ const loadArticle = async () => {
     articleDetail(route.query.category, route.query.id).then(result => {
         if (result != null) {
             articleInfo.value = result.data.data.article
-            let label = categoryOptions.value.find((item) => item.value.endsWith(result.data.data.article.category_id)).label// 获取分类
+            let label = categoryOptions.value.find((item) => item.index.endsWith(result.data.data.article.category_id)).label// 获取分类
             categoryName.value = label
             getUserInfo()
         }

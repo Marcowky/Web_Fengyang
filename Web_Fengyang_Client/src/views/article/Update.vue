@@ -39,8 +39,8 @@
             <!-- 分类选择 -->
             <el-select style="margin-top: 10px; width: 80%;" v-model="updateArticle.categoryId" class="m-2"
                 :placeholder="updateArticle.oldCategory" size="large">
-                <el-option v-for="item in categoryOptions" :key="item.value" :label="item.label"
-                    :value="item.value"></el-option>
+                <el-option v-for="item in categoryOptions" :key="item.index" :label="item.label"
+                    :value="item.index"></el-option>
             </el-select>
             <!-- 标题输入 -->
             <el-input style="margin-top: 15px; width: 80%;" v-model="updateArticle.title" placeholder="请输入标题"
@@ -60,8 +60,9 @@ import { Delete, UploadFilled } from '@element-plus/icons-vue' // icons
 import { ref, reactive, inject, onMounted } from 'vue'
 import RichTextEditor from '../../components/RichTextEditor.vue' // 富文本编辑器
 import { imageUpload, imageDelete, imageCheck } from '../../api/image'
-import { articleDetail, articleUpdate, articleCategories } from '../../api/article'
+import { articleDetail, articleUpdate } from '../../api/article'
 import { useRouter, useRoute } from 'vue-router' // 导入路由
+import { categoryGetByArticleType } from '../../api/category'
 
 const router = useRouter()
 const route = useRoute()
@@ -83,14 +84,14 @@ const newHeadImage = ref(true)
 
 // 加载文章种类
 const loadCategories = async () => {
-    categoryOptions.value = articleCategories('/' + updateArticle.articleType.substring(0, updateArticle.articleType.length - 7))
+    categoryOptions.value = categoryGetByArticleType('/' + updateArticle.articleType.substring(0, updateArticle.articleType.length - 7))
 }
 
 // 加载文章
 const loadArticle = async () => {
     articleDetail(updateArticle.articleType, updateArticle.id).then(result => {
         if (result != null) {
-            let label = categoryOptions.value.find((item) => item.value.endsWith(result.data.data.article.category_id)).label
+            let label = categoryOptions.value.find((item) => item.index.endsWith(result.data.data.article.category_id)).label
             updateArticle.oldCategoryId = result.data.data.article.category_id
             updateArticle.oldCategory = label
             updateArticle.title = result.data.data.article.title
