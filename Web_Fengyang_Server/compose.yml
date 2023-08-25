@@ -1,0 +1,25 @@
+services:
+  web_fengyang_client:
+    image: web_fengyang_client:latest
+    build: ../Web_Fengyang_Client
+    ports:
+      - 80:80
+    environment:
+      - TZ=Asia/Shanghai
+  web_fengyang_mysql:
+    image: mysql:latest
+    ports:
+      - 3506:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - TZ=Asia/Shanghai
+      - MYSQL_DATABASE=web_fengyang
+  web_fengyang_server:
+    image: web_fengyang_server:latest
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ../web_fengyang_server_resource:/app/static/images/articleImages
